@@ -1,24 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          King Tote Checkout Component.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
+      <main>
+        <article>
+          <form>
+            <label>
+              Name:
+              <input type="text" name="name" />
+            </label>
+            <label>
+              Service area:
+              <select value="" onChange="">
+                <option value="grapefruit">Select a service area</option>
+                <option value="lime">Portland</option>
+                <option value="coconut">Portland</option>
+                <option value="mango">Portland</option>
+              </select>
+            </label>
+            <input type="submit" value="Submit" />
+          </form>
+        </article>
+      </main>
     </div>
   );
 }
