@@ -17,6 +17,10 @@ function App() {
               <input type="text" name="name" />
             </label>
             <label>
+              Email:
+              <input type="email" name="email" />
+            </label>
+            <label>
               Service area:
               <select value="" onChange="">
                 <option value="grapefruit">Select a service area</option>
