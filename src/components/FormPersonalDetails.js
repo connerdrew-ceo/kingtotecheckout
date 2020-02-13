@@ -28,7 +28,7 @@ export const FormPersonalDetails = ({
   const [direction, setDirection] = useState('back');
   return (
     <>
-      <Header title='Enter Personal Details' />
+      {/* <Header title='Enter Personal Details' /> */}
       <Formik
         initialValues={formData}
         onSubmit={values => {
