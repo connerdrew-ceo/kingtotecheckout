@@ -38,7 +38,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
   const classes = useStyles();
   return (
     <>
-      <Header title='Enter User Details' />
+      <Header title='King Tote' />
       <Formik
         initialValues={formData}
         onSubmit={values => {
