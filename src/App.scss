@@ -244,7 +244,9 @@ button{
       }
       &.submitControl{
         
-        
+        button{
+          margin-top: 3rem;
+        }
         &.fullLenght{
           display: flex;
           justify-content: flex-end;
@@ -252,11 +254,10 @@ button{
           button{
             margin-left: initial;
             margin-left: 1rem;
+            margin-top: 0;
           }
         }
-        button{
-          margin-top: 3rem;
-        }
+        
       }
     }
   }
