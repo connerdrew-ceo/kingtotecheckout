@@ -1,4 +1,8 @@
-* {
+$white: #ffffff;
+$purple: #873780;
+$greyText: #6e6d6d;
+
+*, *:before, *:after{
   box-sizing: border-box;
 }
 
@@ -6,12 +10,12 @@
   text-align: center;
 }
 
-
 h2{
-  color: #873780;
+  color: $purple;
 }
+
 p{
-  color: #6e6d6d;
+  color: $greyText;
 }
 
 .headerComponent{
@@ -61,7 +65,7 @@ p{
   margin-bottom: 0;
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-wrap: wrap;
   p{
     &.boldIntro{
@@ -70,9 +74,9 @@ p{
   }
   .eachToteItem{
     background-color: rgb(236, 234, 234);
-    padding: 1rem 2rem;
+    padding: 1rem;
     margin-bottom: 1rem;
-    width: 44%;
+    width: 48%;
     height: auto;
     text-align: center;
     border-radius: .5rem;
@@ -83,15 +87,15 @@ p{
       font-weight: bold;
     }
     span{
-      color: #873780;
+      color: $purple;
       &.price{
         font-size: 1.5rem;
       }
     }
     &:hover{
-      background-color: #873780;
+      background-color: $purple;
       p, span{
-        color: #ffffff;
+        color: $white;
       }
     }
   }
@@ -106,7 +110,7 @@ form{
   display: block;
   padding: 0 5vw;
   label{
-    color: #873780;
+    color: $purple;
     &.boldLabel{
       font-size: 1.5rem;
     }
@@ -134,7 +138,7 @@ form{
     margin-top: 1.25rem;
     font-size: 1rem;
     height: 2.75rem;
-    color: #6e6d6d;
+    color: $greyText;
   }
   select{
     background-position: 97% center !important;
@@ -166,7 +170,7 @@ form{
     }
     label{
       cursor: pointer;
-      color: #6e6d6d;
+      color: $greyText;
       font-size: .95rem;
       margin: 0 .25rem;
       margin-top: .35rem;
@@ -175,24 +179,25 @@ form{
 }
 
 ::-webkit-input-placeholder {
-  color: #6e6d6d;
+  color: $greyText;
 }
 
 :-ms-input-placeholder { 
-  color: #6e6d6d;
+  color: $greyText;
 }
 
 ::placeholder {
-  color: #6e6d6d;
+  color: $greyText;
 }
 
 button{
+  border: none;
   height: 2.5rem;
   width: 120px;
   padding: 0 1rem !important;
-  background-color: #873780;
+  background-color: $purple;
   font-size: 1rem;
-  color: #fff;
+  color: $white;
   border-radius: .5rem !important;
   outline: none !important;
   cursor: pointer;
@@ -243,7 +248,6 @@ button{
         padding: 0;
       }
       &.submitControl{
-        
         button{
           margin-top: 3rem;
         }
@@ -257,7 +261,6 @@ button{
             margin-top: 0;
           }
         }
-        
       }
     }
   }
@@ -275,12 +278,13 @@ button{
       }
     }
     .eachToteItem{
+      padding: 1rem 2rem;
       width: 23%;
       p{
         font-size: 1.25rem;
       }
       span{
-        color: #873780;
+        color: $purple;
         &.price{
           font-size: 3rem;
         }
