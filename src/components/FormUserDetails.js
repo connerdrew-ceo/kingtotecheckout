@@ -6,7 +6,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Header } from './Header';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
 import { Button } from '@material-ui/core';
 import * as yup from 'yup';
 
@@ -15,11 +16,21 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    width: '100%',
+    border: '2px solid aqua',
+
   },
   button: {
     margin: theme.spacing(1)
-  }
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
 }));
 
 const validationSchema = yup.object({
@@ -60,14 +71,14 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
         {({ errors, touched }) => (
           <Form className={classes.form}>
             <FormControl className={classes.formControl}>
-              <InputLabel id="demo-simple-select-label">Age</InputLabel>
+              <InputLabel id="demo-simple-select-label">Service Area</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={age}
                 onChange={handleChange}
               >
-                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={10}>select a service area</MenuItem>
                 <MenuItem value={20}>Twenty</MenuItem>
                 <MenuItem value={30}>Thirty</MenuItem>
               </Select>
@@ -95,14 +106,6 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
               as={TextField}
               error={touched.firstName && errors.firstName}
               helperText={touched.firstName && errors.firstName}
-            />
-            <Field
-              name='lastName'
-              label='Last Name *'
-              margin='normal'
-              as={TextField}
-              error={touched.lastName && errors.lastName}
-              helperText={touched.lastName && errors.lastName}
             />
             <Field
               type='email'
