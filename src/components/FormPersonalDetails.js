@@ -43,6 +43,7 @@ export const FormPersonalDetails = ({
 
             <div className="formControl fullLenght">
               <label className="boldLabel">25 Totes</label>
+              <p>1 bedroom (250-500 sq ft)</p>
               <div className="toteBoxes">
                 <div className="eachToteItem">
                   <p>1 Week rental</p>
@@ -61,10 +62,12 @@ export const FormPersonalDetails = ({
                   <span className="price">$170</span>
                 </div>
               </div>
-              <p>$35 each additional week</p>
+              <p className="bottomCentered">$35 each additional week</p>
             </div>
+
             <div className="formControl fullLenght">
               <label className="boldLabel">35 Totes</label>
+              <p>2 bedroom (250-500 sq ft)</p>
               <div className="toteBoxes">
                 <div className="eachToteItem">
                   <p>1 Week rental</p>
@@ -83,6 +86,55 @@ export const FormPersonalDetails = ({
                   <span className="price">$230</span>
                 </div>
               </div>
+              <p className="bottomCentered">$35 each additional week</p>
+            </div>
+
+            <div className="formControl fullLenght">
+              <label className="boldLabel">50 Totes</label>
+              <p>3 bedroom (250-500 sq ft)</p>
+              <div className="toteBoxes">
+                <div className="eachToteItem">
+                  <p>1 Week rental</p>
+                  <span className="price">$120</span>
+                </div>
+                <div className="eachToteItem">
+                  <p>2 Week rental</p>
+                  <span className="price">$160</span>
+                </div>
+                <div className="eachToteItem">
+                  <p>3 Week rental</p>
+                  <span className="price">$195</span>
+                </div>
+                <div className="eachToteItem">
+                  <p>4 Week rental</p>
+                  <span className="price">$230</span>
+                </div>
+              </div>
+              <p className="bottomCentered">$35 each additional week</p>
+            </div>
+
+            <div className="formControl fullLenght">
+              <label className="boldLabel">70 Totes</label>
+              <p>4 bedroom (250-500 sq ft)</p>
+              <div className="toteBoxes">
+                <div className="eachToteItem">
+                  <p>1 Week rental</p>
+                  <span className="price">$120</span>
+                </div>
+                <div className="eachToteItem">
+                  <p>2 Week rental</p>
+                  <span className="price">$160</span>
+                </div>
+                <div className="eachToteItem">
+                  <p>3 Week rental</p>
+                  <span className="price">$195</span>
+                </div>
+                <div className="eachToteItem">
+                  <p>4 Week rental</p>
+                  <span className="price">$230</span>
+                </div>
+              </div>
+              <p className="bottomCentered">$35 each additional week</p>
             </div>
             
             <div className="formControl submitControl">
