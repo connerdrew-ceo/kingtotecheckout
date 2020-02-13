@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Header } from './Header';
 import { Formik, Form, Field } from 'formik';
+
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import { Button } from '@material-ui/core';
 import * as yup from 'yup';
 
-import mainLogo from '../images/kt_logo_150.png'
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -58,21 +58,8 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
   return (
     <>
 
-      <div className="headerComponent">
-
-        <a href="/">
-          <img src={mainLogo} alt="golf"/>
-        </a>
-
-        <div className="stepWrap first">
-          <div className="eachStep first"></div>
-          <div className="eachStep"></div>
-          <div className="eachStep"></div>
-          <div className="eachStep"></div>
-          <div className="eachStep"></div>
-        </div>
-      </div>
       
+      <Header title='Enter Personal Details' step="One" />
       <div className={classes.introWrap}>
         <h2>Welcome</h2>
         <p>Get started by selecting a service area to verify we service your zip codes.</p>
@@ -83,7 +70,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
           setFormData(values);
           nextStep();
         }}
-        validationSchema={validationSchema}
+        
       >
         {({ errors, touched }) => (
           <Form className={classes.form}>
@@ -99,22 +86,22 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
             <div className="formControl"></div>
 
             <div className="formControl">
-              <label for="dropOff">Drop-off Zip Code</label>
+              <label htmlFor="dropOff">Drop-off Zip Code</label>
               <input type="text" name="name" placeholder="zip code" className="form-control" id="nameImput" />
             </div>
             <div className="formControl">
-              <label for="pickUp">Pick-up Zip Code</label>
+              <label htmlFor="pickUp">Pick-up Zip Code</label>
               <input type="text" name="name" placeholder="zip code" className="form-control" id="nameImput" />
             </div>
             <div className="formControl">
-              <label for="locationType">Location type</label>
+              <label htmlFor="locationType">Location type</label>
               <div className="ratioWrap">
-                <input type="radio" id="female" name="gender" value="female"/>
-                <label for="female">Residential</label>
+                <input type="checkbox" id="female" name="gender" value="female"/>
+                <label htmlFor="female">Residential</label>
               </div>
               <div className="ratioWrap">
-                <input type="radio" id="other" name="gender" value="other"/>
-                <label for="other">Commertial</label>
+                <input type="checkbox" id="other" name="gender" value="other"/>
+                <label htmlFor="other">Commertial</label>
               </div>
             </div>
             <div className="formControl submitControl">

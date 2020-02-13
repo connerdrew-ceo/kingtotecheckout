@@ -4,6 +4,7 @@ import { FormPersonalDetails } from './FormPersonalDetails';
 import { Confirm } from './Confirm';
 import { Success } from './Success';
 
+
 export const UserForm = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -16,6 +17,9 @@ export const UserForm = () => {
   });
   const nextStep = () => setStep(prev => prev + 1);
   const prevStep = () => setStep(prev => prev - 1);
+
+  
+
   switch (step) {
     case 1:
       return (

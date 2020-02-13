@@ -7,11 +7,8 @@ import { Header } from './Header';
 import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center'
+  introWrap: {
+    padding: '0 2%',
   },
   button: {
     margin: theme.spacing(1)
@@ -28,44 +25,53 @@ export const FormPersonalDetails = ({
   const [direction, setDirection] = useState('back');
   return (
     <>
-      {/* <Header title='Enter Personal Details' /> */}
+      <Header title='Enter Personal Details' step="Two"/>
+      <div className={classes.introWrap}>
+        <h2>Welcome</h2>
+        <p>Please select the applicable option(s) bellow.</p>
+      </div>
       <Formik
         initialValues={formData}
         onSubmit={values => {
           setFormData(values);
           direction === 'back' ? prevStep() : nextStep();
         }}
+        
       >
-        <Form className={classes.form}>
-          <Field
-            name='occupation'
-            label='Occupation'
-            margin='normal'
-            as={TextField}
-          />
-          <Field name='city' label='City' margin='normal' as={TextField} />
-          <Field name='bio' label='Bio' margin='normal' as={TextField} />
-          <div>
-            <Button
-              type='submit'
-              variant='contained'
-              color='primary'
-              className={classes.button}
-              onClick={() => setDirection('back')}
-            >
-              Back
-            </Button>
-            <Button
-              type='submit'
-              variant='contained'
-              color='primary'
-              className={classes.button}
-              onClick={() => setDirection('forward')}
-            >
-              Continue
-            </Button>
-          </div>
-        </Form>
+        {({ errors, touched }) => (
+          <Form className={classes.form} 
+                
+          >
+            
+
+            <div className="formControl">
+              <label for="dropOff">Drop-off Zip Code</label>
+              <input type="text" name="name" placeholder="zip code" className="form-control" id="nameImput" />
+            </div>
+            <div className="formControl">
+              <label for="pickUp">Pick-up Zip Code</label>
+              <input type="text" name="name" placeholder="zip code" className="form-control" id="nameImput" />
+            </div>
+            <div className="formControl">
+              
+            </div>
+            <div className="formControl submitControl">
+              {/* <button className="button global" name="submit" type="submit">
+                <span>Next</span>
+              </button> */}
+              <button className="button global" type="submit" onClick={() => setDirection('back')}>
+                <span>Prev</span>
+              </button>
+
+              <button className="button global">
+                <span>Next</span>
+              </button>
+            
+              
+            </div>
+          
+          </Form>
+        )}
       </Formik>
     </>
   );
