@@ -196,7 +196,7 @@ button{
   border-radius: .5rem !important;
   outline: none !important;
   cursor: pointer;
-  margin-left: auto !important;
+  margin-left: auto;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -243,6 +243,17 @@ button{
         padding: 0;
       }
       &.submitControl{
+        
+        
+        &.fullLenght{
+          display: flex;
+          justify-content: flex-end;
+          flex-direction: row;
+          button{
+            margin-left: initial;
+            margin-left: 1rem;
+          }
+        }
         button{
           margin-top: 3rem;
         }

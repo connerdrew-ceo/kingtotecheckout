@@ -139,7 +139,7 @@ export const FormPersonalDetails = ({
               <p className="bottomCentered">$35 each additional week</p>
             </div>
             
-            <div className="formControl submitControl">
+            <div className="formControl submitControl fullLenght">
               <button className="button global" type="submit" onClick={() => setDirection('back')}>
                 <span>Prev</span>
               </button>
