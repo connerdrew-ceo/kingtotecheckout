@@ -26,10 +26,12 @@ export const FormPersonalDetails = ({
   return (
     <>
       <Header title='Enter Personal Details' step="Two"/>
-      <div className={classes.introWrap}>
+
+      <div className="introWrap">
         <h2>Order details</h2>
         <p>Please select the applicable option(s) bellow.</p>
       </div>
+      
       <Formik
         initialValues={formData}
         onSubmit={values => {
@@ -141,12 +143,9 @@ export const FormPersonalDetails = ({
               <button className="button global" type="submit" onClick={() => setDirection('back')}>
                 <span>Prev</span>
               </button>
-
               <button className="button global">
                 <span>Next</span>
               </button>
-            
-              
             </div>
           
           </Form>

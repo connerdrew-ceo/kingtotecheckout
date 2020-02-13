@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
   },
   introWrap: {
-    padding: '0 2%',
+    padding: '0 5vw'
   }
 }));
 
@@ -57,13 +57,13 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
 
   return (
     <>
-
-      
       <Header title='Enter Personal Details' step="One" />
-      <div className={classes.introWrap}>
+
+      <div className="introWrap">
         <h2>Welcome</h2>
         <p>Get started by selecting a service area to verify we service your zip codes.</p>
       </div>
+      
       <Formik
         initialValues={formData}
         onSubmit={values => {
