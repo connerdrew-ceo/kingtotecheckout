@@ -27,7 +27,7 @@ export const FormPersonalDetails = ({
     <>
       <Header title='Enter Personal Details' step="Two"/>
       <div className={classes.introWrap}>
-        <h2>Welcome</h2>
+        <h2>Order details</h2>
         <p>Please select the applicable option(s) bellow.</p>
       </div>
       <Formik
@@ -39,26 +39,21 @@ export const FormPersonalDetails = ({
         
       >
         {({ errors, touched }) => (
-          <Form className={classes.form} 
-                
-          >
+          <Form className={classes.form}>
             
 
             <div className="formControl">
-              <label for="dropOff">Drop-off Zip Code</label>
-              <input type="text" name="name" placeholder="zip code" className="form-control" id="nameImput" />
+              <label for="dropOff">25 Totes</label>
+              
             </div>
             <div className="formControl">
-              <label for="pickUp">Pick-up Zip Code</label>
-              <input type="text" name="name" placeholder="zip code" className="form-control" id="nameImput" />
+              <label for="pickUp">35 Totes</label>
+              
             </div>
             <div className="formControl">
               
             </div>
             <div className="formControl submitControl">
-              {/* <button className="button global" name="submit" type="submit">
-                <span>Next</span>
-              </button> */}
               <button className="button global" type="submit" onClick={() => setDirection('back')}>
                 <span>Prev</span>
               </button>
