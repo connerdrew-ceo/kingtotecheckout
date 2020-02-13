@@ -15,7 +15,8 @@ const useStyles = makeStyles(theme => ({
   form: {
     display: 'flex',
     flexFlow: 'wrap',
-    
+    justifyContent: 'center',
+    alignItems: 'center',
     width: '100%',
   },
   button: {
@@ -24,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   formControl: {
     margin: theme.spacing(1),
     width: '48%',
-    border: '1px solid aqua',
+    border: '1px solid pink',
     padding: '0 1rem'
   },
   selectEmpty: {
