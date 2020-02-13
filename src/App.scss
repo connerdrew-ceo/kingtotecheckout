@@ -14,12 +14,41 @@ p{
   color: #6e6d6d;
 }
 
+.headerComponent{
+  text-align: center;
+  padding: 1rem;
+  img{
+    max-width: 120px;
+  }
+  .stepWrap{
+    margin: 2rem 0;
+    margin-bottom: 0;;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    .eachStep{
+      background-color: #ccc;
+      width: 18%;
+      height: .5rem;
+      &.first{
+        background-color: #873780;
+      }
+    }
+  }
+}
+
 form{
   color: inherit;
   display: block;
   flex-wrap: wrap;
   label{
     color: #873780;
+  }
+  .formControl{
+    width: 97%;
+    padding: 0 2%;
+    margin: 1.5% 0;
   }
   .ratioWrap{
     width: 100%;
@@ -31,16 +60,10 @@ form{
       color: #6e6d6d;
       font-size: .75rem;
       margin: 0 .5rem;
-      
     }
   }
 }
 
-.formControl{
-  width: 97%;
-  padding: 0 2%;
-  margin: 1.5% 0;
-}
 
 input[type=text], select{
   background-color: #F4F5F7 !important;
@@ -77,6 +100,7 @@ button{
   border-radius: .5rem !important;
   outline: none !important;
   cursor: pointer;
+  margin-left: auto !important;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -88,11 +112,12 @@ button{
 @media screen and (min-width: 768px) {
   form{
     display: flex;
+    .formControl{
+      width: 46%;
+      padding: 0 2%;
+    }
   }
 
-  .formControl{
-    width: 46%;
-    padding: 0 2%;
-  }
+  
 
 }

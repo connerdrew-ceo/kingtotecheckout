@@ -10,6 +10,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { Button } from '@material-ui/core';
 import * as yup from 'yup';
 
+import mainLogo from '../images/kt_logo_150.png'
+
 const useStyles = makeStyles(theme => ({
   form: {
     width: '100%',
@@ -43,10 +45,6 @@ const validationSchema = yup.object({
     .max(20),
 });
 
-/*pickUp: yup
-    .string()
-    .email('Invalid email')
-    .required('Email is required')*/
 
 export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
   const [age, setAge] = React.useState('');
@@ -59,13 +57,26 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
 
   return (
     <>
+
+      <div className="headerComponent">
+
+        <a href="/">
+          <img src={mainLogo} alt="golf"/>
+        </a>
+
+        <div className="stepWrap first">
+          <div className="eachStep first"></div>
+          <div className="eachStep"></div>
+          <div className="eachStep"></div>
+          <div className="eachStep"></div>
+          <div className="eachStep"></div>
+        </div>
+      </div>
       
       <div className={classes.introWrap}>
         <h2>Welcome</h2>
         <p>Get started by selecting a service area to verify we service your zip codes.</p>
       </div>
-
-      
       <Formik
         initialValues={formData}
         onSubmit={values => {
@@ -106,9 +117,6 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
                 <label for="other">Commertial</label>
               </div>
             </div>
-            
-            
-
             <div className="formControl submitControl">
               <button className="button global" name="submit" type="submit">
                 <span>Next</span>
@@ -127,15 +135,3 @@ FormUserDetails.propTypes = {
   setFormData: PropTypes.func.isRequired,
   nextStep: PropTypes.func.isRequired
 };
-
-
-{/* <FormControl className={classes.formControl}>
-              <Field
-                name='pickUp'
-                placeholder='zip code'
-                margin='normal'
-                as={TextField}
-                error={touched.lastName && errors.lastName}
-                helperText={touched.lastName && errors.lastName}
-              />
-            </FormControl> */}
