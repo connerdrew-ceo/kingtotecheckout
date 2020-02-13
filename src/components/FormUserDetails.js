@@ -14,19 +14,18 @@ import * as yup from 'yup';
 const useStyles = makeStyles(theme => ({
   form: {
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexFlow: 'wrap',
+    
     width: '100%',
-    border: '2px solid aqua',
-
   },
   button: {
     margin: theme.spacing(1)
   },
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 120,
+    width: '48%',
+    border: '1px solid aqua',
+    padding: '0 1rem'
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -78,44 +77,34 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
                 value={age}
                 onChange={handleChange}
               >
-                <MenuItem value={10}>select a service area</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                <MenuItem value={0}>select a service area</MenuItem>
+                <MenuItem value={'Portland'}>Portland</MenuItem>
+                <MenuItem value={'Portland'}>Portland</MenuItem>
               </Select>
             </FormControl>
-            <Field
-              name='dropOff'
-              label='Drop-off Zip Code'
-              margin='normal'
-              as={TextField}
-              error={touched.firstName && errors.firstName}
-              helperText={touched.firstName && errors.firstName}
-            />
-            <Field
-              name='pickUp'
-              label='Pick-up Zip Code'
-              margin='normal'
-              as={TextField}
-              error={touched.lastName && errors.lastName}
-              helperText={touched.lastName && errors.lastName}
-            />
-            {/* <Field
-              name='firstName'
-              label='First Name *'
-              margin='normal'
-              as={TextField}
-              error={touched.firstName && errors.firstName}
-              helperText={touched.firstName && errors.firstName}
-            />
-            <Field
-              type='email'
-              name='email'
-              label='Email *'
-              margin='normal'
-              as={TextField}
-              error={touched.email && errors.email}
-              helperText={touched.email && errors.email}
-            /> */}
+            <FormControl className={classes.formControl}>
+              
+            </FormControl>
+            <FormControl className={classes.formControl}>
+              <Field
+                name='dropOff'
+                label='Drop-off Zip Code'
+                margin='normal'
+                as={TextField}
+                error={touched.firstName && errors.firstName}
+                helperText={touched.firstName && errors.firstName}
+              />
+            </FormControl>
+            <FormControl className={classes.formControl}>
+              <Field
+                name='pickUp'
+                label='Pick-up Zip Code'
+                margin='normal'
+                as={TextField}
+                error={touched.lastName && errors.lastName}
+                helperText={touched.lastName && errors.lastName}
+              />
+            </FormControl>
             <Button
               type='submit'
               variant='contained'
