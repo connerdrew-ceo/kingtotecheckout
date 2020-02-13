@@ -18,6 +18,25 @@ p{
   color: $greyText;
 }
 
+button{
+  border: none;
+  height: 2.5rem;
+  width: 120px;
+  padding: 0 2rem;
+  background-color: $purple;
+  font-size: 1rem;
+  color: $white;
+  border-radius: .5rem;
+  outline: none !important;
+  cursor: pointer;
+  margin-left: auto;
+  &.whiteBtn{
+    border: 1px solid $purple;
+    background-color: $white;
+    color: $purple;
+  }
+}
+
 .headerComponent{
   text-align: center;
   padding: 1rem 0;
@@ -61,7 +80,7 @@ p{
 }
 
 .toteBoxes{
-  margin: 2rem 0;
+  margin: 1rem 0;
   margin-bottom: 0;
   width: 100%;
   display: flex;
@@ -119,23 +138,34 @@ form{
     width: 100%;
     padding: 0 2%;
     margin: 1.5% 0;
-    margin-bottom: 4%;
+    margin-bottom: 2rem;
     &.submitControl{
       display: flex;
       button{
         margin-top: 1rem;
       }
+      &.fullLenght{
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: row;
+        button{
+          margin-left: initial;
+          margin-left: 1rem;
+          margin-top: 1rem;
+        }
+      }
     }
   }
+
   input[type=text], select{
     appearance: none;
-    background-color: #F4F5F7 !important;
-    border-radius: .5rem !important;
-    padding: 0 .75rem !important;
+    background-color: #F4F5F7;
+    border-radius: .5rem;
+    padding: 0 .75rem;
     width: 100%;
     border: none;
     outline: none;
-    margin-top: 1.25rem;
+    margin-top: .75rem;
     font-size: 1rem;
     height: 2.75rem;
     color: $greyText;
@@ -190,19 +220,7 @@ form{
   color: $greyText;
 }
 
-button{
-  border: none;
-  height: 2.5rem;
-  width: 120px;
-  padding: 0 1rem !important;
-  background-color: $purple;
-  font-size: 1rem;
-  color: $white;
-  border-radius: .5rem !important;
-  outline: none !important;
-  cursor: pointer;
-  margin-left: auto;
-}
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -252,12 +270,7 @@ button{
           margin-top: 3rem;
         }
         &.fullLenght{
-          display: flex;
-          justify-content: flex-end;
-          flex-direction: row;
           button{
-            margin-left: initial;
-            margin-left: 1rem;
             margin-top: 0;
           }
         }

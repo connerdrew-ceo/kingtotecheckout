@@ -140,8 +140,8 @@ export const FormPersonalDetails = ({
             </div>
             
             <div className="formControl submitControl fullLenght">
-              <button className="button global" type="submit" onClick={() => setDirection('back')}>
-                <span>Prev</span>
+              <button className="button global whiteBtn" type="submit" onClick={() => setDirection('back')}>
+                <span>Previous</span>
               </button>
               <button className="button global">
                 <span>Next</span>
