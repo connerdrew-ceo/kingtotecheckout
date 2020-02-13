@@ -51,13 +51,56 @@ p{
   }
 }
 
+.toteBoxes{
+  margin: 2rem 0;
+  margin-bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  p{
+    &.boldIntro{
+      font-size: 2rem;
+    }
+  }
+  .eachToteItem{
+    background-color: rgb(236, 234, 234);
+    padding: 1rem 2rem;
+    margin-bottom: 1rem;
+    width: 44%;
+    height: auto;
+    text-align: center;
+    border-radius: .5rem;
+    cursor: pointer;
+    p{
+      margin: .5rem 0;
+      margin-top: 0;
+      font-weight: bold;
+    }
+    span{
+      color: #873780;
+      &.price{
+        font-size: 1.5rem;
+      }
+    }
+    &:hover{
+      background-color: #873780;
+      p, span{
+        color: #ffffff;
+      }
+    }
+  }
+}
+
 form{
   color: inherit;
   display: block;
   flex-wrap: wrap;
-  
   label{
     color: #873780;
+    &.boldLabel{
+      font-size: 1.5rem;
+    }
   }
   .formControl{
     width: 97%;
@@ -170,6 +213,9 @@ button{
       width: 46%;
       padding: 0 2%;
       margin: 1.5% 0;
+      &.fullLenght{
+        width: 96%;
+      }
       &.submitControl{
         button{
           margin-top: 3rem;
@@ -178,6 +224,31 @@ button{
     }
   }
 
-  
+  .toteBoxes{
+    margin: 2rem 0;
+    margin-bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    p{
+      &.boldIntro{
+        font-size: 2rem;
+      }
+    }
+    
+    .eachToteItem{
+      width: 23%;
+      p{
+        font-size: 1.25rem;
+      }
+      span{
+        color: #873780;
+        &.price{
+          font-size: 3rem;
+        }
+      }
+    }
+  }
 
 }

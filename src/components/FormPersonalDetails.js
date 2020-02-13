@@ -40,19 +40,51 @@ export const FormPersonalDetails = ({
       >
         {({ errors, touched }) => (
           <Form className={classes.form}>
-            
 
-            <div className="formControl">
-              <label for="dropOff">25 Totes</label>
-              
+            <div className="formControl fullLenght">
+              <label className="boldLabel">25 Totes</label>
+              <div className="toteBoxes">
+                <div className="eachToteItem">
+                  <p>1 Week rental</p>
+                  <span className="price">$90</span>
+                </div>
+                <div className="eachToteItem">
+                  <p>2 Week rental</p>
+                  <span className="price">$120</span>
+                </div>
+                <div className="eachToteItem">
+                  <p>3 Week rental</p>
+                  <span className="price">$145</span>
+                </div>
+                <div className="eachToteItem">
+                  <p>4 Week rental</p>
+                  <span className="price">$170</span>
+                </div>
+              </div>
+              <p>$35 each additional week</p>
             </div>
-            <div className="formControl">
-              <label for="pickUp">35 Totes</label>
-              
+            <div className="formControl fullLenght">
+              <label className="boldLabel">35 Totes</label>
+              <div className="toteBoxes">
+                <div className="eachToteItem">
+                  <p>1 Week rental</p>
+                  <span className="price">$120</span>
+                </div>
+                <div className="eachToteItem">
+                  <p>2 Week rental</p>
+                  <span className="price">$160</span>
+                </div>
+                <div className="eachToteItem">
+                  <p>3 Week rental</p>
+                  <span className="price">$195</span>
+                </div>
+                <div className="eachToteItem">
+                  <p>4 Week rental</p>
+                  <span className="price">$230</span>
+                </div>
+              </div>
             </div>
-            <div className="formControl">
-              
-            </div>
+            
             <div className="formControl submitControl">
               <button className="button global" type="submit" onClick={() => setDirection('back')}>
                 <span>Prev</span>
