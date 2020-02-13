@@ -174,7 +174,6 @@ form{
   }
 }
 
-
 ::-webkit-input-placeholder {
   color: #6e6d6d;
 }
@@ -226,6 +225,7 @@ button{
     display: flex;
     flex-wrap: wrap;
     padding: 0 8vw;
+
     .formControl{
       width: 50%;
       padding: 0;
@@ -239,7 +239,8 @@ button{
         height: 3.25rem;
       }
       &.fullLenght{
-        width: 96%;
+        width: 100%;
+        padding: 0;
       }
       &.submitControl{
         button{
@@ -261,7 +262,6 @@ button{
         font-size: 2rem;
       }
     }
-    
     .eachToteItem{
       width: 23%;
       p{

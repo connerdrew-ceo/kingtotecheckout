@@ -31,7 +31,7 @@ export const FormPersonalDetails = ({
         <h2>Order details</h2>
         <p>Please select the applicable option(s) bellow.</p>
       </div>
-      
+
       <Formik
         initialValues={formData}
         onSubmit={values => {
