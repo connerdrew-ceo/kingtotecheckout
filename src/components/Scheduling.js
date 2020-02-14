@@ -32,8 +32,8 @@ export const Scheduling = ({
       <Header title='Enter Personal Details' step="Three"/>
 
       <div className="introWrap">
-        <h2>Order details</h2>
-        <p>Please select the applicable option(s) bellow.</p>
+        <h2>Scheduling</h2>
+        <p>Please select a date and time to drop-off and pick-up totes</p>
       </div>
 
       <Formik
@@ -48,14 +48,12 @@ export const Scheduling = ({
           <Form className={classes.form}>
 
             <div className="formControl">
-              <label className="boldLabel">25 Totes</label>
-              <p>1 bedroom (250-500 sq ft)</p>
+              <label className="boldLabel">Select Drop-off Date/Time</label>
               <DayPicker />
             </div>
 
             <div className="formControl">
-              <label className="boldLabel">35 Totes</label>
-              <p>2 bedroom (250-500 sq ft)</p>
+            <label className="boldLabel">Select Pick-up Date/Time</label>
               <DayPicker />
             </div>
 
