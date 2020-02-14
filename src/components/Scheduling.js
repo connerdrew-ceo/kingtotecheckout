@@ -57,8 +57,6 @@ export const Scheduling = ({
               <DayPicker />
             </div>
 
-            
-
             <div className="formControl submitControl fullLenght">
               <button className="button global whiteBtn" type="submit" onClick={() => setDirection('back')}>
                 <span>Previous</span>
