@@ -23,6 +23,11 @@ export const FormPersonalDetails = ({
 }) => {
   const classes = useStyles();
   const [direction, setDirection] = useState('back');
+  const [toteBoxSelected, setToteBoxSelected] = useState(false);
+  const [toteCarSelected, setToteCarSelected] = useState(false);
+
+
+
   return (
     <>
       <Header title='Enter Personal Details' step="Two"/>
@@ -47,19 +52,19 @@ export const FormPersonalDetails = ({
               <label className="boldLabel">25 Totes</label>
               <p>1 bedroom (250-500 sq ft)</p>
               <div className="toteBoxes">
-                <div className="eachToteItem">
+                <div className="eachToteItem toteBoxSlection">
                   <p>1 Week rental</p>
                   <span className="price">$90</span>
                 </div>
-                <div className="eachToteItem">
+                <div className="eachToteItem toteBoxSlection">
                   <p>2 Week rental</p>
                   <span className="price">$120</span>
                 </div>
-                <div className="eachToteItem">
+                <div className="eachToteItem toteBoxSlection">
                   <p>3 Week rental</p>
                   <span className="price">$145</span>
                 </div>
-                <div className="eachToteItem">
+                <div className="eachToteItem toteBoxSlection">
                   <p>4 Week rental</p>
                   <span className="price">$170</span>
                 </div>
@@ -71,19 +76,19 @@ export const FormPersonalDetails = ({
               <label className="boldLabel">35 Totes</label>
               <p>2 bedroom (250-500 sq ft)</p>
               <div className="toteBoxes">
-                <div className="eachToteItem">
+                <div className="eachToteItem toteBoxSlection">
                   <p>1 Week rental</p>
                   <span className="price">$120</span>
                 </div>
-                <div className="eachToteItem">
+                <div className="eachToteItem toteBoxSlection">
                   <p>2 Week rental</p>
                   <span className="price">$160</span>
                 </div>
-                <div className="eachToteItem">
+                <div className="eachToteItem toteBoxSlection">
                   <p>3 Week rental</p>
                   <span className="price">$195</span>
                 </div>
-                <div className="eachToteItem">
+                <div className="eachToteItem toteBoxSlection">
                   <p>4 Week rental</p>
                   <span className="price">$230</span>
                 </div>
@@ -95,19 +100,19 @@ export const FormPersonalDetails = ({
               <label className="boldLabel">50 Totes</label>
               <p>3 bedroom (250-500 sq ft)</p>
               <div className="toteBoxes">
-                <div className="eachToteItem">
+                <div className="eachToteItem toteBoxSlection">
                   <p>1 Week rental</p>
                   <span className="price">$120</span>
                 </div>
-                <div className="eachToteItem">
+                <div className="eachToteItem toteBoxSlection">
                   <p>2 Week rental</p>
                   <span className="price">$160</span>
                 </div>
-                <div className="eachToteItem">
+                <div className="eachToteItem toteBoxSlection">
                   <p>3 Week rental</p>
                   <span className="price">$195</span>
                 </div>
-                <div className="eachToteItem">
+                <div className="eachToteItem toteBoxSlection">
                   <p>4 Week rental</p>
                   <span className="price">$230</span>
                 </div>
@@ -119,24 +124,72 @@ export const FormPersonalDetails = ({
               <label className="boldLabel">70 Totes</label>
               <p>4 bedroom (250-500 sq ft)</p>
               <div className="toteBoxes">
-                <div className="eachToteItem">
+                <div className="eachToteItem toteBoxSlection">
                   <p>1 Week rental</p>
                   <span className="price">$120</span>
                 </div>
-                <div className="eachToteItem">
+                <div className="eachToteItem toteBoxSlection">
                   <p>2 Week rental</p>
                   <span className="price">$160</span>
                 </div>
-                <div className="eachToteItem">
+                <div className="eachToteItem toteBoxSlection">
                   <p>3 Week rental</p>
                   <span className="price">$195</span>
                 </div>
-                <div className="eachToteItem">
+                <div className="eachToteItem toteBoxSlection">
                   <p>4 Week rental</p>
                   <span className="price">$230</span>
                 </div>
               </div>
               <p className="bottomCentered">$35 each additional week</p>
+            </div>
+
+            {/* Tote cars */}
+
+            <div className="formControl fullLenght">
+              <label className="boldLabel">King Tote Hand Cart</label>
+              <p>Heavy duty tubular steel car with tires</p>
+              <div className="toteBoxes">
+                <div className="eachToteItem">
+                  <p>1 Week rental</p>
+                  <span className="price">$8</span>
+                </div>
+                <div className="eachToteItem">
+                  <p>2 Week rental</p>
+                  <span className="price">$16</span>
+                </div>
+                <div className="eachToteItem">
+                  <p>3 Week rental</p>
+                  <span className="price">$24</span>
+                </div>
+                <div className="eachToteItem">
+                  <p>4 Week rental</p>
+                  <span className="price">$32</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="formControl fullLenght">
+              <label className="boldLabel">King Tote Wheels</label>
+              <p>Easy-roller made to roll stacked totes</p>
+              <div className="toteBoxes">
+                <div className="eachToteItem">
+                  <p>1 Week rental</p>
+                  <span className="price">$5</span>
+                </div>
+                <div className="eachToteItem">
+                  <p>2 Week rental</p>
+                  <span className="price">$10</span>
+                </div>
+                <div className="eachToteItem">
+                  <p>3 Week rental</p>
+                  <span className="price">$15</span>
+                </div>
+                <div className="eachToteItem">
+                  <p>4 Week rental</p>
+                  <span className="price">$20</span>
+                </div>
+              </div>
             </div>
             
             <div className="formControl submitControl fullLenght">

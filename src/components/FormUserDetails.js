@@ -96,14 +96,12 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
             <div className="formControl">
               <label htmlFor="locationType">Location type</label>
               <div className="ratioWrap">
-                {/* <input type="checkbox" id="female" name="gender" value="female"/> */}
-                <input type="radio" id="age3" name="location" value="100"/>
-                <label htmlFor="female">Residential</label>
+                <input type="radio" id="locationResidential" name="location" value="0"/>
+                <label htmlFor="locationResidential">Residential</label>
               </div>
               <div className="ratioWrap">
-                {/* <input type="checkbox" id="other" name="gender" value="other"/> */}
-                <input type="radio" id="age3" name="location" value="100"/>
-                <label htmlFor="other">Commertial</label>
+                <input type="radio" id="locationCommertial" name="location" value="0"/>
+                <label htmlFor="locationCommertial">Commertial</label>
               </div>
             </div>
             <div className="formControl submitControl">
@@ -111,7 +109,6 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
                 <span>Next</span>
               </button>
             </div>
-          
           </Form>
         )}
       </Formik>
