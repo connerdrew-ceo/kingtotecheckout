@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FormUserDetails } from './FormUserDetails';
 import { FormPersonalDetails } from './FormPersonalDetails';
+import { Scheduling } from './Scheduling';
 import { Confirm } from './Confirm';
 import { Success } from './Success';
 
@@ -39,6 +40,15 @@ export const UserForm = () => {
         />
       );
     case 3:
+      return (
+        <Scheduling
+          formData={formData}
+          setFormData={setFormData}
+          nextStep={nextStep}
+          prevStep={prevStep}
+        />
+      );
+    case 4:
       return (
         <Confirm formData={formData} nextStep={nextStep} prevStep={prevStep} />
       );

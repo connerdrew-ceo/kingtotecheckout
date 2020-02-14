@@ -3,12 +3,7 @@ import PropTypes from 'prop-types';
 import { Header } from './Header';
 import { Formik, Form, Field } from 'formik';
 
-import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
 import * as yup from 'yup';
 
 
@@ -75,7 +70,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
         {({ errors, touched }) => (
           <Form className={classes.form}>
             <div className="formControl">
-              <label for="nameImput">Service Area</label>
+              <label htmlFor="nameImput">Service Area</label>
               <select id="cars">
                 <option value="0">select a service area</option>
                 <option value="Portland">Portland</option>
