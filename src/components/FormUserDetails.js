@@ -7,23 +7,23 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as yup from 'yup';
 
 
-const useStyles = makeStyles(theme => ({
-  form: {
-    width: '100%',
-  },
+// const useStyles = makeStyles(theme => ({
+//   form: {
+//     width: '100%',
+//   },
   
-  formControl: {
-    margin: theme.spacing(1),
-    width: '44%',
-    padding: '0 2%',
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-  introWrap: {
-    padding: '0 5vw'
-  }
-}));
+//   formControl: {
+//     margin: theme.spacing(1),
+//     width: '44%',
+//     padding: '0 2%',
+//   },
+//   selectEmpty: {
+//     marginTop: theme.spacing(2),
+//   },
+//   introWrap: {
+//     padding: '0 5vw'
+//   }
+// }));
 
 const validationSchema = yup.object({
   serviceArea: yup
@@ -44,7 +44,7 @@ const validationSchema = yup.object({
 export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
   const [age, setAge] = React.useState('');
 
-  const classes = useStyles();
+  //const classes = useStyles();
 
   const handleChange = event => {
     setAge(event.target.value);
@@ -68,7 +68,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
         
       >
         {({ errors, touched }) => (
-          <Form className={classes.form}>
+          <Form>
             <div className="formControl">
               <label htmlFor="nameImput">Service Area</label>
               <select id="cars">
