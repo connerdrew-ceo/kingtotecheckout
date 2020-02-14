@@ -46,7 +46,7 @@ button{
     max-width: 90px;
   }
   .stepWrap{
-    margin: 2rem 0;
+    margin: 1rem 0;
     margin-bottom: 0;
     width: 100%;
     display: flex;
@@ -176,7 +176,7 @@ form{
     background-size: 20px !important;
     background-repeat: no-repeat !important;
   }
-  input[type=checkbox]{
+  input[type=radio]{
     cursor: pointer;
     appearance: none;
     width: 1.5rem;

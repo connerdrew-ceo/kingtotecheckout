@@ -63,7 +63,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
         <h2>Welcome</h2>
         <p>Get started by selecting a service area to verify we service your zip codes.</p>
       </div>
-      
+
       <Formik
         initialValues={formData}
         onSubmit={values => {
@@ -96,11 +96,13 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
             <div className="formControl">
               <label htmlFor="locationType">Location type</label>
               <div className="ratioWrap">
-                <input type="checkbox" id="female" name="gender" value="female"/>
+                {/* <input type="checkbox" id="female" name="gender" value="female"/> */}
+                <input type="radio" id="age3" name="location" value="100"/>
                 <label htmlFor="female">Residential</label>
               </div>
               <div className="ratioWrap">
-                <input type="checkbox" id="other" name="gender" value="other"/>
+                {/* <input type="checkbox" id="other" name="gender" value="other"/> */}
+                <input type="radio" id="age3" name="location" value="100"/>
                 <label htmlFor="other">Commertial</label>
               </div>
             </div>
