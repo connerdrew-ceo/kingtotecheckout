@@ -147,6 +147,7 @@ button{
     .DayPicker-Caption{
       padding-left: 0;
       padding-right: 2em;
+      
     }
     .DayPicker-Weekdays, .DayPicker-Body{
       margin-left: -2.65rem !important;
@@ -155,6 +156,7 @@ button{
       padding: .75em;
       color: $greyText;
       border-radius: 2rem;
+      cursor: pointer;
       &.DayPicker-Day--selected{
         background-color: #e1f0f8;
         color: $purple;
@@ -162,6 +164,16 @@ button{
       }
     }
   }
+}
+
+.DayPicker-NavButton--prev{
+  background-image: url('./images/arrow-prev.png');
+  background-size: 63%;
+  margin-right: 3rem;
+}
+.DayPicker-NavButton--next{
+  background-image: url('./images/arrow-next.png');
+  background-size: 55%;
 }
 
 
