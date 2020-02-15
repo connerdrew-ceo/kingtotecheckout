@@ -54,7 +54,17 @@ export const Scheduling = ({
 
             <div className="formControl">
             <label className="boldLabel">Select Pick-up Date/Time</label>
-              <DayPicker />
+            <DayPicker
+                initialMonth={new Date(2017, 3)}
+                selectedDays={[
+                    new Date(2017, 3, 12),
+                    new Date(2017, 3, 2),
+                    {
+                    after: new Date(2017, 3, 20),
+                    before: new Date(2017, 3, 25),
+                    },
+                ]}
+            />
             </div>
 
             <div className="formControl submitControl fullLenght">

@@ -2,28 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Header } from './Header';
 import { Formik, Form, Field } from 'formik';
-
+import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import * as yup from 'yup';
 
-
-// const useStyles = makeStyles(theme => ({
-//   form: {
-//     width: '100%',
-//   },
-  
-//   formControl: {
-//     margin: theme.spacing(1),
-//     width: '44%',
-//     padding: '0 2%',
-//   },
-//   selectEmpty: {
-//     marginTop: theme.spacing(2),
-//   },
-//   introWrap: {
-//     padding: '0 5vw'
-//   }
-// }));
 
 const validationSchema = yup.object({
   serviceArea: yup
@@ -116,3 +98,20 @@ FormUserDetails.propTypes = {
   setFormData: PropTypes.func.isRequired,
   nextStep: PropTypes.func.isRequired
 };
+
+
+// const mapStateToProps = state => {
+//   return{
+//     localCounter: state.counter
+//   }
+// }
+
+// const mapDispatchToProps = state => {
+//   return{
+//     onIncrementCounter: () => dispatch({type: 'INCREMENT'})
+//   }
+
+// }
+
+
+// export default connect(mapStateToProps, mapDispatchToProps)(FormUserDetails);

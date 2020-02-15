@@ -6,8 +6,10 @@ import { Confirm } from './Confirm';
 import { Success } from './Success';
 
 
+
+
 export const UserForm = () => {
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(3);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',

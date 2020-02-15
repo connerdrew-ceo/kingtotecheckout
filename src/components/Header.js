@@ -29,32 +29,17 @@ export const Header = ({ title, step }) => {
   return (
     <div>
       <div className="headerComponent">
-      <a href="/">
-        <img src={mainLogo} alt="golf"/>
-      </a>
-      <div className={currentStep}>
-        <div className="eachStep first"></div>
-        <div className="eachStep"></div>
-        <div className="eachStep"></div>
-        <div className="eachStep"></div>
-        <div className="eachStep"></div>
+        <a href="/">
+          <img src={mainLogo} alt="golf"/>
+        </a>
+        <div className={currentStep}>
+          <div className="eachStep first"></div>
+          <div className="eachStep"></div>
+          <div className="eachStep"></div>
+          <div className="eachStep"></div>
+          <div className="eachStep"></div>
+        </div>
       </div>
-    </div>
-      {/* <AppBar position='static'>
-        <Toolbar>
-          <IconButton
-            edge='start'
-            className={classes.menuButton}
-            color='inherit'
-            aria-label='menu'
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant='h5' className={classes.title}>
-            {title}
-          </Typography>
-        </Toolbar>
-      </AppBar> */}
     </div>
   );
 };

@@ -140,6 +140,32 @@ button{
   }
 }
 
+.DayPicker-Months{
+  justify-content: flex-start;
+  .DayPicker-Month{
+    margin-left: 0;
+    .DayPicker-Caption{
+      padding-left: 0;
+      padding-right: 2em;
+    }
+    .DayPicker-Weekdays, .DayPicker-Body{
+      margin-left: -2.65rem !important;
+    }
+    .DayPicker-Day{
+      padding: .75em;
+      color: $greyText;
+      border-radius: 2rem;
+      &.DayPicker-Day--selected{
+        background-color: #e1f0f8;
+        color: $purple;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+
+
 form{
   color: inherit;
   display: block;
@@ -251,7 +277,7 @@ form{
     img{
       display: block;
       margin: 0 auto;
-      max-width: 130px;
+      max-width: 140px;
     }
   }
 
