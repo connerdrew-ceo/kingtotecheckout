@@ -89,6 +89,12 @@ export const Scheduling = ({
                     <div className="timeLayer">
                         <br/>
                         <label onClick={() => setOpenTimeLayerDrop(false)}> Back to claendar</label>
+                        <div className="timeOptionsWrap">
+                            <div className="timeOption"></div>
+                            <div className="timeOption"></div>
+                            <div className="timeOption"></div>
+                            <div className="timeOption"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -116,6 +122,12 @@ export const Scheduling = ({
                     <div className="timeLayer">
                         <br/>
                         <label onClick={() => setOpenTimeLayerPick(false)}> back {datePickUp}</label>
+                        <div className="timeOptionsWrap">
+                            <div className="timeOption"></div>
+                            <div className="timeOption"></div>
+                            <div className="timeOption"></div>
+                            <div className="timeOption"></div>
+                        </div>
 
                     </div>
                 </div>
