@@ -6,8 +6,6 @@ import { Header } from './Header';
 import DayPicker from "react-day-picker";
 import "react-day-picker/lib/style.css";
 
-
-
 const useStyles = makeStyles(theme => ({
   introWrap: {
     padding: '0 2%',
@@ -26,16 +24,24 @@ export const Scheduling = ({
   const classes = useStyles();
   const [direction, setDirection] = useState('back');
 
-  const [openTimeLayer, setOpenTimeLayer] = useState(false);
-  let layerClassList = 'calendarAndTimeWrap'
+  const [openTimeLayerDrop, setOpenTimeLayerDrop] = useState(false);
+  let layerClassListDrop = 'calendarAndTimeWrap'
 
-  if(openTimeLayer){
-    layerClassList = 'calendarAndTimeWrap timeOn'
+  if(openTimeLayerDrop){
+    layerClassListDrop = 'calendarAndTimeWrap timeOn'
+  }
+
+  const [openTimeLayerPick, setOpenTimeLayerPick] = useState(false);
+  const [datePickUp, setDatePickUp] = useState('');
+  let layerClassListPick = 'calendarAndTimeWrap'
+  
+  if(openTimeLayerPick){
+    layerClassListPick = 'calendarAndTimeWrap timeOn'
   }
   
   const handleDayDropOff = (day, { selected }) => {
 
-    setOpenTimeLayer(true)
+    setOpenTimeLayerDrop(true)
     if(selected){
         console.log('selected ', selected);
     }
@@ -43,7 +49,9 @@ export const Scheduling = ({
 
   const handleDayPickUp = (day, { selected }) => {
 
-    setOpenTimeLayer(true)
+    setOpenTimeLayerPick(true)
+    //setDatePickUp(day)
+    console.log(day)
     if(selected){
         console.log('selected ', selected);
     }
@@ -72,7 +80,7 @@ export const Scheduling = ({
             <div className="formControl">
                 <label className="boldLabel">Select Drop-off Date/Time</label>
 
-                <div className={layerClassList}>
+                <div className={layerClassListDrop}>
                     <div className="calendarLayer">
                         <DayPicker 
                             onDayClick={handleDayDropOff}
@@ -80,7 +88,7 @@ export const Scheduling = ({
                     </div>
                     <div className="timeLayer">
                         <br/>
-                        <label onClick={() => setOpenTimeLayer(false)}> Back to claendar</label>
+                        <label onClick={() => setOpenTimeLayerDrop(false)}> Back to claendar</label>
                     </div>
                 </div>
             </div>
@@ -88,7 +96,7 @@ export const Scheduling = ({
             <div className="formControl">
                 <label className="boldLabel">Select Pick-up Date/Time</label>
 
-                <div className={layerClassList}>
+                <div className={layerClassListPick}>
 
                     <div className="calendarLayer">
                         <DayPicker
@@ -107,7 +115,7 @@ export const Scheduling = ({
                     
                     <div className="timeLayer">
                         <br/>
-                        <label onClick={() => setOpenTimeLayer(false)}> Back to claendar</label>
+                        <label onClick={() => setOpenTimeLayerPick(false)}> back {datePickUp}</label>
 
                     </div>
                 </div>
