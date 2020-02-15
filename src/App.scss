@@ -170,14 +170,15 @@ button{
 
 .calendarAndTimeWrap{
   position: relative;
-  display: block;
+  height: auto;
   .calendarLayer{
-    position: absolute;
+    position: relative;
     z-index: 100;
     width: 100%;
     height: 100%;
     left: 0;
     top: 0;
+    background-color: #ffffff;
   }
   .timeLayer{
     position: absolute;
@@ -187,13 +188,17 @@ button{
     top: 0;
     background-color: #ffffff;
     z-index: 10;
+    opacity: 0;
   }
   &.timeOn{
     .calendarLayer{
-      z-index: 10;
+      z-index: 10 !important;
+      opacity: 0;
     }
     .timeLayer{
-      z-index: 100;
+      z-index: 100 !important;
+      background-color: #ffffff;
+      opacity: 1;
     }
   }
 }

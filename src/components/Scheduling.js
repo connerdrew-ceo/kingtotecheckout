@@ -26,19 +26,24 @@ export const Scheduling = ({
   const classes = useStyles();
   const [direction, setDirection] = useState('back');
 
-  const [openTimeLayer, setOpenTimeLayer] = useState(true);
+  const [openTimeLayer, setOpenTimeLayer] = useState(false);
   let layerClassList = 'calendarAndTimeWrap'
 
   if(openTimeLayer){
     layerClassList = 'calendarAndTimeWrap timeOn'
   }
   
-  const handleDayClick = (day, { selected }) => {
+  const handleDayDropOff = (day, { selected }) => {
 
-    console.log('day ', day);
+    setOpenTimeLayer(true)
+    if(selected){
+        console.log('selected ', selected);
+    }
+  }
 
-    layerClassList = 'calendarAndTimeWrap timeOn';
+  const handleDayPickUp = (day, { selected }) => {
 
+    setOpenTimeLayer(true)
     if(selected){
         console.log('selected ', selected);
     }
@@ -65,8 +70,19 @@ export const Scheduling = ({
           <Form className={classes.form}>
 
             <div className="formControl">
-              <label className="boldLabel">Select Drop-off Date/Time</label>
-              <DayPicker />
+                <label className="boldLabel">Select Drop-off Date/Time</label>
+
+                <div className={layerClassList}>
+                    <div className="calendarLayer">
+                        <DayPicker 
+                            onDayClick={handleDayDropOff}
+                        />
+                    </div>
+                    <div className="timeLayer">
+                        <br/>
+                        <label onClick={() => setOpenTimeLayer(false)}> Back to claendar</label>
+                    </div>
+                </div>
             </div>
 
             <div className="formControl">
@@ -85,12 +101,13 @@ export const Scheduling = ({
                                 before: new Date(2017, 3, 25),
                                 },
                             ]}
-                            onDayClick={handleDayClick}
+                            onDayClick={handleDayPickUp}
                         />
-
                     </div>
                     
                     <div className="timeLayer">
+                        <br/>
+                        <label onClick={() => setOpenTimeLayer(false)}> Back to claendar</label>
 
                     </div>
                 </div>
