@@ -203,7 +203,6 @@ button{
   }
 }
 
-
 .DayPicker-NavButton--prev{
   background-image: url('./images/arrow-prev.png');
   background-size: 63%;
@@ -212,6 +211,21 @@ button{
 .DayPicker-NavButton--next{
   background-image: url('./images/arrow-next.png');
   background-size: 54%;
+}
+
+.timeOptionsWrap{
+  display: block;
+  width: 100%;
+  height: auto;
+  .timeOption{
+    width: 90%;
+    height: 2rem;
+    background-color: $purple;
+    color: $white;
+    margin: 1.5rem 0;
+    padding: .5rem;
+    border-radius: .75rem;
+  }
 }
 
 
