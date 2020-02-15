@@ -136,7 +136,8 @@ button{
 
 .DayPicker-Caption{
   div{
-    color: $purple;
+    color: $greyText;
+    font-weight: 400;
   }
 }
 
@@ -144,17 +145,24 @@ button{
   justify-content: flex-start;
   .DayPicker-Month{
     margin-left: 0;
+    margin-right: 0;
+    
+    .DayPicker-Weekdays, .DayPicker-Body{
+      transform: translateX(-.75rem);
+    }
+    // .DayPicker-Week{
+    //   border: 1px solid red;
+    //   width: 400px !important;
+    // }
     .DayPicker-Caption{
       padding-left: 0;
-      padding-right: 2em;
-      
     }
-    .DayPicker-Weekdays, .DayPicker-Body{
-      margin-left: -2.65rem !important;
+    .DayPicker-Weekday{
+      padding: .5em .775em;
     }
     .DayPicker-Day{
-      padding: .75em;
-      color: $greyText;
+      padding: .775em;
+      color: rgba($greyText, .7);
       border-radius: 2rem;
       cursor: pointer;
       &.DayPicker-Day--selected{
@@ -173,7 +181,7 @@ button{
 }
 .DayPicker-NavButton--next{
   background-image: url('./images/arrow-next.png');
-  background-size: 55%;
+  background-size: 54%;
 }
 
 
@@ -185,7 +193,7 @@ form{
   label{
     color: $purple;
     &.boldLabel{
-      font-size: 1.5rem;
+      font-size: 1.25rem;
     }
   }
   .formControl{
