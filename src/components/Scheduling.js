@@ -25,7 +25,24 @@ export const Scheduling = ({
 }) => {
   const classes = useStyles();
   const [direction, setDirection] = useState('back');
+
+  const [openTimeLayer, setOpenTimeLayer] = useState(true);
+  let layerClassList = 'calendarAndTimeWrap'
+
+  if(openTimeLayer){
+    layerClassList = 'calendarAndTimeWrap timeOn'
+  }
   
+  const handleDayClick = (day, { selected }) => {
+
+    console.log('day ', day);
+
+    layerClassList = 'calendarAndTimeWrap timeOn';
+
+    if(selected){
+        console.log('selected ', selected);
+    }
+  }
 
   return (
     <>
@@ -55,21 +72,28 @@ export const Scheduling = ({
             <div className="formControl">
                 <label className="boldLabel">Select Pick-up Date/Time</label>
 
-                <div className="calendarAndTimeWrap">
-                <DayPicker
-                    initialMonth={new Date(2017, 3)}
-                    selectedDays={[
-                        new Date(2017, 3, 12),
-                        new Date(2017, 3, 2),
-                        {
-                        after: new Date(2017, 3, 20),
-                        before: new Date(2017, 3, 25),
-                        },
-                    ]}
-                />
+                <div className={layerClassList}>
 
+                    <div className="calendarLayer">
+                        <DayPicker
+                            initialMonth={new Date(2017, 3)}
+                            selectedDays={[
+                                new Date(2017, 3, 12),
+                                new Date(2017, 3, 2),
+                                {
+                                after: new Date(2017, 3, 20),
+                                before: new Date(2017, 3, 25),
+                                },
+                            ]}
+                            onDayClick={handleDayClick}
+                        />
+
+                    </div>
+                    
+                    <div className="timeLayer">
+
+                    </div>
                 </div>
-            
             </div>
 
             <div className="formControl submitControl fullLenght">

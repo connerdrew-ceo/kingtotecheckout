@@ -142,18 +142,12 @@ button{
 }
 
 .DayPicker-Months{
-  justify-content: flex-start;
   .DayPicker-Month{
     margin-left: 0;
     margin-right: 0;
-    
     .DayPicker-Weekdays, .DayPicker-Body{
       transform: translateX(-.75rem);
     }
-    // .DayPicker-Week{
-    //   border: 1px solid red;
-    //   width: 400px !important;
-    // }
     .DayPicker-Caption{
       padding-left: 0;
     }
@@ -174,6 +168,37 @@ button{
   }
 }
 
+.calendarAndTimeWrap{
+  position: relative;
+  display: block;
+  .calendarLayer{
+    position: absolute;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+  }
+  .timeLayer{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: #ffffff;
+    z-index: 10;
+  }
+  &.timeOn{
+    .calendarLayer{
+      z-index: 10;
+    }
+    .timeLayer{
+      z-index: 100;
+    }
+  }
+}
+
+
 .DayPicker-NavButton--prev{
   background-image: url('./images/arrow-prev.png');
   background-size: 63%;
@@ -192,8 +217,11 @@ form{
   padding: 0 5vw;
   label{
     color: $purple;
+    display: block;
     &.boldLabel{
+      
       font-size: 1.25rem;
+      clear: both;
     }
   }
   .formControl{
@@ -302,6 +330,8 @@ form{
   }
 
   .introWrap{
+    max-width: 90%;
+    margin: 0 auto;
     padding: 0 8vw;
     margin-bottom: 2rem;
   }
@@ -310,6 +340,8 @@ form{
     display: flex;
     flex-wrap: wrap;
     padding: 0 8vw;
+    max-width: 90%;
+    margin: 0 auto;
     .formControl{
       width: 50%;
       padding: 0;
