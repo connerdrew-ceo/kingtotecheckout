@@ -218,13 +218,31 @@ button{
   width: 100%;
   height: auto;
   .timeOption{
-    width: 90%;
-    height: 2rem;
-    background-color: $purple;
-    color: $white;
-    margin: 1.5rem 0;
-    padding: .5rem;
+    width: 80%;
+    background-color: $white;
+    border: 1px solid $purple;
+    color: $purple;
+    margin: 1rem 0;
+    padding: .75rem;
     border-radius: .75rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.8s cubic-bezier(0.2, 1, 0.4, 1);
+    &:first-of-type{
+      margin-top: 1rem;
+    }
+    p{
+      margin: 0;
+      line-height: 1;
+      color: $purple;
+      font-weight: 600;
+    }
+    &.toteActive, &:hover{
+      background-color: $purple;
+      p, span{
+        color: $white;
+      }
+    }
   }
 }
 
