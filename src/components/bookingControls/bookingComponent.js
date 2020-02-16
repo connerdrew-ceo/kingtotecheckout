@@ -19,12 +19,7 @@ export const BookingComponent = () => {
 
     setOpenTimeLayerDrop(true)
     setDateDropOff(day.toLocaleDateString(undefined, dateOptions))
-    if(selected){
-        console.log('selected ', selected);
-    }
   }
-
-  
   return (
         <>
             <div className={layerClassListDrop}>
