@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form, Field } from 'formik';
 import { Header } from './Header';
-import { BookingComponent } from './bookingControls/bookingComponent'
+import { BookingComponent } from './bookingControls/BookingComponent'
 import "react-day-picker/lib/style.css";
 
 
