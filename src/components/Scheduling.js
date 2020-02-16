@@ -1,19 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form, Field } from 'formik';
-import { makeStyles } from '@material-ui/core/styles';
 import { Header } from './Header';
-import DayPicker from "react-day-picker";
+import { BookingComponent } from './bookingControls/bookingComponent'
 import "react-day-picker/lib/style.css";
 
-const useStyles = makeStyles(theme => ({
-  introWrap: {
-    padding: '0 2%',
-  },
-  button: {
-    margin: theme.spacing(1)
-  }
-}));
 
 export const Scheduling = ({
   formData,
@@ -23,44 +14,7 @@ export const Scheduling = ({
 }) => {
   const [direction, setDirection] = useState('back');
 
-  const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-
-  const [openTimeLayerDrop, setOpenTimeLayerDrop] = useState(false);
-  let layerClassListDrop = 'calendarAndTimeWrap'
-
-  if(openTimeLayerDrop){
-    layerClassListDrop = 'calendarAndTimeWrap timeOn'
-  }
-
-  const [openTimeLayerPick, setOpenTimeLayerPick] = useState(false);
-  const [dateDropOff, setDateDropOff] = useState('');
-  const [datePickUp, setDatePickUp] = useState('');
-  let layerClassListPick = 'calendarAndTimeWrap'
   
-  if(openTimeLayerPick){
-    layerClassListPick = 'calendarAndTimeWrap timeOn'
-  }
-  
-  const handleDayDropOff = (day, { selected }) => {
-
-    setOpenTimeLayerDrop(true)
-    setDateDropOff(day.toLocaleDateString(undefined, dateOptions))
-    if(selected){
-        console.log('selected ', selected);
-    }
-  }
-
-  const handleDayPickUp = (day, { selected }) => {
-
-    setOpenTimeLayerPick(true)
-
-    setDatePickUp(day.toLocaleDateString(undefined, dateOptions))
-    console.log(day.toLocaleDateString())
-    
-    if(selected){
-        console.log('selected ', selected);
-    }
-  }
 
   return (
     <>
@@ -79,88 +33,15 @@ export const Scheduling = ({
         }}
       >
         {({ errors, touched }) => (
-
           <Form>
-
             <div className="formControl">
                 <label className="boldLabel">Select Drop-off Date/Time</label>
-
-                <div className={layerClassListDrop}>
-                    <div className="calendarLayer">
-                        <DayPicker 
-                            onDayClick={handleDayDropOff}
-                        />
-                    </div>
-                    <div className="timeLayer">
-                        <br/>
-                        <p className="dateSelected" onClick={() => setOpenTimeLayerDrop(false)}><span>&#60;</span>  {dateDropOff}</p>
-                        <div className="timeOptionsWrap">
-                            <div className="timeOption">
-                                <p>7:00 am - 9:00 am</p>
-                            </div>
-                            <div className="timeOption">
-                                <p>7:30 am - 9:30 am</p>
-                            </div>
-                            <div className="timeOption">
-                                <p>8:00 am - 10:00 am</p>
-                            </div>
-                            <div className="timeOption">
-                                <p>8:30 am - 10:30 am</p>
-                            </div>
-                            <div className="timeOption">
-                                <p>9:00 am - 11:00 am</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <BookingComponent />
             </div>
-
             <div className="formControl">
                 <label className="boldLabel">Select Pick-up Date/Time</label>
-
-                <div className={layerClassListPick}>
-
-                    <div className="calendarLayer">
-                        <DayPicker
-                            initialMonth={new Date(2017, 3)}
-                            selectedDays={[
-                                new Date(2017, 3, 12),
-                                new Date(2017, 3, 2),
-                                {
-                                after: new Date(2017, 3, 20),
-                                before: new Date(2017, 3, 25),
-                                },
-                            ]}
-                            onDayClick={handleDayPickUp}
-                        />
-                    </div>
-                    
-                    <div className="timeLayer">
-                        <br/>
-                        <p className="dateSelected" onClick={() => setOpenTimeLayerPick(false)}><span>&#60;</span>  {datePickUp}</p>
-
-                        <div className="timeOptionsWrap">
-                            <div className="timeOption">
-                                <p>7:00 am - 9:00 am</p>
-                            </div>
-                            <div className="timeOption">
-                                <p>7:30 am - 9:30 am</p>
-                            </div>
-                            <div className="timeOption">
-                                <p>8:00 am - 10:00 am</p>
-                            </div>
-                            <div className="timeOption">
-                                <p>8:30 am - 10:30 am</p>
-                            </div>
-                            <div className="timeOption">
-                                <p>9:00 am - 11:00 am</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+                <BookingComponent />
             </div>
-
             <div className="formControl submitControl fullLenght">
               <button className="button global whiteBtn" type="submit" onClick={() => setDirection('back')}>
                 <span>Previous</span>
@@ -169,7 +50,6 @@ export const Scheduling = ({
                 <span>Next</span>
               </button>
             </div>
-          
           </Form>
         )}
       </Formik>
