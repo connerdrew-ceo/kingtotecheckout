@@ -189,6 +189,15 @@ button{
     background-color: #ffffff;
     z-index: 10;
     opacity: 0;
+    .dateSelected{
+      margin: 0;
+      span{
+        color: $purple;
+        font-weight: 400;
+        font-size: 1.25rem;
+        margin-right: .75rem;
+      }
+    }
   }
   &.timeOn{
     .calendarLayer{

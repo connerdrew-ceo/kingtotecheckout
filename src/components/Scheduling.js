@@ -21,8 +21,9 @@ export const Scheduling = ({
   nextStep,
   prevStep
 }) => {
-  const classes = useStyles();
   const [direction, setDirection] = useState('back');
+
+  const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
   const [openTimeLayerDrop, setOpenTimeLayerDrop] = useState(false);
   let layerClassListDrop = 'calendarAndTimeWrap'
@@ -32,6 +33,7 @@ export const Scheduling = ({
   }
 
   const [openTimeLayerPick, setOpenTimeLayerPick] = useState(false);
+  const [dateDropOff, setDateDropOff] = useState('');
   const [datePickUp, setDatePickUp] = useState('');
   let layerClassListPick = 'calendarAndTimeWrap'
   
@@ -42,6 +44,7 @@ export const Scheduling = ({
   const handleDayDropOff = (day, { selected }) => {
 
     setOpenTimeLayerDrop(true)
+    setDateDropOff(day.toLocaleDateString(undefined, dateOptions))
     if(selected){
         console.log('selected ', selected);
     }
@@ -50,8 +53,10 @@ export const Scheduling = ({
   const handleDayPickUp = (day, { selected }) => {
 
     setOpenTimeLayerPick(true)
-    //setDatePickUp(day)
-    console.log(day)
+
+    setDatePickUp(day.toLocaleDateString(undefined, dateOptions))
+    console.log(day.toLocaleDateString())
+    
     if(selected){
         console.log('selected ', selected);
     }
@@ -75,7 +80,7 @@ export const Scheduling = ({
       >
         {({ errors, touched }) => (
 
-          <Form className={classes.form}>
+          <Form>
 
             <div className="formControl">
                 <label className="boldLabel">Select Drop-off Date/Time</label>
@@ -88,8 +93,7 @@ export const Scheduling = ({
                     </div>
                     <div className="timeLayer">
                         <br/>
-                        <label onClick={() => setOpenTimeLayerDrop(false)}> Back to claendar</label>
-                        
+                        <p className="dateSelected" onClick={() => setOpenTimeLayerDrop(false)}><span>&#60;</span>  {dateDropOff}</p>
                         <div className="timeOptionsWrap">
                             <div className="timeOption">
                                 <p>7:00 am - 9:00 am</p>
@@ -133,7 +137,7 @@ export const Scheduling = ({
                     
                     <div className="timeLayer">
                         <br/>
-                        <label onClick={() => setOpenTimeLayerPick(false)}> back {datePickUp}</label>
+                        <p className="dateSelected" onClick={() => setOpenTimeLayerPick(false)}><span>&#60;</span>  {datePickUp}</p>
 
                         <div className="timeOptionsWrap">
                             <div className="timeOption">
