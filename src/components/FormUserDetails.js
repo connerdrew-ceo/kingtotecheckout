@@ -26,8 +26,6 @@ const validationSchema = yup.object({
 export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
   const [age, setAge] = React.useState('');
 
-  //const classes = useStyles();
-
   const handleChange = event => {
     setAge(event.target.value);
   };
@@ -47,7 +45,6 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
           setFormData(values);
           nextStep();
         }}
-        
       >
         {({ errors, touched }) => (
           <Form>

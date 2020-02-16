@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export const TimeOption = (props) => {
+export const TimeOption = ({startAt, endAt, closeCalendar}) => {
 
     const [openConfirm, setOpenConform] = useState(false);
     let openConfirmClassList = 'timeOption'
@@ -8,23 +8,21 @@ export const TimeOption = (props) => {
     if(openConfirm){
         openConfirmClassList = 'timeOption openSelectedDetail'
     }
-
     return (
         <>
             <div className={openConfirmClassList}>
                 <div className="timeAvailable" onClick={() => setOpenConform(true)}>
-                    <p>{props.startAt} am - {props.endAt} am</p>
+                    <p>{startAt} am - {endAt} am</p>
                 </div>
                 <div className="timeSelected">
                     <div className="timeDetail">
-                        <p>{props.startAt} - {props.endAt}</p>
+                        <p>{startAt} - {endAt}</p>
                     </div>
-                    <button className="button global">
+                    <button className="button global" onClick={closeCalendar}>
                         <span>Confirm</span>
                     </button>
                 </div>
             </div>
-        
         </>
     );
 };

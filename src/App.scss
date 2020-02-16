@@ -235,7 +235,7 @@ button{
       background-color: $white;
       border: 1px solid $purple;
       color: $purple;
-      padding: .75rem;
+      padding: .75rem .15rem;
       border-radius: .75rem;
       text-align: center;
       cursor: pointer;
@@ -267,9 +267,9 @@ button{
       flex-wrap: wrap;
       
       .timeDetail, button{
-        width: 45%;
+        width: 47%;
         margin: 0;
-        padding: .75rem;
+        
       }
       .timeDetail{
         &:hover{
