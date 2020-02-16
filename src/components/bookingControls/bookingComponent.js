@@ -4,8 +4,6 @@ import DayPicker from "react-day-picker";
 import { TimeOption } from "./TimeOption"
 
 export const BookingComponent = () => {
-
-  
     
   const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
@@ -42,10 +40,10 @@ export const BookingComponent = () => {
                     <p className="dateSelected" onClick={() => setOpenTimeLayerDrop(false)}><span>&#60;</span>  {dateDropOff}</p>
                     <div className="timeOptionsWrap">
                         <TimeOption startAt="7:00" endAt="9:00" closeCalendar={closeCalendar}/>
-                        <TimeOption startAt="7:30" endAt="9:30"/>
-                        <TimeOption startAt="8:00" endAt="10:00"/>
-                        <TimeOption startAt="8:30" endAt="10:30"/>
-                        <TimeOption startAt="9:00" endAt="11:00"/>
+                        <TimeOption startAt="7:30" endAt="9:30" closeCalendar={closeCalendar}/>
+                        <TimeOption startAt="8:00" endAt="10:00" closeCalendar={closeCalendar}/>
+                        <TimeOption startAt="8:30" endAt="10:30" closeCalendar={closeCalendar}/>
+                        <TimeOption startAt="9:00" endAt="11:00" closeCalendar={closeCalendar}/>
                     </div>
                 </div>
             </div>
