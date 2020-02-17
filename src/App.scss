@@ -78,7 +78,20 @@ button{
         }
       }
     }
-    
+    &.stepFour{
+      .eachStep{
+        &:nth-of-type(-n + 4){
+          background-color: #873780;
+        }
+      }
+    }
+    &.stepFive{
+      .eachStep{
+        &:nth-of-type(-n + 5){
+          background-color: #873780;
+        }
+      }
+    }
   }
 }
 
@@ -280,7 +293,6 @@ button{
     position: relative;
     height: auto;
     display: block;
-    min-height: 200px;
     .calendarLayer{
       position: relative;
       z-index: 100;
@@ -326,6 +338,7 @@ button{
   
 
   &.openDetailedBooking{
+    min-height: 100px;
     .dateAndTimeSelected{
       display: flex;
     }
@@ -342,6 +355,13 @@ form{
   color: inherit;
   display: block;
   padding: 0 5vw;
+  h3{
+    font-weight: 500;
+    color: $greyText;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    font-size: 1.25rem;
+  }
   label{
     color: $purple;
     display: block;
@@ -374,7 +394,7 @@ form{
     }
   }
 
-  input[type=text], select{
+  input[type=text],input[type=email],input[type=tel], select{
     appearance: none;
     background-color: #F4F5F7;
     border-radius: .5rem;

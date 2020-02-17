@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const FormPersonalDetails = ({
+export const FormToteDetails = ({
   formData,
   setFormData,
   nextStep,
@@ -292,7 +292,7 @@ export const FormPersonalDetails = ({
   );
 };
 
-FormPersonalDetails.propTypes = {
+FormToteDetails.propTypes = {
   formData: PropTypes.object.isRequired,
   setFormData: PropTypes.func.isRequired,
   nextStep: PropTypes.func.isRequired,

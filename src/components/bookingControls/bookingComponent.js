@@ -33,9 +33,6 @@ export const BookingComponent = () => {
     if(openTimeLayerDrop){
         layerClassListDrop = 'calendarAndTimeWrap timeOn'
     }
-
-    
-    
     
     const handleDayDropOff = (day, { selected }) => {
         setOpenTimeLayerDrop(true)

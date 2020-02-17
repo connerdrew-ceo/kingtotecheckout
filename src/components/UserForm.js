@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { FormUserDetails } from './FormUserDetails';
-import { FormPersonalDetails } from './FormPersonalDetails';
+import { FormToteDetails } from './FormToteDetails';
 import { Scheduling } from './Scheduling';
+import { AddressFormStep } from './AddressFormStep';
+
 import { Confirm } from './Confirm';
 import { Success } from './Success';
 
 export const UserForm = () => {
 
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(4);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -30,7 +32,7 @@ export const UserForm = () => {
       );
     case 2:
       return (
-        <FormPersonalDetails
+        <FormToteDetails
           formData={formData}
           setFormData={setFormData}
           nextStep={nextStep}
@@ -47,6 +49,15 @@ export const UserForm = () => {
         />
       );
     case 4:
+      return (
+        <AddressFormStep
+          formData={formData}
+          setFormData={setFormData}
+          nextStep={nextStep}
+          prevStep={prevStep}
+        />
+      );
+    case 5:
       return (
         <Confirm formData={formData} nextStep={nextStep} prevStep={prevStep} />
       );
