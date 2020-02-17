@@ -223,13 +223,49 @@ button{
   background-size: 54%;
 }
 
+
+.bookingComponent{
+  .dateAndTimeSelected{
+    display: none;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 75%;
+    margin-top: 1rem;
+    p{
+      margin: 0;
+      line-height: 1.3;
+    }
+    .iconEditTime{
+      position: relative;
+      width: 2.3rem;
+      height: 2.3rem;
+      border-radius: .6rem;
+      border: 1px solid $purple;
+      margin-left: 1rem;
+      background-image: url('./images/edit-time-icon.png');
+      background-size: 119%;
+      background-position: center;
+      cursor: pointer;
+    }
+  }
+  &.openDetailedBooking{
+    border: 1px solid blue;
+    .dateAndTimeSelected{
+      display: flex;
+    }
+  }
+}
+
 .timeOptionsWrap{
   display: block;
   width: 100%;
   height: auto;
   .timeOption{
     position: relative;
-    margin: .25rem 0;
+    margin: .5rem 0;
+    &:first-of-type{
+      margin-top: 1rem;
+    }
     .timeAvailable, .timeDetail{
       width: 75%;
       background-color: $white;
@@ -240,9 +276,7 @@ button{
       text-align: center;
       cursor: pointer;
       transition: all 0.8s cubic-bezier(0.2, 1, 0.4, 1);
-      &:first-of-type{
-        margin-top: 1rem;
-      }
+      
       p{
         margin: 0;
         line-height: 1;
