@@ -173,11 +173,28 @@ button{
     .DayPicker-Day{
       padding: .775em;
       padding: 4.25vw;
-      color: rgba($greyText, .8);
+      color: rgba($greyText, .85);
       border-radius: 2rem;
       cursor: pointer;
+      &.DayPicker-Day--today{
+        position: relative;
+        pointer-events: none;
+        &::before{
+          content: '';
+          z-index: 10;
+          position: absolute;
+          left: 50%;
+          margin-left: -2px;
+          bottom: 1vw;
+          width: 4px;
+          height: 4px;
+          border-radius: 2px;
+          margin: 0 auto;
+          background-color: $greyText;
+        }
+      }
       &.DayPicker-Day--disabled{
-        color: rgba($greyText, .4);
+        color: rgba($greyText, .3);
         pointer-events: none;
       }
       &.DayPicker-Day--selected{

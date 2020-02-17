@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import DayPicker from "react-day-picker";
 import { TimeOption } from "./TimeOption"
 
-export const BookingComponent = () => {
+export const EachBookingComponent = () => {
 
     const [selectedTime, setSelectedTime] = useState(null);
     const [selectedTimeStart, setSelectedTimeStart] = useState(null);

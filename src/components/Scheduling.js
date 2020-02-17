@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form, Field } from 'formik';
 import { Header } from './Header';
-import { BookingComponent } from './bookingControls/BookingComponent'
+import { EachBookingComponent } from './bookingControls/EachBookingComponent'
 import "react-day-picker/lib/style.css";
 
 
@@ -34,12 +34,11 @@ export const Scheduling = ({
                 <Form>
                     <div className="formControl">
                         <label className="boldLabel">Select Drop-off Date/Time</label>
-                        <BookingComponent />
+                        <EachBookingComponent />
                     </div>
                     <div className="formControl">
                         <label className="boldLabel">Select Pick-up Date/Time</label>
-                        
-                        <BookingComponent />
+                        <EachBookingComponent />
                     </div>
                     <div className="formControl submitControl fullLenght">
                     <button className="button global whiteBtn" type="submit" onClick={() => setDirection('back')}>
