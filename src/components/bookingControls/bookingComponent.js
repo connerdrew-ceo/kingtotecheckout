@@ -5,26 +5,26 @@ import { TimeOption } from "./TimeOption"
 
 export const BookingComponent = () => {
 
+    const [selectedTime, setSelectedTime] = useState(null);
+    const [dateDropOff, setDateDropOff] = useState('');
+    const [openTimeLayerDrop, setOpenTimeLayerDrop] = useState(false);
+    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const timeOptions = [
         {startAt: '7:00', endAt: '9:00'},
         {startAt: '7:30', endAt: '9:30'},
         {startAt: '8:00', endAt: '10:00'},
         {startAt: '8:30', endAt: '10:30'},
         {startAt: '9:00', endAt: '11:00'}
-    ] 
-    
-    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    ];
 
-    const [openTimeLayerDrop, setOpenTimeLayerDrop] = useState(false);
+    
     let layerClassListDrop = 'calendarAndTimeWrap'
 
     if(openTimeLayerDrop){
         layerClassListDrop = 'calendarAndTimeWrap timeOn'
     }
 
-    const [selectedTime, setSelectedTime] = useState(null);
-
-    const [dateDropOff, setDateDropOff] = useState('');
+    
     const handleDayDropOff = (day, { selected }) => {
 
         setOpenTimeLayerDrop(true)
@@ -32,9 +32,7 @@ export const BookingComponent = () => {
     }
 
     const closeCalendar = () => {
-
         setOpenTimeLayerDrop(false)
-        
     };
 
     const changeSelectedTime = (key) => {
@@ -42,7 +40,6 @@ export const BookingComponent = () => {
     };
 
     let tabsContent = timeOptions.map((timeOpt, index) => {
-                
         return <TimeOption 
                     listClasses={selectedTime === index ? 'timeOption openSelectedDetail' : 'timeOption'}
                     key={index} 
@@ -52,7 +49,7 @@ export const BookingComponent = () => {
                     changeSelectedTime={changeSelectedTime}
                     closeCalendar={closeCalendar}
                 />
-    })
+    });
 
     return (
             <>
@@ -73,5 +70,5 @@ export const BookingComponent = () => {
                 </div>
             </>
     );
-    };
+};
 

@@ -229,13 +229,13 @@ button{
   height: auto;
   .timeOption{
     position: relative;
-    margin: .5rem 0;
+    margin: .25rem 0;
     .timeAvailable, .timeDetail{
-      width: 80%;
+      width: 75%;
       background-color: $white;
       border: 1px solid $purple;
       color: $purple;
-      padding: .75rem .15rem;
+      padding: .65rem .15rem;
       border-radius: .75rem;
       text-align: center;
       cursor: pointer;
@@ -262,14 +262,12 @@ button{
       left: 0;
       top: 0;
       height: auto;
-      width: 80%;
+      width: 75%;
       justify-content: space-between;
       flex-wrap: wrap;
-      
       .timeDetail, button{
         width: 47%;
         margin: 0;
-        
       }
       .timeDetail{
         &:hover{

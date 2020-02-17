@@ -1,18 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 export const TimeOption = ({listClasses, trackKey, startAt, endAt, changeSelectedTime, closeCalendar}) => {
 
-    const [openConfirm, setOpenConfirm] = useState(false);
-    let openConfirmClassList = 'timeOption'
-
-    const thisKey = trackKey
-
-    if(openConfirm){
-        openConfirmClassList = 'timeOption openSelectedDetail'
-    }
-
     const clickTimeOpt = () => {
-        changeSelectedTime(thisKey)
+        changeSelectedTime(trackKey)
     }
 
     return (
