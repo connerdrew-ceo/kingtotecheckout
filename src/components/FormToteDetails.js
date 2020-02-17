@@ -39,9 +39,17 @@ export const FormToteDetails = ({
       const matches = document.querySelectorAll('.toteBoxItem25')
       let prevTote25 = 0
 
-      matches.forEach((item, index) => {
-        item.addEventListener('click', event => {
+      const clickEvent = (function() {
+        if ('ontouchstart' in document.documentElement === true)
+          return 'touchstart';
+        else
+          return 'click';
+      })();
 
+      
+      matches.forEach((item, index) => {
+        item.addEventListener(clickEvent, function(e){
+          e.stopPropagation();
           if( matches[index].classList.contains('toteActive') ){
             matches[index].classList.remove('toteActive')
             setToteBox25(null)
@@ -58,8 +66,8 @@ export const FormToteDetails = ({
       let prevTote35 = 0
 
       matches35.forEach((item, index) => {
-        item.addEventListener('click', event => {
-
+        item.addEventListener(clickEvent, function(e){
+          e.stopPropagation();
           if( matches35[index].classList.contains('toteActive') ){
             matches35[index].classList.remove('toteActive')
             setToteBox25(null)
@@ -76,7 +84,8 @@ export const FormToteDetails = ({
       let prevTote50 = 0
 
       matches50.forEach((item, index) => {
-        item.addEventListener('click', event => {
+        item.addEventListener(clickEvent, function(e){
+          e.stopPropagation();
           if( matches50[index].classList.contains('toteActive') ){
             matches50[index].classList.remove('toteActive')
             setToteBox25(null)
@@ -93,7 +102,8 @@ export const FormToteDetails = ({
       let prevTote70 = 0
 
       matches70.forEach((item, index) => {
-        item.addEventListener('click', event => {
+        item.addEventListener(clickEvent, function(e){
+          e.stopPropagation();
           if( matches70[index].classList.contains('toteActive') ){
             matches70[index].classList.remove('toteActive')
             setToteBox25(null)
@@ -110,7 +120,8 @@ export const FormToteDetails = ({
       let prevHeavyDuty = 0
 
       matchesHeavyDutyCart.forEach((item, index) => {
-        item.addEventListener('click', event => {
+        item.addEventListener(clickEvent, function(e){
+          e.stopPropagation();
           if( matchesHeavyDutyCart[index].classList.contains('toteActive') ){
             matchesHeavyDutyCart[index].classList.remove('toteActive')
             setToteBox25(null)
@@ -127,7 +138,8 @@ export const FormToteDetails = ({
       let prevEasyRoll = 0
 
       matchesEasyRollCart.forEach((item, index) => {
-        item.addEventListener('click', event => {
+        item.addEventListener(clickEvent, function(e){
+          e.stopPropagation();
           if( matchesEasyRollCart[index].classList.contains('toteActive') ){
             matchesEasyRollCart[index].classList.remove('toteActive')
             setToteBox25(null)

@@ -1,5 +1,6 @@
 $white: #ffffff;
 $purple: #873780;
+$lightPurple: #a1819f;
 $greyText: #6e6d6d;
 
 *, *:before, *:after{
@@ -133,8 +134,14 @@ button{
         font-size: 1.5rem;
       }
     }
-    &.toteActive, &:hover{
+    &.toteActive{
       background-color: $purple;
+      p, span{
+        color: $white;
+      }
+    }
+    &:hover{
+      background-color: $lightPurple;
       p, span{
         color: $white;
       }
@@ -185,7 +192,6 @@ button{
 }
 
 
-
 .DayPicker-NavButton--prev{
   background-image: url('./images/arrow-prev.png');
   background-size: 63%;
@@ -195,8 +201,6 @@ button{
   background-image: url('./images/arrow-next.png');
   background-size: 54%;
 }
-
-
 
 
 .timeOptionsWrap{
@@ -490,7 +494,6 @@ form{
       max-width: 140px;
     }
   }
-
   .introWrap{
     max-width: 90%;
     margin: 0 auto;
