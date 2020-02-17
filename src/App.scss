@@ -435,6 +435,7 @@ form{
     border-radius: .5rem;
     outline: none;
     &:checked{
+      background-color: $white;
       background-image: url('./images/checkbox-bg.png');
       background-position: center !important;
       background-size: 1.8rem !important;

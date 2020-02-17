@@ -72,7 +72,7 @@ export const AddressFormStep = ({
                 <h3>Drop-off Contact</h3>
               <div className="ratioWrap">
                 <input type="checkbox" id="locationResidential" name="location" value="0"/>
-                <label htmlFor="locationResidential">Residential</label>
+                <label htmlFor="locationResidential">Same as Main Contact Info</label>
               </div>
               
             </div>
@@ -99,7 +99,7 @@ export const AddressFormStep = ({
                 <h3>Pick-up Contact</h3>
               <div className="ratioWrap">
                 <input type="checkbox" id="locationResidential" name="location" value="0"/>
-                <label htmlFor="locationResidential">Residential</label>
+                <label htmlFor="locationResidential">Same as Main Contact Info</label>
               </div>
               
             </div>
