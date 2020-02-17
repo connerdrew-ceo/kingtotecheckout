@@ -9,7 +9,7 @@ import { Success } from './Success';
 
 export const UserForm = () => {
 
-  const [step, setStep] = useState(4);
+  const [step, setStep] = useState(2);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',

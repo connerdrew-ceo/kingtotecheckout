@@ -24,13 +24,13 @@ export const FormToteDetails = ({
   const classes = useStyles();
   const [direction, setDirection] = useState('back');
 
-  const [toteBox25, setToteBox25] = useState(-1);
-  const [toteBox35, setToteBox35] = useState(-1);
-  const [toteBox50, setToteBox50] = useState(-1);
-  const [toteBox70, setToteBox70] = useState(-1);
+  const [toteBox25, setToteBox25] = useState(null);
+  const [toteBox35, setToteBox35] = useState(null);
+  const [toteBox50, setToteBox50] = useState(null);
+  const [toteBox70, setToteBox70] = useState(null);
 
-  const [heavyDutyCart, setHeavyDutyCart] = useState(-1);
-  const [easyRollCart, setEasyRollCart] = useState(-1);
+  const [heavyDutyCart, setHeavyDutyCart] = useState(null);
+  const [easyRollCart, setEasyRollCart] = useState(null);
   
   useEffect(() => {
 
@@ -41,6 +41,12 @@ export const FormToteDetails = ({
 
       matches.forEach((item, index) => {
         item.addEventListener('click', event => {
+
+          if( matches[index].classList.contains('toteActive') ){
+            matches[index].classList.remove('toteActive')
+            setToteBox25(null)
+            return
+          }
           matches[prevTote25].classList.remove('toteActive')
           matches[index].classList.add('toteActive')
           prevTote25 = index
@@ -53,6 +59,12 @@ export const FormToteDetails = ({
 
       matches35.forEach((item, index) => {
         item.addEventListener('click', event => {
+
+          if( matches35[index].classList.contains('toteActive') ){
+            matches35[index].classList.remove('toteActive')
+            setToteBox25(null)
+            return
+          }
           matches35[prevTote35].classList.remove('toteActive')
           matches35[index].classList.add('toteActive')
           prevTote35 = index
@@ -65,6 +77,11 @@ export const FormToteDetails = ({
 
       matches50.forEach((item, index) => {
         item.addEventListener('click', event => {
+          if( matches50[index].classList.contains('toteActive') ){
+            matches50[index].classList.remove('toteActive')
+            setToteBox25(null)
+            return
+          }
           matches50[prevTote50].classList.remove('toteActive')
           matches50[index].classList.add('toteActive')
           prevTote50 = index
@@ -77,6 +94,11 @@ export const FormToteDetails = ({
 
       matches70.forEach((item, index) => {
         item.addEventListener('click', event => {
+          if( matches70[index].classList.contains('toteActive') ){
+            matches70[index].classList.remove('toteActive')
+            setToteBox25(null)
+            return
+          }
           matches70[prevTote70].classList.remove('toteActive')
           matches70[index].classList.add('toteActive')
           prevTote70 = index
@@ -89,6 +111,11 @@ export const FormToteDetails = ({
 
       matchesHeavyDutyCart.forEach((item, index) => {
         item.addEventListener('click', event => {
+          if( matchesHeavyDutyCart[index].classList.contains('toteActive') ){
+            matchesHeavyDutyCart[index].classList.remove('toteActive')
+            setToteBox25(null)
+            return
+          }
           matchesHeavyDutyCart[prevHeavyDuty].classList.remove('toteActive')
           matchesHeavyDutyCart[index].classList.add('toteActive')
           prevHeavyDuty = index
@@ -101,6 +128,11 @@ export const FormToteDetails = ({
 
       matchesEasyRollCart.forEach((item, index) => {
         item.addEventListener('click', event => {
+          if( matchesEasyRollCart[index].classList.contains('toteActive') ){
+            matchesEasyRollCart[index].classList.remove('toteActive')
+            setToteBox25(null)
+            return
+          }
           matchesEasyRollCart[prevEasyRoll].classList.remove('toteActive')
           matchesEasyRollCart[index].classList.add('toteActive')
           prevEasyRoll = index

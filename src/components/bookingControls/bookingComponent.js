@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import DayPicker from "react-day-picker";
 import { TimeOption } from "./TimeOption"
@@ -37,7 +37,7 @@ export const BookingComponent = () => {
     const handleDayDropOff = (day, { selected }) => {
         setOpenTimeLayerDrop(true)
         setDateDropOff(day.toLocaleDateString(undefined, dateOptions))
-    }
+    };
 
     const closeCalendar = () => {
         setOpenTimeLayerDrop(false)
@@ -72,7 +72,6 @@ export const BookingComponent = () => {
                         bwtween {selectedTimeStart} am - {selectedTimeEnd} am
                     </p>
                     <span className="iconEditTime" onClick={() => setShowResumeInfo(false)}>
-
                     </span>
                 </div>
                 <div className={layerClassListDrop}>
