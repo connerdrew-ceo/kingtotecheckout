@@ -426,6 +426,21 @@ form{
       background-image: url('./images/ratio-on.png');
     }
   }
+  input[type=checkbox]{
+    cursor: pointer;
+    appearance: none;
+    width: 1.9rem;
+    height: 1.9rem;
+    background-color: #F4F5F7;
+    border-radius: .5rem;
+    outline: none;
+    &:checked{
+      background-image: url('./images/checkbox-bg.png');
+      background-position: center !important;
+      background-size: 1.8rem !important;
+      background-repeat: no-repeat !important;
+    }
+  }
   .ratioWrap{
     width: 100%;
     display: flex;
