@@ -5,7 +5,6 @@ export const TimeOption = ({listClasses, trackKey, startAt, endAt, changeSelecte
     const clickTimeOpt = () => {
         changeSelectedTime(trackKey)
     }
-
     return (
         <>
             <div className={listClasses}>

@@ -1,19 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form, Field } from 'formik';
-import { makeStyles } from '@material-ui/core/styles';
 import { Header } from './Header';
-
-
-
-const useStyles = makeStyles(theme => ({
-  introWrap: {
-    padding: '0 2%',
-  },
-  button: {
-    margin: theme.spacing(1)
-  }
-}));
+import { ToteBoxesRow } from './toteBoxes/ToteBoxesRow'
 
 export const FormToteDetails = ({
   formData,
@@ -21,7 +10,6 @@ export const FormToteDetails = ({
   nextStep,
   prevStep
 }) => {
-  const classes = useStyles();
   const [direction, setDirection] = useState('back');
 
   const [toteBox25, setToteBox25] = useState(null);
@@ -174,8 +162,8 @@ export const FormToteDetails = ({
       >
         {({ errors, touched }) => (
 
-          <Form className={classes.form}>
-
+          <Form>
+            {/* <ToteBoxesRow/> */}
             <div className="formControl fullLenght">
               <label className="boldLabel">25 Totes</label>
               <p>1 bedroom (250-500 sq ft)</p>

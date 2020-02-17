@@ -140,12 +140,7 @@ button{
         color: $white;
       }
     }
-    &:hover{
-      background-color: $lightPurple;
-      p, span{
-        color: $white;
-      }
-    }
+    
   }
 }
 
@@ -173,7 +168,6 @@ button{
     }
     .DayPicker-Weekday{
       padding: .5em .775em;
-
       padding: .75em 4.25vw;
     }
     .DayPicker-Day{
@@ -209,7 +203,7 @@ button{
   height: auto;
   .timeOption{
     position: relative;
-    margin: .5rem 0;
+    margin: .75rem 0;
     &:first-of-type{
       margin-top: 1rem;
     }
@@ -560,8 +554,19 @@ form{
           font-size: 3rem;
         }
       }
+      &:hover{
+        background-color: $lightPurple;
+        p, span{
+          color: $white;
+        }
+      }
     }
   }
+
+
+
+
+
 
   .DayPicker-Months{
     .DayPicker-Month{
