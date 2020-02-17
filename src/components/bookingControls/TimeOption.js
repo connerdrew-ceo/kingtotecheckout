@@ -1,24 +1,34 @@
 import React, { useState } from 'react';
 
-export const TimeOption = ({startAt, endAt, closeCalendar}) => {
+export const TimeOption = ({listClasses, trackKey, startAt, endAt, changeSelectedTime, closeCalendar}) => {
 
-    const [openConfirm, setOpenConform] = useState(false);
+    const [openConfirm, setOpenConfirm] = useState(false);
     let openConfirmClassList = 'timeOption'
+
+    const thisKey = trackKey
 
     if(openConfirm){
         openConfirmClassList = 'timeOption openSelectedDetail'
     }
+
+    const clickTimeOpt = () => {
+        changeSelectedTime(thisKey)
+    }
+
     return (
         <>
-            <div className={openConfirmClassList}>
-                <div className="timeAvailable" onClick={() => setOpenConform(true)}>
+            <div className={listClasses}>
+                <div className="timeAvailable" onClick={() => clickTimeOpt()}>
                     <p>{startAt} am - {endAt} am</p>
                 </div>
                 <div className="timeSelected">
                     <div className="timeDetail">
                         <p>{startAt} - {endAt}</p>
                     </div>
-                    <button className="button global" onClick={closeCalendar}>
+                    <button className="button global" onClick={(e) => {
+                        e.preventDefault()
+                        closeCalendar()
+                    }}>
                         <span>Confirm</span>
                     </button>
                 </div>

@@ -4,50 +4,74 @@ import DayPicker from "react-day-picker";
 import { TimeOption } from "./TimeOption"
 
 export const BookingComponent = () => {
+
+    const timeOptions = [
+        {startAt: '7:00', endAt: '9:00'},
+        {startAt: '7:30', endAt: '9:30'},
+        {startAt: '8:00', endAt: '10:00'},
+        {startAt: '8:30', endAt: '10:30'},
+        {startAt: '9:00', endAt: '11:00'}
+    ] 
     
-  const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-  const [openTimeLayerDrop, setOpenTimeLayerDrop] = useState(false);
-  let layerClassListDrop = 'calendarAndTimeWrap'
+    const [openTimeLayerDrop, setOpenTimeLayerDrop] = useState(false);
+    let layerClassListDrop = 'calendarAndTimeWrap'
 
-  if(openTimeLayerDrop){
-    layerClassListDrop = 'calendarAndTimeWrap timeOn'
-  }
+    if(openTimeLayerDrop){
+        layerClassListDrop = 'calendarAndTimeWrap timeOn'
+    }
 
-  const [dateDropOff, setDateDropOff] = useState('');
-  const handleDayDropOff = (day, { selected }) => {
+    const [selectedTime, setSelectedTime] = useState(null);
 
-    setOpenTimeLayerDrop(true)
-    setDateDropOff(day.toLocaleDateString(undefined, dateOptions))
-  }
+    const [dateDropOff, setDateDropOff] = useState('');
+    const handleDayDropOff = (day, { selected }) => {
 
-  const closeCalendar = (e) => {
+        setOpenTimeLayerDrop(true)
+        setDateDropOff(day.toLocaleDateString(undefined, dateOptions))
+    }
 
-    e.preventDefault()
-    setOpenTimeLayerDrop(false)
-    console.log('close')
-  };
-  return (
-        <>
-            <div className={layerClassListDrop}>
-                <div className="calendarLayer">
-                    <DayPicker 
-                        onDayClick={handleDayDropOff}
-                    />
-                </div>
-                <div className="timeLayer">
-                    <br/>
-                    <p className="dateSelected" onClick={() => setOpenTimeLayerDrop(false)}><span>&#60;</span>  {dateDropOff}</p>
-                    <div className="timeOptionsWrap">
-                        <TimeOption startAt="7:00" endAt="9:00" closeCalendar={closeCalendar}/>
-                        <TimeOption startAt="7:30" endAt="9:30" closeCalendar={closeCalendar}/>
-                        <TimeOption startAt="8:00" endAt="10:00" closeCalendar={closeCalendar}/>
-                        <TimeOption startAt="8:30" endAt="10:30" closeCalendar={closeCalendar}/>
-                        <TimeOption startAt="9:00" endAt="11:00" closeCalendar={closeCalendar}/>
+    const closeCalendar = () => {
+
+        setOpenTimeLayerDrop(false)
+        
+    };
+
+    const changeSelectedTime = (key) => {
+        setSelectedTime(key)
+    };
+
+    let tabsContent = timeOptions.map((timeOpt, index) => {
+                
+        return <TimeOption 
+                    listClasses={selectedTime === index ? 'timeOption openSelectedDetail' : 'timeOption'}
+                    key={index} 
+                    trackKey={index}
+                    startAt={timeOpt.startAt} 
+                    endAt={timeOpt.endAt} 
+                    changeSelectedTime={changeSelectedTime}
+                    closeCalendar={closeCalendar}
+                />
+    })
+
+    return (
+            <>
+                <div className={layerClassListDrop}>
+                    <div className="calendarLayer">
+                        <DayPicker 
+                            onDayClick={handleDayDropOff}
+                        />
+                    </div>
+                    <div className="timeLayer">
+                        <br/>
+                        <p className="dateSelected" onClick={() => setOpenTimeLayerDrop(false)}><span>&#60;</span>  {dateDropOff}</p>
+                        <div className="timeOptionsWrap">
+                            {tabsContent}
+                            
+                        </div>
                     </div>
                 </div>
-            </div>
-        </>
-  );
-};
+            </>
+    );
+    };
 
