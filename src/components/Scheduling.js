@@ -38,6 +38,7 @@ export const Scheduling = ({
                     </div>
                     <div className="formControl">
                         <label className="boldLabel">Select Pick-up Date/Time</label>
+                        
                         <BookingComponent />
                     </div>
                     <div className="formControl submitControl fullLenght">

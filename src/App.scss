@@ -166,9 +166,12 @@ button{
     }
     .DayPicker-Weekday{
       padding: .5em .775em;
+
+      padding: .75em 4.25vw;
     }
     .DayPicker-Day{
       padding: .775em;
+      padding: 4.25vw;
       color: rgba($greyText, .7);
       border-radius: 2rem;
       cursor: pointer;
@@ -207,7 +210,7 @@ button{
       margin-top: 1rem;
     }
     .timeAvailable, .timeDetail{
-      width: 75%;
+      width: 100%;
       background-color: $white;
       border: 1px solid $purple;
       color: $purple;
@@ -216,7 +219,6 @@ button{
       text-align: center;
       cursor: pointer;
       transition: all 0.8s cubic-bezier(0.2, 1, 0.4, 1);
-      
       p{
         margin: 0;
         line-height: 1;
@@ -236,11 +238,11 @@ button{
       left: 0;
       top: 0;
       height: auto;
-      width: 75%;
+      width: 100%;
       justify-content: space-between;
       flex-wrap: wrap;
       .timeDetail, button{
-        width: 47%;
+        width: 48%;
         margin: 0;
       }
       .timeDetail{
@@ -269,7 +271,7 @@ button{
     display: none;
     justify-content: space-between;
     flex-direction: row;
-    width: 75%;
+    width: 100%;
     margin-top: 1rem;
     p{
       margin: 0;
@@ -282,6 +284,7 @@ button{
       border-radius: .6rem;
       border: 1px solid $purple;
       margin-left: 1rem;
+      margin-top: .25rem;
       background-image: url('./images/edit-time-icon.png');
       background-size: 119%;
       background-position: center;
@@ -334,9 +337,6 @@ button{
       }
     }
   }
-
-  
-
   &.openDetailedBooking{
     min-height: 100px;
     .dateAndTimeSelected{
@@ -560,4 +560,28 @@ form{
     }
   }
 
+  .DayPicker-Months{
+    .DayPicker-Month{
+      .DayPicker-Weekday{
+        padding: .5em .775em;
+        padding: .75em 1.5vw;
+      }
+      .DayPicker-Day{
+        padding: .775em;
+        padding: 1.5vw;
+      }
+    }
+  }
+
+  .timeOptionsWrap{
+    width: 100%;
+    .timeOption{
+      .timeAvailable, .timeDetail{
+        width: 90%;
+      } 
+      .timeSelected{
+        width: 90%;
+      }
+    }
+  }
 }
