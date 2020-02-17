@@ -168,50 +168,7 @@ button{
   }
 }
 
-.calendarAndTimeWrap{
-  position: relative;
-  height: auto;
-  .calendarLayer{
-    position: relative;
-    z-index: 100;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    background-color: #ffffff;
-  }
-  .timeLayer{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    background-color: #ffffff;
-    z-index: 10;
-    opacity: 0;
-    .dateSelected{
-      cursor: pointer;
-      margin: 0;
-      span{
-        color: $purple;
-        font-weight: 400;
-        font-size: 1.25rem;
-        margin-right: .75rem;
-      }
-    }
-  }
-  &.timeOn{
-    .calendarLayer{
-      z-index: 10 !important;
-      opacity: 0;
-    }
-    .timeLayer{
-      z-index: 100 !important;
-      background-color: #ffffff;
-      opacity: 1;
-    }
-  }
-}
+
 
 .DayPicker-NavButton--prev{
   background-image: url('./images/arrow-prev.png');
@@ -224,37 +181,7 @@ button{
 }
 
 
-.bookingComponent{
-  .dateAndTimeSelected{
-    display: none;
-    justify-content: space-between;
-    flex-direction: row;
-    width: 75%;
-    margin-top: 1rem;
-    p{
-      margin: 0;
-      line-height: 1.3;
-    }
-    .iconEditTime{
-      position: relative;
-      width: 2.3rem;
-      height: 2.3rem;
-      border-radius: .6rem;
-      border: 1px solid $purple;
-      margin-left: 1rem;
-      background-image: url('./images/edit-time-icon.png');
-      background-size: 119%;
-      background-position: center;
-      cursor: pointer;
-    }
-  }
-  &.openDetailedBooking{
-    border: 1px solid blue;
-    .dateAndTimeSelected{
-      display: flex;
-    }
-  }
-}
+
 
 .timeOptionsWrap{
   display: block;
@@ -319,6 +246,92 @@ button{
       .timeSelected{
         display: flex;
       }
+    }
+  }
+}
+
+.bookingComponent{
+  display: block;
+  .dateAndTimeSelected{
+    display: none;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 75%;
+    margin-top: 1rem;
+    p{
+      margin: 0;
+      line-height: 1.3;
+    }
+    .iconEditTime{
+      position: relative;
+      width: 2.3rem;
+      height: 2.3rem;
+      border-radius: .6rem;
+      border: 1px solid $purple;
+      margin-left: 1rem;
+      background-image: url('./images/edit-time-icon.png');
+      background-size: 119%;
+      background-position: center;
+      cursor: pointer;
+    }
+  }
+
+  .calendarAndTimeWrap{
+    position: relative;
+    height: auto;
+    display: block;
+    min-height: 200px;
+    .calendarLayer{
+      position: relative;
+      z-index: 100;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      background-color: #ffffff;
+    }
+    .timeLayer{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      background-color: #ffffff;
+      z-index: 10;
+      opacity: 0;
+      .dateSelected{
+        cursor: pointer;
+        margin: 0;
+        span{
+          color: $purple;
+          font-weight: 400;
+          font-size: 1.25rem;
+          margin-right: .75rem;
+        }
+      }
+    }
+    &.timeOn{
+      .calendarLayer{
+        z-index: 10 !important;
+        opacity: 0;
+      }
+      .timeLayer{
+        z-index: 100 !important;
+        background-color: #ffffff;
+        opacity: 1;
+      }
+    }
+  }
+
+  
+
+  &.openDetailedBooking{
+    .dateAndTimeSelected{
+      display: flex;
+    }
+    .calendarAndTimeWrap{
+      display: none;
+      
     }
   }
 }

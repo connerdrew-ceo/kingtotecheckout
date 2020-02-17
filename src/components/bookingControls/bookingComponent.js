@@ -10,6 +10,9 @@ export const BookingComponent = () => {
     const [selectedTimeEnd, setSelectedTimeEnd] = useState(null);
     const [dateDropOff, setDateDropOff] = useState('');
     const [openTimeLayerDrop, setOpenTimeLayerDrop] = useState(false);
+
+    const [showResumeInfo, setShowResumeInfo] = useState(false);
+    
     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const timeOptions = [
         {startAt: '7:00', endAt: '9:00'},
@@ -18,12 +21,21 @@ export const BookingComponent = () => {
         {startAt: '8:30', endAt: '10:30'},
         {startAt: '9:00', endAt: '11:00'}
     ];
+
+    let openDetailedBooking = 'bookingComponent'
+
+    if(showResumeInfo){
+        openDetailedBooking = 'bookingComponent openDetailedBooking'
+    }
     
     let layerClassListDrop = 'calendarAndTimeWrap'
 
     if(openTimeLayerDrop){
         layerClassListDrop = 'calendarAndTimeWrap timeOn'
     }
+
+    
+    
     
     const handleDayDropOff = (day, { selected }) => {
         setOpenTimeLayerDrop(true)
@@ -32,6 +44,7 @@ export const BookingComponent = () => {
 
     const closeCalendar = () => {
         setOpenTimeLayerDrop(false)
+        setShowResumeInfo(true)
     };
 
     const changeSelectedTime = (key) => {
@@ -55,13 +68,13 @@ export const BookingComponent = () => {
 
     return (
         <>
-            <div className="bookingComponent">
+            <div className={openDetailedBooking}>
                 <div className="dateAndTimeSelected">
                     <p className="dateSelected">{dateDropOff}
                         <br/>
                         bwtween {selectedTimeStart} am - {selectedTimeEnd} am
                     </p>
-                    <span className="iconEditTime">
+                    <span className="iconEditTime" onClick={() => setShowResumeInfo(false)}>
 
                     </span>
                 </div>
