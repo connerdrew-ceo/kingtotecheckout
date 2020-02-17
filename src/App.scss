@@ -173,9 +173,13 @@ button{
     .DayPicker-Day{
       padding: .775em;
       padding: 4.25vw;
-      color: rgba($greyText, .7);
+      color: rgba($greyText, .8);
       border-radius: 2rem;
       cursor: pointer;
+      &.DayPicker-Day--disabled{
+        color: rgba($greyText, .4);
+        pointer-events: none;
+      }
       &.DayPicker-Day--selected{
         background-color: #e1f0f8;
         color: $purple;

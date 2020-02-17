@@ -78,6 +78,11 @@ export const BookingComponent = () => {
                     <div className="calendarLayer">
                         <DayPicker 
                             onDayClick={handleDayDropOff}
+                            disabledDays={[
+                                {
+                                    before: new Date(),
+                                },
+                            ]}
                         />
                     </div>
                     <div className="timeLayer">
