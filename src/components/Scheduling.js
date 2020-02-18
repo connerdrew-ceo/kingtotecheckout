@@ -13,8 +13,6 @@ export const Scheduling = ({
     }) => {
         
     const [direction, setDirection] = useState('back');
-    const [isDropOfSelected, setIsDropOfSelected] = useState(formData.dateDropOff);
-    const [isPickUpSelected, setIsPickUpSelected] = useState(formData.datePickUp);
 
     const updateStateSchedulingStart = ( dateData ) => {
 
@@ -29,6 +27,24 @@ export const Scheduling = ({
                 'datePickUp': dateData.stringDate
             });
         }
+    }
+
+    const updateStateSchedulingTime = (timeData) => {
+
+        if(timeData.kind === 'start'){
+            setFormData({
+                ...formData,
+                'timeRangeDropStart': timeData.stringTimeStart,
+                'timeRangeDropEnd': timeData.stringTimeEnd
+            });
+        }else{
+            setFormData({
+                ...formData,
+                'timeRangePickStart': timeData.stringTimeStart,
+                'timeRangePickEnd': timeData.stringTimeEnd
+            });
+        }
+
     }
 
     useEffect(() => {
@@ -56,11 +72,25 @@ export const Scheduling = ({
                 <Form>
                     <div className="formControl">
                         <label className="boldLabel">Select Drop-off Date/Time</label>
-                        <EachBookingComponent updateStateSchedulingStart={updateStateSchedulingStart} controlType="start" currentDate={isDropOfSelected}/>
+                        <EachBookingComponent 
+                            updateStateSchedulingStart={updateStateSchedulingStart} 
+                            updateStateSchedulingTime={updateStateSchedulingTime} 
+                            controlType="start" 
+                            currentDate={formData.dateDropOff}
+                            startingTime={formData.timeRangeDropStart}
+                            endingTime={formData.timeRangeDropEnd}
+                            />
                     </div>
                     <div className="formControl">
                         <label className="boldLabel">Select Pick-up Date/Time</label>
-                        <EachBookingComponent updateStateSchedulingStart={updateStateSchedulingStart} controlType="end" currentDate={isPickUpSelected}/>
+                        <EachBookingComponent 
+                            updateStateSchedulingStart={updateStateSchedulingStart} 
+                            updateStateSchedulingTime={updateStateSchedulingTime} 
+                            controlType="end" 
+                            currentDate={formData.datePickUp}
+                            startingTime={formData.timeRangePickStart}
+                            endingTime={formData.timeRangePickEnd}
+                            />
                         {/* <Field 
                             name='dropOff' 
                             placeholder="zip code"

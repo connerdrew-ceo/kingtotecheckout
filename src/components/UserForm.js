@@ -11,29 +11,20 @@ export const UserForm = () => {
 
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    serviceArea: 'red',
-    dropOff: '3232',
-    pickUp: '3232',
+    serviceArea: 'Nevada',
+    dropOff: '30001',
+    pickUp: '32300',
     locationType:'',
     dateDropOff: null,
-    datePickUp: null
+    datePickUp: null,
+    timeRangeDropStart: null,
+    timeRangeDropEnd: null,
+    timeRangePickStart: null,
+    timeRangePickEnd: null
   });
+
   const nextStep = () => setStep(prev => prev + 1);
   const prevStep = () => setStep(prev => prev - 1);
-
-  const reWriteData = (info) => {
-
-    console.log('info info: ', info.serviceArea)
-    setFormData(info)
-
-    // setFormData({
-    //   serviceArea: '',
-    //   dropOff: '',
-    //   pickUp: ''
-    // })
-
-    console.log('info formData: ', formData)
-  }
 
   switch (step) {
     case 1:

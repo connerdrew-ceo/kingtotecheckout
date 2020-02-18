@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import DayPicker from "react-day-picker";
 import { TimeOption } from "./TimeOption"
 
-export const EachBookingComponent = ({ controlType, updateStateSchedulingStart, currentDate }) => {
+export const EachBookingComponent = ({ controlType, updateStateSchedulingStart, updateStateSchedulingTime, currentDate, startingTime, endingTime }) => {
 
     const [selectedTime, setSelectedTime] = useState(null);
-    const [selectedTimeStart, setSelectedTimeStart] = useState(null);
-    const [selectedTimeEnd, setSelectedTimeEnd] = useState(null);
+    const [selectedTimeStart, setSelectedTimeStart] = useState(startingTime);
+    const [selectedTimeEnd, setSelectedTimeEnd] = useState(endingTime);
     const [dateDropOff, setDateDropOff] = useState('');
     const [openTimeLayerDrop, setOpenTimeLayerDrop] = useState(false);
     const [showResumeInfo, setShowResumeInfo] = useState(false);
@@ -48,6 +48,7 @@ export const EachBookingComponent = ({ controlType, updateStateSchedulingStart, 
         setSelectedTime(key)
         setSelectedTimeStart(timeOptions[key].startAt)
         setSelectedTimeEnd(timeOptions[key].endAt)
+        updateStateSchedulingTime({kind: controlType, stringTimeStart: timeOptions[key].startAt, stringTimeEnd: timeOptions[key].endAt})
     };
 
     let tabsContent = timeOptions.map((timeOpt, index) => {
@@ -67,7 +68,7 @@ export const EachBookingComponent = ({ controlType, updateStateSchedulingStart, 
         if(currentDate !== null){
             setOpenTimeLayerDrop(false)
             setShowResumeInfo(true)
-
+            setDateDropOff(currentDate)
         }
     }, [])
 
