@@ -12,16 +12,24 @@ export const UserForm = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     serviceArea: '',
-    dropOff: '55555',
-    pickUp: '11111'
+    dropOff: '',
+    pickUp: ''
   });
   const nextStep = () => setStep(prev => prev + 1);
   const prevStep = () => setStep(prev => prev - 1);
 
   const reWriteData = (info) => {
 
-    console.log('info info: ', info)
+    console.log('info info: ', info.serviceArea)
     setFormData(info)
+
+    // setFormData({
+    //   serviceArea: '',
+    //   dropOff: '',
+    //   pickUp: ''
+    // })
+
+    console.log('info formData: ', formData)
   }
 
   switch (step) {
@@ -29,7 +37,7 @@ export const UserForm = () => {
       return (
         <FormUserDetails
           formData={formData}
-          setFormData={reWriteData}
+          setFormData={setFormData}
           nextStep={nextStep}
         />
       );

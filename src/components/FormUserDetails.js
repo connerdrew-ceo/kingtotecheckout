@@ -12,7 +12,7 @@ const validationSchemaFirstStep = yup.object({
     .required('Service Area is required'),
     
   dropOff: yup
-    .number()
+    .string()
     .required('Drop off is required'),
     
   pickUp: yup
@@ -29,7 +29,6 @@ const regexp = /^[0-9\b]+$/
 //   }
 //   return error;
 // }
-
 
 export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
 
@@ -69,7 +68,6 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
                 as="select" 
                 name="serviceArea"
                 error={touched.serviceArea && errors.serviceArea}
-              
               >
                 <option value="0">select a service area</option>
                 <option value="red">Portland</option>
@@ -81,16 +79,13 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
             <div className="formControl">
               {/* <Field name="username" validate={validateUsername} />
                 {errors.username && touched.username && <div>{errors.username}</div>} */}
-                
             </div>
-
             <div className="formControl">
               <label htmlFor="dropOff">Drop-off Zip Code</label>
               <Field 
                 name='dropOff' 
                 placeholder="zip code"
-                onChange={handleChange}
-                value={dropOffCode}
+                type="number"
                 />
                 {errors.dropOff && touched.dropOff && <div>{errors.dropOff}</div>}
               
@@ -100,9 +95,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
               <Field 
                 name='pickUp' 
                 placeholder="zip code"
-                onChange={handleChangePickUp}
-                value={pickUpCode}
-                error={touched.pickUp && errors.pickUp}
+                type="number"
                 />
                 {errors.pickUp && touched.pickUp && <div>{errors.pickUp}</div>}
             </div>
@@ -130,11 +123,11 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
   );
 };
 
-FormUserDetails.propTypes = {
-  formData: PropTypes.object.isRequired,
-  setFormData: PropTypes.func.isRequired,
-  nextStep: PropTypes.func.isRequired
-};
+// FormUserDetails.propTypes = {
+//   formData: PropTypes.object.isRequired,
+//   setFormData: PropTypes.func.isRequired,
+//   nextStep: PropTypes.func.isRequired
+// };
 
 
 // const mapStateToProps = state => {
