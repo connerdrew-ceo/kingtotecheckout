@@ -412,7 +412,7 @@ form{
     }
   }
 
-  input[type=text],input[type=email],input[type=tel], select{
+  input, input[type=text], input[type=number], input[type=email], input[type=tel], select, textarea{
     appearance: none;
     background-color: #F4F5F7;
     border-radius: .5rem;
@@ -432,10 +432,14 @@ form{
     background-repeat: no-repeat !important;
   }
   input[type=radio]{
+    background: none;
     cursor: pointer;
     appearance: none;
     width: 1.5rem;
     height: 1.5rem;
+    margin-top: .25rem;
+    margin-left: 0;
+    padding: 0;
     background-position: center !important;
     background-image: url('./images/ratio-off.png');
     background-size: 1.4rem !important;
@@ -460,6 +464,10 @@ form{
       background-size: 1.8rem !important;
       background-repeat: no-repeat !important;
     }
+  }
+  textarea{
+    height: 150px;
+    padding: .75rem;
   }
   .ratioWrap{
     width: 100%;
@@ -581,9 +589,6 @@ form{
       }
     }
   }
-
-
-
 
 
 

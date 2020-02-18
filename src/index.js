@@ -8,7 +8,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import formReducer from './store/reducers';
+import formReducer from './store/reducers/reducers';
 
 
 const store = createStore(formReducer, applyMiddleware(reduxThunk));

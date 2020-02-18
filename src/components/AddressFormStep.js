@@ -13,6 +13,7 @@ export const AddressFormStep = ({
     }) => {
     const [direction, setDirection] = useState('back');
 
+    
   return (
     <>
       <Header title='Enter Personal Details' step="Four" />
@@ -41,7 +42,9 @@ export const AddressFormStep = ({
                 <label htmlFor="nameImput">First Name</label>
                 <input type="text" name="name" placeholder="Jane" className="form-control" id="nameImput" />
             </div>
-            <div className="formControl"></div>
+            <div className="formControl">
+              
+            </div>
 
             <div className="formControl">
                 <label htmlFor="lastNameImput">Last Name</label>
@@ -89,6 +92,20 @@ export const AddressFormStep = ({
             </div>
             <div className="formControl"></div>
 
+            <div className="formControl">
+              <label htmlFor="dropOff">Zip Code</label>
+              <input type="number" name="name" placeholder="zip code" className="form-control" id="nameImput" />
+            </div>
+            <div className="formControl"></div>
+
+            <div className="formControl">
+              <label htmlFor="dropOff">Additional Information</label>
+              <textarea id="comments-area" name="textarea" placeholder="Additional notes, special instructions, gate code, etc" value="" />
+            </div>
+            <div className="formControl"></div>
+
+            
+
 
             <div className="formControl">
                 <h3>Pick-up Address</h3>
@@ -113,6 +130,17 @@ export const AddressFormStep = ({
             <div className="formControl">
                 <label htmlFor="lastNameImput">State</label>
                 <input type="text" name="lastName" placeholder="State" className="form-control" id="lastNameImput" />
+            </div>
+            <div className="formControl"></div>
+            <div className="formControl">
+              <label htmlFor="dropOff">Zip Code</label>
+              <input type="number" name="name" placeholder="zip code" className="form-control" id="nameImput" />
+            </div>
+            <div className="formControl"></div>
+
+            <div className="formControl">
+              <label htmlFor="dropOff">Additional Information</label>
+              <textarea id="comments-area" name="textarea" placeholder="Additional notes, special instructions, gate code, etc" value="" />
             </div>
             <div className="formControl"></div>
 

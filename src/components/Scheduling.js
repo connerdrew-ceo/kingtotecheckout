@@ -5,7 +5,6 @@ import { Header } from './Header';
 import { EachBookingComponent } from './bookingControls/EachBookingComponent'
 import "react-day-picker/lib/style.css";
 
-
 export const Scheduling = ({
     formData,
     setFormData,

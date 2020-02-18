@@ -9,24 +9,27 @@ import { Success } from './Success';
 
 export const UserForm = () => {
 
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    occupation: '',
-    city: '',
-    bio: ''
+    serviceArea: '',
+    dropOff: '55555',
+    pickUp: '11111'
   });
   const nextStep = () => setStep(prev => prev + 1);
   const prevStep = () => setStep(prev => prev - 1);
+
+  const reWriteData = (info) => {
+
+    console.log('info info: ', info)
+    setFormData(info)
+  }
 
   switch (step) {
     case 1:
       return (
         <FormUserDetails
           formData={formData}
-          setFormData={setFormData}
+          setFormData={reWriteData}
           nextStep={nextStep}
         />
       );
