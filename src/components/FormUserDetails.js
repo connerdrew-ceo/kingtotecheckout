@@ -74,9 +74,10 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
                 error={touched.serviceArea && errors.serviceArea}
               >
                 <option value="0">select a service area</option>
-                <option value="red">Portland</option>
-                <option value="green">Portland</option>
-                <option value="blue">Portland</option>
+                <option value="Portland">Portland</option>
+                <option value="Washington">Washington</option>
+                <option value="Seattle">Seattle</option>
+                <option value="Nevada">Nevada</option>
               </Field>
               {errors.serviceArea && touched.serviceArea && <div>{errors.serviceArea}</div>}
             </div>

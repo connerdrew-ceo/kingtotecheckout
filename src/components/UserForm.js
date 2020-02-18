@@ -11,9 +11,12 @@ export const UserForm = () => {
 
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    serviceArea: '',
-    dropOff: '',
-    pickUp: ''
+    serviceArea: 'red',
+    dropOff: '3232',
+    pickUp: '3232',
+    locationType:'',
+    dateDropOff: null,
+    datePickUp: null
   });
   const nextStep = () => setStep(prev => prev + 1);
   const prevStep = () => setStep(prev => prev - 1);

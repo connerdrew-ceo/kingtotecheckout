@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import DayPicker from "react-day-picker";
 import { TimeOption } from "./TimeOption"
 
-export const EachBookingComponent = () => {
+export const EachBookingComponent = ({ controlType, updateStateSchedulingStart, currentDate }) => {
 
     const [selectedTime, setSelectedTime] = useState(null);
     const [selectedTimeStart, setSelectedTimeStart] = useState(null);
     const [selectedTimeEnd, setSelectedTimeEnd] = useState(null);
     const [dateDropOff, setDateDropOff] = useState('');
     const [openTimeLayerDrop, setOpenTimeLayerDrop] = useState(false);
-
     const [showResumeInfo, setShowResumeInfo] = useState(false);
     
     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -42,6 +41,7 @@ export const EachBookingComponent = () => {
     const closeCalendar = () => {
         setOpenTimeLayerDrop(false)
         setShowResumeInfo(true)
+        updateStateSchedulingStart({kind: controlType, stringDate: dateDropOff})
     };
 
     const changeSelectedTime = (key) => {
@@ -51,7 +51,6 @@ export const EachBookingComponent = () => {
     };
 
     let tabsContent = timeOptions.map((timeOpt, index) => {
-
         return <TimeOption 
                     listClasses={selectedTime === index ? 'timeOption openSelectedDetail' : 'timeOption'}
                     key={index} 
@@ -62,6 +61,15 @@ export const EachBookingComponent = () => {
                     closeCalendar={closeCalendar}
                 />
     });
+
+    useEffect(() => {
+
+        if(currentDate !== null){
+            setOpenTimeLayerDrop(false)
+            setShowResumeInfo(true)
+
+        }
+    }, [])
 
     return (
         <>

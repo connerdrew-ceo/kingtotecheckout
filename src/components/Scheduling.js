@@ -11,7 +11,30 @@ export const Scheduling = ({
     nextStep,
     prevStep
     }) => {
+        
     const [direction, setDirection] = useState('back');
+    const [isDropOfSelected, setIsDropOfSelected] = useState(formData.dateDropOff);
+    const [isPickUpSelected, setIsPickUpSelected] = useState(formData.datePickUp);
+
+    const updateStateSchedulingStart = ( dateData ) => {
+
+        if(dateData.kind === 'start'){
+            setFormData({
+                ...formData,
+                'dateDropOff': dateData.stringDate
+            });
+        }else{
+            setFormData({
+                ...formData,
+                'datePickUp': dateData.stringDate
+            });
+        }
+    }
+
+    useEffect(() => {
+
+        console.log('formData at scheduling: ', formData)
+    }, [])
 
     return (
         <>
@@ -25,7 +48,7 @@ export const Scheduling = ({
             <Formik
                 initialValues={formData}
                 onSubmit={values => {
-                setFormData(values);
+                //setFormData(values);
                 direction === 'back' ? prevStep() : nextStep();
                 }}
             >
@@ -33,11 +56,17 @@ export const Scheduling = ({
                 <Form>
                     <div className="formControl">
                         <label className="boldLabel">Select Drop-off Date/Time</label>
-                        <EachBookingComponent />
+                        <EachBookingComponent updateStateSchedulingStart={updateStateSchedulingStart} controlType="start" currentDate={isDropOfSelected}/>
                     </div>
                     <div className="formControl">
                         <label className="boldLabel">Select Pick-up Date/Time</label>
-                        <EachBookingComponent />
+                        <EachBookingComponent updateStateSchedulingStart={updateStateSchedulingStart} controlType="end" currentDate={isPickUpSelected}/>
+                        {/* <Field 
+                            name='dropOff' 
+                            placeholder="zip code"
+                            type="number"
+                            />
+                        {errors.dropOff && touched.dropOff && <div>{errors.dropOff}</div>} */}
                     </div>
                     <div className="formControl submitControl fullLenght">
                     <button className="button global whiteBtn" type="submit" onClick={() => setDirection('back')}>
