@@ -12,11 +12,15 @@ const validationSchemaFirstStep = yup.object({
     .required('Service Area is required'),
     
   dropOff: yup
-    .string()
-    .required('Drop off is required'),
+    .number('test errrr')
+    .positive('test errrr')
+    .integer('test errrr')
+    .required('test errrr required'),
     
   pickUp: yup
     .number()
+    .positive()
+    .integer()
     .required('Pick up is required'),
 });
 
@@ -54,7 +58,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
       <Formik
         initialValues={formData}
         onSubmit={values => {
-          console.log('Values: ', values)
+          console.log('Values >>>>>> ', values)
           setFormData(values);
           nextStep();
         }}
@@ -100,13 +104,24 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
                 {errors.pickUp && touched.pickUp && <div>{errors.pickUp}</div>}
             </div>
             <div className="formControl">
-              <label htmlFor="locationType">Location type</label>
+              <label htmlFor="locationResidential">Location type</label>
               <div className="ratioWrap">
-                <input type="radio" id="locationResidential" name="location" value="0"/>
+                <Field 
+                  id="locationResidential"
+                  name='locationType'
+                  type="radio"
+                  value="residential"
+                />
                 <label htmlFor="locationResidential">Residential</label>
               </div>
               <div className="ratioWrap">
-                <input type="radio" id="locationCommertial" name="location" value="0"/>
+                {/* <input type="radio" id="locationCommertial" name="location" value="0"/> */}
+                <Field 
+                  id="locationCommertial"
+                  name='locationType'
+                  type="radio"
+                  value="commertial"
+                />
                 <label htmlFor="locationCommertial">Commertial</label>
               </div>
             </div>
