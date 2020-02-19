@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Header } from './Header';
 import { Formik, Form, Field } from 'formik';
-import { connect } from 'react-redux'
-
+// import { connect } from 'react-redux'
 
 export const AddressFormStep = ({
     formData,
@@ -21,10 +20,7 @@ export const AddressFormStep = ({
       <div className="introWrap">
         <h2>Your Details</h2>
         <p>Please fill out your contact information as Delivery and Pick-Up addresses</p>
-
-        
       </div>
-      
 
       <Formik
         initialValues={formData}
@@ -32,10 +28,9 @@ export const AddressFormStep = ({
           setFormData(values);
           direction === 'back' ? prevStep() : nextStep();
         }}
-      >
+        >
         {({ errors, touched }) => (
           <Form>
-            
 
             <div className="formControl">
                 <h3>Main Contact Information</h3>
@@ -43,15 +38,13 @@ export const AddressFormStep = ({
                 <input type="text" name="name" placeholder="Jane" className="form-control" id="nameImput" />
             </div>
             <div className="formControl">
-              
             </div>
-
             <div className="formControl">
                 <label htmlFor="lastNameImput">Last Name</label>
                 <input type="text" name="lastName" placeholder="Doe" className="form-control" id="lastNameImput" />
             </div>
-            <div className="formControl"></div>
-
+            <div className="formControl">
+            </div>
             <div className="formControl">
                 <label htmlFor="nameImput">Phone</label>
                 <input type="tel" name="name" placeholder="(555) 555 555" className="form-control" id="nameImput" />

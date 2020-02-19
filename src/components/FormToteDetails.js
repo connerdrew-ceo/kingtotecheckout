@@ -85,8 +85,6 @@ export const FormToteDetails = ({
   const [toteBox70, setToteBox70] = useState(formData.box70totes);
   const [heavyDutyCart, setHeavyDutyCart] = useState(formData.handleCart);
   const [easyRollCart, setEasyRollCart] = useState(formData.kingcart);
-
-  
   const setToteBoxesInfo = () => {
 
     setFormData({
@@ -101,7 +99,6 @@ export const FormToteDetails = ({
   }
 
   const updateSelectedBox = (keyObj) => {
-
     switch(keyObj.parent) {
       case 0:
         setToteBox25(keyObj.child)
@@ -122,9 +119,8 @@ export const FormToteDetails = ({
         setEasyRollCart(keyObj.child)
         break;
       default:
-        // code block
+        // console.log(keyObj)
     }
-
     toteBoxesData[keyObj.parent].indexActive = keyObj.child
   };
 
@@ -157,7 +153,6 @@ export const FormToteDetails = ({
           <Form>
 
             {toteRows}
-
             <div className="formControl submitControl fullLenght">
               <button className="button global whiteBtn" type="submit" onClick={() => setDirection('back')}>
                 <span>Previous</span>

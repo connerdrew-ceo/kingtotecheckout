@@ -26,33 +26,11 @@ const validationSchemaFirstStep = yup.object({
     .positive()
     .integer()
     .required('Pick up is required'),
-
-  
-
-    
 });
 
 const regexp = /^[0-9\b]+$/
 
-// function validateUsername(value) {
-//   let error;
-//   if (value === 'admin') {
-//     error = 'Nice try!';
-//   }
-//   return error;
-// }
-
 export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
-
-  const [dropOffCode, setDropOffCode] = useState(formData.dropOff)
-  const handleChange = event => {
-    (regexp.test(event.target.value)) ? setDropOffCode(event.target.value) : setDropOffCode('')
-  };
-
-  const [pickUpCode, setPickUpCode] = useState(formData.pickUp)
-  const handleChangePickUp = event => {
-    (regexp.test(event.target.value)) ? setPickUpCode(event.target.value) : setPickUpCode('')
-  };
 
   return (
     <>
@@ -88,10 +66,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
               </Field>
               {errors.serviceArea && touched.serviceArea && <div className="errorMessage">{errors.serviceArea}</div>}
             </div>
-            <div className="formControl">
-              {/* <Field name="username" validate={validateUsername} />
-                {errors.username && touched.username && <div>{errors.username}</div>} */}
-            </div>
+            <div className="formControl"></div>
             <div className="formControl">
               <label htmlFor="dropOff">Drop-off Zip Code</label>
               <Field 
@@ -100,7 +75,6 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
                 type="number"
                 />
                 {errors.dropOff && touched.dropOff && <div className="errorMessage">{errors.dropOff}</div>}
-              
             </div>
             <div className="formControl">
               <label htmlFor="pickUp">Pick-up Zip Code</label>
@@ -123,7 +97,6 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
                 <label htmlFor="locationResidential">Residential</label>
               </div>
               <div className="ratioWrap">
-                {/* <input type="radio" id="locationCommertial" name="location" value="0"/> */}
                 <Field 
                   id="locationCommertial"
                   name='locationType'
@@ -135,7 +108,6 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
               {errors.locationType && touched.locationType && <div className="errorMessage">{errors.locationType}</div>}
             </div>
             <div className="formControl submitControl">
-              
               <button className="button global" name="submit" type="submit">
                 <span>Next</span>
               </button>

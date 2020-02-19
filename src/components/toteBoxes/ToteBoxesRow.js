@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-
 import { EachBox } from './EachBox'
 
 export const ToteBoxesRow = ({trackKey, dataObj, updateSelectedBox}) => {
@@ -7,10 +6,8 @@ export const ToteBoxesRow = ({trackKey, dataObj, updateSelectedBox}) => {
 
     const changeSelectedBox = (key) => {
         (selectedBox === key) ? setSelectedBox(null) : setSelectedBox(key)
-
         updateSelectedBox({parent:trackKey, child:key})
     }
-
     const boxesRender = dataObj.prices
     let toteBoxes = boxesRender.map((toteBox, index) => {
         return <EachBox 
@@ -21,7 +18,6 @@ export const ToteBoxesRow = ({trackKey, dataObj, updateSelectedBox}) => {
                     changeSelectedBox={changeSelectedBox}
                 />
     });
-
     return (
         <>
             <div className="formControl fullLenght">
