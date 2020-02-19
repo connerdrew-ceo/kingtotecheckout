@@ -12,20 +12,54 @@ export const FormToteDetails = ({
 }) => {
   const [direction, setDirection] = useState('back');
 
-  const [toteBox25, setToteBox25] = useState(null);
-  const [toteBox35, setToteBox35] = useState(null);
-  const [toteBox50, setToteBox50] = useState(null);
-  const [toteBox70, setToteBox70] = useState(null);
+  const [toteBox25, setToteBox25] = useState(formData.box25totes);
+  const [toteBox35, setToteBox35] = useState(formData.box35totes);
+  const [toteBox50, setToteBox50] = useState(formData.box50totes);
+  const [toteBox70, setToteBox70] = useState(formData.box70totes);
 
-  const [heavyDutyCart, setHeavyDutyCart] = useState(null);
-  const [easyRollCart, setEasyRollCart] = useState(null);
+  const [heavyDutyCart, setHeavyDutyCart] = useState(formData.handleCart);
+  const [easyRollCart, setEasyRollCart] = useState(formData.kingcart);
+
+  const setToteBoxesInfo = () => {
+
+    console.log('submit Tote details >>>>>>')
+
+    setFormData({
+      ...formData,
+      'box25totes': toteBox25,
+      'box35totes': toteBox35,
+      'box50totes': toteBox50,
+      'box70totes': toteBox70,
+      'handleCart': heavyDutyCart,
+      'kingcart': easyRollCart,
+    });
+
+
+  }
   
   useEffect(() => {
 
     const setToteIndex = () => {
 
       const matches = document.querySelectorAll('.toteBoxItem25')
-      let prevTote25 = 0
+      let prevTote25 = (toteBox25 === 'null') ? toteBox25 : 0
+      const matches35 = document.querySelectorAll('.toteBoxItem35')
+      let prevTote35 = (toteBox35 === 'null') ? toteBox35 : 0
+      const matches50 = document.querySelectorAll('.toteBoxItem50')
+      let prevTote50 = (toteBox50 === 'null') ? toteBox50 : 0
+      const matches70 = document.querySelectorAll('.toteBoxItem70')
+      let prevTote70 = (toteBox70 === 'null') ? 7 : 0
+      const matchesHeavyDutyCart = document.querySelectorAll('.heavyDutyCart')
+      let prevHeavyDuty = (heavyDutyCart === 'null') ? heavyDutyCart : 0
+      const matchesEasyRollCart = document.querySelectorAll('.easyRollCart')
+      let prevEasyRoll = (setEasyRollCart === 'null') ? setEasyRollCart : 0
+
+
+
+      console.log('prevTote25 :::::: ', prevTote25)
+
+      
+      
 
       const clickEvent = (function() {
         if ('ontouchstart' in document.documentElement === true)
@@ -34,115 +68,144 @@ export const FormToteDetails = ({
           return 'click';
       })();
 
-      
+
       matches.forEach((item, index) => {
         item.addEventListener(clickEvent, function(e){
           e.stopPropagation();
+
+          matches[prevTote25].classList.remove('toteActive')
           if( matches[index].classList.contains('toteActive') ){
             matches[index].classList.remove('toteActive')
             setToteBox25(null)
             return
           }
-          matches[prevTote25].classList.remove('toteActive')
+          
           matches[index].classList.add('toteActive')
           prevTote25 = index
           setToteBox25(index)
+          
         })
-      })
-
-      const matches35 = document.querySelectorAll('.toteBoxItem35')
-      let prevTote35 = 0
+      });
 
       matches35.forEach((item, index) => {
         item.addEventListener(clickEvent, function(e){
           e.stopPropagation();
+
+          matches35[prevTote35].classList.remove('toteActive')
           if( matches35[index].classList.contains('toteActive') ){
             matches35[index].classList.remove('toteActive')
             setToteBox25(null)
             return
           }
-          matches35[prevTote35].classList.remove('toteActive')
+          
           matches35[index].classList.add('toteActive')
           prevTote35 = index
           setToteBox35(index)
         })
-      })
-
-      const matches50 = document.querySelectorAll('.toteBoxItem50')
-      let prevTote50 = 0
+      });
 
       matches50.forEach((item, index) => {
         item.addEventListener(clickEvent, function(e){
           e.stopPropagation();
+
+          matches50[prevTote50].classList.remove('toteActive')
           if( matches50[index].classList.contains('toteActive') ){
             matches50[index].classList.remove('toteActive')
             setToteBox25(null)
             return
           }
-          matches50[prevTote50].classList.remove('toteActive')
+          
           matches50[index].classList.add('toteActive')
           prevTote50 = index
           setToteBox50(index)
         })
-      })
-
-      const matches70 = document.querySelectorAll('.toteBoxItem70')
-      let prevTote70 = 0
+      });
 
       matches70.forEach((item, index) => {
         item.addEventListener(clickEvent, function(e){
           e.stopPropagation();
+
+          matches70[prevTote70].classList.remove('toteActive')
           if( matches70[index].classList.contains('toteActive') ){
             matches70[index].classList.remove('toteActive')
             setToteBox25(null)
             return
           }
-          matches70[prevTote70].classList.remove('toteActive')
+          
           matches70[index].classList.add('toteActive')
           prevTote70 = index
           setToteBox70(index)
         })
-      })
-
-      const matchesHeavyDutyCart = document.querySelectorAll('.heavyDutyCart')
-      let prevHeavyDuty = 0
+      });
 
       matchesHeavyDutyCart.forEach((item, index) => {
         item.addEventListener(clickEvent, function(e){
           e.stopPropagation();
+
+          matchesHeavyDutyCart[prevHeavyDuty].classList.remove('toteActive')
           if( matchesHeavyDutyCart[index].classList.contains('toteActive') ){
             matchesHeavyDutyCart[index].classList.remove('toteActive')
             setToteBox25(null)
             return
           }
-          matchesHeavyDutyCart[prevHeavyDuty].classList.remove('toteActive')
+          
           matchesHeavyDutyCart[index].classList.add('toteActive')
           prevHeavyDuty = index
           setHeavyDutyCart(index)
         })
-      })
-
-      const matchesEasyRollCart = document.querySelectorAll('.easyRollCart')
-      let prevEasyRoll = 0
+      });
 
       matchesEasyRollCart.forEach((item, index) => {
         item.addEventListener(clickEvent, function(e){
           e.stopPropagation();
+
+          matchesEasyRollCart[prevEasyRoll].classList.remove('toteActive')
           if( matchesEasyRollCart[index].classList.contains('toteActive') ){
             matchesEasyRollCart[index].classList.remove('toteActive')
             setToteBox25(null)
             return
           }
-          matchesEasyRollCart[prevEasyRoll].classList.remove('toteActive')
+          
           matchesEasyRollCart[index].classList.add('toteActive')
           prevEasyRoll = index
           setEasyRollCart(index)
         })
-      })
-    }
+      });
+
+
+      if(toteBox25 !== null) {
+        matches[toteBox25].classList.add('toteActive')
+      }
     
+      if(toteBox35 !== null) {
+        matches35[toteBox35].classList.add('toteActive')
+      }
+    
+      if(toteBox50 !== null) {
+        matches50[toteBox50].classList.add('toteActive')
+      }
+    
+      if(toteBox70 !== null) {
+        matches70[toteBox70].classList.add('toteActive')
+      }
+    
+      if(heavyDutyCart !== null) {
+        matchesHeavyDutyCart[heavyDutyCart].classList.add('toteActive')
+      }
+    
+      if(easyRollCart !== null) {
+        matchesEasyRollCart[easyRollCart].classList.add('toteActive')
+      }
+      
+    }
+
     setToteIndex()
   }, [])
+
+
+  
+
+
 
   return (
     <>
@@ -156,7 +219,7 @@ export const FormToteDetails = ({
       <Formik
         initialValues={formData}
         onSubmit={values => {
-          setFormData(values);
+          setToteBoxesInfo()
           direction === 'back' ? prevStep() : nextStep();
         }}
       >

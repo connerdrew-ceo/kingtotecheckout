@@ -9,18 +9,25 @@ import { Success } from './Success';
 
 export const UserForm = () => {
 
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
   const [formData, setFormData] = useState({
     serviceArea: 'Nevada',
-    dropOff: '30001',
+    dropOff: '00007',
     pickUp: '32300',
     locationType:'',
+    box25totes: null,
+    box35totes: null,
+    box50totes: null,
+    box70totes: null,
+    handleCart: null,
+    kingcart: null,
     dateDropOff: null,
     datePickUp: null,
     timeRangeDropStart: null,
     timeRangeDropEnd: null,
     timeRangePickStart: null,
-    timeRangePickEnd: null
+    timeRangePickEnd: null,
+    
   });
 
   const nextStep = () => setStep(prev => prev + 1);
