@@ -79,15 +79,14 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
               <Field 
                 as="select" 
                 name="serviceArea"
-                error={touched.serviceArea && errors.serviceArea}
               >
-                <option value="0">select a service area</option>
+                <option value="">select a service area</option>
                 <option value="Portland">Portland</option>
                 <option value="Washington">Washington</option>
                 <option value="Seattle">Seattle</option>
                 <option value="Nevada">Nevada</option>
               </Field>
-              {errors.serviceArea && touched.serviceArea && <div>{errors.serviceArea}</div>}
+              {errors.serviceArea && touched.serviceArea && <div className="errorMessage">{errors.serviceArea}</div>}
             </div>
             <div className="formControl">
               {/* <Field name="username" validate={validateUsername} />
@@ -100,7 +99,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
                 placeholder="zip code"
                 type="number"
                 />
-                {errors.dropOff && touched.dropOff && <div>{errors.dropOff}</div>}
+                {errors.dropOff && touched.dropOff && <div className="errorMessage">{errors.dropOff}</div>}
               
             </div>
             <div className="formControl">
@@ -110,7 +109,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
                 placeholder="zip code"
                 type="number"
                 />
-                {errors.pickUp && touched.pickUp && <div>{errors.pickUp}</div>}
+                {errors.pickUp && touched.pickUp && <div className="errorMessage">{errors.pickUp}</div>}
             </div>
             <div className="formControl">
               <label htmlFor="locationResidential">Location type</label>
@@ -133,7 +132,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
                 />
                 <label htmlFor="locationCommertial">Commertial</label>
               </div>
-              {errors.locationType && touched.locationType && <div>{errors.locationType}</div>}
+              {errors.locationType && touched.locationType && <div className="errorMessage">{errors.locationType}</div>}
             </div>
             <div className="formControl submitControl">
               
