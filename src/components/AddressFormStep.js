@@ -1,8 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Header } from './Header';
 import { Formik, Form, Field } from 'formik';
+import * as yup from 'yup';
 // import { connect } from 'react-redux'
+
+const validationSchemaFourthStep = yup.object({
+  firstName: yup
+    .string()
+    .required('Name Area is required'),
+  lasttName: yup
+    .string()
+    .required('Last name Area is required'),
+});
+
+console.log('validationSchemaFourthStep: ',validationSchemaFourthStep)
 
 export const AddressFormStep = ({
     formData,
@@ -16,36 +28,45 @@ export const AddressFormStep = ({
   return (
     <>
       <Header title='Enter Personal Details' step="Four" />
-
       <div className="introWrap">
         <h2>Your Details</h2>
         <p>Please fill out your contact information as Delivery and Pick-Up addresses</p>
       </div>
-
       <Formik
         initialValues={formData}
         onSubmit={values => {
+          console.log('submit >>>> ', values)
           setFormData(values);
           direction === 'back' ? prevStep() : nextStep();
         }}
+        validationSchema={validationSchemaFourthStep}
         >
         {({ errors, touched }) => (
           <Form>
-
             <div className="formControl">
                 <h3>Main Contact Information</h3>
-                <label htmlFor="nameImput">First Name</label>
-                <input type="text" name="name" placeholder="Jane" className="form-control" id="nameImput" />
+                <label htmlFor="firstName">First Name</label>
+                <Field 
+                  id="firstName"
+                  name='firstName' 
+                  placeholder="Jane"
+                  />
+                {errors.firstName && touched.firstName && <div className="errorMessage">{errors.firstName}</div>}
             </div>
             <div className="formControl">
             </div>
             <div className="formControl">
-                <label htmlFor="lastNameImput">Last Name</label>
-                <input type="text" name="lastName" placeholder="Doe" className="form-control" id="lastNameImput" />
+                <label htmlFor="lastName">Last Name</label>
+                <Field 
+                  id="lastName"
+                  name='lastName' 
+                  placeholder="Doe"
+                  />
+                {errors.lastName && touched.lastName && <div className="errorMessage">{errors.lastName}</div>}
             </div>
             <div className="formControl">
             </div>
-            <div className="formControl">
+            {/* <div className="formControl">
                 <label htmlFor="nameImput">Phone</label>
                 <input type="tel" name="name" placeholder="(555) 555 555" className="form-control" id="nameImput" />
             </div>
@@ -97,8 +118,6 @@ export const AddressFormStep = ({
             </div>
             <div className="formControl"></div>
 
-            
-
 
             <div className="formControl">
                 <h3>Pick-up Address</h3>
@@ -135,13 +154,13 @@ export const AddressFormStep = ({
               <label htmlFor="dropOff">Additional Information</label>
               <textarea id="comments-area" name="textarea" placeholder="Additional notes, special instructions, gate code, etc" value="" />
             </div>
-            <div className="formControl"></div>
+            <div className="formControl"></div> */}
 
             <div className="formControl submitControl fullLenght">
               <button className="button global whiteBtn" type="submit" onClick={() => setDirection('back')}>
                 <span>Previous</span>
               </button>
-              <button className="button global" type="submit" onClick={() => setDirection('back')}>
+              <button className="button global" type="submit">
                 <span>Next</span>
               </button>
             </div>
@@ -152,9 +171,9 @@ export const AddressFormStep = ({
   );
 };
 
-AddressFormStep.propTypes = {
-  formData: PropTypes.object.isRequired,
-  setFormData: PropTypes.func.isRequired,
-  nextStep: PropTypes.func.isRequired
-};
+// AddressFormStep.propTypes = {
+//   formData: PropTypes.object.isRequired,
+//   setFormData: PropTypes.func.isRequired,
+//   nextStep: PropTypes.func.isRequired
+// };
 

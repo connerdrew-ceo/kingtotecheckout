@@ -148,10 +148,9 @@ export const FormToteDetails = ({
           setToteBoxesInfo()
           direction === 'back' ? prevStep() : nextStep();
         }}
-      >
+        >
         {({ errors, touched }) => (
           <Form>
-
             {toteRows}
             <div className="formControl submitControl fullLenght">
               <button className="button global whiteBtn" type="submit" onClick={() => setDirection('back')}>

@@ -5,12 +5,10 @@ import { Formik, Form, Field } from 'formik';
 import { connect } from 'react-redux'
 import * as yup from 'yup';
 
-
 const validationSchemaFirstStep = yup.object({
   locationType: yup
     .string()
     .required('Pick up is required'),
-
   serviceArea: yup
     .string()
     .required('Service Area is required'),
@@ -20,7 +18,6 @@ const validationSchemaFirstStep = yup.object({
     .positive('test errrr')
     .integer('test errrr')
     .required('test errrr required'),
-    
   pickUp: yup
     .number()
     .positive()
@@ -49,7 +46,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
           nextStep();
         }}
         validationSchema={validationSchemaFirstStep}
-      >
+        >
         {({ errors, touched }) => (
           <Form>
             <div className="formControl">
@@ -57,7 +54,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
               <Field 
                 as="select" 
                 name="serviceArea"
-              >
+                >
                 <option value="">select a service area</option>
                 <option value="Portland">Portland</option>
                 <option value="Washington">Washington</option>

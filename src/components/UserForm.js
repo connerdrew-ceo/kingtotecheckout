@@ -15,6 +15,8 @@ export const UserForm = () => {
     dropOff: '',
     pickUp: '',
     locationType:'',
+    firstName: '',
+    lastName: '',
     toteBoxes:[
       {name: 'box25totes', weeks: null},
       {name: 'box35totes', weeks: null},
