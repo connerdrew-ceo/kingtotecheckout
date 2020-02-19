@@ -7,6 +7,10 @@ import * as yup from 'yup';
 
 
 const validationSchemaFirstStep = yup.object({
+  locationType: yup
+    .string()
+    .required('Pick up is required'),
+
   serviceArea: yup
     .string()
     .required('Service Area is required'),
@@ -22,6 +26,10 @@ const validationSchemaFirstStep = yup.object({
     .positive()
     .integer()
     .required('Pick up is required'),
+
+  
+
+    
 });
 
 const regexp = /^[0-9\b]+$/
@@ -125,6 +133,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
                 />
                 <label htmlFor="locationCommertial">Commertial</label>
               </div>
+              {errors.locationType && touched.locationType && <div>{errors.locationType}</div>}
             </div>
             <div className="formControl submitControl">
               

@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 
 import { EachBox } from './EachBox'
 
-export const ToteBoxesRow = ({trackKey, dataObj, updateSelectedBox, closeCalendar}) => {
-    const [selectedBox, setSelectedBox] = useState(null);
+export const ToteBoxesRow = ({trackKey, dataObj, updateSelectedBox}) => {
+    const [selectedBox, setSelectedBox] = useState(dataObj.indexActive);
 
     const changeSelectedBox = (key) => {
         (selectedBox === key) ? setSelectedBox(null) : setSelectedBox(key)
@@ -25,7 +25,7 @@ export const ToteBoxesRow = ({trackKey, dataObj, updateSelectedBox, closeCalenda
     return (
         <>
             <div className="formControl fullLenght">
-                <label className="boldLabel">{dataObj.title} - {trackKey}</label>
+                <label className="boldLabel">{dataObj.title}</label>
                 <p>{dataObj.sub}</p>
                 <div className="toteBoxes">
                     {toteBoxes}
