@@ -11,9 +11,9 @@ export const UserForm = () => {
 
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    serviceArea: 'Nevada',
-    dropOff: '10007',
-    pickUp: '32300',
+    serviceArea: '0',
+    dropOff: '',
+    pickUp: '',
     locationType:'',
     toteBoxes:[
       {name: 'box25totes', weeks: null},
