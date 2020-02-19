@@ -20,6 +20,52 @@ export const FormToteDetails = ({
   const [heavyDutyCart, setHeavyDutyCart] = useState(formData.handleCart);
   const [easyRollCart, setEasyRollCart] = useState(formData.kingcart);
 
+  const toteBoxesData = [
+    {title: '25 Totes', 
+      sub: '1 bedroom (250-500 sq ft)', 
+      additionalWeek:'$35 each additional week', 
+      prices: [
+        {price: 90, week: 1},
+        {price: 120, week: 2},
+        {price: 145, week: 3},
+        {price: 170, week: 4}
+      ]
+    },
+    {title: '35 Totes', 
+      sub: '2 bedroom (500-1250 sq ft)', 
+      additionalWeek:'$45 each additional week', 
+      prices: [
+        {price: 120, week: 1},
+        {price: 160, week: 2},
+        {price: 195, week: 3},
+        {price: 230, week: 4}
+      ]
+    },
+    {title: '50 Totes', 
+      sub: '3 bedroom (1250-2000 sq ft)',
+      additionalWeek:'$60 each additional week', 
+      prices: [
+        {price: 165, week: 1},
+        {price: 215, week: 2},
+        {price: 260, week: 3},
+        {price: 305, week: 4}
+      ]
+    },
+    {title: '70 Totes', 
+      sub: '4 bedroom (2000-3000 sq ft)',
+      additionalWeek:'$75 each additional week', 
+      prices: [
+        {price: 220, week: 1},
+        {price: 290, week: 2},
+        {price: 335, week: 3},
+        {price: 420, week: 4}
+      ]
+    },
+  ];
+
+  // {title: 'King Tote Hand Cart', sub: '1 bedroom (250-500 sq ft)', additionalWeek:'', oneWeek: 8, twoWeek: 16, threeWeek: 24, fourWeek: 32 },
+  //   {title: 'King Tote Wheels', sub: 'Easy-roller made to roll stacked totes', additionalWeek:'', oneWeek: 5, twoWeek: 10, threeWeek: 15, fourWeek: 20 }
+  
   const setToteBoxesInfo = () => {
 
     console.log('submit Tote details >>>>>>')
@@ -33,179 +79,28 @@ export const FormToteDetails = ({
       'handleCart': heavyDutyCart,
       'kingcart': easyRollCart,
     });
-
-
   }
   
-  useEffect(() => {
+  const closeCalendar = () => {
+    console.log('closeCalendar tote')
+  };
 
-    const setToteIndex = () => {
+  const updateSelectedBox = (keyObj) => {
 
-      const matches = document.querySelectorAll('.toteBoxItem25')
-      let prevTote25 = (toteBox25 === 'null') ? toteBox25 : 0
-      const matches35 = document.querySelectorAll('.toteBoxItem35')
-      let prevTote35 = (toteBox35 === 'null') ? toteBox35 : 0
-      const matches50 = document.querySelectorAll('.toteBoxItem50')
-      let prevTote50 = (toteBox50 === 'null') ? toteBox50 : 0
-      const matches70 = document.querySelectorAll('.toteBoxItem70')
-      let prevTote70 = (toteBox70 === 'null') ? 7 : 0
-      const matchesHeavyDutyCart = document.querySelectorAll('.heavyDutyCart')
-      let prevHeavyDuty = (heavyDutyCart === 'null') ? heavyDutyCart : 0
-      const matchesEasyRollCart = document.querySelectorAll('.easyRollCart')
-      let prevEasyRoll = (setEasyRollCart === 'null') ? setEasyRollCart : 0
-
-
-
-      console.log('prevTote25 :::::: ', prevTote25)
-
-      
-      
-
-      const clickEvent = (function() {
-        if ('ontouchstart' in document.documentElement === true)
-          return 'touchstart';
-        else
-          return 'click';
-      })();
-
-
-      matches.forEach((item, index) => {
-        item.addEventListener(clickEvent, function(e){
-          e.stopPropagation();
-
-          matches[prevTote25].classList.remove('toteActive')
-          if( matches[index].classList.contains('toteActive') ){
-            matches[index].classList.remove('toteActive')
-            setToteBox25(null)
-            return
-          }
-          
-          matches[index].classList.add('toteActive')
-          prevTote25 = index
-          setToteBox25(index)
-          
-        })
-      });
-
-      matches35.forEach((item, index) => {
-        item.addEventListener(clickEvent, function(e){
-          e.stopPropagation();
-
-          matches35[prevTote35].classList.remove('toteActive')
-          if( matches35[index].classList.contains('toteActive') ){
-            matches35[index].classList.remove('toteActive')
-            setToteBox25(null)
-            return
-          }
-          
-          matches35[index].classList.add('toteActive')
-          prevTote35 = index
-          setToteBox35(index)
-        })
-      });
-
-      matches50.forEach((item, index) => {
-        item.addEventListener(clickEvent, function(e){
-          e.stopPropagation();
-
-          matches50[prevTote50].classList.remove('toteActive')
-          if( matches50[index].classList.contains('toteActive') ){
-            matches50[index].classList.remove('toteActive')
-            setToteBox25(null)
-            return
-          }
-          
-          matches50[index].classList.add('toteActive')
-          prevTote50 = index
-          setToteBox50(index)
-        })
-      });
-
-      matches70.forEach((item, index) => {
-        item.addEventListener(clickEvent, function(e){
-          e.stopPropagation();
-
-          matches70[prevTote70].classList.remove('toteActive')
-          if( matches70[index].classList.contains('toteActive') ){
-            matches70[index].classList.remove('toteActive')
-            setToteBox25(null)
-            return
-          }
-          
-          matches70[index].classList.add('toteActive')
-          prevTote70 = index
-          setToteBox70(index)
-        })
-      });
-
-      matchesHeavyDutyCart.forEach((item, index) => {
-        item.addEventListener(clickEvent, function(e){
-          e.stopPropagation();
-
-          matchesHeavyDutyCart[prevHeavyDuty].classList.remove('toteActive')
-          if( matchesHeavyDutyCart[index].classList.contains('toteActive') ){
-            matchesHeavyDutyCart[index].classList.remove('toteActive')
-            setToteBox25(null)
-            return
-          }
-          
-          matchesHeavyDutyCart[index].classList.add('toteActive')
-          prevHeavyDuty = index
-          setHeavyDutyCart(index)
-        })
-      });
-
-      matchesEasyRollCart.forEach((item, index) => {
-        item.addEventListener(clickEvent, function(e){
-          e.stopPropagation();
-
-          matchesEasyRollCart[prevEasyRoll].classList.remove('toteActive')
-          if( matchesEasyRollCart[index].classList.contains('toteActive') ){
-            matchesEasyRollCart[index].classList.remove('toteActive')
-            setToteBox25(null)
-            return
-          }
-          
-          matchesEasyRollCart[index].classList.add('toteActive')
-          prevEasyRoll = index
-          setEasyRollCart(index)
-        })
-      });
-
-
-      if(toteBox25 !== null) {
-        matches[toteBox25].classList.add('toteActive')
-      }
+    console.log('keyObj.parent tote', keyObj.parent)
+    console.log('keyObj.child tote', keyObj.child)
     
-      if(toteBox35 !== null) {
-        matches35[toteBox35].classList.add('toteActive')
-      }
-    
-      if(toteBox50 !== null) {
-        matches50[toteBox50].classList.add('toteActive')
-      }
-    
-      if(toteBox70 !== null) {
-        matches70[toteBox70].classList.add('toteActive')
-      }
-    
-      if(heavyDutyCart !== null) {
-        matchesHeavyDutyCart[heavyDutyCart].classList.add('toteActive')
-      }
-    
-      if(easyRollCart !== null) {
-        matchesEasyRollCart[easyRollCart].classList.add('toteActive')
-      }
-      
-    }
+  };
 
-    setToteIndex()
-  }, [])
-
-
-  
-
-
+  let toteRows = toteBoxesData.map((toteRow, index) => {
+    return <ToteBoxesRow 
+                key={index} 
+                trackKey={index}
+                dataObj={toteRow}
+                updateSelectedBox={updateSelectedBox}
+                closeCalendar={closeCalendar}
+            />
+  });
 
   return (
     <>
@@ -224,152 +119,9 @@ export const FormToteDetails = ({
         }}
       >
         {({ errors, touched }) => (
-
           <Form>
-            {/* <ToteBoxesRow/> */}
-            <div className="formControl fullLenght">
-              <label className="boldLabel">25 Totes</label>
-              <p>1 bedroom (250-500 sq ft)</p>
-              <div className="toteBoxes toteBoxes25">
-                <div className="eachToteItem toteBoxItem25">
-                  <p>1 Week rental</p>
-                  <span className="price">$90</span>
-                </div>
-                <div className="eachToteItem toteBoxItem25">
-                  <p>2 Week rental</p>
-                  <span className="price">$120</span>
-                </div>
-                <div className="eachToteItem toteBoxItem25">
-                  <p>3 Week rental</p>
-                  <span className="price">$145</span>
-                </div>
-                <div className="eachToteItem toteBoxItem25">
-                  <p>4 Week rental</p>
-                  <span className="price">$170</span>
-                </div>
-              </div>
-              <p className="bottomCentered">$35 each additional week</p>
-            </div>
 
-            <div className="formControl fullLenght">
-              <label className="boldLabel">35 Totes</label>
-              <p>2 bedroom (250-500 sq ft)</p>
-              <div className="toteBoxes toteBoxes25">
-                <div className="eachToteItem toteBoxItem35">
-                  <p>1 Week rental</p>
-                  <span className="price">$120</span>
-                </div>
-                <div className="eachToteItem toteBoxItem35">
-                  <p>2 Week rental</p>
-                  <span className="price">$160</span>
-                </div>
-                <div className="eachToteItem toteBoxItem35">
-                  <p>3 Week rental</p>
-                  <span className="price">$195</span>
-                </div>
-                <div className="eachToteItem toteBoxItem35">
-                  <p>4 Week rental</p>
-                  <span className="price">$230</span>
-                </div>
-              </div>
-              <p className="bottomCentered">$35 each additional week</p>
-            </div>
-
-            <div className="formControl fullLenght">
-              <label className="boldLabel">50 Totes</label>
-              <p>3 bedroom (250-500 sq ft)</p>
-              <div className="toteBoxes">
-                <div className="eachToteItem toteBoxItem50">
-                  <p>1 Week rental</p>
-                  <span className="price">$120</span>
-                </div>
-                <div className="eachToteItem toteBoxItem50">
-                  <p>2 Week rental</p>
-                  <span className="price">$160</span>
-                </div>
-                <div className="eachToteItem toteBoxItem50">
-                  <p>3 Week rental</p>
-                  <span className="price">$195</span>
-                </div>
-                <div className="eachToteItem toteBoxItem50">
-                  <p>4 Week rental</p>
-                  <span className="price">$230</span>
-                </div>
-              </div>
-              <p className="bottomCentered">$35 each additional week</p>
-            </div>
-
-            <div className="formControl fullLenght">
-              <label className="boldLabel">70 Totes</label>
-              <p>4 bedroom (250-500 sq ft)</p>
-              <div className="toteBoxes">
-                <div className="eachToteItem toteBoxItem70">
-                  <p>1 Week rental</p>
-                  <span className="price">$120</span>
-                </div>
-                <div className="eachToteItem toteBoxItem70">
-                  <p>2 Week rental</p>
-                  <span className="price">$160</span>
-                </div>
-                <div className="eachToteItem toteBoxItem70">
-                  <p>3 Week rental</p>
-                  <span className="price">$195</span>
-                </div>
-                <div className="eachToteItem toteBoxItem70">
-                  <p>4 Week rental</p>
-                  <span className="price">$230</span>
-                </div>
-              </div>
-              <p className="bottomCentered">$35 each additional week</p>
-            </div>
-
-            {/* Tote cars */}
-
-            <div className="formControl fullLenght">
-              <label className="boldLabel">King Tote Hand Cart</label>
-              <p>Heavy duty tubular steel car with tires</p>
-              <div className="toteBoxes">
-                <div className="eachToteItem heavyDutyCart">
-                  <p>1 Week rental</p>
-                  <span className="price">$8</span>
-                </div>
-                <div className="eachToteItem heavyDutyCart">
-                  <p>2 Week rental</p>
-                  <span className="price">$16</span>
-                </div>
-                <div className="eachToteItem heavyDutyCart">
-                  <p>3 Week rental</p>
-                  <span className="price">$24</span>
-                </div>
-                <div className="eachToteItem heavyDutyCart">
-                  <p>4 Week rental</p>
-                  <span className="price">$32</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="formControl fullLenght">
-              <label className="boldLabel">King Tote Wheels</label>
-              <p>Easy-roller made to roll stacked totes</p>
-              <div className="toteBoxes">
-                <div className="eachToteItem easyRollCart">
-                  <p>1 Week rental</p>
-                  <span className="price">$5</span>
-                </div>
-                <div className="eachToteItem easyRollCart">
-                  <p>2 Week rental</p>
-                  <span className="price">$10</span>
-                </div>
-                <div className="eachToteItem easyRollCart">
-                  <p>3 Week rental</p>
-                  <span className="price">$15</span>
-                </div>
-                <div className="eachToteItem easyRollCart">
-                  <p>4 Week rental</p>
-                  <span className="price">$20</span>
-                </div>
-              </div>
-            </div>
+            {toteRows}
 
             <div className="formControl submitControl fullLenght">
               <button className="button global whiteBtn" type="submit" onClick={() => setDirection('back')}>
@@ -379,7 +131,6 @@ export const FormToteDetails = ({
                 <span>Next</span>
               </button>
             </div>
-          
           </Form>
         )}
       </Formik>

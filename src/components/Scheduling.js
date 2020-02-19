@@ -64,7 +64,6 @@ export const Scheduling = ({
             <Formik
                 initialValues={formData}
                 onSubmit={values => {
-                //setFormData(values);
                 direction === 'back' ? prevStep() : nextStep();
                 }}
             >
@@ -91,12 +90,6 @@ export const Scheduling = ({
                             startingTime={formData.timeRangePickStart}
                             endingTime={formData.timeRangePickEnd}
                             />
-                        {/* <Field 
-                            name='dropOff' 
-                            placeholder="zip code"
-                            type="number"
-                            />
-                        {errors.dropOff && touched.dropOff && <div>{errors.dropOff}</div>} */}
                     </div>
                     <div className="formControl submitControl fullLenght">
                     <button className="button global whiteBtn" type="submit" onClick={() => setDirection('back')}>
