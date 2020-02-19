@@ -9,10 +9,10 @@ import { Success } from './Success';
 
 export const UserForm = () => {
 
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     serviceArea: 'Nevada',
-    dropOff: '00007',
+    dropOff: '10007',
     pickUp: '32300',
     locationType:'',
     box25totes: null,
