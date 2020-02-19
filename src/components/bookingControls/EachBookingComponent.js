@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import DayPicker from "react-day-picker";
 import { TimeOption } from "./TimeOption"
 
@@ -70,7 +69,7 @@ export const EachBookingComponent = ({ controlType, updateStateSchedulingStart, 
             setShowResumeInfo(true)
             setDateDropOff(currentDate)
         }
-    }, [])
+    }, [currentDate])
 
     return (
         <>

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form, Field } from 'formik';
 import { Header } from './Header';
 import { EachBookingComponent } from './bookingControls/EachBookingComponent'
+import * as yup from 'yup';
 import "react-day-picker/lib/style.css";
 
 export const Scheduling = ({
@@ -13,6 +14,15 @@ export const Scheduling = ({
     }) => {
         
     const [direction, setDirection] = useState('back');
+
+    const validationSchemaScheduling = yup.object({
+        firstBooking: yup
+          .string()
+          .required('firstBooking is required'),
+        lasttBooking: yup
+          .string()
+          .required('lasttBooking is required'),
+      });
 
     const updateStateSchedulingStart = ( dateData ) => {
 
@@ -28,7 +38,6 @@ export const Scheduling = ({
             });
         }
     }
-
     const updateStateSchedulingTime = (timeData) => {
 
         if(timeData.kind === 'start'){
@@ -47,10 +56,7 @@ export const Scheduling = ({
 
     }
 
-    useEffect(() => {
-
-        console.log('formData at scheduling: ', formData)
-    }, [])
+    
 
     return (
         <>
@@ -64,8 +70,11 @@ export const Scheduling = ({
             <Formik
                 initialValues={formData}
                 onSubmit={values => {
-                direction === 'back' ? prevStep() : nextStep();
+                    console.log(values)
+                    setFormData(values);
+                    direction === 'back' ? prevStep() : nextStep();
                 }}
+                validationSchema={validationSchemaScheduling}
             >
             {({ errors, touched }) => (
                 <Form>
@@ -79,6 +88,12 @@ export const Scheduling = ({
                             startingTime={formData.timeRangeDropStart}
                             endingTime={formData.timeRangeDropEnd}
                             />
+
+                        <Field 
+                            name='firstBooking' 
+                            placeholder="first booing"
+                            />
+                        {errors.firstBooking && touched.firstBooking && <div className="errorMessage">{errors.firstBooking}</div>}
                     </div>
                     <div className="formControl">
                         <label className="boldLabel">Select Pick-up Date/Time</label>
@@ -90,12 +105,17 @@ export const Scheduling = ({
                             startingTime={formData.timeRangePickStart}
                             endingTime={formData.timeRangePickEnd}
                             />
+                        <Field 
+                            name='lasttBooking' 
+                            placeholder="first booing"
+                            />
+                        {errors.lasttBooking && touched.lasttBooking && <div className="errorMessage">{errors.lasttBooking}</div>}
                     </div>
                     <div className="formControl submitControl fullLenght">
-                    <button className="button global whiteBtn" type="submit" onClick={() => setDirection('back')}>
+                    <button className="whiteBtn" type="submit" onClick={() => setDirection('back')}>
                         <span>Previous</span>
                     </button>
-                    <button className="button global" onClick={() => setDirection('next')}>
+                    <button className="button" type="submit" onClick={() => setDirection('next')}>
                         <span>Next</span>
                     </button>
                     </div>

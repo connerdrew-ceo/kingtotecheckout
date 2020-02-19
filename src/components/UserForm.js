@@ -17,6 +17,10 @@ export const UserForm = () => {
     locationType:'',
     firstName: '',
     lastName: '',
+    firstBooking: '',
+    lasttBooking: '',
+    toteBoxesField:'',
+    toteCarField:'',
     toteBoxes:[
       {name: 'box25totes', weeks: null},
       {name: 'box35totes', weeks: null},
@@ -37,7 +41,6 @@ export const UserForm = () => {
     timeRangeDropEnd: null,
     timeRangePickStart: null,
     timeRangePickEnd: null,
-    
   });
 
   const nextStep = () => setStep(prev => prev + 1);
@@ -81,7 +84,11 @@ export const UserForm = () => {
       );
     case 5:
       return (
-        <Confirm formData={formData} nextStep={nextStep} prevStep={prevStep} />
+        <Confirm 
+          formData={formData} 
+          nextStep={nextStep} 
+          prevStep={prevStep} 
+        />
       );
     default:
       return <Success />;

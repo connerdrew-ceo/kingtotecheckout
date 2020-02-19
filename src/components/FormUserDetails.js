@@ -1,33 +1,31 @@
-import React, {useState} from 'react';
-import PropTypes, { number } from 'prop-types';
+import React from 'react';
+// import PropTypes, { number } from 'prop-types';
 import { Header } from './Header';
 import { Formik, Form, Field } from 'formik';
-import { connect } from 'react-redux'
+//import { connect } from 'react-redux'
 import * as yup from 'yup';
 
-const validationSchemaFirstStep = yup.object({
-  locationType: yup
-    .string()
-    .required('Pick up is required'),
-  serviceArea: yup
-    .string()
-    .required('Service Area is required'),
-    
-  dropOff: yup
-    .number('test errrr')
-    .positive('test errrr')
-    .integer('test errrr')
-    .required('test errrr required'),
-  pickUp: yup
-    .number()
-    .positive()
-    .integer()
-    .required('Pick up is required'),
-});
-
-const regexp = /^[0-9\b]+$/
 
 export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
+  const validationSchemaFirstStep = yup.object({
+    locationType: yup
+      .string()
+      .required('Pick up is required'),
+    serviceArea: yup
+      .string()
+      .required('Service Area is required'),
+    dropOff: yup
+      .number('')
+      .positive('')
+      .integer('')
+      .required('Drop off required'),
+    pickUp: yup
+      .number()
+      .positive()
+      .integer()
+      .required('Pick up is required'),
+  });
+  //const regexp = /^[0-9\b]+$/
 
   return (
     <>

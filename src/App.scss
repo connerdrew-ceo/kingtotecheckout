@@ -2,6 +2,7 @@ $white: #ffffff;
 $purple: #873780;
 $lightPurple: #a1819f;
 $greyText: #6e6d6d;
+$bgInput: #F4F5F7;
 
 *, *:before, *:after{
   box-sizing: border-box;
@@ -418,7 +419,7 @@ form{
 
   input, input[type=text], input[type=number], input[type=email], input[type=tel], select, textarea{
     appearance: none;
-    background-color: #F4F5F7;
+    background-color: $bgInput;
     border-radius: .5rem;
     padding: 0 .75rem;
     width: 100%;
@@ -428,6 +429,10 @@ form{
     font-size: 1rem;
     height: 2.75rem;
     color: $greyText;
+    border: 1px solid $bgInput;
+    &.err{
+      border: 1px solid orangered;
+    }
   }
   select{
     background-position: 97% center !important;

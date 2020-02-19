@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form, Field } from 'formik';
 import { Header } from './Header';
 import { ToteBoxesRow } from './toteBoxes/ToteBoxesRow'
+import * as yup from 'yup';
 
 let toteBoxesData = [
   {title: '25 Totes', 
@@ -79,6 +80,14 @@ export const FormToteDetails = ({
   prevStep
 }) => {
   const [direction, setDirection] = useState('back');
+  const validationSchemaToteBoxes = yup.object({
+    toteBoxesField: yup
+      .string()
+      .required('firstBooking is required'),
+    toteCarField: yup
+      .string()
+      .required('firstBooking is required'),
+  });
   const [toteBox25, setToteBox25] = useState(formData.box25totes);
   const [toteBox35, setToteBox35] = useState(formData.box35totes);
   const [toteBox50, setToteBox50] = useState(formData.box50totes);
@@ -86,7 +95,6 @@ export const FormToteDetails = ({
   const [heavyDutyCart, setHeavyDutyCart] = useState(formData.handleCart);
   const [easyRollCart, setEasyRollCart] = useState(formData.kingcart);
   const setToteBoxesInfo = () => {
-
     setFormData({
       ...formData,
       'box25totes': toteBox25,
@@ -136,7 +144,6 @@ export const FormToteDetails = ({
   return (
     <>
       <Header title='Enter Personal Details' step="Two"/>
-
       <div className="introWrap">
         <h2>Order details</h2>
         <p>Please select the applicable option(s) bellow.</p>
@@ -145,18 +152,31 @@ export const FormToteDetails = ({
       <Formik
         initialValues={formData}
         onSubmit={values => {
-          setToteBoxesInfo()
+          setFormData(values);
+          //setToteBoxesInfo();
           direction === 'back' ? prevStep() : nextStep();
         }}
+        validationSchema={validationSchemaToteBoxes}
         >
         {({ errors, touched }) => (
           <Form>
             {toteRows}
+            <Field 
+              name='toteBoxesField' 
+              placeholder="at least one"
+              />
+              {errors.toteBoxesField && touched.toteBoxesField && <div className="errorMessage">{errors.toteBoxesField}</div>}
+            <Field 
+              name='toteCarField' 
+              placeholder="at least one"
+              />
+              {errors.toteCarField && touched.toteCarField && <div className="errorMessage">{errors.toteCarField}</div>}
+            
             <div className="formControl submitControl fullLenght">
-              <button className="button global whiteBtn" type="submit" onClick={() => setDirection('back')}>
+              <button className="whiteBtn" type="submit" onClick={() => setDirection('back')}>
                 <span>Previous</span>
               </button>
-              <button className="button global" type="submit" onClick={() => setDirection('next')}>
+              <button type="submit" onClick={() => setDirection('next')}>
                 <span>Next</span>
               </button>
             </div>
@@ -167,9 +187,9 @@ export const FormToteDetails = ({
   );
 };
 
-FormToteDetails.propTypes = {
-  formData: PropTypes.object.isRequired,
-  setFormData: PropTypes.func.isRequired,
-  nextStep: PropTypes.func.isRequired,
-  prevStep: PropTypes.func.isRequired
-};
+// FormToteDetails.propTypes = {
+//   formData: PropTypes.object.isRequired,
+//   setFormData: PropTypes.func.isRequired,
+//   nextStep: PropTypes.func.isRequired,
+//   prevStep: PropTypes.func.isRequired
+// };

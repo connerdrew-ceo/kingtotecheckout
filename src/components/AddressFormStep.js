@@ -1,20 +1,9 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import { Header } from './Header';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
-// import { connect } from 'react-redux'
 
-const validationSchemaFourthStep = yup.object({
-  firstName: yup
-    .string()
-    .required('Name Area is required'),
-  lasttName: yup
-    .string()
-    .required('Last name Area is required'),
-});
-
-console.log('validationSchemaFourthStep: ',validationSchemaFourthStep)
 
 export const AddressFormStep = ({
     formData,
@@ -23,7 +12,18 @@ export const AddressFormStep = ({
     prevStep
     }) => {
     const [direction, setDirection] = useState('back');
+    const validationSchemaFourthStep = yup.object({
+      firstName: yup
+        .string()
+        .required('First name is required'),
+      lasttName: yup
+        .string()
+        .required('Last name is required'),
+    });
 
+    console.log('validationSchemaFourthStep: ',validationSchemaFourthStep)
+
+    console.log('initial values: ', formData)
     
   return (
     <>
@@ -62,7 +62,7 @@ export const AddressFormStep = ({
                   name='lastName' 
                   placeholder="Doe"
                   />
-                {errors.lastName && touched.lastName && <div className="errorMessage">{errors.lastName}</div>}
+                  {errors.lastName && touched.lastName && <div className="errorMessage">{errors.lastName}</div>}
             </div>
             <div className="formControl">
             </div>
@@ -157,10 +157,10 @@ export const AddressFormStep = ({
             <div className="formControl"></div> */}
 
             <div className="formControl submitControl fullLenght">
-              <button className="button global whiteBtn" type="submit" onClick={() => setDirection('back')}>
+              <button className="whiteBtn" type="submit" onClick={() => setDirection('back')}>
                 <span>Previous</span>
               </button>
-              <button className="button global" type="submit">
+              <button type="submit" onClick={() => setDirection('next')}>
                 <span>Next</span>
               </button>
             </div>
