@@ -21,12 +21,10 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
       .integer()
       .required('Pick up is required'),
   });
-  //const regexp = /^[0-9\b]+$/
 
   const validateUserName = value => {
 
     let stringValue = value + ''
-
     let error;
       if (!value) {
         error = 'Drop off required';
@@ -37,8 +35,6 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
       }
       return error;
   };
-  
-
   return (
     <>
       <Header title='Enter Personal Details' step="One" />
@@ -51,7 +47,6 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
       <Formik
         initialValues={formData}
         onSubmit={values => {
-          console.log('Values >>>>>> ', values)
           setFormData(values);
           nextStep();
         }}
