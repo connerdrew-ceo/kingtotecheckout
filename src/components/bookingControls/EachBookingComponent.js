@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import DayPicker from "react-day-picker";
 import { TimeOption } from "./TimeOption"
+let dayUnformatted = '';
+let dateAvailable = new Date();
 
-export const EachBookingComponent = ({ controlType, updateStateSchedulingStart, updateStateSchedulingTime, currentDate, startingTime, endingTime }) => {
+export const EachBookingComponent = ({  controlType, 
+                                        updateStateSchedulingStart, 
+                                        updateStateSchedulingTime, 
+                                        currentDate, 
+                                        startingTime, 
+                                        endingTime, 
+                                        enabled }) => {
 
     const [selectedTime, setSelectedTime] = useState(null);
     const [selectedTimeStart, setSelectedTimeStart] = useState(startingTime);
@@ -11,6 +19,7 @@ export const EachBookingComponent = ({ controlType, updateStateSchedulingStart, 
     const [openTimeLayerDrop, setOpenTimeLayerDrop] = useState(false);
     const [showResumeInfo, setShowResumeInfo] = useState(false);
     
+
     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const timeOptions = [
         {startAt: '7:00', endAt: '9:00'},
@@ -31,8 +40,17 @@ export const EachBookingComponent = ({ controlType, updateStateSchedulingStart, 
     if(openTimeLayerDrop){
         layerClassListDrop = 'calendarAndTimeWrap timeOn'
     }
+
+    let calendarControlClasses = 'calendarLayer'
+
+    if(!enabled){
+        calendarControlClasses = 'calendarLayer disabled'
+        //dateAvailable = new Date(enabled)
+    }
     
     const handleDayDropOff = (day, { selected }) => {
+
+        dayUnformatted = day
         setOpenTimeLayerDrop(true)
         setDateDropOff(day.toLocaleDateString(undefined, dateOptions))
     };
@@ -40,14 +58,16 @@ export const EachBookingComponent = ({ controlType, updateStateSchedulingStart, 
     const closeCalendar = () => {
         setOpenTimeLayerDrop(false)
         setShowResumeInfo(true)
-        updateStateSchedulingStart({kind: controlType, stringDate: dateDropOff})
+        updateStateSchedulingStart({kind: controlType, stringDate: dateDropOff, day: dayUnformatted})
     };
 
     const changeSelectedTime = (key) => {
         setSelectedTime(key)
         setSelectedTimeStart(timeOptions[key].startAt)
         setSelectedTimeEnd(timeOptions[key].endAt)
-        updateStateSchedulingTime({kind: controlType, stringTimeStart: timeOptions[key].startAt, stringTimeEnd: timeOptions[key].endAt})
+        updateStateSchedulingTime({ kind: controlType, 
+                                    stringTimeStart: timeOptions[key].startAt, 
+                                    stringTimeEnd: timeOptions[key].endAt})
     };
 
     let tabsContent = timeOptions.map((timeOpt, index) => {
@@ -83,7 +103,7 @@ export const EachBookingComponent = ({ controlType, updateStateSchedulingStart, 
                     </span>
                 </div>
                 <div className={layerClassListDrop}>
-                    <div className="calendarLayer">
+                    <div className={calendarControlClasses}>
                         <DayPicker 
                             onDayClick={handleDayDropOff}
                             disabledDays={[

@@ -163,7 +163,6 @@ export const FormToteDetails = ({
         <h2>Order details</h2>
         <p>Please select the applicable option(s) bellow.</p>
       </div>
-
       <Formik
         initialValues={formData}
         onSubmit={values => {
@@ -174,7 +173,6 @@ export const FormToteDetails = ({
         {() => (
           <Form>
             {toteRows}
-            
             
             <div className="formControl submitControl fullLenght">
               <button className="whiteBtn" type="submit" onClick={() => setDirection('back')}>

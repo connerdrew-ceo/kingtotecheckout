@@ -324,6 +324,10 @@ button{
       left: 0;
       top: 0;
       background-color: #ffffff;
+      &.disabled{
+        opacity: .4;
+        pointer-events: none;
+      }
     }
     .timeLayer{
       position: absolute;

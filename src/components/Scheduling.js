@@ -12,20 +12,12 @@ export const Scheduling = ({
     nextStep,
     prevStep
     }) => {
-        
     const [direction, setDirection] = useState('back');
-
-    const [errorDrop, setErrorDrop ] = useState('')
-    const [errorPick, setErrorPick ] = useState('')
-
-    const validationSchemaScheduling = yup.object({
-        firstBooking: yup
-          .string()
-          .required('firstBooking is required'),
-        lasttBooking: yup
-          .string()
-          .required('lasttBooking is required'),
-      });
+    const [errorDrop, setErrorDrop ] = useState('');
+    const [errorPick, setErrorPick ] = useState('');
+    const [enableCalendar, setEnableCalendar] = useState(false);
+    
+    
 
     const updateStateSchedulingStart = ( dateData ) => {
 
@@ -40,6 +32,8 @@ export const Scheduling = ({
                 'datePickUp': dateData.stringDate
             });
         }
+        setEnableCalendar(dateData.day)
+        
     }
     const updateStateSchedulingTime = (timeData) => {
 
@@ -57,7 +51,6 @@ export const Scheduling = ({
             });
         }
     }
-
     return (
         <>
         <Header title='Enter Personal Details' step="Three"/>
@@ -69,7 +62,6 @@ export const Scheduling = ({
             <Formik
                 initialValues={formData}
                 onSubmit={values => {
-                    //setFormData(values);
                     direction === 'back' ? prevStep() : nextStep();
                 }}
             >
@@ -84,6 +76,7 @@ export const Scheduling = ({
                             currentDate={formData.dateDropOff}
                             startingTime={formData.timeRangeDropStart}
                             endingTime={formData.timeRangeDropEnd}
+                            enabled={true}
                             />
                         {errorDrop && <div className="errorMessage">{errorDrop}</div>}
                     </div>
@@ -96,6 +89,7 @@ export const Scheduling = ({
                             currentDate={formData.datePickUp}
                             startingTime={formData.timeRangePickStart}
                             endingTime={formData.timeRangePickEnd}
+                            enabled={enableCalendar}
                             />
                         {errorPick && <div className="errorMessage">{errorPick}</div>}
                     </div>
