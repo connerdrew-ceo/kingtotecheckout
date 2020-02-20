@@ -36,10 +36,6 @@ const validationSchemaFourthStep = yup.object({
   statePickUpField: yup
     .string()
     .required('State is required'),
-
-    
-    
-
     
 });
 const validateZipCode = value => {
@@ -259,11 +255,8 @@ export const AddressFormStep = ({
                 {errors.textareaDropOff && touched.textareaDropOff && <div className="errorMessage">{errors.textareaDropOff}</div>}
             </div>
             <div className="formControl"></div>
-
-
-
             <div className="formControl submitControl fullLenght">
-              <button className="whiteBtn" type="submit" onClick={() => setDirection('back')}>
+              <button className="whiteBtn" type="submit" onClick={() => prevStep()}>
                 <span>Previous</span>
               </button>
               <button type="submit" onClick={() => setDirection('next')}>

@@ -12,27 +12,30 @@ export const Scheduling = ({
     prevStep
     }) => {
     const [direction, setDirection] = useState('back');
-    const [errorDrop, setErrorDrop ] = useState('');
-    const [errorPick, setErrorPick ] = useState('');
+    const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
+    let buttonClasses = (nextButtonDisabled) ? 'disabled' : ''
     const [enableCalendar, setEnableCalendar] = useState(false);
-    
 
     const updateStateSchedulingStart = ( dateData ) => {
 
         if(dateData.kind === 'start'){
+            setEnableCalendar(true)
             setFormData({
                 ...formData,
                 'dateDropOff': dateData.stringDate
             });
         }else{
+            if(dateData.stringDate === null){
+                setEnableCalendar(false)
+                setNextButtonDisabled(true)
+            }else{
+                setNextButtonDisabled(false)
+            }
             setFormData({
                 ...formData,
                 'datePickUp': dateData.stringDate
             });
         }
-
-        //console.log('dateData.day: ', dateData.day)
-        setEnableCalendar(true)
         
     }
     const updateStateSchedulingTime = (timeData) => {
@@ -79,7 +82,7 @@ export const Scheduling = ({
                             endingTime={formData.timeRangeDropEnd}
                             enabled={true}
                             />
-                        {errorDrop && <div className="errorMessage">{errorDrop}</div>}
+                        {/* {errorDrop && <div className="errorMessage">{errorDrop}</div>} */}
                     </div>
                     <div className="formControl">
                         <label className="boldLabel">Select Pick-up Date/Time</label>
@@ -93,13 +96,13 @@ export const Scheduling = ({
                             endingTime={formData.timeRangePickEnd}
                             enabled={enableCalendar}
                             />
-                        {errorPick && <div className="errorMessage">{errorPick}</div>}
+                        {/* {errorPick && <div className="errorMessage">{errorPick}</div>} */}
                     </div>
                     <div className="formControl submitControl fullLenght">
-                    <button className="whiteBtn" type="submit" onClick={() => setDirection('back')}>
+                    <button className="whiteBtn" type="submit" onClick={() => prevStep()}>
                         <span>Previous</span>
                     </button>
-                    <button className="button" type="submit" onClick={() => setDirection('next')}>
+                    <button className={buttonClasses} type="submit" onClick={() => setDirection('next')}>
                         <span>Next</span>
                     </button>
                     </div>

@@ -69,6 +69,7 @@ export const EachBookingComponent = ({  formData,
 
     if( !enabled){
         calendarControlClasses = 'calendarLayer disabled'
+
     }else{
         
         dateAvailable = (controlType === 'end') ? 
@@ -85,7 +86,11 @@ export const EachBookingComponent = ({  formData,
     const closeCalendar = () => {
         setOpenTimeLayerDrop(false)
         setShowResumeInfo(true)
-        updateStateSchedulingStart({kind: controlType, stringDate: dateDropOff, day: dayUnformatted})
+        updateStateSchedulingStart({kind: controlType, stringDate: dateDropOff})
+
+        if(controlType === 'end'){
+            console.log('aca debo habilitar el next')
+        }
     };
 
     const changeSelectedTime = (key) => {
@@ -96,6 +101,16 @@ export const EachBookingComponent = ({  formData,
                                     stringTimeStart: timeOptions[key].startAt, 
                                     stringTimeEnd: timeOptions[key].endAt})
     };
+
+    const resetControl = () => {
+
+        setShowResumeInfo(false)
+
+        if(controlType === 'start'){
+            updateStateSchedulingStart({kind: 'end', stringDate: null})
+            setSelectedTime(null)
+        }
+    }
 
     let tabsContent = timeOptions.map((timeOpt, index) => {
         return <TimeOption 
@@ -115,8 +130,13 @@ export const EachBookingComponent = ({  formData,
             setOpenTimeLayerDrop(false)
             setShowResumeInfo(true)
             setDateDropOff(currentDate)
+        }else{
+            if(controlType === 'end'){
+                setShowResumeInfo(false)
+                setSelectedTime(null)
+            }
         }
-    }, [])
+    }, [currentDate])
 
     return (
         <>
@@ -126,7 +146,7 @@ export const EachBookingComponent = ({  formData,
                         <br/>
                         bwtween {selectedTimeStart} am - {selectedTimeEnd} am
                     </p>
-                    <span className="iconEditTime" onClick={() => setShowResumeInfo(false)}>
+                    <span className="iconEditTime" onClick={() => resetControl() }>
                     </span>
                 </div>
                 <div className={layerClassListDrop}>
