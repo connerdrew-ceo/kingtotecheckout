@@ -32,8 +32,14 @@ export const EachBookingComponent = ({  formData,
                         formData.handleCart,
                         formData.kingcart
                         ];
+
+        
+
+        //arrWeek.compact
+
+        console.log(arrWeek)
                         
-        return Math.max(arrWeek)
+        //return Math.max(arrWeek)
     }
 
     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
