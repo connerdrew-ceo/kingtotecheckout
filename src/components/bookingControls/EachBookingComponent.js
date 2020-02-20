@@ -19,6 +19,9 @@ export const EachBookingComponent = ({  controlType,
     const [openTimeLayerDrop, setOpenTimeLayerDrop] = useState(false);
     const [showResumeInfo, setShowResumeInfo] = useState(false);
     
+    const addWeeks = (dt, n) => {
+        return new Date(dt.setDate(dt.getDate() + (n * 7)));
+    }
 
     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const timeOptions = [
@@ -43,13 +46,16 @@ export const EachBookingComponent = ({  controlType,
 
     let calendarControlClasses = 'calendarLayer'
 
-    if(!enabled){
+    if( !enabled){
         calendarControlClasses = 'calendarLayer disabled'
         //dateAvailable = new Date(enabled)
+
+        console.log(enabled)
     }
+
+    
     
     const handleDayDropOff = (day, { selected }) => {
-
         dayUnformatted = day
         setOpenTimeLayerDrop(true)
         setDateDropOff(day.toLocaleDateString(undefined, dateOptions))
@@ -108,10 +114,11 @@ export const EachBookingComponent = ({  controlType,
                             onDayClick={handleDayDropOff}
                             disabledDays={[
                                 {
-                                    before: new Date(),
+                                    before: dateAvailable
                                 },
                             ]}
                         />
+                        <div className="hideCalendar"></div>
                     </div>
                     <div className="timeLayer">
                         <br/>
