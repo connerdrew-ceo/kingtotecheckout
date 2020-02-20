@@ -4,7 +4,8 @@ import { TimeOption } from "./TimeOption"
 let dayUnformatted = '';
 let dateAvailable = new Date();
 
-export const EachBookingComponent = ({  controlType, 
+export const EachBookingComponent = ({  formData,
+                                        controlType, 
                                         updateStateSchedulingStart, 
                                         updateStateSchedulingTime, 
                                         currentDate, 
@@ -21,6 +22,18 @@ export const EachBookingComponent = ({  controlType,
     
     const addWeeks = (dt, n) => {
         return new Date(dt.setDate(dt.getDate() + (n * 7)));
+    }
+
+    const getNumberOfWeeks = () => {
+        let arrWeek = [ formData.box25totes, 
+                        formData.box35totes, 
+                        formData.box50totes,
+                        formData.box70totes,
+                        formData.handleCart,
+                        formData.kingcart
+                        ];
+                        
+        return Math.max(arrWeek)
     }
 
     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -48,12 +61,14 @@ export const EachBookingComponent = ({  controlType,
 
     if( !enabled){
         calendarControlClasses = 'calendarLayer disabled'
-        //dateAvailable = new Date(enabled)
+    }else{
+        console.log(getNumberOfWeeks())
 
-        console.log(enabled)
+        dateAvailable = (controlType === 'end') ? 
+                                                    addWeeks(new Date(formData.dateDropOff), 1)  
+                                                :   new Date()
+        
     }
-
-    
     
     const handleDayDropOff = (day, { selected }) => {
         dayUnformatted = day
@@ -95,7 +110,7 @@ export const EachBookingComponent = ({  controlType,
             setShowResumeInfo(true)
             setDateDropOff(currentDate)
         }
-    }, [currentDate])
+    }, [])
 
     return (
         <>

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Formik, Form, Field } from 'formik';
 import { Header } from './Header';
 import { EachBookingComponent } from './bookingControls/EachBookingComponent'
-import * as yup from 'yup';
 import "react-day-picker/lib/style.css";
 
 export const Scheduling = ({
@@ -16,7 +15,6 @@ export const Scheduling = ({
     const [errorDrop, setErrorDrop ] = useState('');
     const [errorPick, setErrorPick ] = useState('');
     const [enableCalendar, setEnableCalendar] = useState(false);
-    
     
 
     const updateStateSchedulingStart = ( dateData ) => {
@@ -32,7 +30,9 @@ export const Scheduling = ({
                 'datePickUp': dateData.stringDate
             });
         }
-        setEnableCalendar(dateData.day)
+
+        //console.log('dateData.day: ', dateData.day)
+        setEnableCalendar(true)
         
     }
     const updateStateSchedulingTime = (timeData) => {
@@ -69,7 +69,8 @@ export const Scheduling = ({
                 <Form>
                     <div className="formControl">
                         <label className="boldLabel">Select Drop-off Date/Time</label>
-                        <EachBookingComponent 
+                        <EachBookingComponent
+                            formData={formData} 
                             updateStateSchedulingStart={updateStateSchedulingStart} 
                             updateStateSchedulingTime={updateStateSchedulingTime} 
                             controlType="start" 
@@ -82,7 +83,8 @@ export const Scheduling = ({
                     </div>
                     <div className="formControl">
                         <label className="boldLabel">Select Pick-up Date/Time</label>
-                        <EachBookingComponent 
+                        <EachBookingComponent
+                            formData={formData} 
                             updateStateSchedulingStart={updateStateSchedulingStart} 
                             updateStateSchedulingTime={updateStateSchedulingTime} 
                             controlType="end" 
