@@ -216,47 +216,51 @@ export const AddressFormStep = ({
               </div>
             </div>
 
-
-            
-
-            {/* 
-
             <div className="formControl">
-                <h3>Pick-up Address</h3>
-                <label htmlFor="nameImput">Street Address</label>
-                <input type="text" name="name" placeholder="Street Address" className="form-control" id="nameImput" />
-            </div>
-            <div className="formControl">
-                <h3>Pick-up Contact</h3>
-              <div className="ratioWrap">
-                <input type="checkbox" id="locationResidential" name="location" value="0"/>
-                <label htmlFor="locationResidential">Same as Main Contact Info</label>
-              </div>
-              
-            </div>
-
-            <div className="formControl">
-                <label htmlFor="lastNameImput">City</label>
-                <input type="text" name="lastName" placeholder="City" className="form-control" id="lastNameImput" />
+                <label htmlFor="cityPickUpImput">City</label>
+                <Field 
+                  id="cityPickUpInput"
+                  name='cityPickUpField' 
+                  placeholder="city"
+                  />
+                  {errors.cityPickUpField && touched.cityPickUpField && <div className="errorMessage">{errors.cityPickUpField}</div>}
             </div>
             <div className="formControl"></div>
 
             <div className="formControl">
-                <label htmlFor="lastNameImput">State</label>
-                <input type="text" name="lastName" placeholder="State" className="form-control" id="lastNameImput" />
+                <label htmlFor="statePickUpImput">State</label>
+                <Field 
+                  id="statePickUpInput"
+                  name='statePickUpField' 
+                  placeholder="state"
+                  />
+                  {errors.statePickUpField && touched.statePickUpField && <div className="errorMessage">{errors.statePickUpField}</div>}
             </div>
             <div className="formControl"></div>
             <div className="formControl">
               <label htmlFor="dropOff">Zip Code</label>
-              <input type="number" name="name" placeholder="zip code" className="form-control" id="nameImput" />
+              <Field 
+                name='zipCodePickUp' 
+                placeholder="zip code"
+                type="number"
+                validate={validateZipCode}
+                />
+                {errors.zipCodePickUp && touched.zipCodePickUp && <div className="errorMessage">{errors.zipCodePickUp}</div>}
             </div>
             <div className="formControl"></div>
 
             <div className="formControl">
               <label htmlFor="dropOff">Additional Information</label>
-              <textarea id="comments-area" name="textarea" placeholder="Additional notes, special instructions, gate code, etc" value="" />
+              <Field 
+                name='textareaDropOff' 
+                placeholder="Additional notes, special instructions, gate code, etc"
+                component="textarea"
+                />
+                {errors.textareaDropOff && touched.textareaDropOff && <div className="errorMessage">{errors.textareaDropOff}</div>}
             </div>
-            <div className="formControl"></div> */}
+            <div className="formControl"></div>
+
+
 
             <div className="formControl submitControl fullLenght">
               <button className="whiteBtn" type="submit" onClick={() => setDirection('back')}>
