@@ -25,6 +25,7 @@ export const EachBookingComponent = ({  formData,
     }
 
     const getNumberOfWeeks = () => {
+        let maxNumber = 0
         let arrWeek = [ formData.box25totes, 
                         formData.box35totes, 
                         formData.box50totes,
@@ -33,13 +34,13 @@ export const EachBookingComponent = ({  formData,
                         formData.kingcart
                         ];
 
-        
-
-        //arrWeek.compact
-
-        console.log(arrWeek)
+        arrWeek.forEach(function(word) {
+            if (word !== null && word > maxNumber) {
+                maxNumber = word
+            }
+        });
                         
-        //return Math.max(arrWeek)
+        return maxNumber + 1
     }
 
     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -68,12 +69,10 @@ export const EachBookingComponent = ({  formData,
     if( !enabled){
         calendarControlClasses = 'calendarLayer disabled'
     }else{
-        console.log(getNumberOfWeeks())
-
-        dateAvailable = (controlType === 'end') ? 
-                                                    addWeeks(new Date(formData.dateDropOff), 1)  
-                                                :   new Date()
         
+        dateAvailable = (controlType === 'end') ? 
+                                                    addWeeks(new Date(formData.dateDropOff), getNumberOfWeeks() )  
+                                                :   new Date()
     }
     
     const handleDayDropOff = (day, { selected }) => {
