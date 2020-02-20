@@ -396,8 +396,11 @@ form{
     margin: 1.5% 0;
     margin-bottom: 2rem;
     .errorMessage{
+      display: block;
       width: 100%;
       color: orangered;
+      padding-top: .25rem;
+      padding-left: .5rem;
     }
     &.submitControl{
       display: flex;
@@ -414,6 +417,13 @@ form{
           margin-top: 1rem;
         }
       }
+    }
+  }
+
+  button{
+    &.disabled{
+      opacity: .4;
+      pointer-events: none;
     }
   }
 
@@ -441,6 +451,7 @@ form{
     background-repeat: no-repeat !important;
   }
   input[type=radio]{
+    border: none;
     background: none;
     cursor: pointer;
     appearance: none;
@@ -459,6 +470,7 @@ form{
     }
   }
   input[type=checkbox]{
+    border: none;
     cursor: pointer;
     appearance: none;
     width: 1.9rem;

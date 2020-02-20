@@ -14,11 +14,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
     serviceArea: yup
       .string()
       .required('Service Area is required'),
-    dropOff: yup
-      .number('')
-      .positive('')
-      .integer('')
-      .required('Drop off required'),
+    
     pickUp: yup
       .number()
       .positive()
@@ -26,6 +22,22 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
       .required('Pick up is required'),
   });
   //const regexp = /^[0-9\b]+$/
+
+  const validateUserName = value => {
+
+    let stringValue = value + ''
+
+    let error;
+      if (!value) {
+        error = 'Drop off required';
+      } else if (stringValue.length > 5) {
+        error = 'postal code is 5 digits';
+      } else if (stringValue.length < 5) {
+        error = 'postal code is 5 digits';
+      }
+      return error;
+  };
+  
 
   return (
     <>
@@ -68,6 +80,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
                 name='dropOff' 
                 placeholder="zip code"
                 type="number"
+                validate={validateUserName}
                 />
                 {errors.dropOff && touched.dropOff && <div className="errorMessage">{errors.dropOff}</div>}
             </div>
@@ -77,6 +90,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
                 name='pickUp' 
                 placeholder="zip code"
                 type="number"
+                validate={validateUserName}
                 />
                 {errors.pickUp && touched.pickUp && <div className="errorMessage">{errors.pickUp}</div>}
             </div>

@@ -14,7 +14,7 @@ export const Header = ({ step }) => {
     <div>
       <div className="headerComponent">
         <a href="/">
-          <img src={mainLogo} alt="golf"/>
+          <img src={mainLogo} alt="King Tote"/>
         </a>
         <div className={currentStep}>
           <div className="eachStep first"></div>

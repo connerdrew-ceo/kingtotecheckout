@@ -4,7 +4,14 @@ import { Header } from './Header';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 
-
+const validationSchemaFourthStep = yup.object({
+  firstNameFiled: yup
+    .string()
+    .required('First name is required'),
+  lastNameField: yup
+    .string()
+    .required('Last name is required'),
+});
 export const AddressFormStep = ({
     formData,
     setFormData,
@@ -12,18 +19,6 @@ export const AddressFormStep = ({
     prevStep
     }) => {
     const [direction, setDirection] = useState('back');
-    const validationSchemaFourthStep = yup.object({
-      firstName: yup
-        .string()
-        .required('First name is required'),
-      lasttName: yup
-        .string()
-        .required('Last name is required'),
-    });
-
-    console.log('validationSchemaFourthStep: ',validationSchemaFourthStep)
-
-    console.log('initial values: ', formData)
     
   return (
     <>
@@ -31,13 +26,15 @@ export const AddressFormStep = ({
       <div className="introWrap">
         <h2>Your Details</h2>
         <p>Please fill out your contact information as Delivery and Pick-Up addresses</p>
+        {/* <pre>{JSON.stringify(formData, null, 2)}</pre> */}
       </div>
       <Formik
         initialValues={formData}
         onSubmit={values => {
-          console.log('submit >>>> ', values)
+          
           setFormData(values);
           direction === 'back' ? prevStep() : nextStep();
+          console.log('AddressFormStep submit >>>> ', values)
         }}
         validationSchema={validationSchemaFourthStep}
         >
@@ -45,24 +42,24 @@ export const AddressFormStep = ({
           <Form>
             <div className="formControl">
                 <h3>Main Contact Information</h3>
-                <label htmlFor="firstName">First Name</label>
+                <label htmlFor="firstNameInput">First Name</label>
                 <Field 
-                  id="firstName"
-                  name='firstName' 
+                  id="firstNameInput"
+                  name='firstNameFiled' 
                   placeholder="Jane"
                   />
-                {errors.firstName && touched.firstName && <div className="errorMessage">{errors.firstName}</div>}
+                {errors.firstNameFiled && touched.firstNameFiled && <div className="errorMessage">{errors.firstNameFiled}</div>}
             </div>
             <div className="formControl">
             </div>
             <div className="formControl">
-                <label htmlFor="lastName">Last Name</label>
+                <label htmlFor="lastNameInput">Last Name</label>
                 <Field 
-                  id="lastName"
-                  name='lastName' 
+                  id="lastNameInput"
+                  name='lastNameField' 
                   placeholder="Doe"
                   />
-                  {errors.lastName && touched.lastName && <div className="errorMessage">{errors.lastName}</div>}
+                  {errors.lastNameField && touched.lastNameField && <div className="errorMessage">{errors.lastNameField}</div>}
             </div>
             <div className="formControl">
             </div>
@@ -74,7 +71,7 @@ export const AddressFormStep = ({
 
             <div className="formControl">
                 <label htmlFor="lastNameImput">Email</label>
-                <input type="email" name="lastName" placeholder="hello@hello.com" className="form-control" id="lastNameImput" />
+                <input type="email" name="email" placeholder="hello@hello.com" className="form-control" id="lastNameImput" />
             </div>
             <div className="formControl"></div>
 
@@ -96,13 +93,13 @@ export const AddressFormStep = ({
 
             <div className="formControl">
                 <label htmlFor="lastNameImput">City</label>
-                <input type="text" name="lastName" placeholder="City" className="form-control" id="lastNameImput" />
+                <input type="text" name="city" placeholder="City" className="form-control"  />
             </div>
             <div className="formControl"></div>
 
             <div className="formControl">
                 <label htmlFor="lastNameImput">State</label>
-                <input type="text" name="lastName" placeholder="State" className="form-control" id="lastNameImput" />
+                <input type="text" name="state" placeholder="State" className="form-control"  />
             </div>
             <div className="formControl"></div>
 

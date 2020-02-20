@@ -5,8 +5,14 @@ export const ToteBoxesRow = ({trackKey, dataObj, updateSelectedBox}) => {
     const [selectedBox, setSelectedBox] = useState(dataObj.indexActive);
 
     const changeSelectedBox = (key) => {
-        (selectedBox === key) ? setSelectedBox(null) : setSelectedBox(key)
-        updateSelectedBox({parent:trackKey, child:key})
+        if(selectedBox === key){
+            setSelectedBox(null)
+            updateSelectedBox({parent:trackKey, child:null})
+
+        }else{
+            setSelectedBox(key)
+            updateSelectedBox({parent:trackKey, child:key})
+        }
     }
     const boxesRender = dataObj.prices
     let toteBoxes = boxesRender.map((toteBox, index) => {

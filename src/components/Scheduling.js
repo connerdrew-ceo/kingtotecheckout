@@ -15,6 +15,9 @@ export const Scheduling = ({
         
     const [direction, setDirection] = useState('back');
 
+    const [errorDrop, setErrorDrop ] = useState('')
+    const [errorPick, setErrorPick ] = useState('')
+
     const validationSchemaScheduling = yup.object({
         firstBooking: yup
           .string()
@@ -53,10 +56,7 @@ export const Scheduling = ({
                 'timeRangePickEnd': timeData.stringTimeEnd
             });
         }
-
     }
-
-    
 
     return (
         <>
@@ -66,15 +66,12 @@ export const Scheduling = ({
             <h2>Scheduling</h2>
             <p>Please select a date and time to drop-off and pick-up totes</p>
         </div>
-
             <Formik
                 initialValues={formData}
                 onSubmit={values => {
-                    console.log(values)
-                    setFormData(values);
+                    //setFormData(values);
                     direction === 'back' ? prevStep() : nextStep();
                 }}
-                validationSchema={validationSchemaScheduling}
             >
             {({ errors, touched }) => (
                 <Form>
@@ -88,12 +85,7 @@ export const Scheduling = ({
                             startingTime={formData.timeRangeDropStart}
                             endingTime={formData.timeRangeDropEnd}
                             />
-
-                        <Field 
-                            name='firstBooking' 
-                            placeholder="first booing"
-                            />
-                        {errors.firstBooking && touched.firstBooking && <div className="errorMessage">{errors.firstBooking}</div>}
+                        {errorDrop && <div className="errorMessage">{errorDrop}</div>}
                     </div>
                     <div className="formControl">
                         <label className="boldLabel">Select Pick-up Date/Time</label>
@@ -105,11 +97,7 @@ export const Scheduling = ({
                             startingTime={formData.timeRangePickStart}
                             endingTime={formData.timeRangePickEnd}
                             />
-                        <Field 
-                            name='lasttBooking' 
-                            placeholder="first booing"
-                            />
-                        {errors.lasttBooking && touched.lasttBooking && <div className="errorMessage">{errors.lasttBooking}</div>}
+                        {errorPick && <div className="errorMessage">{errorPick}</div>}
                     </div>
                     <div className="formControl submitControl fullLenght">
                     <button className="whiteBtn" type="submit" onClick={() => setDirection('back')}>

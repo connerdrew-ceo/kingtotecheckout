@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form, Field } from 'formik';
 import { Header } from './Header';
 import { ToteBoxesRow } from './toteBoxes/ToteBoxesRow'
-import * as yup from 'yup';
 
 let toteBoxesData = [
   {title: '25 Totes', 
@@ -80,14 +79,12 @@ export const FormToteDetails = ({
   prevStep
 }) => {
   const [direction, setDirection] = useState('back');
-  const validationSchemaToteBoxes = yup.object({
-    toteBoxesField: yup
-      .string()
-      .required('firstBooking is required'),
-    toteCarField: yup
-      .string()
-      .required('firstBooking is required'),
-  });
+
+  const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
+  let buttonClasses = ''
+
+  buttonClasses = (nextButtonDisabled) ? 'disabled' : ''
+  
   const [toteBox25, setToteBox25] = useState(formData.box25totes);
   const [toteBox35, setToteBox35] = useState(formData.box35totes);
   const [toteBox50, setToteBox50] = useState(formData.box50totes);
@@ -95,6 +92,7 @@ export const FormToteDetails = ({
   const [heavyDutyCart, setHeavyDutyCart] = useState(formData.handleCart);
   const [easyRollCart, setEasyRollCart] = useState(formData.kingcart);
   const setToteBoxesInfo = () => {
+
     setFormData({
       ...formData,
       'box25totes': toteBox25,
@@ -104,9 +102,10 @@ export const FormToteDetails = ({
       'handleCart': heavyDutyCart,
       'kingcart': easyRollCart,
     });
-  }
+  };
 
   const updateSelectedBox = (keyObj) => {
+    
     switch(keyObj.parent) {
       case 0:
         setToteBox25(keyObj.child)
@@ -127,7 +126,8 @@ export const FormToteDetails = ({
         setEasyRollCart(keyObj.child)
         break;
       default:
-        // console.log(keyObj)
+        
+        //console.log('default')
     }
     toteBoxesData[keyObj.parent].indexActive = keyObj.child
   };
@@ -141,6 +141,21 @@ export const FormToteDetails = ({
             />
   });
 
+
+  useEffect(() => {
+    if( toteBox25 !== null || 
+        toteBox35 !== null || 
+        toteBox50 !== null || 
+        toteBox70 !== null || 
+        heavyDutyCart !== null || 
+        easyRollCart !== null
+      ){
+      setNextButtonDisabled(false)
+    }else{
+      setNextButtonDisabled(true)
+    }
+  }, [toteBox25, toteBox35, toteBox50, toteBox70, heavyDutyCart, easyRollCart])
+
   return (
     <>
       <Header title='Enter Personal Details' step="Two"/>
@@ -152,31 +167,20 @@ export const FormToteDetails = ({
       <Formik
         initialValues={formData}
         onSubmit={values => {
-          setFormData(values);
-          //setToteBoxesInfo();
+          setToteBoxesInfo(values);
           direction === 'back' ? prevStep() : nextStep();
         }}
-        validationSchema={validationSchemaToteBoxes}
         >
-        {({ errors, touched }) => (
+        {() => (
           <Form>
             {toteRows}
-            <Field 
-              name='toteBoxesField' 
-              placeholder="at least one"
-              />
-              {errors.toteBoxesField && touched.toteBoxesField && <div className="errorMessage">{errors.toteBoxesField}</div>}
-            <Field 
-              name='toteCarField' 
-              placeholder="at least one"
-              />
-              {errors.toteCarField && touched.toteCarField && <div className="errorMessage">{errors.toteCarField}</div>}
+            
             
             <div className="formControl submitControl fullLenght">
               <button className="whiteBtn" type="submit" onClick={() => setDirection('back')}>
                 <span>Previous</span>
               </button>
-              <button type="submit" onClick={() => setDirection('next')}>
+              <button type="submit" className={buttonClasses} onClick={() => setDirection('next')}>
                 <span>Next</span>
               </button>
             </div>

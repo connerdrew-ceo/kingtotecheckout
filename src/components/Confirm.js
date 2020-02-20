@@ -3,16 +3,11 @@ import { Button } from '@material-ui/core';
 import { Header } from './Header';
 
 export const Confirm = ({ formData, prevStep, nextStep }) => {
-  //const { firstName, lastName, email, occupation, city, bio } = formData;
-
-  
   return (
     <>
       <Header title='Confirm User Data' step="Five"/>
       <div>
-
         <pre>{JSON.stringify(formData, null, 2)}</pre>
-        
         <div className="hola">
           <Button
             color='secondary'
@@ -21,7 +16,6 @@ export const Confirm = ({ formData, prevStep, nextStep }) => {
           >
             Back
           </Button>
-
           <Button
             color='primary'
             variant='contained'
