@@ -29,14 +29,12 @@ export const UserForm = () => {
     stateDropOffField: '',
     zipCodeDropOff: '',
     textareaDropOff: '',
-
     addressPickUpField: '',
     sameAsMainContactPickUp: false,
     cityPickUpField: '',
     statePickUpField: '',
     zipCodePickUp: '',
     textareaPickUp: '',
-
     box25totes: null,
     box35totes: null,
     box50totes: null,

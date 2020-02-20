@@ -21,7 +21,8 @@ export const EachBookingComponent = ({  formData,
     const [showResumeInfo, setShowResumeInfo] = useState(false);
     
     const addWeeks = (dt, n) => {
-        return new Date(dt.setDate(dt.getDate() + (n * 7)));
+        //return new Date(dt.setDate(dt.getDate() + (n * 7)));
+        return new Date(dt.setDate(dt.getDate() + 1));
     }
 
     const getNumberOfWeeks = () => {
