@@ -9,7 +9,7 @@ import { Success } from './Success';
 
 export const UserForm = () => {
 
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(4);
   const [formData, setFormData] = useState({
     serviceArea: '',
     dropOff: '',
@@ -21,6 +21,22 @@ export const UserForm = () => {
     toteCarField: '',
     firstNameFiled: '',
     lastNameField: '',
+    telField: '',
+    emailField: '',
+    addressDropOffField: '',
+    sameAsMainContactDropOff: false,
+    cityDropOffField: '',
+    stateDropOffField: '',
+    zipCodeDropOff: '',
+    textareaDropOff: '',
+
+    addressPickUpField: '',
+    sameAsMainContactPickUp: false,
+    cityPickUpField: '',
+    statePickUpField: '',
+    zipCodePickUp: '',
+    textareaPickUp: '',
+
     box25totes: null,
     box35totes: null,
     box50totes: null,

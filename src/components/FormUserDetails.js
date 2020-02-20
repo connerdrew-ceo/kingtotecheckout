@@ -22,7 +22,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
       .required('Pick up is required'),
   });
 
-  const validateUserName = value => {
+  const validateZipCode = value => {
 
     let stringValue = value + ''
     let error;
@@ -75,7 +75,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
                 name='dropOff' 
                 placeholder="zip code"
                 type="number"
-                validate={validateUserName}
+                validate={validateZipCode}
                 />
                 {errors.dropOff && touched.dropOff && <div className="errorMessage">{errors.dropOff}</div>}
             </div>
@@ -85,7 +85,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
                 name='pickUp' 
                 placeholder="zip code"
                 type="number"
-                validate={validateUserName}
+                validate={validateZipCode}
                 />
                 {errors.pickUp && touched.pickUp && <div className="errorMessage">{errors.pickUp}</div>}
             </div>
