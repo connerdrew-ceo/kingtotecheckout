@@ -604,6 +604,9 @@ form{
       margin: 0 auto;
       max-width: 140px;
     }
+    .stepWrap{
+      padding: 0 10vw;
+    }
   }
   .introWrap{
     margin: 0 auto;
@@ -709,7 +712,7 @@ form{
       span{
         color: $purple;
         &.price{
-          font-size: 3rem;
+          font-size: 2.5rem;
         }
       }
       &:hover{
@@ -748,6 +751,13 @@ form{
 
 
 @media screen and (min-width: 1268px) {
+
+  .headerComponent{
+    .stepWrap{
+      padding: 0 18vw;
+
+    }
+  }
 
   .introWrap{
     padding: 0 18vw;

@@ -225,7 +225,7 @@ export const AddressFormStep = ({
                     <label htmlFor="sameAsMainDropOff">Same as Main Contact Info</label>
                   </div>
                 </div>
-                <div className="formControl">
+                {/* <div className="formControl">
                   <label htmlFor="firstNameFiledDifferentDrop" className={sameContactAsDropOff}>First Name</label>
                   <Field 
                     className={sameContactAsDropOff}
@@ -266,7 +266,7 @@ export const AddressFormStep = ({
                     type="email"
                     />
                       {errors.emailFieldDifferentDrop && touched.emailFieldDifferentDrop && <div className="errorMessage">{errors.emailFieldDifferentDrop}</div>}
-                </div>
+                </div> */}
               </div>
             </div>
 
@@ -340,7 +340,7 @@ export const AddressFormStep = ({
                   </div>
                 </div>
 
-                <div className="formControl">
+                {/* <div className="formControl">
                   <label htmlFor="firstNameFiledDifferentPickUp" className={sameContactAsPickUp}>First Name</label>
                   <Field 
                     className={sameContactAsPickUp}
@@ -383,7 +383,7 @@ export const AddressFormStep = ({
                     type="email"
                     />
                       {errors.emailFiledDifferentPickUp && touched.emailFiledDifferentPickUp && <div className="errorMessage">{errors.emailFiledDifferentPickUp}</div>}
-                </div>
+                </div> */}
                 
               </div>
             </div>
