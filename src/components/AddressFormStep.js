@@ -16,6 +16,30 @@ const validationSchemaFourthStep = yup.object({
   emailField: yup
     .string()
     .required('Email is required'),
+  firstNameFiledDifferentDrop: yup
+    .string()
+    .required('First name is required'),
+  lastNameFieldDifferentDrop: yup
+    .string()
+    .required('Last name is required'),
+  telFieldDifferentDrop: yup
+    .string()
+    .required('Telephone is required'),
+  emailFieldDifferentDrop: yup
+    .string()
+    .required('Email is required'),
+  firstNameFiledDifferentPickUp: yup
+    .string()
+    .required('First name is required'),
+  lastNameFiledDifferentPickUp: yup
+    .string()
+    .required('Last name is required'),
+  telFiledDifferentPickUp: yup
+    .string()
+    .required('Telephone is required'),
+  emailFiledDifferentPickUp: yup
+    .string()
+    .required('Email is required'),
   addressDropOffField: yup
     .string()
     .required('Address is required'),
@@ -129,8 +153,6 @@ export const AddressFormStep = ({
                 <div className="formControl">
                 </div>
             </div>
-            
-            
 
             {/*   Drop-off Address   */}
 
@@ -204,46 +226,46 @@ export const AddressFormStep = ({
                   </div>
                 </div>
                 <div className="formControl">
-                  <label htmlFor="firstNameInput" className={sameContactAsDropOff}>First Name</label>
+                  <label htmlFor="firstNameFiledDifferentDrop" className={sameContactAsDropOff}>First Name</label>
                   <Field 
                     className={sameContactAsDropOff}
-                    id="firstNameInput"
-                    name='firstNameFiled' 
+                    id="firstNameFiledDifferentDrop"
+                    name='firstNameFiledDifferentDrop' 
                     placeholder="Jane"
                     />
-                    {errors.firstNameFiled && touched.firstNameFiled && <div className="errorMessage">{errors.firstNameFiled}</div>}
+                    {errors.firstNameFiledDifferentDrop && touched.firstNameFiledDifferentDrop && <div className="errorMessage">{errors.firstNameFiledDifferentDrop}</div>}
                 </div>
                 <div className="formControl">
-                    <label htmlFor="lastNameInput" className={sameContactAsDropOff}>Last Name</label>
+                    <label htmlFor="lastNameFieldDifferentDrop" className={sameContactAsDropOff}>Last Name</label>
                     <Field 
                       className={sameContactAsDropOff}
-                      id="lastNameInput"
-                      name='lastNameField' 
+                      id="lastNameFieldDifferentDrop"
+                      name='lastNameFieldDifferentDrop' 
                       placeholder="Doe"
                       />
-                      {errors.lastNameField && touched.lastNameField && <div className="errorMessage">{errors.lastNameField}</div>}
+                      {errors.lastNameFieldDifferentDrop && touched.lastNameFieldDifferentDrop && <div className="errorMessage">{errors.lastNameFieldDifferentDrop}</div>}
                 </div>
                 <div className="formControl">
-                  <label htmlFor="telInput" className={sameContactAsDropOff}>Phone</label>
+                  <label htmlFor="telFieldDifferentDrop" className={sameContactAsDropOff}>Phone</label>
                   <Field 
                         className={sameContactAsDropOff}
-                        id="telInput"
-                        name='telField' 
+                        id="telFieldDifferentDrop"
+                        name='telFieldDifferentDrop' 
                         placeholder="(555) 555 555"
                         type="tel"
                         />
-                      {errors.telField && touched.telField && <div className="errorMessage">{errors.telField}</div>}
+                      {errors.telFieldDifferentDrop && touched.telFieldDifferentDrop && <div className="errorMessage">{errors.telFieldDifferentDrop}</div>}
                 </div>
                 <div className="formControl">
-                  <label htmlFor="emailInput" className={sameContactAsDropOff}>Email</label>
+                  <label htmlFor="emailFieldDifferentDrop" className={sameContactAsDropOff}>Email</label>
                   <Field 
                     className={sameContactAsDropOff}
-                    id="emailInput"
-                    name='emailField' 
+                    id="emailFieldDifferentDrop"
+                    name='emailFieldDifferentDrop' 
                     placeholder="hello@hello.com"
                     type="email"
                     />
-                      {errors.emailField && touched.emailField && <div className="errorMessage">{errors.emailField}</div>}
+                      {errors.emailFieldDifferentDrop && touched.emailFieldDifferentDrop && <div className="errorMessage">{errors.emailFieldDifferentDrop}</div>}
                 </div>
               </div>
             </div>
@@ -319,48 +341,48 @@ export const AddressFormStep = ({
                 </div>
 
                 <div className="formControl">
-                  <label htmlFor="firstNameInput" className={sameContactAsPickUp}>First Name</label>
+                  <label htmlFor="firstNameFiledDifferentPickUp" className={sameContactAsPickUp}>First Name</label>
                   <Field 
                     className={sameContactAsPickUp}
-                    id="firstNameInput"
-                    name='firstNameFiled' 
+                    id="firstNameFiledDifferentPickUp"
+                    name='firstNameFiledDifferentPickUp' 
                     placeholder="Jane"
                     />
-                    {errors.firstNameFiled && touched.firstNameFiled && <div className="errorMessage">{errors.firstNameFiled}</div>}
+                    {errors.firstNameFiledDifferentPickUp && touched.firstNameFiledDifferentPickUp && <div className="errorMessage">{errors.firstNameFiledDifferentPickUp}</div>}
                 </div>
 
                 <div className="formControl">
-                  <label htmlFor="lastNameInput" className={sameContactAsPickUp}>Last Name</label>
+                  <label htmlFor="lastNameFiledDifferentPickUp" className={sameContactAsPickUp}>Last Name</label>
                   <Field 
                     className={sameContactAsPickUp}
-                    id="lastNameInput"
-                    name='lastNameField' 
+                    id="lastNameFiledDifferentPickUp"
+                    name='lastNameFiledDifferentPickUp' 
                     placeholder="Doe"
                     />
-                    {errors.lastNameField && touched.lastNameField && <div className="errorMessage">{errors.lastNameField}</div>}
+                    {errors.lastNameFiledDifferentPickUp && touched.lastNameFiledDifferentPickUp && <div className="errorMessage">{errors.lastNameFiledDifferentPickUp}</div>}
 
                 </div>
                 <div className="formControl">
-                  <label htmlFor="telInput" className={sameContactAsPickUp}>Phone</label>
+                  <label htmlFor="telFiledDifferentPickUp" className={sameContactAsPickUp}>Phone</label>
                   <Field 
                         className={sameContactAsPickUp}
-                        id="telInput"
-                        name='telField' 
+                        id="telFiledDifferentPickUp"
+                        name='telFiledDifferentPickUp' 
                         placeholder="(555) 555 555"
                         type="tel"
                         />
-                      {errors.telField && touched.telField && <div className="errorMessage">{errors.telField}</div>}
+                      {errors.telFiledDifferentPickUp && touched.telFiledDifferentPickUp && <div className="errorMessage">{errors.telFiledDifferentPickUp}</div>}
                 </div>
                 <div className="formControl">
-                  <label htmlFor="emailInput" className={sameContactAsPickUp}>Email</label>
+                  <label htmlFor="emailFiledDifferentPickUp" className={sameContactAsPickUp}>Email</label>
                   <Field 
                     className={sameContactAsPickUp}
-                    id="emailInput"
-                    name='emailField' 
+                    id="emailFiledDifferentPickUp"
+                    name='emailFiledDifferentPickUp' 
                     placeholder="hello@hello.com"
                     type="email"
                     />
-                      {errors.emailField && touched.emailField && <div className="errorMessage">{errors.emailField}</div>}
+                      {errors.emailFiledDifferentPickUp && touched.emailFiledDifferentPickUp && <div className="errorMessage">{errors.emailFiledDifferentPickUp}</div>}
                 </div>
                 
               </div>

@@ -34,6 +34,7 @@ export const UserForm = () => {
     // statePickUpField: '',
     // zipCodePickUp: '',
     // textareaPickUp: '',
+
     firstNameFiled: 'Jorge',
     lastNameField: 'Zozaya',
     telField: '23344444',
@@ -50,6 +51,16 @@ export const UserForm = () => {
     statePickUpField: 'state',
     zipCodePickUp: '11111',
     textareaPickUp: '',
+
+    firstNameFiledDifferentDrop: '',
+    lastNameFieldDifferentDrop: '',
+    telFieldDifferentDrop: '',
+    emailFieldDifferentDrop: '',
+
+    firstNameFiledDifferentPickUp: '',
+    lastNameFiledDifferentPickUp: '',
+    telFiledDifferentPickUp: '',
+    emailFiledDifferentPickUp: '',
 
     cardHolderNameFiled: '',
     cardNumberField: '',
