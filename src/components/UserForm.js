@@ -9,7 +9,7 @@ import { Success } from './Success';
 
 export const UserForm = () => {
 
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(5);
   const [formData, setFormData] = useState({
     serviceArea: '',
     dropOff: '',
@@ -35,6 +35,10 @@ export const UserForm = () => {
     statePickUpField: '',
     zipCodePickUp: '',
     textareaPickUp: '',
+    cardHolderNameFiled: '',
+    cardNumberField: '',
+    expirationDateField: '',
+    cvvField: '',
     box25totes: null,
     box35totes: null,
     box50totes: null,
@@ -91,7 +95,8 @@ export const UserForm = () => {
     case 5:
       return (
         <Confirm 
-          formData={formData} 
+          formData={formData}
+          setFormData={setFormData}
           nextStep={nextStep} 
           prevStep={prevStep} 
         />

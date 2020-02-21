@@ -43,7 +43,6 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
         <h2>Welcome</h2>
         <p>Get started by selecting a service area to verify we service your zip codes.</p>
       </div>
-
       <Formik
         initialValues={formData}
         onSubmit={values => {

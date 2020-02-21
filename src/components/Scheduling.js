@@ -12,13 +12,15 @@ export const Scheduling = ({
     prevStep
     }) => {
     const [direction, setDirection] = useState('back');
+
     const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
     let buttonClasses = (nextButtonDisabled) ? 'disabled' : ''
     if(formData.dateDropOff !== null && formData.datePickUp !== null) {
         buttonClasses = ''
     }
-    const [enableCalendar, setEnableCalendar] = useState(false);
 
+    
+    const [enableCalendar, setEnableCalendar] = useState(false);
     const updateStateSchedulingStart = ( dateData ) => {
 
         if(dateData.kind === 'start'){
@@ -85,7 +87,6 @@ export const Scheduling = ({
                             endingTime={formData.timeRangeDropEnd}
                             enabled={true}
                             />
-                        {/* {errorDrop && <div className="errorMessage">{errorDrop}</div>} */}
                     </div>
                     <div className="formControl">
                         <label className="boldLabel">Select Pick-up Date/Time</label>
@@ -99,7 +100,6 @@ export const Scheduling = ({
                             endingTime={formData.timeRangePickEnd}
                             enabled={enableCalendar}
                             />
-                        {/* {errorPick && <div className="errorMessage">{errorPick}</div>} */}
                     </div>
                     <div className="formControl submitControl fullLenght">
                     <button className="whiteBtn" type="submit" onClick={() => prevStep()}>

@@ -87,10 +87,6 @@ export const EachBookingComponent = ({  formData,
         setOpenTimeLayerDrop(false)
         setShowResumeInfo(true)
         updateStateSchedulingStart({kind: controlType, stringDate: dateDropOff})
-
-        if(controlType === 'end'){
-            console.log('aca debo habilitar el next')
-        }
     };
 
     const changeSelectedTime = (key) => {

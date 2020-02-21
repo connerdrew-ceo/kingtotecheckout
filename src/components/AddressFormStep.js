@@ -16,7 +16,7 @@ const validationSchemaFourthStep = yup.object({
     .required('Telephone is required'),
   emailField: yup
     .string()
-    .required('Telephone is required'),
+    .required('Email is required'),
   addressDropOffField: yup
     .string()
     .required('Address is required'),
@@ -26,7 +26,6 @@ const validationSchemaFourthStep = yup.object({
   stateDropOffField: yup
     .string()
     .required('State is required'),
-
   addressPickUpField: yup
     .string()
     .required('Address is required'),
@@ -65,7 +64,6 @@ export const AddressFormStep = ({
       <div className="introWrap">
         <h2>Your Details</h2>
         <p>Please fill out your contact information as Delivery and Pick-Up addresses</p>
-        {/* <pre>{JSON.stringify(formData, null, 2)}</pre> */}
       </div>
       <Formik
         initialValues={formData}
@@ -266,6 +264,7 @@ export const AddressFormStep = ({
           </Form>
         )}
       </Formik>
+    
     </>
   );
 };
