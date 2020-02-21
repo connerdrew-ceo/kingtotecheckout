@@ -417,6 +417,12 @@ form{
     padding: 0 2%;
     margin: 1.5% 0;
     margin-bottom: 2rem;
+    .checkboxInline{
+      padding-bottom: .35rem;
+      label{
+        margin-top: 1rem;
+      }
+    }
     .errorMessage{
       display: block;
       width: 100%;
@@ -424,44 +430,9 @@ form{
       padding-top: .25rem;
       padding-left: .5rem;
     }
-    // .extraFields{
-    //   outline: 1px solid orangered;
-    // }
     .disabledField{
       display: none;
     }
-
-    // &.fifthForm{
-    //   display: block;
-    //   .flexWrapFileds{
-    //     display: flex;
-    //     flex-wrap: wrap;
-    //     margin: 0 auto;
-    //   }
-    //   .inlineFifth{
-    //     width: 100%;
-    //     .formControl{
-    //       width: 100%;
-    //       display: block;
-    //       padding: 0;
-    //     }
-    //     .leftFields{
-    //       width: 50%;
-    //       .formControl{
-    //         padding-right: 2%;
-    //       }
-    //     }
-    //     .rightFields{
-    //       width: 50%;
-    //       .formControl{
-    //         padding: 0;
-    //         padding-left: 2%;
-    //       }
-    //     }
-    //   }
-    // }
-
-
 
     &.inlineFields{
       display: flex;

@@ -57,9 +57,9 @@ export const AddressFormStep = ({
     }) => {
     const [direction, setDirection] = useState('back');
     const [openHideFieldsDropOff, setOpenHideFieldsDropOff] = useState(formData.sameAsMainContactDropOff);
-    let sameContactAsDropOff = (openHideFieldsDropOff) ? 'disabledField' : 'extraFields'
+    let sameContactAsDropOff = (openHideFieldsDropOff) ? 'disabledField' : ''
     const [openHideFieldsPickUp, setOpenHideFieldsPickUp] = useState(formData.sameAsMainContactPickUp);
-    let sameContactAsPickUp = (openHideFieldsPickUp) ? 'disabledField' : 'extraFields'
+    let sameContactAsPickUp = (openHideFieldsPickUp) ? 'disabledField' : ''
     
   return (
     <>
