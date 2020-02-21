@@ -96,6 +96,7 @@ export const Confirm = ({
                   {errors.cardNumberField && touched.cardNumberField && <div className="errorMessage">{errors.cardNumberField}</div>}
             </div>
             <div className="formControl"></div>
+            
             <div className="formControl inlineFields">
               <div className="wrapBillingInline">
                   <label htmlFor="expirationDateInput">Expiration Date</label>
@@ -132,6 +133,7 @@ export const Confirm = ({
                 />
                 {errors.billingZipCode && touched.billingZipCode && <div className="errorMessage">{errors.billingZipCode}</div>}
             </div>
+            
 
             <div className="formControl"></div>
             <div className="formControl">
@@ -150,14 +152,34 @@ export const Confirm = ({
                 </div>
             </div>
 
+            <div className="formControl">
+            </div>
 
+            <div className="formControl inlineFields">
+              <div className="wrapBillingInline">
+                  <label htmlFor="expirationDateInput">Expiration Date</label>
+                  <Field 
+                    id="expirationDateInput"
+                    name='expirationDateField' 
+                    placeholder="MM/YYYY"
+                    type="string"
+                    />
+                    {errors.expirationDateField && touched.expirationDateField && <div className="errorMessage">{errors.expirationDateField}</div>}
+              </div>
+              <div className="wrapBillingInline">
+                <label className="transparent" htmlFor="expirationDateInput">Apply</label>
+                <button className="whiteBtn" onClick={() => console.log('hola') }>
+                  <span>Apply</span>
+                </button>
+              </div>
+            </div>
 
             <div className="formControl submitControl fullLenght">
-              <button className="whiteBtn" type="submit" onClick={() => prevStep()}>
+              {/* <button className="whiteBtn" type="submit" onClick={() => prevStep()}>
                 <span>Previous</span>
-              </button>
-              <button type="submit" onClick={() => setDirection('next')}>
-                <span>Next</span>
+              </button> */}
+              <button type="submit" className="submitOrder" onClick={() => setDirection('next')}>
+                <span>Submit Order</span>
               </button>
             </div>
           </Form>

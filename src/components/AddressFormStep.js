@@ -68,10 +68,8 @@ export const AddressFormStep = ({
       <Formik
         initialValues={formData}
         onSubmit={values => {
-          
           setFormData(values);
           direction === 'back' ? prevStep() : nextStep();
-          console.log('AddressFormStep submit >>>> ', values)
         }}
         validationSchema={validationSchemaFourthStep}
         >
@@ -135,13 +133,14 @@ export const AddressFormStep = ({
                   {errors.addressDropOffField && touched.addressDropOffField && <div className="errorMessage">{errors.addressDropOffField}</div>}
             </div>
             <div className="formControl">
-                <h3>Drop-off Contact</h3>
-              <div className="ratioWrap">
+              <h3>Drop-off Contact</h3>
+              <div className="ratioWrap checkboxInline">
                 <Field 
+                  id="sameAsMainDropOff"
                   name='sameAsMainContactDropOff' 
                   type="checkbox"
                   />
-                <label htmlFor="locationResidential">Same as Main Contact Info</label>
+                <label htmlFor="sameAsMainDropOff">Same as Main Contact Info</label>
               </div>
             </div>
 
@@ -200,13 +199,14 @@ export const AddressFormStep = ({
                   {errors.addressPickUpField && touched.addressPickUpField && <div className="errorMessage">{errors.addressPickUpField}</div>}
             </div>
             <div className="formControl">
-                <h3>Drop-off Contact</h3>
-              <div className="ratioWrap">
+                <h3>Pick up Contact</h3>
+              <div className="ratioWrap checkboxInline">
                 <Field 
+                  id="sameAsMainPick"
                   name='sameAsMainContactPickUp' 
                   type="checkbox"
                   />
-                <label htmlFor="locationResidential">Same as Main Contact Info</label>
+                <label htmlFor="sameAsMainPick">Same as Main Contact Info</label>
               </div>
             </div>
 

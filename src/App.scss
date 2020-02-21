@@ -37,6 +37,10 @@ button{
     background-color: $white;
     color: $purple;
   }
+  &.submitOrder{
+    width: auto;
+    padding: 0 4rem;
+  }
 }
 
 .headerComponent{
@@ -422,8 +426,17 @@ form{
       justify-content: space-between;
       flex-direction: row;
       .wrapBillingInline{
+        width: 100%;
         &:last-of-type{
           padding-left: .75rem;
+          .transparent{
+            opacity: 0;
+          }
+          button{
+            margin-top: .75rem;
+            width: 100%;
+            height: 2.75rem;
+          }
         }
       }
     }
@@ -604,6 +617,12 @@ form{
       }
       input[type=text], select{
         height: 3.25rem;
+      }
+      .checkboxInline{
+        margin-top: 3.5rem;
+        label{
+          margin-top: 1rem;
+        }
       }
       &.fullLenght{
         width: 100%;

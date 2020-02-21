@@ -11,12 +11,28 @@ export const Scheduling = ({
     nextStep,
     prevStep
     }) => {
+
     const [direction, setDirection] = useState('back');
+    const [schedulingSummary, setSchedulingSummary] = useState(0)
+    const calculateDays = (endDate) => {
+
+        let totalDays = 0
+
+        let dt1Full = new Date(formData.dateDropOff)
+
+        let dt2Full = new Date(endDate)
+
+        totalDays = Math.round(( dt2Full - dt1Full) / (1000*60*60*24))
+        
+        setSchedulingSummary( totalDays )
+    }
 
     const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
     let buttonClasses = (nextButtonDisabled) ? 'disabled' : ''
     if(formData.dateDropOff !== null && formData.datePickUp !== null) {
         buttonClasses = ''
+        // calculate summary
+
     }
 
     
@@ -30,11 +46,14 @@ export const Scheduling = ({
                 'dateDropOff': dateData.stringDate
             });
         }else{
+
             if(dateData.stringDate === null){
                 setEnableCalendar(false)
                 setNextButtonDisabled(true)
             }else{
                 setNextButtonDisabled(false)
+
+                calculateDays(dateData.stringDate)
             }
             setFormData({
                 ...formData,
@@ -101,6 +120,14 @@ export const Scheduling = ({
                             enabled={enableCalendar}
                             />
                     </div>
+                    {
+                        (schedulingSummary > 0) ? (
+                            <div className="formControl">
+                                <label className="boldLabel">Scheduling Summary</label>
+                                <p>{schedulingSummary} days total</p>
+                            </div>
+                        ) : ''
+                    }
                     <div className="formControl submitControl fullLenght">
                     <button className="whiteBtn" type="submit" onClick={() => prevStep()}>
                         <span>Previous</span>
