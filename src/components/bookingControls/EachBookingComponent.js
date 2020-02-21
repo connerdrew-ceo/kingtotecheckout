@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import DayPicker from "react-day-picker";
 import { TimeOption } from "./TimeOption"
-let dayUnformatted = '';
 let dateAvailable = new Date();
 
 export const EachBookingComponent = ({  formData,
@@ -78,7 +77,6 @@ export const EachBookingComponent = ({  formData,
     }
     
     const handleDayDropOff = (day, { selected }) => {
-        dayUnformatted = day
         setOpenTimeLayerDrop(true)
         setDateDropOff(day.toLocaleDateString(undefined, dateOptions))
     };

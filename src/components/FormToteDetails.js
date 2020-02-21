@@ -142,6 +142,8 @@ export const FormToteDetails = ({
   });
 
   useEffect(() => {
+
+    console.log(formData)
     if( toteBox25 !== null || 
         toteBox35 !== null || 
         toteBox50 !== null || 

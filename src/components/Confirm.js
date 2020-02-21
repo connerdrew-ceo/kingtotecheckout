@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 //import PropTypes from 'prop-types';
 import { Header } from './Header';
-import { EachBookingComponent } from './bookingControls/EachBookingComponent'
+import { CalendarControlsWrap } from './bookingControls/CalendarControlsWrap'
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 
@@ -133,7 +133,6 @@ export const Confirm = ({
                 />
                 {errors.billingZipCode && touched.billingZipCode && <div className="errorMessage">{errors.billingZipCode}</div>}
             </div>
-            
 
             <div className="formControl"></div>
             <div className="formControl">
@@ -174,10 +173,19 @@ export const Confirm = ({
               </div>
             </div>
 
+            <div className="formControl">
+            </div>
+
+            <CalendarControlsWrap
+              formData={formData}
+              setFormData={setFormData}
+              origin="Confirm"
+            />
+
             <div className="formControl submitControl fullLenght">
-              {/* <button className="whiteBtn" type="submit" onClick={() => prevStep()}>
+              <button className="whiteBtn" type="submit" onClick={() => prevStep()}>
                 <span>Previous</span>
-              </button> */}
+              </button>
               <button type="submit" className="submitOrder" onClick={() => setDirection('next')}>
                 <span>Submit Order</span>
               </button>

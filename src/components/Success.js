@@ -12,7 +12,7 @@ export const Success = () => {
   const classes = useStyles();
   return (
     <div className={classes.textCenter}>
-      <Header title='Success' />
+      <Header title='Success' step="Five"/>
       <h1>Thank You For Your Submission</h1>
       <p>You will get an email with further instructions</p>
     </div>
