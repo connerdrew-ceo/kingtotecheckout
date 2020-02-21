@@ -181,9 +181,12 @@ button{
       color: rgba($purple, .85);
       border-radius: 2rem;
       cursor: pointer;
+      font-weight: 600;
       &.DayPicker-Day--today{
         position: relative;
         pointer-events: none;
+        color: rgba($greyText, .85);
+        
         &::before{
           content: '';
           z-index: 10;
@@ -201,6 +204,7 @@ button{
       &.DayPicker-Day--disabled{
         color: rgba($greyText, .5);
         pointer-events: none;
+        font-weight: 300;
       }
       &.DayPicker-Day--selected{
         background-color: #e1f0f8;

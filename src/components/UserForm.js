@@ -3,13 +3,12 @@ import { FormUserDetails } from './FormUserDetails';
 import { FormToteDetails } from './FormToteDetails';
 import { Scheduling } from './Scheduling';
 import { AddressFormStep } from './AddressFormStep';
-
 import { Confirm } from './Confirm';
 import { Success } from './Success';
 
 export const UserForm = () => {
 
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(3);
   const [formData, setFormData] = useState({
     serviceArea: '',
     dropOff: '',
