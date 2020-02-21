@@ -413,9 +413,36 @@ form{
     .errorMessage{
       display: block;
       width: 100%;
-      color: orangered;
+      color: red;
       padding-top: .25rem;
       padding-left: .5rem;
+    }
+    &.inlineFields{
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row;
+      .wrapBillingInline{
+        &:last-of-type{
+          padding-left: .75rem;
+        }
+      }
+    }
+    .rowDetailWrap{
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row;
+      margin-bottom: .75rem;
+      p, span{
+        margin: 0;
+        font-size: 1.25rem;
+        color: $greyText;
+      }
+      &.disccountStyle{
+        p, span{
+          color: orangered;
+        }
+      }
+
     }
     &.submitControl{
       display: flex;

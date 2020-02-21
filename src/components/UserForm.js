@@ -39,6 +39,7 @@ export const UserForm = () => {
     cardNumberField: '',
     expirationDateField: '',
     cvvField: '',
+    billingZipCode: '',
     box25totes: null,
     box35totes: null,
     box50totes: null,

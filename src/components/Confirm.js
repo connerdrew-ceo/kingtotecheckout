@@ -12,12 +12,9 @@ const validationSchemaFourthStep = yup.object({
   cardNumberField: yup
     .string()
     .required('Card number is required'),
-  telField: yup
-    .string()
-    .required('Telephone is required'),
   expirationDateField: yup
     .string()
-    .required('Telephone is required'),
+    .required('Expiration date is required'),
     
     
 });
@@ -27,11 +24,11 @@ const validateZipCode = value => {
   let stringValue = value + ''
   let error;
     if (!value) {
-      error = 'Drop off required';
+      error = 'Zip code required';
     } else if (stringValue.length > 5) {
-      error = 'postal code is 3 digits';
+      error = 'postal code is 5 digits';
     } else if (stringValue.length < 5) {
-      error = 'postal code is 3 digits';
+      error = 'postal code is 5 digits';
     }
     return error;
 };
@@ -43,9 +40,9 @@ const validateCVVCode = value => {
     if (!value) {
       error = 'CVV required';
     } else if (stringValue.length > 3) {
-      error = 'CVV code is 5 digits';
+      error = 'CVV code is 3 digits';
     } else if (stringValue.length < 3) {
-      error = 'CVV code is 5 digits';
+      error = 'CVV code is 3 digits';
     }
     return error;
 };
@@ -88,8 +85,7 @@ export const Confirm = ({
                   />
                 {errors.cardHolderNameFiled && touched.cardHolderNameFiled && <div className="errorMessage">{errors.cardHolderNameFiled}</div>}
             </div>
-            <div className="formControl">
-            </div>
+            <div className="formControl"></div>
             <div className="formControl">
                 <label htmlFor="cardNumberInput">Card Number</label>
                 <Field 
@@ -99,43 +95,63 @@ export const Confirm = ({
                   />
                   {errors.cardNumberField && touched.cardNumberField && <div className="errorMessage">{errors.cardNumberField}</div>}
             </div>
-            <div className="formControl">
+            <div className="formControl"></div>
+            <div className="formControl inlineFields">
+              <div className="wrapBillingInline">
+                  <label htmlFor="expirationDateInput">Expiration Date</label>
+                  <Field 
+                    id="expirationDateInput"
+                    name='expirationDateField' 
+                    placeholder="MM/YYYY"
+                    type="string"
+                    />
+                    {errors.expirationDateField && touched.expirationDateField && <div className="errorMessage">{errors.expirationDateField}</div>}
+              </div>
+              <div className="wrapBillingInline">
+                  <label htmlFor="cvvInput">CVV</label>
+                  <Field 
+                    id="cvvInput"
+                    name='cvvField' 
+                    placeholder="3 digit code"
+                    type="number"
+                    validate={validateCVVCode}
+                    />
+                    {errors.cvvField && touched.cvvField && <div className="errorMessage">{errors.cvvField}</div>}
+              </div>
             </div>
             
             <div className="formControl">
-                <label htmlFor="expirationDateInput">Expiration Date</label>
-                <Field 
-                  id="expirationDateInput"
-                  name='expirationDateField' 
-                  placeholder="MM/YYYY"
-                  type="string"
-                  />
-                  {errors.expirationDateField && touched.expirationDateField && <div className="errorMessage">{errors.expirationDateField}</div>}
             </div>
             <div className="formControl">
+              <label htmlFor="billingZipCode">Billing Zip Code</label>
+              <Field 
+                name='billingZipCode' 
+                placeholder="zip code"
+                type="number"
+                validate={validateZipCode}
+                />
+                {errors.billingZipCode && touched.billingZipCode && <div className="errorMessage">{errors.billingZipCode}</div>}
             </div>
 
+            <div className="formControl"></div>
             <div className="formControl">
-                <label htmlFor="cvvInput">CVV</label>
-                <Field 
-                  id="cvvInput"
-                  name='cvvField' 
-                  placeholder="3 digit code"
-                  type="number"
-                  validate={validateCVVCode}
-                  />
-                  {errors.cvvField && touched.cvvField && <div className="errorMessage">{errors.cvvField}</div>}
-            </div>
-            <div className="formControl">
+                <h3>Order Details</h3>
+                <div className="rowDetailWrap">
+                  <p>35 Totes (1 Week)</p>
+                  <span>$120</span>
+                </div>
+                <div className="rowDetailWrap">
+                  <p>Additional Day x 4</p>
+                  <span>$120</span>
+                </div>
+                <div className="rowDetailWrap disccountStyle">
+                  <p>Additional Day x 4</p>
+                  <span>$120</span>
+                </div>
             </div>
 
 
 
-            <div className="formControl">
-                <h3>Drop-off Address</h3>
-                
-            </div>
-            
             <div className="formControl submitControl fullLenght">
               <button className="whiteBtn" type="submit" onClick={() => prevStep()}>
                 <span>Previous</span>
