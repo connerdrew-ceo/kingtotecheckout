@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form } from 'formik';
 import { Header } from './Header';
-
 import "react-day-picker/lib/style.css";
 import { CalendarControlsWrap } from './bookingControls/CalendarControlsWrap';
-
 
 export const Scheduling = ({
     formData,
@@ -21,25 +19,8 @@ export const Scheduling = ({
         buttonClasses = ''
     }
     
-    // const updateStateSchedulingStart = ( dateData ) => {
-    //     if(dateData.kind === 'start'){
-
-    //     }else{
-    //         if(dateData.stringDate === null){
-                
-    //             setNextButtonDisabled(true)
-    //         }else{
-    //             setNextButtonDisabled(false)
-
-    //             calculateDays(dateData.stringDate)
-    //         }
-    //     }
-    // }
-
     const parentFunction = ( dateData ) => {
-
         if(dateData.kind === 'end'){
-
             if(dateData.stringDate === null){
                 setNextButtonDisabled(true)
             }else{
@@ -47,8 +28,6 @@ export const Scheduling = ({
             }
         }
     }
-    
-
     return (
         <>
         <Header title='Enter Personal Details' step="Three"/>

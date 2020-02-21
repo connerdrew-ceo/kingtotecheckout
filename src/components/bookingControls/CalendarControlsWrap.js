@@ -19,7 +19,7 @@ export const CalendarControlsWrap = ({
           return dt1Full
 
       }
-      const [enableCalendar, setEnableCalendar] = useState(false);
+      const [enableCalendar, setEnableCalendar] = useState( (formData.dateDropOff === null) ? false : true );
       const updateStateSchedulingStart = ( dateData ) => {
 
           if(dateData.kind === 'start'){
@@ -28,17 +28,12 @@ export const CalendarControlsWrap = ({
                   ...formData,
                   'dateDropOff': dateData.stringDate
               });
+              calculateDays(0)
           }else{
-
               if(dateData.stringDate === null){
                   setEnableCalendar(false)
-                  //setNextButtonDisabled(true)
               }else{
-                  //setNextButtonDisabled(false)
-                  //
-
                   setSchedulingSummaryLocal( calculateDays(dateData.stringDate) )
-                  
               }
               setFormData({
                   ...formData,

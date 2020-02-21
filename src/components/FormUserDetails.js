@@ -14,7 +14,6 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
     serviceArea: yup
       .string()
       .required('Service Area is required'),
-    
     pickUp: yup
       .number()
       .positive()
@@ -23,7 +22,6 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
   });
 
   const validateZipCode = value => {
-
     let stringValue = value + ''
     let error;
       if (!value) {

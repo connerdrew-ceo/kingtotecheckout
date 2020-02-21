@@ -2,6 +2,14 @@ import React, { useState, useEffect } from 'react';
 import DayPicker from "react-day-picker";
 import { TimeOption } from "./TimeOption"
 let dateAvailable = new Date();
+const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+const timeOptions = [
+    {startAt: '7:00', endAt: '9:00'},
+    {startAt: '7:30', endAt: '9:30'},
+    {startAt: '8:00', endAt: '10:00'},
+    {startAt: '8:30', endAt: '10:30'},
+    {startAt: '9:00', endAt: '11:00'}
+];
 
 export const EachBookingComponent = ({  formData,
                                         controlType, 
@@ -43,14 +51,7 @@ export const EachBookingComponent = ({  formData,
         return maxNumber + 1
     }
 
-    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const timeOptions = [
-        {startAt: '7:00', endAt: '9:00'},
-        {startAt: '7:30', endAt: '9:30'},
-        {startAt: '8:00', endAt: '10:00'},
-        {startAt: '8:30', endAt: '10:30'},
-        {startAt: '9:00', endAt: '11:00'}
-    ];
+    
 
     let openDetailedBooking = 'bookingComponent'
 
@@ -70,7 +71,6 @@ export const EachBookingComponent = ({  formData,
         calendarControlClasses = 'calendarLayer disabled'
 
     }else{
-        
         dateAvailable = (controlType === 'end') ? 
                                                     addWeeks(new Date(formData.dateDropOff), getNumberOfWeeks() )  
                                                 :   new Date()

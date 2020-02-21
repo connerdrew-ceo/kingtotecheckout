@@ -8,7 +8,7 @@ import { Success } from './Success';
 
 export const UserForm = () => {
 
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     serviceArea: '',
     dropOff: '',
@@ -69,6 +69,7 @@ export const UserForm = () => {
     timeRangePickStart: null,
     timeRangePickEnd: null,
     schedulingSummary: null
+
   });
 
   const nextStep = () => setStep(prev => prev + 1);

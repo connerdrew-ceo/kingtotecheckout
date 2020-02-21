@@ -82,7 +82,6 @@ export const FormToteDetails = ({
 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
   let buttonClasses = ''
-
   buttonClasses = (nextButtonDisabled) ? 'disabled' : ''
   
   const [toteBox25, setToteBox25] = useState(formData.box25totes);
@@ -126,7 +125,6 @@ export const FormToteDetails = ({
         setEasyRollCart(keyObj.child)
         break;
       default:
-        
         //console.log('default')
     }
     toteBoxesData[keyObj.parent].indexActive = keyObj.child
@@ -143,7 +141,6 @@ export const FormToteDetails = ({
 
   useEffect(() => {
 
-    console.log(formData)
     if( toteBox25 !== null || 
         toteBox35 !== null || 
         toteBox50 !== null || 
