@@ -57,6 +57,10 @@ export const AddressFormStep = ({
     prevStep
     }) => {
     const [direction, setDirection] = useState('back');
+    const [openHideFieldsDropOff, setOpenHideFieldsDropOff] = useState(formData.sameAsMainContactDropOff);
+    let sameContactAsDropOff = (openHideFieldsDropOff) ? 'disabled' : ''
+    const [openHideFieldsPickUp, setOpenHideFieldsPickUp] = useState(formData.sameAsMainContactPickUp);
+    let sameContactAsPickUp = (openHideFieldsPickUp) ? 'disabled' : ''
     
   return (
     <>
@@ -95,6 +99,7 @@ export const AddressFormStep = ({
                   placeholder="Doe"
                   />
                   {errors.lastNameField && touched.lastNameField && <div className="errorMessage">{errors.lastNameField}</div>}
+            
             </div>
             <div className="formControl">
             </div>
@@ -122,6 +127,10 @@ export const AddressFormStep = ({
             </div>
             <div className="formControl">
             </div>
+
+            {/*   Drop-off Address   */}
+
+
             <div className="formControl">
                 <h3>Drop-off Address</h3>
                 <label htmlFor="addressDropOffImput">Street Address</label>
@@ -139,6 +148,7 @@ export const AddressFormStep = ({
                   id="sameAsMainDropOff"
                   name='sameAsMainContactDropOff' 
                   type="checkbox"
+                  onClick={() => setOpenHideFieldsDropOff(!openHideFieldsDropOff)}
                   />
                 <label htmlFor="sameAsMainDropOff">Same as Main Contact Info</label>
               </div>
@@ -153,7 +163,17 @@ export const AddressFormStep = ({
                   />
                   {errors.cityDropOffField && touched.cityDropOffField && <div className="errorMessage">{errors.cityDropOffField}</div>}
             </div>
-            <div className="formControl"></div>
+            <div className="formControl">
+
+                <label htmlFor="firstNameInput" className={sameContactAsDropOff}>First Name</label>
+                <Field 
+                  className={sameContactAsDropOff}
+                  id="firstNameInput"
+                  name='firstNameFiled' 
+                  placeholder="Jane"
+                  />
+                  {errors.firstNameFiled && touched.firstNameFiled && <div className="errorMessage">{errors.firstNameFiled}</div>}
+            </div>
 
             <div className="formControl">
                 <label htmlFor="stateDropOffImput">State</label>
@@ -164,7 +184,17 @@ export const AddressFormStep = ({
                   />
                   {errors.stateDropOffField && touched.stateDropOffField && <div className="errorMessage">{errors.stateDropOffField}</div>}
             </div>
-            <div className="formControl"></div>
+            <div className="formControl">
+                <label htmlFor="lastNameInput" className={sameContactAsDropOff}>Last Name</label>
+                <Field 
+                  className={sameContactAsDropOff}
+                  id="lastNameInput"
+                  name='lastNameField' 
+                  placeholder="Doe"
+                  />
+                  {errors.lastNameField && touched.lastNameField && <div className="errorMessage">{errors.lastNameField}</div>}
+
+            </div>
             <div className="formControl">
               <label htmlFor="dropOff">Zip Code</label>
               <Field 
@@ -187,6 +217,9 @@ export const AddressFormStep = ({
                 {errors.textareaDropOff && touched.textareaDropOff && <div className="errorMessage">{errors.textareaDropOff}</div>}
             </div>
             <div className="formControl"></div>
+
+
+            {/* Pick-up Address */}
             
             <div className="formControl">
                 <h3>Pick-up Address</h3>
@@ -205,6 +238,7 @@ export const AddressFormStep = ({
                   id="sameAsMainPick"
                   name='sameAsMainContactPickUp' 
                   type="checkbox"
+                  onClick={() => setOpenHideFieldsPickUp(!openHideFieldsPickUp)}
                   />
                 <label htmlFor="sameAsMainPick">Same as Main Contact Info</label>
               </div>
@@ -219,7 +253,18 @@ export const AddressFormStep = ({
                   />
                   {errors.cityPickUpField && touched.cityPickUpField && <div className="errorMessage">{errors.cityPickUpField}</div>}
             </div>
-            <div className="formControl"></div>
+            
+            <div className="formControl">
+
+                <label htmlFor="firstNameInput" className={sameContactAsPickUp}>First Name</label>
+                <Field 
+                  className={sameContactAsPickUp}
+                  id="firstNameInput"
+                  name='firstNameFiled' 
+                  placeholder="Jane"
+                  />
+                  {errors.firstNameFiled && touched.firstNameFiled && <div className="errorMessage">{errors.firstNameFiled}</div>}
+            </div>
 
             <div className="formControl">
                 <label htmlFor="statePickUpImput">State</label>
@@ -264,7 +309,6 @@ export const AddressFormStep = ({
           </Form>
         )}
       </Formik>
-    
     </>
   );
 };

@@ -8,7 +8,7 @@ import { Success } from './Success';
 
 export const UserForm = () => {
 
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(4);
   const [formData, setFormData] = useState({
     serviceArea: '',
     dropOff: '',
@@ -23,7 +23,7 @@ export const UserForm = () => {
     // telField: '',
     // emailField: '',
     // addressDropOffField: '',
-    // sameAsMainContactDropOff: false,
+    // sameAsMainContactDropOff: true,
     // cityDropOffField: '',
     // stateDropOffField: '',
     // zipCodeDropOff: '',
@@ -39,7 +39,7 @@ export const UserForm = () => {
     telField: '23344444',
     emailField: 'hola@hola.com',
     addressDropOffField: 'address 1',
-    sameAsMainContactDropOff: false,
+    sameAsMainContactDropOff: true,
     cityDropOffField: 'city',
     stateDropOffField: 'state',
     zipCodeDropOff: '22222',

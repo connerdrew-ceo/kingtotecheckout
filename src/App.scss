@@ -425,6 +425,9 @@ form{
       padding-top: .25rem;
       padding-left: .5rem;
     }
+    .disabled{
+      display: none;
+    }
     &.inlineFields{
       display: flex;
       justify-content: space-between;
@@ -598,17 +601,15 @@ form{
     }
   }
   .introWrap{
-    max-width: 90%;
     margin: 0 auto;
-    padding: 0 8vw;
+    padding: 0 10vw;
     margin-bottom: 2rem;
   }
 
   form{
     display: flex;
     flex-wrap: wrap;
-    padding: 0 8vw;
-    max-width: 90%;
+    padding: 0 10vw;
     margin: 0 auto;
     .formControl{
       width: 50%;
@@ -702,4 +703,17 @@ form{
       }
     }
   }
+}
+
+
+@media screen and (min-width: 1268px) {
+
+  .introWrap{
+    padding: 0 18vw;
+  }
+
+  form{
+    padding: 0 18vw;
+  }
+
 }
