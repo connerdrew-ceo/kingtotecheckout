@@ -275,7 +275,17 @@ export const AddressFormStep = ({
                   />
                   {errors.statePickUpField && touched.statePickUpField && <div className="errorMessage">{errors.statePickUpField}</div>}
             </div>
-            <div className="formControl"></div>
+            <div className="formControl">
+                <label htmlFor="lastNameInput" className={sameContactAsPickUp}>Last Name</label>
+                <Field 
+                  className={sameContactAsPickUp}
+                  id="lastNameInput"
+                  name='lastNameField' 
+                  placeholder="Doe"
+                  />
+                  {errors.lastNameField && touched.lastNameField && <div className="errorMessage">{errors.lastNameField}</div>}
+
+            </div>
             <div className="formControl">
               <label htmlFor="dropOff">Zip Code</label>
               <Field 
