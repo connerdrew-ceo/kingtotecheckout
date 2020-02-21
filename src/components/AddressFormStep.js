@@ -199,7 +199,7 @@ export const AddressFormStep = ({
                   {errors.addressPickUpField && touched.addressPickUpField && <div className="errorMessage">{errors.addressPickUpField}</div>}
             </div>
             <div className="formControl">
-                <h3>Pick up Contact</h3>
+                <h3>Pick-up Contact</h3>
               <div className="ratioWrap checkboxInline">
                 <Field 
                   id="sameAsMainPick"

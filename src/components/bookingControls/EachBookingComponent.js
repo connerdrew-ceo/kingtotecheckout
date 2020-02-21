@@ -27,7 +27,7 @@ export const EachBookingComponent = ({  formData,
     const [openTimeLayerDrop, setOpenTimeLayerDrop] = useState(false);
     const [showResumeInfo, setShowResumeInfo] = useState(false);
     
-    const addWeeks = (dt, n) => {
+    const addWeeks = (dt) => {
         //return new Date(dt.setDate(dt.getDate() + (n * 7)));
         return new Date(dt.setDate(dt.getDate() + 1));
     }
@@ -50,8 +50,6 @@ export const EachBookingComponent = ({  formData,
                         
         return maxNumber + 1
     }
-
-    
 
     let openDetailedBooking = 'bookingComponent'
 
