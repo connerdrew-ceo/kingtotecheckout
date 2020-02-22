@@ -1,59 +1,70 @@
 import React, {useState, useEffect} from 'react';
 import { Header } from './Header';
 import { Formik, Form, Field } from 'formik';
-//import { connect } from 'react-redux'
 import * as yup from 'yup';
 import axios from "axios";
 
-function useEndpoint(req) {
-  const [res, setRes] = useState({
-    data: null,
-    complete: false,
-    pending: false,
-    error: false
-  });
-
-  useEffect(
-    () => {
-      setRes({
-        data: null,
-        pending: true,
-        error: false,
-        complete: false
-      });
-      axios(req)
-        .then(res =>
-          setRes({
-            data: res.data,
-            pending: false,
-            error: false,
-            complete: true
-          }),
-        )
-        .catch(() =>
-          setRes({
-            data: null,
-            pending: false,
-            error: true,
-            complete: true
-          }),
-        );
-    },
-    [req.url]
-  );
-  return res;
-}
-
 export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
 
-  const todosApi = "https://jsonplaceholder.typicode.com/todos";
-  const [count, setCount] = useState(3);
-  const todo = useEndpoint({
-    method: "GET",
-    url: `${todosApi}/${count}`
-  });
-
+  const tokenEndPoint = 'https://kingtote.vonigo.com/api/v1/security/login/?appVersion=1company=Vonigo&password=a8b58ed9ef2fffb4a5ddb88626fa2727&userName=King.tote'
   
+  const [tokenGenerated, setTokenGenerated] = useState(null);
+  const [franchises, setFranchises] = useState(null);
+  const [load, setLoad] = useState(false);
+  const [error, setError] = useState('');
+  let listFranchises = ''
+
+  useEffect(() => {
+      axios.get(tokenEndPoint)
+            .then(res => {
+              if(res.data !== null){
+                setFormData({
+                  ...formData,
+                  'securityToken': res.data.securityToken
+                });
+              }
+              setTokenGenerated(res.data.securityToken);
+              setLoad(true);
+            })
+            .catch(err => {
+                setError(err.message);
+                setLoad(true)
+            })
+          
+  }, []);
+
+  useEffect(() => {
+
+    let franchisesEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/franchises/?securityToken='+ tokenGenerated + '&pageNo=1&pageSize=50&method=0'
+    
+    axios.get(franchisesEndPoint)
+            .then(res => {
+              if(res.data !== null){
+                setFranchises(res.data.Franchises)
+              }
+              setLoad(true);
+            })
+            .catch(err => {
+                setError(err.message);
+                setLoad(true)
+            })
+    
+  }, [tokenGenerated]);
+
+
+  // useEffect(() => {
+
+  //   console.log('aca crea las franchises', franchises)
+    
+  //   if(franchises){
+  //     listFranchises = franchises.map((itemFranchise, index) => {
+  //       return <div key={itemFranchise.franchiseID} value={itemFranchise.franchiseID}>{itemFranchise.franchiseName}</div>
+  //     });
+  //   }
+
+  //   console.log('listFranchises', listFranchises)
+
+  // }, [franchises]);
 
   const validationSchemaFirstStep = yup.object({
     locationType: yup
@@ -85,16 +96,11 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
     <>
       <Header title='Enter Personal Details' step="One" />
 
-      {/* <div>
-        {(todo.pending && 'Loading...') ||
-          (todo.complete && todo.data.title)
-        }
-      </div> */}
-
       <div className="introWrap">
         <h2>Welcome</h2>
         <p>Get started by selecting a service area to verify we service your zip codes.</p>
       </div>
+
       <Formik
         initialValues={formData}
         onSubmit={values => {
@@ -111,11 +117,17 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
                 as="select" 
                 name="serviceArea"
                 >
-                <option value="">select a service area</option>
-                <option value="Portland">Portland</option>
-                <option value="Washington">Washington</option>
-                <option value="Seattle">Seattle</option>
-                <option value="Nevada">Nevada</option>
+                  <option value="">select a service area</option>
+                  {(franchises) ? (
+                      franchises.map(p => <option key={p.franchiseID} value={p.franchiseID}>{p.franchiseName}</option>)
+                  ) : ''
+                  }
+                  
+                                  
+                  {/* <option value="Portland">Portland</option>
+                  <option value="Washington">Washington</option>
+                  <option value="Seattle">Seattle</option>
+                  <option value="Nevada">Nevada</option> */}
               </Field>
               {errors.serviceArea && touched.serviceArea && <div className="errorMessage">{errors.serviceArea}</div>}
             </div>
@@ -170,6 +182,8 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
           </Form>
         )}
       </Formik>
+    
+    
     </>
   );
 };

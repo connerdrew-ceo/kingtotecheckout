@@ -79,7 +79,8 @@ export const UserForm = () => {
     timeRangeDropEnd: null,
     timeRangePickStart: null,
     timeRangePickEnd: null,
-    schedulingSummary: null
+    schedulingSummary: null,
+    securityToken: ''
   });
 
   const nextStep = () => setStep(prev => prev + 1);
