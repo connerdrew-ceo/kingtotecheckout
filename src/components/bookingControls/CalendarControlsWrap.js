@@ -93,7 +93,7 @@ export const CalendarControlsWrap = ({
           (origin === 'Scheduling') ? (
             <div className="formControl">
               <label className="boldLabel">Scheduling Summary</label>
-              <p>{schedulingSummaryLocal} days total</p>
+              <p>{(schedulingSummaryLocal > 0) ? schedulingSummaryLocal : 0 } days total</p>
             </div>
           ) : ''
         }
