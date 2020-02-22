@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import DayPicker from "react-day-picker";
 import { TimeOption } from "./TimeOption"
 let dateAvailable = new Date();
+let dateSuggested = new Date();
+
+// 1987, 1, 2
+
 const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const timeOptions = [
     {startAt: '7:00', endAt: '9:00'},
@@ -27,8 +31,10 @@ export const EachBookingComponent = ({  formData,
     const [openTimeLayerDrop, setOpenTimeLayerDrop] = useState(false);
     const [showResumeInfo, setShowResumeInfo] = useState(false);
     
-    const addWeeks = (dt) => {
-        //return new Date(dt.setDate(dt.getDate() + (n * 7)));
+    const addWeeks = (dt, n) => {
+        if(n){
+            return new Date(dt.setDate(dt.getDate() + (n * 7)));
+        }
         return new Date(dt.setDate(dt.getDate() + 1));
     }
 
@@ -70,8 +76,10 @@ export const EachBookingComponent = ({  formData,
 
     }else{
         dateAvailable = (controlType === 'end') ? 
-                                                    addWeeks(new Date(formData.dateDropOff), getNumberOfWeeks() )  
+                                                    addWeeks(new Date(formData.dateDropOff) )  
                                                 :   new Date()
+
+        dateSuggested = addWeeks(new Date(formData.dateDropOff), getNumberOfWeeks() )
     }
     
     const handleDayDropOff = (day, { selected }) => {
@@ -117,7 +125,6 @@ export const EachBookingComponent = ({  formData,
     });
 
     useEffect(() => {
-
         if(currentDate !== null){
             setOpenTimeLayerDrop(false)
             setShowResumeInfo(true)
@@ -150,6 +157,8 @@ export const EachBookingComponent = ({  formData,
                                     before: dateAvailable
                                 },
                             ]}
+                            
+                            selectedDays={dateSuggested}
                         />
                         <div className="hideCalendar"></div>
                     </div>
@@ -165,4 +174,3 @@ export const EachBookingComponent = ({  formData,
         </>
     );
 };
-
