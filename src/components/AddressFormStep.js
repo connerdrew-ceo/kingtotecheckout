@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from './Header';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
@@ -152,6 +152,28 @@ export const AddressFormStep = ({
     let sameContactAsDropOff = (openHideFieldsDropOff) ? 'disabledField' : ''
     const [openHideFieldsPickUp, setOpenHideFieldsPickUp] = useState(formData.sameAsMainContactPickUp);
     let sameContactAsPickUp = (openHideFieldsPickUp) ? 'disabledField' : ''
+
+
+    useEffect(() => {
+      let removeErr = document.querySelectorAll('.rightFields .errorMessage');
+      if(removeErr.length){
+        removeErr[0].style.display = "none"
+        removeErr[1].style.display = "none"
+        removeErr[2].style.display = "none"
+        removeErr[3].style.display = "none"
+      }
+      
+      if(sameContactAsDropOff === 'disabledField' && sameContactAsPickUp === 'disabledField'){
+        
+        setValidationSchemaActive(validationSchemaFourthStep)
+      }else if(sameContactAsDropOff === '' && sameContactAsPickUp === 'disabledField'){
+        setValidationSchemaActive(validationSchemaFourthStepDropOff)
+      }else{
+        setValidationSchemaActive(validationSchemaFourthStepPickUp)
+      }
+        
+      },
+      [sameContactAsDropOff, sameContactAsPickUp]);
     
   return (
     <>
@@ -290,7 +312,7 @@ export const AddressFormStep = ({
                       type="checkbox"
                       onClick={() => {
                         setOpenHideFieldsDropOff(!openHideFieldsDropOff)
-                        setValidationSchemaActive(validationSchemaFourthStepDropOff)
+                        
                         } 
                       }
                       />
@@ -408,7 +430,7 @@ export const AddressFormStep = ({
                       type="checkbox"
                       onClick={() => {
                         setOpenHideFieldsPickUp(!openHideFieldsPickUp)
-                        setValidationSchemaActive(validationSchemaFourthStepPickUp)
+                        
                         }
                       }
                       />

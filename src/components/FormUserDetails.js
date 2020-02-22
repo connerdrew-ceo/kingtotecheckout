@@ -45,6 +45,14 @@ function useEndpoint(req) {
 }
 
 export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
+
+  const todosApi = "https://jsonplaceholder.typicode.com/todos";
+  const [count, setCount] = useState(3);
+  const todo = useEndpoint({
+    method: "GET",
+    url: `${todosApi}/${count}`
+  });
+
   
 
   const validationSchemaFirstStep = yup.object({
@@ -76,6 +84,12 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
   return (
     <>
       <Header title='Enter Personal Details' step="One" />
+
+      {/* <div>
+        {(todo.pending && 'Loading...') ||
+          (todo.complete && todo.data.title)
+        }
+      </div> */}
 
       <div className="introWrap">
         <h2>Welcome</h2>
