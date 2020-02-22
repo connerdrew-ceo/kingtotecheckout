@@ -2,70 +2,11 @@ import React, {useState, useEffect} from 'react';
 import { Header } from './Header';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
-import axios from "axios";
 
-export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
 
-  const tokenEndPoint = 'https://kingtote.vonigo.com/api/v1/security/login/?appVersion=1company=Vonigo&password=a8b58ed9ef2fffb4a5ddb88626fa2727&userName=King.tote'
+export const FormUserDetails = ({ formData, setFormData, nextStep, franchises }) => {
+
   
-  const [tokenGenerated, setTokenGenerated] = useState(null);
-  const [franchises, setFranchises] = useState(null);
-  const [load, setLoad] = useState(false);
-  const [error, setError] = useState('');
-  let listFranchises = ''
-
-  useEffect(() => {
-      axios.get(tokenEndPoint)
-            .then(res => {
-              if(res.data !== null){
-                setFormData({
-                  ...formData,
-                  'securityToken': res.data.securityToken
-                });
-              }
-              setTokenGenerated(res.data.securityToken);
-              setLoad(true);
-            })
-            .catch(err => {
-                setError(err.message);
-                setLoad(true)
-            })
-          
-  }, []);
-
-  useEffect(() => {
-
-    let franchisesEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/franchises/?securityToken='+ tokenGenerated + '&pageNo=1&pageSize=50&method=0'
-    
-    axios.get(franchisesEndPoint)
-            .then(res => {
-              if(res.data !== null){
-                setFranchises(res.data.Franchises)
-              }
-              setLoad(true);
-            })
-            .catch(err => {
-                setError(err.message);
-                setLoad(true)
-            })
-    
-  }, [tokenGenerated]);
-
-
-  // useEffect(() => {
-
-  //   console.log('aca crea las franchises', franchises)
-    
-  //   if(franchises){
-  //     listFranchises = franchises.map((itemFranchise, index) => {
-  //       return <div key={itemFranchise.franchiseID} value={itemFranchise.franchiseID}>{itemFranchise.franchiseName}</div>
-  //     });
-  //   }
-
-  //   console.log('listFranchises', listFranchises)
-
-  // }, [franchises]);
-
   const validationSchemaFirstStep = yup.object({
     locationType: yup
       .string()
@@ -122,12 +63,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
                       franchises.map(p => <option key={p.franchiseID} value={p.franchiseID}>{p.franchiseName}</option>)
                   ) : ''
                   }
-                  
-                                  
-                  {/* <option value="Portland">Portland</option>
-                  <option value="Washington">Washington</option>
-                  <option value="Seattle">Seattle</option>
-                  <option value="Nevada">Nevada</option> */}
+
               </Field>
               {errors.serviceArea && touched.serviceArea && <div className="errorMessage">{errors.serviceArea}</div>}
             </div>

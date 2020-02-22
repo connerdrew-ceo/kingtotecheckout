@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FormUserDetails } from './FormUserDetails';
 import { FormToteDetails } from './FormToteDetails';
 import { Scheduling } from './Scheduling';
 import { AddressFormStep } from './AddressFormStep';
 import { Confirm } from './Confirm';
 import { Success } from './Success';
+import axios from "axios";
 
 export const UserForm = () => {
 
@@ -86,6 +87,58 @@ export const UserForm = () => {
   const nextStep = () => setStep(prev => prev + 1);
   const prevStep = () => setStep(prev => prev - 1);
 
+  const tokenEndPoint = 'https://kingtote.vonigo.com/api/v1/security/login/?appVersion=1company=Vonigo&password=a8b58ed9ef2fffb4a5ddb88626fa2727&userName=King.tote'
+  
+  const [tokenGenerated, setTokenGenerated] = useState(null);
+  const [franchises, setFranchises] = useState(null);
+  const [load, setLoad] = useState(false);
+  const [error, setError] = useState('');
+  let listFranchises = ''
+
+  useEffect(() => {
+      axios.get(tokenEndPoint)
+            .then(res => {
+              if(res.data !== null){
+                setFormData({
+                  ...formData,
+                  'securityToken': res.data.securityToken
+                });
+              }
+              setTokenGenerated(res.data.securityToken);
+              setLoad(true);
+            })
+            .catch(err => {
+                setError(err.message);
+                setLoad(true)
+            })
+          
+  }, []);
+
+  useEffect(() => {
+
+    let franchisesEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/franchises/?securityToken='+ tokenGenerated + '&pageNo=1&pageSize=50&method=0'
+    
+    axios.get(franchisesEndPoint)
+            .then(res => {
+              if(res.data !== null){
+                setFranchises(res.data.Franchises)
+              }
+              setLoad(true);
+            })
+            .catch(err => {
+                setError(err.message);
+                setLoad(true)
+            })
+    
+  }, [tokenGenerated]);
+
+  useEffect(() => {
+
+    let zipCodeEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/franchises/?securityToken='+ tokenGenerated + '&pageNo=1&pageSize=50&method=0'
+
+  }, []);
+
+
   switch (step) {
     case 1:
       return (
@@ -93,6 +146,7 @@ export const UserForm = () => {
           formData={formData}
           setFormData={setFormData}
           nextStep={nextStep}
+          franchises={franchises}
         />
       );
     case 2:
