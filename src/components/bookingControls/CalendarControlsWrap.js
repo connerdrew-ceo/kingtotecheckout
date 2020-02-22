@@ -7,21 +7,15 @@ export const CalendarControlsWrap = ({
     origin,
     parentFunction
     }) => {
-      const [schedulingSummaryLocal, setSchedulingSummaryLocal] = useState( (formData.schedulingSummary === null) ? 0 : formData.schedulingSummary)
-
-
+      const [schedulingSummaryLocal, setSchedulingSummaryLocal] = useState( (formData.schedulingSummary === null) ? 0 : formData.schedulingSummary);
       const calculateDays = (endDate) => {
-
           let dt1Full = new Date(formData.dateDropOff)
           let dt2Full = new Date(endDate)
-
           dt1Full = Math.round(( dt2Full - dt1Full) / (1000*60*60*24))
           return dt1Full
-
       }
       const [enableCalendar, setEnableCalendar] = useState( (formData.dateDropOff === null) ? false : true );
       const updateStateSchedulingStart = ( dateData ) => {
-
           if(dateData.kind === 'start'){
               setEnableCalendar(true)
               setFormData({
@@ -41,12 +35,9 @@ export const CalendarControlsWrap = ({
                   'schedulingSummary': calculateDays(dateData.stringDate)
               });
           }
-
           if(origin === 'Scheduling') parentFunction(dateData)
-          
       }
       const updateStateSchedulingTime = (timeData) => {
-
           if(timeData.kind === 'start'){
               setFormData({
                   ...formData,
@@ -64,7 +55,7 @@ export const CalendarControlsWrap = ({
   return (
     <>
         <div className="formControl">
-            <label className="boldLabel">Select Drop-off Date/Time</label>
+            <label className="boldLabelCalendar">Select Drop-off Date/Time</label>
             <EachBookingComponent
                 formData={formData} 
                 updateStateSchedulingStart={updateStateSchedulingStart} 
@@ -77,7 +68,7 @@ export const CalendarControlsWrap = ({
                 />
         </div>
         <div className="formControl">
-            <label className="boldLabel">Select Pick-up Date/Time</label>
+            <label className="boldLabelCalendar">Select Pick-up Date/Time</label>
             <EachBookingComponent
                 formData={formData} 
                 updateStateSchedulingStart={updateStateSchedulingStart} 
@@ -92,7 +83,7 @@ export const CalendarControlsWrap = ({
         {
           (origin === 'Scheduling') ? (
             <div className="formControl">
-              <label className="boldLabel">Scheduling Summary</label>
+              <label className="boldLabelCalendar">Scheduling Summary</label>
               <p>{(schedulingSummaryLocal > 0) ? schedulingSummaryLocal : 0 } days total</p>
             </div>
           ) : ''

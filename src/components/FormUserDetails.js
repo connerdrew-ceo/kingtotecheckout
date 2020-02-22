@@ -1,12 +1,52 @@
-import React from 'react';
-// import PropTypes, { number } from 'prop-types';
+import React, {useState, useEffect} from 'react';
 import { Header } from './Header';
 import { Formik, Form, Field } from 'formik';
 //import { connect } from 'react-redux'
 import * as yup from 'yup';
+import axios from "axios";
 
+function useEndpoint(req) {
+  const [res, setRes] = useState({
+    data: null,
+    complete: false,
+    pending: false,
+    error: false
+  });
+
+  useEffect(
+    () => {
+      setRes({
+        data: null,
+        pending: true,
+        error: false,
+        complete: false
+      });
+      axios(req)
+        .then(res =>
+          setRes({
+            data: res.data,
+            pending: false,
+            error: false,
+            complete: true
+          }),
+        )
+        .catch(() =>
+          setRes({
+            data: null,
+            pending: false,
+            error: true,
+            complete: true
+          }),
+        );
+    },
+    [req.url]
+  );
+  return res;
+}
 
 export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
+  
+
   const validationSchemaFirstStep = yup.object({
     locationType: yup
       .string()

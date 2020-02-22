@@ -3,9 +3,6 @@ import DayPicker from "react-day-picker";
 import { TimeOption } from "./TimeOption"
 let dateAvailable = new Date();
 let dateSuggested = new Date();
-
-// 1987, 1, 2
-
 const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const timeOptions = [
     {startAt: '7:00', endAt: '9:00'},
@@ -157,7 +154,6 @@ export const EachBookingComponent = ({  formData,
                                     before: dateAvailable
                                 },
                             ]}
-                            
                             selectedDays={dateSuggested}
                         />
                         <div className="hideCalendar"></div>

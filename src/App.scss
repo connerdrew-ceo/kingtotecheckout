@@ -407,10 +407,15 @@ form{
   label{
     color: $purple;
     display: block;
+    &.boldLabelCalendar{
+      font-size: 1.25rem;
+      clear: both;
+    }
     &.boldLabel{
       font-size: 1.75rem;
       clear: both;
     }
+
   }
   .formControl{
     width: 100%;
