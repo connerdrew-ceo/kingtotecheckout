@@ -201,15 +201,15 @@ button{
           background-color: $greyText;
         }
       }
+      
       &.DayPicker-Day--disabled{
         color: rgba($greyText, .5);
         pointer-events: none;
         font-weight: 300;
       }
       &.DayPicker-Day--selected{
-        background-color: #e1f0f8;
-        color: $purple;
-        font-weight: 600;
+        background-color: rgba($purple, .15);
+        color: $greyText;
       }
     }
   }
@@ -755,7 +755,6 @@ form{
   .headerComponent{
     .stepWrap{
       padding: 0 14vw;
-
     }
   }
 
