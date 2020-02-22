@@ -3,6 +3,8 @@ import DayPicker from "react-day-picker";
 import { TimeOption } from "./TimeOption"
 let dateAvailable = new Date();
 let dateSuggested = new Date();
+
+let dayStartRange = '';
 const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const timeOptions = [
     {startAt: '7:00', endAt: '9:00'},
@@ -30,8 +32,9 @@ export const EachBookingComponent = ({  formData,
     
     const addWeeks = (dt, n) => {
         if(n){
-            return new Date(dt.setDate(dt.getDate() + (n * 7)));
+            return new Date(dt.setDate(dt.getDate() + (n * 7) + 1 ));
         }
+        dayStartRange = new Date(dt.setDate(dt.getDate()));
         return new Date(dt.setDate(dt.getDate() + 1));
     }
 
@@ -147,15 +150,31 @@ export const EachBookingComponent = ({  formData,
                 </div>
                 <div className={layerClassListDrop}>
                     <div className={calendarControlClasses}>
-                        <DayPicker 
-                            onDayClick={handleDayDropOff}
-                            disabledDays={[
-                                {
-                                    before: dateAvailable
-                                },
-                            ]}
-                            selectedDays={dateSuggested}
-                        />
+                        {(controlType==='start') ? (
+                            <DayPicker 
+                                onDayClick={handleDayDropOff}
+                                disabledDays={[
+                                    {
+                                        before: dateAvailable,
+                                    },
+                                    { daysOfWeek: [0, 5] }
+                                ]}
+                            />
+                        ) : (
+                            <DayPicker 
+                                onDayClick={handleDayDropOff}
+                                selectedDays={dateSuggested, {
+                                    after: dayStartRange,
+                                    before: dateSuggested,
+                                }}
+                                disabledDays={[
+                                    {
+                                        before: dateAvailable,
+                                    },
+                                    { daysOfWeek: [0, 5] }
+                                ]}
+                            />
+                        )}
                         <div className="hideCalendar"></div>
                     </div>
                     <div className="timeLayer">

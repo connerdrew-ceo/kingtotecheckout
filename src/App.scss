@@ -202,14 +202,16 @@ button{
         }
       }
       
-      &.DayPicker-Day--disabled{
-        color: rgba($greyText, .5);
-        pointer-events: none;
-        font-weight: 300;
-      }
+      
       &.DayPicker-Day--selected{
         background-color: rgba($purple, .15);
         color: $greyText;
+      }
+      &.DayPicker-Day--disabled{
+        background-color: rgba($purple, 0);
+        color: rgba($greyText, .5);
+        pointer-events: none;
+        font-weight: 300;
       }
     }
   }
@@ -343,6 +345,10 @@ button{
       }
       &.disabled{
         opacity: .5;
+        .DayPicker-Day--selected{
+          background-color: rgba($purple, 0);
+          color: $greyText;
+        }
         .hideCalendar{
           display: block;
         }
@@ -735,11 +741,9 @@ form{
   .DayPicker-Months{
     .DayPicker-Month{
       .DayPicker-Weekday{
-        padding: .5em .775em;
         padding: .75em 1.75vw;
       }
       .DayPicker-Day{
-        padding: .775em;
         padding: 1.75vw;
       }
     }
