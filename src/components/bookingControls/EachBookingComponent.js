@@ -157,7 +157,7 @@ export const EachBookingComponent = ({  formData,
                                     {
                                         before: dateAvailable,
                                     },
-                                    { daysOfWeek: [0, 5] }
+                                    { daysOfWeek: [0] }
                                 ]}
                             />
                         ) : (
@@ -171,7 +171,7 @@ export const EachBookingComponent = ({  formData,
                                     {
                                         before: dateAvailable,
                                     },
-                                    { daysOfWeek: [0, 5] }
+                                    { daysOfWeek: [0] }
                                 ]}
                             />
                         )}
