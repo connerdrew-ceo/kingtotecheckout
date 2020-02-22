@@ -16,6 +16,39 @@ const validationSchemaFourthStep = yup.object({
   emailField: yup
     .string()
     .required('Email is required'),
+  addressDropOffField: yup
+    .string()
+    .required('Address is required'),
+  cityDropOffField: yup
+    .string()
+    .required('City is required'),
+  stateDropOffField: yup
+    .string()
+    .required('State is required'),
+  addressPickUpField: yup
+    .string()
+    .required('Address is required'),
+  cityPickUpField: yup
+    .string()
+    .required('City is required'),
+  statePickUpField: yup
+    .string()
+    .required('State is required'),
+});
+
+const validationSchemaFourthStepDropOff = yup.object({
+  firstNameFiled: yup
+    .string()
+    .required('First name is required'),
+  lastNameField: yup
+    .string()
+    .required('Last name is required'),
+  telField: yup
+    .string()
+    .required('Telephone is required'),
+  emailField: yup
+    .string()
+    .required('Email is required'),
   firstNameFiledDifferentDrop: yup
     .string()
     .required('First name is required'),
@@ -26,6 +59,39 @@ const validationSchemaFourthStep = yup.object({
     .string()
     .required('Telephone is required'),
   emailFieldDifferentDrop: yup
+    .string()
+    .required('Email is required'),
+  addressDropOffField: yup
+    .string()
+    .required('Address is required'),
+  cityDropOffField: yup
+    .string()
+    .required('City is required'),
+  stateDropOffField: yup
+    .string()
+    .required('State is required'),
+  addressPickUpField: yup
+    .string()
+    .required('Address is required'),
+  cityPickUpField: yup
+    .string()
+    .required('City is required'),
+  statePickUpField: yup
+    .string()
+    .required('State is required'),
+});
+
+const validationSchemaFourthStepPickUp = yup.object({
+  firstNameFiled: yup
+    .string()
+    .required('First name is required'),
+  lastNameField: yup
+    .string()
+    .required('Last name is required'),
+  telField: yup
+    .string()
+    .required('Telephone is required'),
+  emailField: yup
     .string()
     .required('Email is required'),
   firstNameFiledDifferentPickUp: yup
@@ -58,8 +124,9 @@ const validationSchemaFourthStep = yup.object({
   statePickUpField: yup
     .string()
     .required('State is required'),
-    
 });
+
+
 const validateZipCode = value => {
 
   let stringValue = value + ''
@@ -80,6 +147,7 @@ export const AddressFormStep = ({
     prevStep
     }) => {
     const [direction, setDirection] = useState('back');
+    const [validationSchemaActive, setValidationSchemaActive] = useState(validationSchemaFourthStep);
     const [openHideFieldsDropOff, setOpenHideFieldsDropOff] = useState(formData.sameAsMainContactDropOff);
     let sameContactAsDropOff = (openHideFieldsDropOff) ? 'disabledField' : ''
     const [openHideFieldsPickUp, setOpenHideFieldsPickUp] = useState(formData.sameAsMainContactPickUp);
@@ -98,7 +166,7 @@ export const AddressFormStep = ({
           setFormData(values);
           direction === 'back' ? prevStep() : nextStep();
         }}
-        validationSchema={validationSchemaFourthStep}
+        validationSchema={ validationSchemaActive }
         >
         {({ errors, touched }) => (
           <Form className="fifthForm">
@@ -220,7 +288,11 @@ export const AddressFormStep = ({
                       id="sameAsMainDropOff"
                       name='sameAsMainContactDropOff' 
                       type="checkbox"
-                      onClick={() => setOpenHideFieldsDropOff(!openHideFieldsDropOff)}
+                      onClick={() => {
+                        setOpenHideFieldsDropOff(!openHideFieldsDropOff)
+                        setValidationSchemaActive(validationSchemaFourthStepDropOff)
+                        } 
+                      }
                       />
                     <label htmlFor="sameAsMainDropOff">Same as Main Contact Info</label>
                   </div>
@@ -334,7 +406,11 @@ export const AddressFormStep = ({
                       id="sameAsMainPick"
                       name='sameAsMainContactPickUp' 
                       type="checkbox"
-                      onClick={() => setOpenHideFieldsPickUp(!openHideFieldsPickUp)}
+                      onClick={() => {
+                        setOpenHideFieldsPickUp(!openHideFieldsPickUp)
+                        setValidationSchemaActive(validationSchemaFourthStepPickUp)
+                        }
+                      }
                       />
                     <label htmlFor="sameAsMainPick">Same as Main Contact Info</label>
                   </div>
