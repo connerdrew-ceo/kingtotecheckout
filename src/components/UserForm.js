@@ -81,7 +81,8 @@ export const UserForm = () => {
     timeRangePickStart: null,
     timeRangePickEnd: null,
     schedulingSummary: null,
-    securityToken: ''
+    securityToken: null,
+    serviceTypes: null
   });
 
   const nextStep = () => setStep(prev => prev + 1);
@@ -91,14 +92,16 @@ export const UserForm = () => {
   
   const [tokenGenerated, setTokenGenerated] = useState(null);
   const [franchises, setFranchises] = useState(null);
+  const [zips, setZips] = useState(null);
   const [load, setLoad] = useState(false);
   const [error, setError] = useState('');
-  let listFranchises = ''
+  //let listFranchises = ''
 
   useEffect(() => {
       axios.get(tokenEndPoint)
             .then(res => {
               if(res.data !== null){
+                console.log('tokenGenerated: ', res.data.securityToken)
                 setFormData({
                   ...formData,
                   'securityToken': res.data.securityToken
@@ -134,9 +137,21 @@ export const UserForm = () => {
 
   useEffect(() => {
 
-    let zipCodeEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/franchises/?securityToken='+ tokenGenerated + '&pageNo=1&pageSize=50&method=0'
+    let zipCodeEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/zips/?securityToken='+ tokenGenerated + '&pageNo=1&pageSize=50'
 
-  }, []);
+    axios.get(zipCodeEndPoint)
+            .then(res => {
+              if(res.data !== null){
+                setZips(res.data.Zips)
+                console.log('res.data.Zips: ',res.data.Zips)
+              }
+              setLoad(true);
+            })
+            .catch(err => {
+                setError(err.message);
+                setLoad(true)
+            })
+  }, [tokenGenerated]);
 
 
   switch (step) {
@@ -147,6 +162,7 @@ export const UserForm = () => {
           setFormData={setFormData}
           nextStep={nextStep}
           franchises={franchises}
+          zipCodes={zips}
         />
       );
     case 2:

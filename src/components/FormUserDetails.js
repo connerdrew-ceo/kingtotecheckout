@@ -4,7 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 
 
-export const FormUserDetails = ({ formData, setFormData, nextStep, franchises }) => {
+export const FormUserDetails = ({ formData, setFormData, nextStep, franchises, zipCodes }) => {
 
   
   const validationSchemaFirstStep = yup.object({
@@ -25,7 +25,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep, franchises })
     let stringValue = value + ''
     let error;
       if (!value) {
-        error = 'Drop off required';
+        error = 'postal code is required';
       } else if (stringValue.length > 5) {
         error = 'postal code is 5 digits';
       } else if (stringValue.length < 5) {
@@ -33,6 +33,41 @@ export const FormUserDetails = ({ formData, setFormData, nextStep, franchises })
       }
       return error;
   };
+
+  const zipCodeFilter = ( zipInteger ) => {
+    let zipString = zipInteger + ''
+    let zipCodeDropExist = zipCodes.filter(item => item.zip === zipString)
+    return zipCodeDropExist
+  }
+
+  const zipCodesOperations = (zipDrop, zipPick) => {
+
+      let zipDropVerify = zipCodeFilter(zipDrop)
+      let zipPickVerify = zipCodeFilter(zipPick)
+
+      console.log('zipCodeExist test ', zipDropVerify)
+
+      if(zipDropVerify.length === 0){
+
+        alert('This drop off code is out of the area!')
+
+      }else if(zipPickVerify.length === 0){
+
+        alert('This pick up code is out of the area!')
+
+      }else{
+        nextStep();
+      }
+
+      
+  };
+
+  // useEffect(() => {
+
+  //   let zipCodeEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/zip/?securityToken='+ tokenGenerated + '&pageNo=1&pageSize=50&method=0'
+
+  // }, []);
+
   return (
     <>
       <Header title='Enter Personal Details' step="One" />
@@ -46,7 +81,8 @@ export const FormUserDetails = ({ formData, setFormData, nextStep, franchises })
         initialValues={formData}
         onSubmit={values => {
           setFormData(values);
-          nextStep();
+          zipCodesOperations( values.dropOff, values.pickUp )
+          
         }}
         validationSchema={validationSchemaFirstStep}
         >
