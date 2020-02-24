@@ -121,9 +121,14 @@ export const UserForm = () => {
 
     let franchisesEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/franchises/?securityToken='+ tokenGenerated + '&pageNo=1&pageSize=50&method=0'
     
-    axios.get(franchisesEndPoint)
+    if(tokenGenerated){
+
+      console.log('franchisesEndPoint reques ', tokenGenerated)
+      
+      axios.get(franchisesEndPoint)
             .then(res => {
               if(res.data !== null){
+                
                 setFranchises(res.data.Franchises)
               }
               setLoad(true);
@@ -132,6 +137,9 @@ export const UserForm = () => {
                 setError(err.message);
                 setLoad(true)
             })
+
+    }
+    
     
   }, [tokenGenerated]);
 
@@ -139,11 +147,13 @@ export const UserForm = () => {
 
     let zipCodeEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/zips/?securityToken='+ tokenGenerated + '&pageNo=1&pageSize=50'
 
-    axios.get(zipCodeEndPoint)
+    if(tokenGenerated){
+
+      console.log('zipCodeEndPoint reques ', tokenGenerated)
+      axios.get(zipCodeEndPoint)
             .then(res => {
               if(res.data !== null){
                 setZips(res.data.Zips)
-                console.log('res.data.Zips: ',res.data.Zips)
               }
               setLoad(true);
             })
@@ -151,6 +161,8 @@ export const UserForm = () => {
                 setError(err.message);
                 setLoad(true)
             })
+    }
+    
   }, [tokenGenerated]);
 
 

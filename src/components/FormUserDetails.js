@@ -6,6 +6,7 @@ import * as yup from 'yup';
 
 export const FormUserDetails = ({ formData, setFormData, nextStep, franchises, zipCodes }) => {
 
+  let serviceAreaValue = ''
   
   const validationSchemaFirstStep = yup.object({
     locationType: yup
@@ -13,26 +14,25 @@ export const FormUserDetails = ({ formData, setFormData, nextStep, franchises, z
       .required('Pick up is required'),
     serviceArea: yup
       .string()
-      .required('Service Area is required'),
+      .required('Service area is required'),
     pickUp: yup
       .number()
       .positive()
       .integer()
       .required('Pick up is required'),
   });
+  
+  const validateServideArea = value => {
 
-  const validateZipCode = value => {
-    let stringValue = value + ''
     let error;
-      if (!value) {
-        error = 'postal code is required';
-      } else if (stringValue.length > 5) {
-        error = 'postal code is 5 digits';
-      } else if (stringValue.length < 5) {
-        error = 'postal code is 5 digits';
-      }
-      return error;
-  };
+    if (!value) {
+      error = 'Service area is required';
+    } else {
+      serviceAreaValue = parseInt(value) 
+    }
+    return error;
+
+  }
 
   const zipCodeFilter = ( zipInteger ) => {
     let zipString = zipInteger + ''
@@ -40,33 +40,27 @@ export const FormUserDetails = ({ formData, setFormData, nextStep, franchises, z
     return zipCodeDropExist
   }
 
-  const zipCodesOperations = (zipDrop, zipPick) => {
+  const validateZipCode = value => {
+    let stringValue = value + ''
+    let zipResult = ''
+    let error;
+      if (!value) {
+        error = 'postal code is required';
+      } else if (stringValue.length > 5) {
+        error = 'postal code is 5 digits';
+      } else if (stringValue.length < 5) {
+        error = 'postal code is 5 digits';
+      } else if (stringValue.length === 5) {
+        zipResult = zipCodeFilter(value)
 
-      let zipDropVerify = zipCodeFilter(zipDrop)
-      let zipPickVerify = zipCodeFilter(zipPick)
-
-      console.log('zipCodeExist test ', zipDropVerify)
-
-      if(zipDropVerify.length === 0){
-
-        alert('This drop off code is out of the area!')
-
-      }else if(zipPickVerify.length === 0){
-
-        alert('This pick up code is out of the area!')
-
-      }else{
-        nextStep();
+        if(zipResult.length > 0 && zipResult[0].franchiseID === serviceAreaValue){
+          //console.log('Ok perfect')
+        } else {
+          error = 'this code is out of the service area'
+        }
       }
-
-      
+      return error;
   };
-
-  // useEffect(() => {
-
-  //   let zipCodeEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/zip/?securityToken='+ tokenGenerated + '&pageNo=1&pageSize=50&method=0'
-
-  // }, []);
 
   return (
     <>
@@ -81,7 +75,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep, franchises, z
         initialValues={formData}
         onSubmit={values => {
           setFormData(values);
-          zipCodesOperations( values.dropOff, values.pickUp )
+          nextStep();
           
         }}
         validationSchema={validationSchemaFirstStep}
@@ -93,6 +87,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep, franchises, z
               <Field 
                 as="select" 
                 name="serviceArea"
+                validate={validateServideArea}
                 >
                   <option value="">select a service area</option>
                   {(franchises) ? (
