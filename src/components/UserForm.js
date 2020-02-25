@@ -9,12 +9,12 @@ import axios from "axios";
 
 export const UserForm = () => {
 
-  const [step, setStep] = useState(5);
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     serviceArea: '',
     dropOff: '',
     pickUp: '',
-    locationType: 'residential',
+    locationType: '16',
     firstBooking: '',
     lasttBooking: '',
     toteBoxesField: '',
@@ -83,6 +83,7 @@ export const UserForm = () => {
     timeRangePickEnd: null,
     schedulingSummary: null,
     securityToken: null,
+    PriceItems: null,
     serviceTypes: null
   });
 
@@ -94,6 +95,7 @@ export const UserForm = () => {
   const [tokenGenerated, setTokenGenerated] = useState(null);
   const [franchises, setFranchises] = useState(null);
   const [zips, setZips] = useState(null);
+  const [serviceTypes, setServiceTypes] = useState(null);
   const [load, setLoad] = useState(false);
   const [error, setError] = useState('');
 
@@ -154,7 +156,6 @@ export const UserForm = () => {
                 setLoad(true)
             })
     }
-    
   }, [tokenGenerated]);
 
 
@@ -167,6 +168,7 @@ export const UserForm = () => {
           nextStep={nextStep}
           franchises={franchises}
           zipCodes={zips}
+          setServiceTypes={setServiceTypes}
         />
       );
     case 2:
@@ -176,6 +178,7 @@ export const UserForm = () => {
           setFormData={setFormData}
           nextStep={nextStep}
           prevStep={prevStep}
+          serviceTypes={serviceTypes}
         />
       );
     case 3:

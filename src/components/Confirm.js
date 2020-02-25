@@ -78,15 +78,12 @@ export const Confirm = ({
       return error;
   };
 
-
   const trackFocus = (e) => {
     const { name, value } = e.target;
-
     console.log('trackFocus name: ', name)
     console.log('trackFocus value: ', value)
 
     setFocus(e.target.name)
- 
   }
 
   return (

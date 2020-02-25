@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { Formik, Form, Field } from 'formik';
 import { Header } from './Header';
 import { ToteBoxesRow } from './toteBoxes/ToteBoxesRow'
@@ -76,9 +75,11 @@ export const FormToteDetails = ({
   formData,
   setFormData,
   nextStep,
-  prevStep
+  prevStep,
+  serviceTypes
 }) => {
   const [direction, setDirection] = useState('back');
+  const [serviceTypesRow, setServiceTypesRow] = useState('');
 
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
   let buttonClasses = ''
@@ -140,6 +141,21 @@ export const FormToteDetails = ({
   });
 
   useEffect(() => {
+    if(serviceTypes){
+    let  serviceTypesRowLocal = serviceTypes.filter((serviceTypesRow, index) => {
+        return serviceTypesRow.priceBlockSequence === 4 && serviceTypesRow.isActive === true;
+          //(serviceTypesRow.priceBlockSequence === 1 && serviceTypesRow.isActive === true) ? return <ul><li></li></ul> : ''
+        
+      }).map((serviceTypesRow, index) => {
+        
+        return <li key={serviceTypesRow.priceItem}>{serviceTypesRow.priceItem}</li>;
+      }) 
+      console.log('serviceTypesRow.priceItem>> ', serviceTypesRowLocal)
+      setServiceTypesRow(serviceTypesRowLocal)
+    }
+  }, [serviceTypes])
+
+  useEffect(() => {
 
     if( toteBox25 !== null || 
         toteBox35 !== null || 
@@ -160,7 +176,12 @@ export const FormToteDetails = ({
       <div className="introWrap">
         <h2>Order details</h2>
         <p>Please select the applicable option(s) bellow.</p>
+        <ul>{serviceTypesRow}</ul>
+        
+        {serviceTypes && <pre>{JSON.stringify(serviceTypes, null, 2)}</pre>}
       </div>
+
+      
       <Formik
         initialValues={formData}
         onSubmit={values => {
@@ -187,9 +208,3 @@ export const FormToteDetails = ({
   );
 };
 
-// FormToteDetails.propTypes = {
-//   formData: PropTypes.object.isRequired,
-//   setFormData: PropTypes.func.isRequired,
-//   nextStep: PropTypes.func.isRequired,
-//   prevStep: PropTypes.func.isRequired
-// };

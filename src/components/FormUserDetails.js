@@ -2,9 +2,10 @@ import React, {useState, useEffect} from 'react';
 import { Header } from './Header';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
+import axios from "axios";
 
-
-export const FormUserDetails = ({ formData, setFormData, nextStep, franchises, zipCodes }) => {
+let flagOnce = true
+export const FormUserDetails = ({ formData, setFormData, nextStep, franchises, zipCodes, setServiceTypes }) => {
 
   let serviceAreaValue = ''
   
@@ -31,14 +32,40 @@ export const FormUserDetails = ({ formData, setFormData, nextStep, franchises, z
       serviceAreaValue = parseInt(value) 
     }
     return error;
-
-  }
+  };
 
   const zipCodeFilter = ( zipInteger ) => {
     let zipString = zipInteger + ''
     let zipCodeDropExist = zipCodes.filter(item => item.zip === zipString)
     return zipCodeDropExist
-  }
+  };
+
+  const toteBoxesRequest = ( zipValue, locationId ) => {
+
+    let priceListsEndPoint = 'https://kingtote.vonigo.com/api/v1/data/priceLists/?securityToken='+ 
+                          formData.securityToken +
+                          '&method=2&zipCode=' + zipValue + '&serviceTypeID='+ locationId +
+                          '&pageNo=1&pageSize=500'
+
+    if(formData.securityToken && flagOnce){
+      axios.get(priceListsEndPoint)
+            .then(res => {
+              if(res.data !== null){
+                console.log(res.data.PriceItems)
+
+                setServiceTypes(res.data.PriceItems)
+                flagOnce = false
+              }
+              //setLoad(true);
+              
+            })
+            .catch(err => {
+              console.log('errrrr>> ', err)
+                //setError(err.message);
+                //setLoad(true)
+            })
+    }
+  };
 
   const validateZipCode = value => {
     let stringValue = value + ''
@@ -55,6 +82,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep, franchises, z
 
         if(zipResult.length > 0 && zipResult[0].franchiseID === serviceAreaValue){
           //console.log('Ok perfect')
+          
         } else {
           error = 'this code is out of the service area'
         }
@@ -75,8 +103,8 @@ export const FormUserDetails = ({ formData, setFormData, nextStep, franchises, z
         initialValues={formData}
         onSubmit={values => {
           setFormData(values);
+          toteBoxesRequest( values.dropOff, values.locationType );
           nextStep();
-          
         }}
         validationSchema={validationSchemaFirstStep}
         >
@@ -98,7 +126,9 @@ export const FormUserDetails = ({ formData, setFormData, nextStep, franchises, z
               </Field>
               {errors.serviceArea && touched.serviceArea && <div className="errorMessage">{errors.serviceArea}</div>}
             </div>
-            <div className="formControl"></div>
+            <div className="formControl">
+              
+            </div>
             <div className="formControl">
               <label htmlFor="dropOff">Drop-off Zip Code</label>
               <Field 
@@ -126,7 +156,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep, franchises, z
                   id="locationResidential"
                   name='locationType'
                   type="radio"
-                  value="residential"
+                  value="16"
                 />
                 <label htmlFor="locationResidential">Residential</label>
               </div>
@@ -135,7 +165,7 @@ export const FormUserDetails = ({ formData, setFormData, nextStep, franchises, z
                   id="locationCommertial"
                   name='locationType'
                   type="radio"
-                  value="commertial"
+                  value="15"
                 />
                 <label htmlFor="locationCommertial">Commertial</label>
               </div>
@@ -149,31 +179,6 @@ export const FormUserDetails = ({ formData, setFormData, nextStep, franchises, z
           </Form>
         )}
       </Formik>
-    
-    
     </>
   );
 };
-
-// FormUserDetails.propTypes = {
-//   formData: PropTypes.object.isRequired,
-//   setFormData: PropTypes.func.isRequired,
-//   nextStep: PropTypes.func.isRequired
-// };
-
-
-// const mapStateToProps = state => {
-//   return{
-//     localCounter: state.counter
-//   }
-// }
-
-// const mapDispatchToProps = state => {
-//   return{
-//     onIncrementCounter: () => dispatch({type: 'INCREMENT'})
-//   }
-
-// }
-
-
-// export default connect(mapStateToProps, mapDispatchToProps)(FormUserDetails);
