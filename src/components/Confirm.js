@@ -4,6 +4,7 @@ import { Header } from './Header';
 import { CalendarControlsWrap } from './bookingControls/CalendarControlsWrap'
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
+import Cards from 'react-credit-cards';
 
 const validationSchemaFourthStep = yup.object({
   cardHolderNameFiled: yup
@@ -15,7 +16,6 @@ const validationSchemaFourthStep = yup.object({
   expirationDateField: yup
     .string()
     .required('Expiration date is required'),
-    
     
 });
 
@@ -33,19 +33,7 @@ const validateZipCode = value => {
     return error;
 };
 
-const validateCVVCode = value => {
 
-  let stringValue = value + ''
-  let error;
-    if (!value) {
-      error = 'CVV required';
-    } else if (stringValue.length > 3) {
-      error = 'CVV code is 3 digits';
-    } else if (stringValue.length < 3) {
-      error = 'CVV code is 3 digits';
-    }
-    return error;
-};
 
 export const Confirm = ({ 
     formData, 
@@ -53,6 +41,53 @@ export const Confirm = ({
     prevStep, 
     nextStep }) => {
     const [direction, setDirection] = useState('back');
+    const [cvc, setCVC] = useState('');
+    const [expiry, setExpiry] = useState('');
+    const [focus, setFocus] = useState('');
+    const [nameCard, setNameCard] = useState('');
+    const [numberCard, setNumberCard] = useState('');
+
+
+  const validateNameCardHolder = value => {
+
+    setNameCard(value)
+  };
+
+  const validateNameCardNumber = value => {
+
+    setNumberCard(value)
+  };
+
+  const validateDateExp = value => {
+
+    setExpiry(value)
+  };
+
+  const validateCVCCode = value => {
+    let stringValue = value + ''
+    let error;
+
+    setCVC(value)
+      if (!value) {
+        error = 'CVC required';
+      } else if (stringValue.length > 3) {
+        error = 'CVC code is 3 digits';
+      } else if (stringValue.length < 3) {
+        error = 'CVC code is 3 digits';
+      }
+      return error;
+  };
+
+
+  const trackFocus = (e) => {
+    const { name, value } = e.target;
+
+    console.log('trackFocus name: ', name)
+    console.log('trackFocus value: ', value)
+
+    setFocus(e.target.name)
+ 
+  }
 
   return (
     <>
@@ -60,13 +95,11 @@ export const Confirm = ({
       <div className="introWrap">
         <h2>Order Confirmation</h2>
         <p>Please fill out your contact information as Delivery and Pick-Up addresses</p>
-        
       </div>
-
+      
       <Formik
         initialValues={formData}
         onSubmit={values => {
-          
           setFormData(values);
           direction === 'back' ? prevStep() : nextStep();
           console.log('AddressFormStep submit >>>> ', values)
@@ -77,11 +110,24 @@ export const Confirm = ({
           <Form>
             <div className="formControl">
                 <h3>Payment Information</h3>
+
+                <div className="cardWarp">
+                  <Cards
+                    cvc={cvc}
+                    expiry={expiry}
+                    focused={focus}
+                    name={nameCard}
+                    number={numberCard}
+                    />
+
+                </div>
                 <label htmlFor="cardHolderNameInput">Cardholder Name</label>
                 <Field 
                   id="cardHolderNameInput"
                   name='cardHolderNameFiled' 
                   placeholder="Jane Doe"
+                  validate={validateNameCardHolder}
+                  onFocus={trackFocus}
                   />
                 {errors.cardHolderNameFiled && touched.cardHolderNameFiled && <div className="errorMessage">{errors.cardHolderNameFiled}</div>}
             </div>
@@ -92,6 +138,8 @@ export const Confirm = ({
                   id="cardNumberInput"
                   name='cardNumberField' 
                   placeholder="XXXX-XXXX-XXXX-XXXX"
+                  validate={validateNameCardNumber}
+                  onFocus={trackFocus}
                   />
                   {errors.cardNumberField && touched.cardNumberField && <div className="errorMessage">{errors.cardNumberField}</div>}
             </div>
@@ -105,19 +153,22 @@ export const Confirm = ({
                     name='expirationDateField' 
                     placeholder="MM/YYYY"
                     type="string"
+                    validate={validateDateExp}
+                    onFocus={trackFocus}
                     />
                     {errors.expirationDateField && touched.expirationDateField && <div className="errorMessage">{errors.expirationDateField}</div>}
               </div>
               <div className="wrapBillingInline">
-                  <label htmlFor="cvvInput">CVV</label>
+                  <label htmlFor="cvcInput">CVV</label>
                   <Field 
-                    id="cvvInput"
-                    name='cvvField' 
+                    id="cvcInput"
+                    name='cvcField' 
                     placeholder="3 digit code"
                     type="number"
-                    validate={validateCVVCode}
+                    validate={validateCVCCode}
+                    onFocus={trackFocus}
                     />
-                    {errors.cvvField && touched.cvvField && <div className="errorMessage">{errors.cvvField}</div>}
+                    {errors.cvcField && touched.cvcField && <div className="errorMessage">{errors.cvcField}</div>}
               </div>
             </div>
             
@@ -193,7 +244,7 @@ export const Confirm = ({
           </Form>
         )}
       </Formik>
-      <pre>{JSON.stringify(formData, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(formData, null, 2)}</pre> */}
     
     </>
   );
