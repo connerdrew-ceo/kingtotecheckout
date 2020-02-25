@@ -81,6 +81,10 @@ export const FormToteDetails = ({
   const [direction, setDirection] = useState('back');
   const [serviceTypesRow, setServiceTypesRow] = useState('');
 
+  const [serviceTypesRow2, setServiceTypesRow2] = useState('');
+  const [serviceTypesRow3, setServiceTypesRow3] = useState('');
+  const [serviceTypesRow4, setServiceTypesRow4] = useState('');
+
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
   let buttonClasses = ''
   buttonClasses = (nextButtonDisabled) ? 'disabled' : ''
@@ -143,16 +147,40 @@ export const FormToteDetails = ({
   useEffect(() => {
     if(serviceTypes){
     let  serviceTypesRowLocal = serviceTypes.filter((serviceTypesRow, index) => {
-        return serviceTypesRow.priceBlockSequence === 1 && serviceTypesRow.isActive === true;
+        return serviceTypesRow.priceBlockSequence === 1 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
         
       })
+
+    let  serviceTypesRowLocal2 = serviceTypes.filter((serviceTypesRow, index) => {
+      return serviceTypesRow.priceBlockSequence === 2 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
       
+    })
+      
+
+    let  serviceTypesRowLocal3 = serviceTypes.filter((serviceTypesRow, index) => {
+      return serviceTypesRow.priceBlockSequence === 3 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
+      
+    })
+
+    let  serviceTypesRowLocal4 = serviceTypes.filter((serviceTypesRow, index) => {
+      return serviceTypesRow.priceBlockSequence === 4 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
+      
+    })
       // .map((serviceTypesRow, index) => {
         
       //   return <li key={serviceTypesRow.priceItem}>{serviceTypesRow.priceItem}</li>;
       // }) 
       console.log('serviceTypesRow.priceItem>> ', serviceTypesRowLocal)
+      console.log('serviceTypesRow2.priceItem>> ', serviceTypesRowLocal2)
+      console.log('serviceTypesRow3.priceItem>> ', serviceTypesRowLocal3)
+      console.log('serviceTypesRow4.priceItem>> ', serviceTypesRowLocal4)
       setServiceTypesRow(serviceTypesRowLocal)
+
+      setServiceTypesRow2(serviceTypesRowLocal2)
+
+      setServiceTypesRow3(serviceTypesRowLocal3)
+
+      setServiceTypesRow4(serviceTypesRowLocal4)
     }
   }, [serviceTypes])
 
@@ -177,12 +205,29 @@ export const FormToteDetails = ({
       <div className="introWrap">
         <h2>Order details</h2>
         <p>Please select the applicable option(s) bellow.</p>
-        {/* <ul>{serviceTypesRow}</ul> */}
 
-        <h3>serviceTypesRow.priceBlockSequence === 1 && serviceTypesRow.isActive === true</h3>
         
-        {serviceTypesRow && <pre>{JSON.stringify(serviceTypesRow, null, 2)}</pre>}
-      </div>
+          <div>
+            <h3>serviceTypesRow.priceBlockSequence === 1 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true</h3>
+            {serviceTypesRow && <pre>{JSON.stringify(serviceTypesRow, null, 2)}</pre>}
+          </div>
+
+          <div>
+            <h3>serviceTypesRow.priceBlockSequence === 2 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true</h3>
+            {serviceTypesRow2 && <div>{JSON.stringify(serviceTypesRow2, null, 2)}</div>}
+          </div>
+
+          <div>
+            <h3>serviceTypesRow.priceBlockSequence === 3 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true</h3>
+            {serviceTypesRow3 && <div>{JSON.stringify(serviceTypesRow3, null, 2)}</div>}
+          </div>
+
+          <div>
+            <h3>serviceTypesRow.priceBlockSequence === 4 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true</h3>
+            {serviceTypesRow4 && <div>{JSON.stringify(serviceTypesRow4, null, 2)}</div>}
+          </div>
+
+        </div>
 
       
       <Formik
