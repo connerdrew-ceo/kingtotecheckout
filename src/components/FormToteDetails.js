@@ -143,13 +143,14 @@ export const FormToteDetails = ({
   useEffect(() => {
     if(serviceTypes){
     let  serviceTypesRowLocal = serviceTypes.filter((serviceTypesRow, index) => {
-        return serviceTypesRow.priceBlockSequence === 4 && serviceTypesRow.isActive === true;
-          //(serviceTypesRow.priceBlockSequence === 1 && serviceTypesRow.isActive === true) ? return <ul><li></li></ul> : ''
+        return serviceTypesRow.priceBlockSequence === 1 && serviceTypesRow.isActive === true;
         
-      }).map((serviceTypesRow, index) => {
+      })
+      
+      // .map((serviceTypesRow, index) => {
         
-        return <li key={serviceTypesRow.priceItem}>{serviceTypesRow.priceItem}</li>;
-      }) 
+      //   return <li key={serviceTypesRow.priceItem}>{serviceTypesRow.priceItem}</li>;
+      // }) 
       console.log('serviceTypesRow.priceItem>> ', serviceTypesRowLocal)
       setServiceTypesRow(serviceTypesRowLocal)
     }
@@ -176,9 +177,11 @@ export const FormToteDetails = ({
       <div className="introWrap">
         <h2>Order details</h2>
         <p>Please select the applicable option(s) bellow.</p>
-        <ul>{serviceTypesRow}</ul>
+        {/* <ul>{serviceTypesRow}</ul> */}
+
+        <h3>serviceTypesRow.priceBlockSequence === 1 && serviceTypesRow.isActive === true</h3>
         
-        {serviceTypes && <pre>{JSON.stringify(serviceTypes, null, 2)}</pre>}
+        {serviceTypesRow && <pre>{JSON.stringify(serviceTypesRow, null, 2)}</pre>}
       </div>
 
       
