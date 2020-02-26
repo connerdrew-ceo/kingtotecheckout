@@ -69,7 +69,7 @@ export const UserForm = () => {
     expirationDateField: '',
     cvcField: '',
     billingZipCode: '',
-    toteGlobalInfo: null,
+    
     // box25totes: null,
     // box35totes: null,
     // box50totes: null,
@@ -84,8 +84,7 @@ export const UserForm = () => {
     timeRangePickEnd: null,
     schedulingSummary: null,
     securityToken: null,
-    PriceItems: null,
-    serviceTypes: null
+    toteBoxesGlobalInfo: null,
   });
 
   const nextStep = () => setStep(prev => prev + 1);
@@ -172,7 +171,6 @@ export const UserForm = () => {
           zipCodes={zips}
           serviceTypes={serviceTypes}
           setServiceTypes={setServiceTypes}
-          
         />
       );
     case 2:
@@ -195,6 +193,7 @@ export const UserForm = () => {
           setFormData={setFormData}
           nextStep={nextStep}
           prevStep={prevStep}
+          
         />
       );
     case 4:

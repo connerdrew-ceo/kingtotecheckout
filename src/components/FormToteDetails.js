@@ -49,10 +49,7 @@ export const FormToteDetails = ({
   const switchButtons = () => {
     let arrSwitch = []
     toteBoxesData.map((eachElem) => {
-      
-      if(eachElem.indexActive !== null){
-        arrSwitch.push(eachElem)
-      }
+      if(eachElem.indexActive !== null) arrSwitch.push(eachElem)
     });
 
     (arrSwitch.length) ? setNextButtonDisabled(false) : setNextButtonDisabled(true)
@@ -60,21 +57,17 @@ export const FormToteDetails = ({
   }
 
   const setToteBoxesInfo = () => {
-    // setFormData({
-    //   ...formData,
-    //   'toteGlobalInfo': toteBoxesData,
-    // });
+    setFormData({
+      ...formData,
+      'toteBoxesGlobalInfo': toteBoxesData,
+    });
     setToteBoxesContent(toteBoxesData)
   };
 
   const updateSelectedBox = (keyObj) => {
 
-    
-
     toteBoxesData[keyObj.parent].indexActive = keyObj.child
     switchButtons()
-
-    
   };
 
   const addElement = ( elem, nameKey, bufferElem ) => {
@@ -145,7 +138,7 @@ export const FormToteDetails = ({
     }
 
     switchButtons()
-    
+
   }, [serviceTypes])
 
   

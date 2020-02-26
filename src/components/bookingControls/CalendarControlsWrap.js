@@ -57,7 +57,7 @@ export const CalendarControlsWrap = ({
         <div className="formControl">
             <label className="boldLabelCalendar">Select Drop-off Date/Time</label>
             <EachBookingComponent
-                formData={formData} 
+                formData={formData}
                 updateStateSchedulingStart={updateStateSchedulingStart} 
                 updateStateSchedulingTime={updateStateSchedulingTime} 
                 controlType="start" 
@@ -70,14 +70,14 @@ export const CalendarControlsWrap = ({
         <div className="formControl">
             <label className="boldLabelCalendar">Select Pick-up Date/Time</label>
             <EachBookingComponent
-                formData={formData} 
+                formData={formData}
+                enabled={enableCalendar}
                 updateStateSchedulingStart={updateStateSchedulingStart} 
                 updateStateSchedulingTime={updateStateSchedulingTime} 
                 controlType="end" 
                 currentDate={formData.datePickUp}
                 startingTime={formData.timeRangePickStart}
                 endingTime={formData.timeRangePickEnd}
-                enabled={enableCalendar}
                 />
         </div>
         {

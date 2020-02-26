@@ -40,20 +40,18 @@ export const EachBookingComponent = ({  formData,
 
     const getNumberOfWeeks = () => {
         let maxNumber = 0
-        let arrWeek = [ formData.box25totes, 
-                        formData.box35totes, 
-                        formData.box50totes,
-                        formData.box70totes,
-                        formData.handleCart,
-                        formData.kingcart
-                        ];
+        let arrSwitch = []
+        let bufferToteBoxesGlobalInfo = formData.toteBoxesGlobalInfo
 
-        arrWeek.forEach(function(word) {
-            if (word !== null && word > maxNumber) {
-                maxNumber = word
-            }
+        bufferToteBoxesGlobalInfo.map((eachElem) => {
+            if(eachElem.indexActive !== null) arrSwitch.push(eachElem.indexActive)
         });
-                        
+
+        arrSwitch.forEach(function(eachDate) {
+            if (eachDate !== null && eachDate > maxNumber) {
+                maxNumber = eachDate
+            }
+        });             
         return maxNumber + 1
     }
 
