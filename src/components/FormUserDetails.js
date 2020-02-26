@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import axios from "axios";
 
 let flagOnce = true
-export const FormUserDetails = ({ formData, setFormData, nextStep, franchises, zipCodes, setServiceTypes }) => {
+export const FormUserDetails = ({ formData, setFormData, nextStep, franchises, zipCodes, serviceTypes, setServiceTypes }) => {
 
   let serviceAreaValue = ''
   
@@ -41,6 +41,8 @@ export const FormUserDetails = ({ formData, setFormData, nextStep, franchises, z
   };
 
   const toteBoxesRequest = ( zipValue, locationId ) => {
+
+    if(serviceTypes !== null) return
 
     let priceListsEndPoint = 'https://kingtote.vonigo.com/api/v1/data/priceLists/?securityToken='+ 
                           formData.securityToken +

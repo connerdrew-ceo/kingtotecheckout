@@ -12,8 +12,8 @@ export const UserForm = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     serviceArea: '',
-    dropOff: '',
-    pickUp: '',
+    dropOff: '84106',
+    pickUp: '84106',
     locationType: '16',
     firstBooking: '',
     lasttBooking: '',
@@ -69,12 +69,13 @@ export const UserForm = () => {
     expirationDateField: '',
     cvcField: '',
     billingZipCode: '',
-    box25totes: null,
-    box35totes: null,
-    box50totes: null,
-    box70totes: null,
-    handleCart: null,
-    kingcart: null,
+    toteGlobalInfo: null,
+    // box25totes: null,
+    // box35totes: null,
+    // box50totes: null,
+    // box70totes: null,
+    // handleCart: null,
+    // kingcart: null,
     dateDropOff: null,
     datePickUp: null,
     timeRangeDropStart: null,
@@ -169,7 +170,9 @@ export const UserForm = () => {
           nextStep={nextStep}
           franchises={franchises}
           zipCodes={zips}
+          serviceTypes={serviceTypes}
           setServiceTypes={setServiceTypes}
+          
         />
       );
     case 2:
@@ -180,6 +183,7 @@ export const UserForm = () => {
           nextStep={nextStep}
           prevStep={prevStep}
           serviceTypes={serviceTypes}
+          setServiceTypes={setServiceTypes}
           toteBoxesContent={toteBoxesContent}
           setToteBoxesContent={setToteBoxesContent}
         />
