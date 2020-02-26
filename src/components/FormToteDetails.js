@@ -3,6 +3,8 @@ import { Formik, Form, Field } from 'formik';
 import { Header } from './Header';
 import { ToteBoxesRow } from './toteBoxes/ToteBoxesRow'
 
+let toteRowsToRender = ''
+
 let toteBoxesData = [
   {title: '25 Totes', 
     sub: '1 bedroom (250-500 sq ft)', 
@@ -71,20 +73,23 @@ let toteBoxesData = [
     indexActive: null
   }
 ];
+
+let bufferObj = []
 export const FormToteDetails = ({
   formData,
   setFormData,
   nextStep,
   prevStep,
-  serviceTypes
+  serviceTypes,
+  toteBoxesContent,
+  setToteBoxesContent
 }) => {
   const [direction, setDirection] = useState('back');
-  const [serviceTypesRow, setServiceTypesRow] = useState('');
 
-  const [serviceTypesRow2, setServiceTypesRow2] = useState('');
-  const [serviceTypesRow3, setServiceTypesRow3] = useState('');
-  const [serviceTypesRow4, setServiceTypesRow4] = useState('');
 
+
+  //const [serviceTypesRow, setServiceTypesRow] = useState('');
+  
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
   let buttonClasses = ''
   buttonClasses = (nextButtonDisabled) ? 'disabled' : ''
@@ -135,52 +140,68 @@ export const FormToteDetails = ({
     toteBoxesData[keyObj.parent].indexActive = keyObj.child
   };
 
-  let toteRows = toteBoxesData.map((toteRow, index) => {
-    return <ToteBoxesRow 
-                key={index} 
-                trackKey={index}
-                dataObj={toteRow}
-                updateSelectedBox={updateSelectedBox}
-            />
-  });
+  const addElement = ( elem, nameKey, bufferElem ) => {
+    const found = elem.findIndex(el => el.title === nameKey);
+    if(found !== -1){
+      let temporalArrPush = elem[found].prices
+      temporalArrPush.push(bufferElem)
+    }
+    return (found === -1) ? true : false
+  };
+
+  const setObjectBeforeRenderRows = ( objOrigin ) => {
+
+    let arrToteRows = []
+    objOrigin.map((eachElem) => {
+      eachElem.map((eachElemLevel1) => {
+
+        let bufferElem = {price: eachElemLevel1.value, 
+                          week: eachElemLevel1.priceBlockSequence, 
+                          legend: eachElemLevel1.priceBlock
+                        }
+        
+        if( addElement( arrToteRows, eachElemLevel1.priceItemView, bufferElem ) ){
+          arrToteRows.push({
+            title: eachElemLevel1.priceItemView,
+            indexActive: null,
+            sub: 'Where can I find this information > [ 1 bedroom (250-500 sq ft) ]', 
+            additionalWeek:'Where can I find this information > [ $35 each additional week ]',
+            prices: [bufferElem]
+          })
+        }else{
+        }
+      })
+    })
+    setToteBoxesContent(arrToteRows)
+  };
 
   useEffect(() => {
     if(serviceTypes){
-    let  serviceTypesRowLocal = serviceTypes.filter((serviceTypesRow, index) => {
-        return serviceTypesRow.priceBlockSequence === 1 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
-        
+
+      let  serviceTypesRowLocal = serviceTypes.filter((serviceTypesRow, index) => {
+          return serviceTypesRow.priceBlockSequence === 1 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
       })
 
-    let  serviceTypesRowLocal2 = serviceTypes.filter((serviceTypesRow, index) => {
-      return serviceTypesRow.priceBlockSequence === 2 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
-      
-    })
-      
+      bufferObj.push(serviceTypesRowLocal)
 
-    let  serviceTypesRowLocal3 = serviceTypes.filter((serviceTypesRow, index) => {
-      return serviceTypesRow.priceBlockSequence === 3 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
-      
-    })
+      let  serviceTypesRowLocal2 = serviceTypes.filter((serviceTypesRow, index) => {
+        return serviceTypesRow.priceBlockSequence === 2 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
+      })
 
-    let  serviceTypesRowLocal4 = serviceTypes.filter((serviceTypesRow, index) => {
-      return serviceTypesRow.priceBlockSequence === 4 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
-      
-    })
-      // .map((serviceTypesRow, index) => {
-        
-      //   return <li key={serviceTypesRow.priceItem}>{serviceTypesRow.priceItem}</li>;
-      // }) 
-      console.log('serviceTypesRow.priceItem>> ', serviceTypesRowLocal)
-      console.log('serviceTypesRow2.priceItem>> ', serviceTypesRowLocal2)
-      console.log('serviceTypesRow3.priceItem>> ', serviceTypesRowLocal3)
-      console.log('serviceTypesRow4.priceItem>> ', serviceTypesRowLocal4)
-      setServiceTypesRow(serviceTypesRowLocal)
+      bufferObj.push(serviceTypesRowLocal2)
 
-      setServiceTypesRow2(serviceTypesRowLocal2)
+      let  serviceTypesRowLocal3 = serviceTypes.filter((serviceTypesRow, index) => {
+        return serviceTypesRow.priceBlockSequence === 3 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
+      })
 
-      setServiceTypesRow3(serviceTypesRowLocal3)
+      bufferObj.push(serviceTypesRowLocal3)
 
-      setServiceTypesRow4(serviceTypesRowLocal4)
+      let  serviceTypesRowLocal4 = serviceTypes.filter((serviceTypesRow, index) => {
+        return serviceTypesRow.priceBlockSequence === 4 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
+      })
+
+      bufferObj.push(serviceTypesRowLocal4)
+      setObjectBeforeRenderRows(bufferObj)
     }
   }, [serviceTypes])
 
@@ -199,35 +220,33 @@ export const FormToteDetails = ({
     }
   }, [toteBox25, toteBox35, toteBox50, toteBox70, heavyDutyCart, easyRollCart])
 
+
+  // useEffect(() => {
+  //   console.log('toteBoxesContent>>> ', toteBoxesContent)
+  //   if(toteBoxesContent !== null){
+
+      
+  //     toteRowsToRender = toteBoxesContent.map((toteRow, index) => {
+  //       return <ToteBoxesRow 
+  //                   key={index} 
+  //                   trackKey={index}
+  //                   dataObj={toteRow}
+  //                   updateSelectedBox={updateSelectedBox}
+  //               />
+  //     });
+
+  //   }
+
+  // }, [toteBoxesContent])
+
   return (
     <>
       <Header title='Enter Personal Details' step="Two"/>
       <div className="introWrap">
         <h2>Order details</h2>
         <p>Please select the applicable option(s) bellow.</p>
-
-        
-          <div>
-            <h3>serviceTypesRow.priceBlockSequence === 1 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true</h3>
-            {serviceTypesRow && <pre>{JSON.stringify(serviceTypesRow, null, 2)}</pre>}
-          </div>
-
-          <div>
-            <h3>serviceTypesRow.priceBlockSequence === 2 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true</h3>
-            {serviceTypesRow2 && <div>{JSON.stringify(serviceTypesRow2, null, 2)}</div>}
-          </div>
-
-          <div>
-            <h3>serviceTypesRow.priceBlockSequence === 3 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true</h3>
-            {serviceTypesRow3 && <div>{JSON.stringify(serviceTypesRow3, null, 2)}</div>}
-          </div>
-
-          <div>
-            <h3>serviceTypesRow.priceBlockSequence === 4 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true</h3>
-            {serviceTypesRow4 && <div>{JSON.stringify(serviceTypesRow4, null, 2)}</div>}
-          </div>
-
-        </div>
+          
+      </div>
 
       
       <Formik
@@ -239,7 +258,17 @@ export const FormToteDetails = ({
         >
         {() => (
           <Form>
-            {toteRows}
+            {toteBoxesContent && (
+              toteBoxesContent.map((toteRow, index) => {
+                return <ToteBoxesRow 
+                            key={index} 
+                            trackKey={index}
+                            dataObj={toteRow}
+                            updateSelectedBox={updateSelectedBox}
+                        />
+              })
+
+            )}
             
             <div className="formControl submitControl fullLenght">
               <button className="whiteBtn" type="submit" onClick={() => setDirection('back')}>

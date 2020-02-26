@@ -96,6 +96,7 @@ export const UserForm = () => {
   const [franchises, setFranchises] = useState(null);
   const [zips, setZips] = useState(null);
   const [serviceTypes, setServiceTypes] = useState(null);
+  const [toteBoxesContent, setToteBoxesContent] = useState(null);
   const [load, setLoad] = useState(false);
   const [error, setError] = useState('');
 
@@ -179,6 +180,8 @@ export const UserForm = () => {
           nextStep={nextStep}
           prevStep={prevStep}
           serviceTypes={serviceTypes}
+          toteBoxesContent={toteBoxesContent}
+          setToteBoxesContent={setToteBoxesContent}
         />
       );
     case 3:
