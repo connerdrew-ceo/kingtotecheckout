@@ -96,8 +96,8 @@ export const FormToteDetails = ({
           arrToteRows.push({
             title: eachElemLevel1.priceItemView,
             indexActive: null,
-            sub: 'Where can I find this information > [ 1 bedroom (250-500 sq ft) ]', 
-            additionalWeek:'Where can I find this information > [ $35 each additional week ]',
+            sub: '1 bedroom (250-500 sq ft)', 
+            additionalWeek:'$35 each additional week',
             prices: [bufferElem]
           })
         }else{
