@@ -160,6 +160,7 @@ export const EachBookingComponent = ({  formData,
                             />
                         ) : (
                             <DayPicker 
+                                className="endCalendar"
                                 onDayClick={handleDayDropOff}
                                 selectedDays={dateSuggested, {
                                     after: dayStartRange,

@@ -96,7 +96,7 @@ export const FormToteDetails = ({
           arrToteRows.push({
             title: eachElemLevel1.priceItemView,
             indexActive: null,
-            sub: '1 bedroom (250-500 sq ft)', 
+            sub: eachElemLevel1.descriptionHelp, 
             additionalWeek:'$35 each additional week',
             prices: [bufferElem]
           })
@@ -114,19 +114,16 @@ export const FormToteDetails = ({
       let  serviceTypesRowLocal = serviceTypes.filter((serviceTypesRow, index) => {
           return serviceTypesRow.priceBlockSequence === 1 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
       })
-
       bufferObj.push(serviceTypesRowLocal)
 
       let  serviceTypesRowLocal2 = serviceTypes.filter((serviceTypesRow, index) => {
         return serviceTypesRow.priceBlockSequence === 2 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
       })
-
       bufferObj.push(serviceTypesRowLocal2)
 
       let  serviceTypesRowLocal3 = serviceTypes.filter((serviceTypesRow, index) => {
         return serviceTypesRow.priceBlockSequence === 3 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
       })
-
       bufferObj.push(serviceTypesRowLocal3)
 
       let  serviceTypesRowLocal4 = serviceTypes.filter((serviceTypesRow, index) => {
@@ -136,9 +133,7 @@ export const FormToteDetails = ({
       bufferObj.push(serviceTypesRowLocal4)
       setObjectBeforeRenderRows(bufferObj)
     }
-
     switchButtons()
-
   }, [serviceTypes])
 
   
@@ -148,7 +143,6 @@ export const FormToteDetails = ({
       <div className="introWrap">
         <h2>Order details</h2>
         <p>Please select the applicable option(s) bellow.</p>
-          
       </div>
       <Formik
         initialValues={formData}
@@ -168,9 +162,7 @@ export const FormToteDetails = ({
                             updateSelectedBox={updateSelectedBox}
                         />
               })
-
             )}
-            
             <div className="formControl submitControl fullLenght">
               <button className="whiteBtn" type="submit" onClick={() => setDirection('back')}>
                 <span>Previous</span>
