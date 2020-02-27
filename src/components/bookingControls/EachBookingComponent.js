@@ -95,8 +95,9 @@ export const EachBookingComponent = ({  formData,
 
         console.log('formatedDay >>>> ', formatedDay)
 
+        // "Date range set incorrectly. Start date is set earlier than end date."
+
         let weekInSeconds = 7 * 24 * 60 * 60 * 1000;
-        //let dateNow = (new Date( Date.now() ).getTime() / 1000).toFixed(0) + '';
         let dateNow = (new Date( day ).getTime() / 1000).toFixed(0) + '';
         let dateWithWeeks = (new Date( Date.now() + weekInSeconds ).getTime() / 1000 ).toFixed(0) + '';
         
@@ -104,8 +105,6 @@ export const EachBookingComponent = ({  formData,
                                     tokenGenerated + '&method=0&pageNo=1&pageSize=100&duration=120&dateStart=' +
                                     dateNow + '&dateEnd=' + dateWithWeeks + '&zip=' + formData.dropOff + '&serviceTypeID=' +
                                     formData.locationType;
-
-
 
         if(controlType === 'start'){
 
@@ -180,7 +179,6 @@ export const EachBookingComponent = ({  formData,
     const resetControl = () => {
 
         setShowResumeInfo(false)
-
         if(controlType === 'start'){
             updateStateSchedulingStart({kind: 'end', stringDate: null})
             setSelectedTime(null)

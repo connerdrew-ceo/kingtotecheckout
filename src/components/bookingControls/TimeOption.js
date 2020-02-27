@@ -2,6 +2,15 @@ import React from 'react';
 
 export const TimeOption = ({listClasses, trackKey, startAt, endAt, changeSelectedTime, closeCalendar}) => {
 
+    const addFormatToTime = (timeString, type) => {
+
+        if(type) {
+            return (timeString >= 12) ? timeString+ ':00 pm' : timeString+ ':00 am'
+        }
+        return (timeString >= 12) ? timeString+ ' pm' : timeString+ ' am'
+
+    }
+
     const clickTimeOpt = () => {
         changeSelectedTime(trackKey)
     }
@@ -9,16 +18,16 @@ export const TimeOption = ({listClasses, trackKey, startAt, endAt, changeSelecte
         <>
             <div className={listClasses}>
                 <div className="timeAvailable" onClick={() => clickTimeOpt()}>
-                    <p>{startAt} pm - {endAt + 2} pm</p>
+                    <p>{addFormatToTime(startAt, 'long')} - {addFormatToTime(startAt, 'long')}</p>
                 </div>
                 <div className="timeSelected">
                     <div className="timeDetail">
-                        <p>{startAt} - {endAt + 2}</p>
+                        <p>{addFormatToTime(startAt)} - {addFormatToTime(startAt)}</p>
                     </div>
                     <button className="button global" onClick={(e) => {
                         e.preventDefault()
                         closeCalendar()
-                    }}>
+                        }}>
                         <span>Confirm</span>
                     </button>
                 </div>
