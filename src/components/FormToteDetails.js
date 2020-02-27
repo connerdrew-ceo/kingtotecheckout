@@ -57,6 +57,7 @@ export const FormToteDetails = ({
   }
 
   const setToteBoxesInfo = () => {
+
     setFormData({
       ...formData,
       'toteBoxesGlobalInfo': toteBoxesData,

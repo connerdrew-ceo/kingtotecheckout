@@ -9,11 +9,11 @@ export const TimeOption = ({listClasses, trackKey, startAt, endAt, changeSelecte
         <>
             <div className={listClasses}>
                 <div className="timeAvailable" onClick={() => clickTimeOpt()}>
-                    <p>{startAt} am - {endAt} am</p>
+                    <p>{startAt} pm - {endAt + 2} pm</p>
                 </div>
                 <div className="timeSelected">
                     <div className="timeDetail">
-                        <p>{startAt} - {endAt}</p>
+                        <p>{startAt} - {endAt + 2}</p>
                     </div>
                     <button className="button global" onClick={(e) => {
                         e.preventDefault()

@@ -254,12 +254,16 @@ button{
 .timeOptionsWrap{
   display: block;
   width: 100%;
-  height: auto;
+  height: 80%;
+  overflow: hidden;
+  overflow-y: scroll;
+  margin-top: 1rem;
   .timeOption{
     position: relative;
     margin: .75rem 0;
     &:first-of-type{
       margin-top: 1rem;
+      margin-top: 0;
     }
     .timeAvailable, .timeDetail{
       width: 100%;
@@ -660,7 +664,6 @@ form{
     padding: 0 10vw;
     margin-bottom: 2rem;
   }
-
   form{
     display: flex;
     flex-wrap: wrap;

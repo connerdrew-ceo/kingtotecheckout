@@ -105,10 +105,7 @@ export const UserForm = () => {
             .then(res => {
               if(res.data !== null){
                 console.log('tokenGenerated: ', res.data.securityToken)
-                setFormData({
-                  ...formData,
-                  'securityToken': res.data.securityToken
-                });
+                
               }
               setTokenGenerated(res.data.securityToken);
               setLoad(true);
@@ -136,6 +133,11 @@ export const UserForm = () => {
                 setError(err.message);
                 setLoad(true)
             })
+
+      setFormData({
+        ...formData,
+        'securityToken': tokenGenerated
+      });
     }
     
   }, [tokenGenerated]);
@@ -155,7 +157,7 @@ export const UserForm = () => {
             .catch(err => {
                 setError(err.message);
                 setLoad(true)
-            })
+            });
     }
   }, [tokenGenerated]);
 
@@ -193,7 +195,7 @@ export const UserForm = () => {
           setFormData={setFormData}
           nextStep={nextStep}
           prevStep={prevStep}
-          
+          tokenGenerated={tokenGenerated}
         />
       );
     case 4:

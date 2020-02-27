@@ -99,7 +99,7 @@ export const Confirm = ({
         onSubmit={values => {
           setFormData(values);
           direction === 'back' ? prevStep() : nextStep();
-          console.log('AddressFormStep submit >>>> ', values)
+          // console.log('AddressFormStep submit >>>> ', values)
         }}
         validationSchema={validationSchemaFourthStep}
         >
@@ -107,7 +107,6 @@ export const Confirm = ({
           <Form>
             <div className="formControl">
                 <h3>Payment Information</h3>
-
                 <div className="cardWarp">
                   <Cards
                     cvc={cvc}

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import DayPicker from "react-day-picker";
+import axios from "axios";
 import { TimeOption } from "./TimeOption"
+
 let dateAvailable = new Date();
 let dateSuggested = new Date();
-
 let dayStartRange = '';
 const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const timeOptions = [
@@ -21,7 +22,8 @@ export const EachBookingComponent = ({  formData,
                                         currentDate, 
                                         startingTime, 
                                         endingTime, 
-                                        enabled }) => {
+                                        enabled,
+                                        tokenGenerated }) => {
 
     const [selectedTime, setSelectedTime] = useState(null);
     const [selectedTimeStart, setSelectedTimeStart] = useState(startingTime);
@@ -29,6 +31,8 @@ export const EachBookingComponent = ({  formData,
     const [dateDropOff, setDateDropOff] = useState('');
     const [openTimeLayerDrop, setOpenTimeLayerDrop] = useState(false);
     const [showResumeInfo, setShowResumeInfo] = useState(false);
+
+    const [timeSpacesAvailable, setTimeSpacesAvailable] = useState(null);
     
     const addWeeks = (dt, n) => {
         if(n){
@@ -73,11 +77,11 @@ export const EachBookingComponent = ({  formData,
         calendarControlClasses = 'calendarLayer disabled'
 
     }else{
-        dateAvailable = (controlType === 'end') ? 
-                                                    addWeeks(new Date(formData.dateDropOff) )  
+        dateAvailable = (controlType === 'end') ?   addWeeks(new Date(formData.dateDropOff) )  
                                                 :   new Date()
 
         dateSuggested = addWeeks(new Date(formData.dateDropOff), getNumberOfWeeks() )
+        
     }
     
     const handleDayDropOff = (day, { selected }) => {
@@ -92,12 +96,22 @@ export const EachBookingComponent = ({  formData,
     };
 
     const changeSelectedTime = (key) => {
+
+
+        console.log('timeSpacesAvailable[key] >>> ', timeSpacesAvailable[key].startTime)
         setSelectedTime(key)
-        setSelectedTimeStart(timeOptions[key].startAt)
-        setSelectedTimeEnd(timeOptions[key].endAt)
+        setSelectedTimeStart(timeSpacesAvailable[key].startTime)
+        setSelectedTimeEnd(timeSpacesAvailable[key].startTime)
         updateStateSchedulingTime({ kind: controlType, 
-                                    stringTimeStart: timeOptions[key].startAt, 
-                                    stringTimeEnd: timeOptions[key].endAt})
+                                    stringTimeStart: timeSpacesAvailable[key].startTime, 
+                                    stringTimeEnd: timeSpacesAvailable[key].startTime})
+        // setSelectedTimeStart(timeOptions[key].startAt)
+        // setSelectedTimeEnd(timeOptions[key].endAt)
+        // updateStateSchedulingTime({ kind: controlType, 
+        //                             stringTimeStart: timeOptions[key].startAt, 
+        //                             stringTimeEnd: timeOptions[key].endAt})
+
+        
     };
 
     const resetControl = () => {
@@ -111,6 +125,7 @@ export const EachBookingComponent = ({  formData,
     }
 
     let tabsContent = timeOptions.map((timeOpt, index) => {
+
         return <TimeOption 
                     listClasses={selectedTime === index ? 'timeOption openSelectedDetail' : 'timeOption'}
                     key={index} 
@@ -121,6 +136,65 @@ export const EachBookingComponent = ({  formData,
                     closeCalendar={closeCalendar}
                 />
     });
+
+    useEffect(() => {
+
+        let weekInSeconds = 7 * 24 * 60 * 60 * 1000;
+        let dateNow = (new Date( Date.now() ).getTime() / 1000).toFixed(0) + '';
+        let dateWithWeeks = (new Date( Date.now() + weekInSeconds ).getTime() / 1000 ).toFixed(0) + '';
+        
+        let availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
+                                    tokenGenerated + '&method=0&pageNo=1&pageSize=100&duration=120&dateStart=' +
+                                    dateNow + '&dateEnd=' + dateWithWeeks + '&zip=' + formData.dropOff + '&serviceTypeID=' +
+                                    formData.locationType;
+
+
+
+        if(controlType === 'start'){
+
+          axios.get(availabilityEndPoint)
+                .then(res => {
+                  if(res.data !== null){
+                      console.log('Response dropOff >>>> ', res.data.Availability)
+                      setTimeSpacesAvailable(res.data.Availability)
+                    // setFranchises(res.data.Franchises)
+                  }
+                  // setLoad(true);
+                })
+                .catch(err => {
+                    console.log('Error >>>> ', err)
+                    // setError(err.message);
+                    // setLoad(true)
+                })
+        }else{
+
+            weekInSeconds = 14 * 24 * 60 * 60 * 1000;
+            
+            availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
+                                    tokenGenerated + '&method=0&pageNo=1&pageSize=100&duration=120&dateStart=' +
+                                    dateNow + '&dateEnd=' + dateWithWeeks + '&zip=' + formData.pickUp + '&serviceTypeID=' +
+                                    formData.locationType;
+
+            axios.get(availabilityEndPoint)
+            .then(res => {
+                if(res.data !== null){
+                    console.log('Response pickUp >>>> ', res.data.Availability)
+                    
+                    setTimeSpacesAvailable(res.data.Availability)
+                // setFranchises(res.data.Franchises)
+                }
+                // setLoad(true);
+            })
+            .catch(err => {
+                console.log('Error >>>> ', err)
+                // setError(err.message);
+                // setLoad(true)
+            })
+    
+            
+        }
+        
+    }, []);
 
     useEffect(() => {
         if(currentDate !== null){
@@ -180,7 +254,24 @@ export const EachBookingComponent = ({  formData,
                         <br/>
                         <p className="dateSelected" onClick={() => setOpenTimeLayerDrop(false)}><span>&#60;</span>  {dateDropOff}</p>
                         <div className="timeOptionsWrap">
-                            {tabsContent}
+                            {timeSpacesAvailable && (
+                                timeSpacesAvailable.map((timeRow, index) => {
+
+                                    let temporalTimeFormat = timeRow.startTime / 60
+
+                                    return <TimeOption 
+                                                listClasses={selectedTime === index ? 'timeOption openSelectedDetail' : 'timeOption'}
+                                                key={index} 
+                                                trackKey={index}
+                                                startAt={timeRow.startTime / 60} 
+                                                endAt={timeRow.startTime / 60} 
+                                                changeSelectedTime={changeSelectedTime}
+                                                closeCalendar={closeCalendar}
+                                            />
+                                })
+                            )}
+
+                            {/* {tabsContent} */}
                         </div>
                     </div>
                 </div>

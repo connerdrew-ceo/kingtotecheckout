@@ -5,7 +5,13 @@ import * as yup from 'yup';
 import axios from "axios";
 
 let flagOnce = true
-export const FormUserDetails = ({ formData, setFormData, nextStep, franchises, zipCodes, serviceTypes, setServiceTypes }) => {
+export const FormUserDetails = ({ formData, 
+                                  setFormData, 
+                                  nextStep, 
+                                  franchises, 
+                                  zipCodes, 
+                                  serviceTypes, 
+                                  setServiceTypes }) => {
 
   let serviceAreaValue = ''
   
@@ -53,18 +59,12 @@ export const FormUserDetails = ({ formData, setFormData, nextStep, franchises, z
       axios.get(priceListsEndPoint)
             .then(res => {
               if(res.data !== null){
-                console.log(res.data.PriceItems)
-
                 setServiceTypes(res.data.PriceItems)
                 flagOnce = false
               }
-              //setLoad(true);
-              
             })
             .catch(err => {
-              console.log('errrrr>> ', err)
-                //setError(err.message);
-                //setLoad(true)
+              console.log('Error >> ', err)
             })
     }
   };
@@ -81,16 +81,15 @@ export const FormUserDetails = ({ formData, setFormData, nextStep, franchises, z
         error = 'postal code is 5 digits';
       } else if (stringValue.length === 5) {
         zipResult = zipCodeFilter(value)
-
         if(zipResult.length > 0 && zipResult[0].franchiseID === serviceAreaValue){
           //console.log('Ok perfect')
-          
         } else {
           error = 'this code is out of the service area'
         }
       }
       return error;
   };
+
 
   return (
     <>

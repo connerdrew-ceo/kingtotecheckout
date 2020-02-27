@@ -9,7 +9,8 @@ export const Scheduling = ({
     formData,
     setFormData,
     nextStep,
-    prevStep
+    prevStep,
+    tokenGenerated
     }) => {
     const [direction, setDirection] = useState('back');
     const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
@@ -26,6 +27,7 @@ export const Scheduling = ({
             }
         }
     }
+
     return (
         <>
         <Header title='Enter Personal Details' step="Three"/>
@@ -46,8 +48,8 @@ export const Scheduling = ({
                         setFormData={setFormData}
                         origin="Scheduling"
                         parentFunction={parentFunction}
+                        tokenGenerated={tokenGenerated}
                     />
-                    
                     <div className="formControl submitControl fullLenght">
                     <button className="whiteBtn" type="submit" onClick={() => prevStep()}>
                         <span>Previous</span>
