@@ -8,6 +8,7 @@ export const TimeOption = ({listClasses, trackKey, startAt, endAt, changeSelecte
         let rhours = Math.floor(hours);
         let minutes = (hours - rhours) * 60;
         let rminutes = Math.round(minutes);
+        rminutes = (rminutes === 30 ) ? rminutes : '00'
         
         return (endTime) ? (rhours+2) + ":" + rminutes : rhours + ":" + rminutes;
     }

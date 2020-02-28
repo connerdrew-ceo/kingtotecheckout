@@ -86,6 +86,17 @@ export const EachBookingComponent = ({  formData,
         
     }
 
+    const timeConverter = (timeString, endTime) => {
+        let num = timeString;
+        let hours = (num / 60);
+        let rhours = Math.floor(hours);
+        let minutes = (hours - rhours) * 60;
+        let rminutes = Math.round(minutes);
+        rminutes = (rminutes === 30 ) ? rminutes : '00'
+        
+        return (endTime) ? (rhours+2) + ":" + rminutes : rhours + ":" + rminutes;
+    }
+
     const handleDayClick = (day, { selected }) => {
 
         
@@ -108,9 +119,7 @@ export const EachBookingComponent = ({  formData,
           axios.get(availabilityEndPoint)
                 .then(res => {
                     if(res.data.Availability !== null && res.data.Availability !== undefined ){
-                        console.log('Response dropOff >>>> ', res.data.Availability)
                         setTimeSpacesAvailable(res.data.Availability)
-                    // setFranchises(res.data.Franchises)
                   }
                 })
                 .catch(err => {
@@ -124,7 +133,6 @@ export const EachBookingComponent = ({  formData,
 
             //dateWithWeeks = (new Date( Date.now() + weekInSeconds ).getTime() / 1000 ).toFixed(0) + '';
             dateWithWeeks = ((new Date( day ).getTime() + 86400) / 1000).toFixed(0) + '';
-            //dateWithWeeks = dateWithWeeks + 86400
             
             availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
                                     tokenGenerated + '&method=0&pageNo=1&pageSize=100&duration=60&dateStart=' +
@@ -133,14 +141,10 @@ export const EachBookingComponent = ({  formData,
 
             axios.get(availabilityEndPoint)
             .then(res => {
-                console.log('Response: ', res)
                 if(res.data.Availability !== null && res.data.Availability !== undefined ){
-                    console.log(' Response pickUp >>>> ', res.data.Availability)
                     
                     setTimeSpacesAvailable(res.data.Availability)
-                // setFranchises(res.data.Franchises)
                 }
-                // setLoad(true);
             })
             .catch(err => {
                 console.log('Error >>>> ', err)
@@ -159,19 +163,12 @@ export const EachBookingComponent = ({  formData,
 
     const changeSelectedTime = (key) => {
 
-        console.log('timeSpacesAvailable[key] >>> ', timeSpacesAvailable[key].startTime)
         setSelectedTime(key)
-        setSelectedTimeStart(timeSpacesAvailable[key].startTime)
-        setSelectedTimeEnd(timeSpacesAvailable[key].startTime)
+        setSelectedTimeStart(timeConverter(timeSpacesAvailable[key].startTime))
+        setSelectedTimeEnd(timeConverter(timeSpacesAvailable[key].startTime, 'endTime'))
         updateStateSchedulingTime({ kind: controlType, 
                                     stringTimeStart: timeSpacesAvailable[key].startTime, 
                                     stringTimeEnd: timeSpacesAvailable[key].startTime})
-        // setSelectedTimeStart(timeOptions[key].startAt)
-        // setSelectedTimeEnd(timeOptions[key].endAt)
-        // updateStateSchedulingTime({ kind: controlType, 
-        //                             stringTimeStart: timeOptions[key].startAt, 
-        //                             stringTimeEnd: timeOptions[key].endAt})
-
         
     };
 
@@ -196,20 +193,6 @@ export const EachBookingComponent = ({  formData,
             }
         }
     }, [currentDate])
-
-    const addFormatToTime = (timeString, type) => {
-
-        let bufferTime = (timeString % 1 !== 0) ? timeString.toFixed(0) : timeString
-        let bufferTimeString = (timeString % 1 !== 0) ? ':30' : ':00'
-
-        
-        if(type) {
-            return (timeString >= 12) ? bufferTime + bufferTimeString + ' pm' : bufferTime + bufferTimeString + ' am'
-        }
-        return (timeString >= 12) ? bufferTime + ' pm' : bufferTime + ' am'
-
-    }
-
     
 
     return (
@@ -218,7 +201,7 @@ export const EachBookingComponent = ({  formData,
                 <div className="dateAndTimeSelected">
                     <p className="dateSelected">{dateDropOff}
                         <br/>
-                        bwtween {selectedTimeStart} am - {selectedTimeEnd} am
+                        bwtween {selectedTimeStart} - {selectedTimeEnd}
                     </p>
                     <span className="iconEditTime" onClick={() => resetControl() }>
                     </span>
