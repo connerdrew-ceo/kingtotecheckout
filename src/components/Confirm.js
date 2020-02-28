@@ -203,11 +203,11 @@ export const Confirm = ({
 
             <div className="formControl inlineFields">
               <div className="wrapBillingInline">
-                  <label htmlFor="expirationDateInput">Expiration Date</label>
+                  <label htmlFor="expirationDateInput">Promo Code</label>
                   <Field 
                     id="expirationDateInput"
                     name='expirationDateField' 
-                    placeholder="MM/YYYY"
+                    placeholder="Enter Code"
                     type="string"
                     />
                     {errors.expirationDateField && touched.expirationDateField && <div className="errorMessage">{errors.expirationDateField}</div>}
