@@ -98,15 +98,10 @@ export const EachBookingComponent = ({  formData,
     }
 
     const handleDayClick = (day, { selected }) => {
-
         
-        formatedDay = day.toLocaleDateString(undefined, dateOptionsNumeric)
-        formatedDay = formatedDay.split('/')
-        formatedDay = formatedDay[2] + formatedDay[0] + formatedDay[1] 
-
-        
-        let weekInSeconds = 7 * 24 * 60 * 60 * 1000;
         let dateNow = (new Date( day ).getTime() / 1000).toFixed(0) + '';
+        let weekInSeconds = getNumberOfWeeks()
+        weekInSeconds = ( weekInSeconds * 7 ) * 24 * 60 * 60 * 1000;
         let dateWithWeeks = (new Date( Date.now() + weekInSeconds ).getTime() / 1000 ).toFixed(0) + '';
         
         let availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
@@ -127,11 +122,10 @@ export const EachBookingComponent = ({  formData,
                 })
         }else{
 
-            weekInSeconds = getNumberOfWeeks()
-
-            weekInSeconds = ( weekInSeconds * 7) * 24 * 60 * 60 * 1000;
-
+            //weekInSeconds = getNumberOfWeeks()
+            //weekInSeconds = ( weekInSeconds * 7) * 24 * 60 * 60 * 1000;
             //dateWithWeeks = (new Date( Date.now() + weekInSeconds ).getTime() / 1000 ).toFixed(0) + '';
+            
             dateWithWeeks = ((new Date( day ).getTime() + 86400) / 1000).toFixed(0) + '';
             
             availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
@@ -150,6 +144,10 @@ export const EachBookingComponent = ({  formData,
                 console.log('Error >>>> ', err)
             })
         }
+
+        formatedDay = day.toLocaleDateString(undefined, dateOptionsNumeric)
+        formatedDay = formatedDay.split('/')
+        formatedDay = formatedDay[2] + formatedDay[0] + formatedDay[1]
 
         setOpenTimeLayerDrop(true)
         setDateDropOff(day.toLocaleDateString(undefined, dateOptions))
