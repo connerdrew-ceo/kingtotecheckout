@@ -93,16 +93,13 @@ export const EachBookingComponent = ({  formData,
         formatedDay = formatedDay.split('/')
         formatedDay = formatedDay[2] + formatedDay[0] + formatedDay[1] 
 
-        console.log('formatedDay >>>> ', formatedDay)
-
-        // "Date range set incorrectly. Start date is set earlier than end date."
-
+        
         let weekInSeconds = 7 * 24 * 60 * 60 * 1000;
         let dateNow = (new Date( day ).getTime() / 1000).toFixed(0) + '';
         let dateWithWeeks = (new Date( Date.now() + weekInSeconds ).getTime() / 1000 ).toFixed(0) + '';
         
         let availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
-                                    tokenGenerated + '&method=0&pageNo=1&pageSize=100&duration=120&dateStart=' +
+                                    tokenGenerated + '&method=0&pageNo=1&pageSize=100&duration=60&dateStart=' +
                                     dateNow + '&dateEnd=' + dateWithWeeks + '&zip=' + formData.dropOff + '&serviceTypeID=' +
                                     formData.locationType;
 
@@ -125,10 +122,12 @@ export const EachBookingComponent = ({  formData,
 
             weekInSeconds = ( weekInSeconds * 7) * 24 * 60 * 60 * 1000;
 
-            dateWithWeeks = (new Date( Date.now() + weekInSeconds ).getTime() / 1000 ).toFixed(0) + '';
+            //dateWithWeeks = (new Date( Date.now() + weekInSeconds ).getTime() / 1000 ).toFixed(0) + '';
+            dateWithWeeks = ((new Date( day ).getTime() + 86400) / 1000).toFixed(0) + '';
+            //dateWithWeeks = dateWithWeeks + 86400
             
             availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
-                                    tokenGenerated + '&method=0&pageNo=1&pageSize=100&duration=120&dateStart=' +
+                                    tokenGenerated + '&method=0&pageNo=1&pageSize=100&duration=60&dateStart=' +
                                     dateNow + '&dateEnd=' + dateWithWeeks + '&zip=' + formData.pickUp + '&serviceTypeID=' +
                                     formData.locationType;
 
@@ -198,6 +197,21 @@ export const EachBookingComponent = ({  formData,
         }
     }, [currentDate])
 
+    const addFormatToTime = (timeString, type) => {
+
+        let bufferTime = (timeString % 1 !== 0) ? timeString.toFixed(0) : timeString
+        let bufferTimeString = (timeString % 1 !== 0) ? ':30' : ':00'
+
+        
+        if(type) {
+            return (timeString >= 12) ? bufferTime + bufferTimeString + ' pm' : bufferTime + bufferTimeString + ' am'
+        }
+        return (timeString >= 12) ? bufferTime + ' pm' : bufferTime + ' am'
+
+    }
+
+    
+
     return (
         <>
             <div className={openDetailedBooking}>
@@ -251,7 +265,7 @@ export const EachBookingComponent = ({  formData,
                                                     listClasses={selectedTime === index ? 'timeOption openSelectedDetail' : 'timeOption'}
                                                     key={index} 
                                                     trackKey={index}
-                                                    startAt={timeRow.startTime / 60} 
+                                                    startAt={timeRow.startTime} 
                                                     endAt={timeRow.startTime / 60} 
                                                     changeSelectedTime={changeSelectedTime}
                                                     closeCalendar={closeCalendar}
