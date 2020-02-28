@@ -3,31 +3,6 @@ import { Formik, Form, Field } from 'formik';
 import { Header } from './Header';
 import { ToteBoxesRow } from './toteBoxes/ToteBoxesRow'
 
-// let toteBoxesData = [
-//   {title: '25 Totes', 
-//     sub: '1 bedroom (250-500 sq ft)', 
-//     additionalWeek:'$35 each additional week',
-//   },
-//   {title: '35 Totes', 
-//     sub: '2 bedroom (500-1250 sq ft)', 
-//     additionalWeek:'$45 each additional week',
-//   },
-//   {title: '50 Totes', 
-//     sub: '3 bedroom (1250-2000 sq ft)',
-//     additionalWeek:'$60 each additional week',
-//   },
-//   {title: '70 Totes', 
-//     sub: '4 bedroom (2000-3000 sq ft)',
-//     additionalWeek:'$75 each additional week',
-//   },
-//   {title: 'King Tote Hand Cart', 
-//     sub: 'Heavy duty tubular steel cart with tires',
-//   },
-//   {title: 'King Tote Wheels', 
-//     sub: 'Easy-roller made to roll stacked totes',
-//     additionalWeek:'', 
-//   }
-// ];
 
 let toteBoxesData = []
 let bufferObj = []
@@ -60,6 +35,8 @@ export const FormToteDetails = ({
 
     setFormData({
       ...formData,
+      'zipCodeDropOff': formData.dropOff,
+      'zipCodePickUp': formData.pickUp,
       'toteBoxesGlobalInfo': toteBoxesData,
     });
     setToteBoxesContent(toteBoxesData)
