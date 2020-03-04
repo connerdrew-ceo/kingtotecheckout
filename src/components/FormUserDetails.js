@@ -123,7 +123,6 @@ export const FormUserDetails = ({ formData,
                       franchises.map(p => <option key={p.franchiseID} value={p.franchiseID}>{p.franchiseName}</option>)
                   ) : ''
                   }
-
               </Field>
               {errors.serviceArea && touched.serviceArea && <div className="errorMessage">{errors.serviceArea}</div>}
             </div>

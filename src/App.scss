@@ -145,7 +145,14 @@ button{
         color: $white;
       }
     }
-    
+  }
+  &.loadingToteBoxes{
+    .eachToteItem{
+      opacity: .3;
+      span{
+        opacity: 0;
+      }
+    }
   }
 }
 

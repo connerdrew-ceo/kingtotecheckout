@@ -12,8 +12,8 @@ export const UserForm = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     serviceArea: '',
-    dropOff: '',
-    pickUp: '',
+    dropOff: '84106',
+    pickUp: '84106',
     locationType: '16',
     firstBooking: '',
     lasttBooking: '',

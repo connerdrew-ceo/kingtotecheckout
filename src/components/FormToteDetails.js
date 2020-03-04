@@ -131,7 +131,8 @@ export const FormToteDetails = ({
         >
         {() => (
           <Form>
-            {toteBoxesContent && (
+            { (toteBoxesContent !== null) ? (
+
               toteBoxesContent.map((toteRow, index) => {
                 return <ToteBoxesRow 
                             key={index} 
@@ -140,7 +141,65 @@ export const FormToteDetails = ({
                             updateSelectedBox={updateSelectedBox}
                         />
               })
+
+            ) : ( 
+
+              <>
+
+                <div className="formControl fullLenght">
+                    <label className="boldLabel">Loading...</label>
+                    <p>Loading...</p>
+                    <div className="toteBoxes loadingToteBoxes">
+                      <div className="eachToteItem">
+                          <p>Week rental</p>
+                          <span className="price">$ price</span>
+                      </div>
+                      <div className="eachToteItem">
+                          <p>Week rental</p>
+                          <span className="price">$ price</span>
+                      </div>
+                      <div className="eachToteItem">
+                          <p>Week rental</p>
+                          <span className="price">$ price</span>
+                      </div>
+                      <div className="eachToteItem">
+                          <p>Week rental</p>
+                          <span className="price">$ price</span>
+                      </div>
+                    </div>
+                    <p className="bottomCentered">Loading..</p>
+                </div>
+                <div className="formControl fullLenght">
+                    <label className="boldLabel">Loading...</label>
+                    <p>Loading...</p>
+                    <div className="toteBoxes loadingToteBoxes">
+                      <div className="eachToteItem">
+                          <p>Week rental</p>
+                          <span className="price">$ price</span>
+                      </div>
+                      <div className="eachToteItem">
+                          <p>Week rental</p>
+                          <span className="price">$ price</span>
+                      </div>
+                      <div className="eachToteItem">
+                          <p>Week rental</p>
+                          <span className="price">$ price</span>
+                      </div>
+                      <div className="eachToteItem">
+                          <p>Week rental</p>
+                          <span className="price">$ price</span>
+                      </div>
+                    </div>
+                    <p className="bottomCentered">Loading..</p>
+                </div>
+
+              </>
+            
             )}
+
+            {/* {toteBoxesContent && (
+              
+            )} */}
             <div className="formControl submitControl fullLenght">
               <button className="whiteBtn" type="submit" onClick={() => setDirection('back')}>
                 <span>Previous</span>
