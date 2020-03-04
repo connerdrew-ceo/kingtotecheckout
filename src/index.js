@@ -1,18 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import reduxThunk from 'redux-thunk';
-
+import FormProvider from './context/FormContext'
 import './index.css';
 import App from './App';
-import formReducer from './store/reducers/reducers';
-
-
-const store = createStore(formReducer, applyMiddleware(reduxThunk));
-
 
 ReactDOM.render(
-    <Provider store={store}>
+    <FormProvider>
         <App />
-    </Provider>, document.getElementById('root'));
+    </FormProvider>
+, document.getElementById('root'));

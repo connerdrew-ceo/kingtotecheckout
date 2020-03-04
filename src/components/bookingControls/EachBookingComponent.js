@@ -9,13 +9,6 @@ let dayStartRange = '';
 let formatedDay = '';
 const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const dateOptionsNumeric = { year: 'numeric', month: '2-digit', day: '2-digit' };
-const timeOptions = [
-    {startAt: '7:00', endAt: '9:00'},
-    {startAt: '7:30', endAt: '9:30'},
-    {startAt: '8:00', endAt: '10:00'},
-    {startAt: '8:30', endAt: '10:30'},
-    {startAt: '9:00', endAt: '11:00'}
-];
 
 export const EachBookingComponent = ({  formData,
                                         controlType, 
@@ -49,11 +42,11 @@ export const EachBookingComponent = ({  formData,
         let arrSwitch = []
         let bufferToteBoxesGlobalInfo = formData.toteBoxesGlobalInfo
 
-        bufferToteBoxesGlobalInfo.map((eachElem) => {
+        bufferToteBoxesGlobalInfo.forEach((eachElem) => {
             if(eachElem.indexActive !== null) arrSwitch.push(eachElem.indexActive)
         });
 
-        arrSwitch.forEach(function(eachDate) {
+        arrSwitch.forEach((eachDate) => {
             if (eachDate !== null && eachDate > maxNumber) {
                 maxNumber = eachDate
             }
@@ -191,7 +184,6 @@ export const EachBookingComponent = ({  formData,
             }
         }
     }, [currentDate])
-    
 
     return (
         <>
@@ -238,7 +230,9 @@ export const EachBookingComponent = ({  formData,
                         <br/>
                         <p className="dateSelected" onClick={() => setOpenTimeLayerDrop(false)}><span>&#60;</span>  {dateDropOff}</p>
                         <div className="timeOptionsWrap">
-                            {timeSpacesAvailable && (
+
+                            { (timeSpacesAvailable !== null) ? (
+
                                 timeSpacesAvailable
                                     .filter(timeRow => timeRow.dayID === formatedDay)
                                     .map((timeRow, index) => {
@@ -252,6 +246,13 @@ export const EachBookingComponent = ({  formData,
                                                     closeCalendar={closeCalendar}
                                                 />
                                 })
+
+                            ) : (
+                                <div className="calendarAndTimeWrap">
+                                    <div className="timeAvailable">
+                                        <p>Loading...</p>
+                                    </div>
+                                </div>
                             )}
                         </div>
                     </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { FormUserDetails } from './FormUserDetails';
 import { FormToteDetails } from './FormToteDetails';
 import { Scheduling } from './Scheduling';
@@ -6,14 +6,15 @@ import { AddressFormStep } from './AddressFormStep';
 import { Confirm } from './Confirm';
 import { Success } from './Success';
 import axios from "axios";
+import { GlobalContext } from "../context/FormContext";
 
 export const UserForm = () => {
 
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     serviceArea: '',
-    dropOff: '84106',
-    pickUp: '84106',
+    dropOff: '84020',
+    pickUp: '84020',
     locationType: '16',
     firstBooking: '',
     lasttBooking: '',
@@ -87,6 +88,8 @@ export const UserForm = () => {
     toteBoxesGlobalInfo: null,
   });
 
+  // const { addTransaction } = useContext(GlobalContext);
+
   const nextStep = () => setStep(prev => prev + 1);
   const prevStep = () => setStep(prev => prev - 1);
 
@@ -99,24 +102,22 @@ export const UserForm = () => {
   const [serviceTypes, setServiceTypes] = useState(null);
   const [toteBoxesContent, setToteBoxesContent] = useState(null);
   const [load, setLoad] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(null);
 
   useEffect(() => {
       axios.get(tokenEndPoint)
             .then(res => {
               //console.log('Response: ', res)
-              if(res.data !== null){
+              if(res.data !== null && res.data.securityToken){
                 //console.log('tokenGenerated: ', res.data.securityToken)
-                
+                setTokenGenerated(res.data.securityToken);
+                setLoad(true);
               }
-              setTokenGenerated(res.data.securityToken);
-              setLoad(true);
             })
             .catch(err => {
                 setError(err.message);
                 setLoad(true)
             })
-          
   }, []);
 
   useEffect(() => {
@@ -124,7 +125,7 @@ export const UserForm = () => {
     let franchisesEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/franchises/?securityToken='+ tokenGenerated + '&pageNo=1&pageSize=50&method=0'
     
     if(tokenGenerated){
-      axios.get(franchisesEndPoint)
+        axios.get(franchisesEndPoint)
             .then(res => {
               if(res.data !== null){
                 setFranchises(res.data.Franchises)
@@ -140,6 +141,16 @@ export const UserForm = () => {
         ...formData,
         'securityToken': tokenGenerated
       });
+
+      
+
+    }else{
+      // reload
+
+      if(!load && error !== null){
+        //window.location.reload();
+        console.log('reload...')
+      }
     }
     
   }, [tokenGenerated]);

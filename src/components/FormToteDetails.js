@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import { Header } from './Header';
 import { ToteBoxesRow } from './toteBoxes/ToteBoxesRow'
 
@@ -23,7 +23,7 @@ export const FormToteDetails = ({
 
   const switchButtons = () => {
     let arrSwitch = []
-    toteBoxesData.map((eachElem) => {
+    toteBoxesData.forEach((eachElem) => {
       if(eachElem.indexActive !== null) arrSwitch.push(eachElem)
     });
 
@@ -62,8 +62,8 @@ export const FormToteDetails = ({
     if(toteBoxesContent !== null) return
 
     let arrToteRows = []
-    objOrigin.map((eachElem) => {
-      eachElem.map((eachElemLevel1) => {
+    objOrigin.forEach((eachElem) => {
+      eachElem.forEach((eachElemLevel1) => {
 
         let bufferElem = {price: eachElemLevel1.value, 
                           week: eachElemLevel1.priceBlockSequence, 
