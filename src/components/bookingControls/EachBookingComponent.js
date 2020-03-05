@@ -93,6 +93,7 @@ export const EachBookingComponent = ({  formData,
     const handleDayClick = (day) => {
 
         let availabilityEndPoint = ''
+        let arrayFiltered = []
         let dateNow = (new Date( day ).getTime() / 1000).toFixed(0)
         dateNow = parseInt(dateNow)
         let weekInSeconds = getNumberOfWeeks()
@@ -100,6 +101,12 @@ export const EachBookingComponent = ({  formData,
         weekInSeconds = ( weekInSeconds * 7 ) * 24 * 60 * 60;
 
         let dateWithWeeks = parseInt(dateNow) + parseInt(weekInSeconds)
+
+        formatedDay = day.toLocaleDateString(undefined, dateOptionsNumeric)
+        formatedDay = formatedDay.split('/')
+        formatedDay = formatedDay[2] + formatedDay[0] + formatedDay[1]
+
+        setTimeSpacesAvailable(null)
         
         if(controlType === 'start'){
 
@@ -109,14 +116,18 @@ export const EachBookingComponent = ({  formData,
                                     formData.locationType;
 
             axios.get(availabilityEndPoint)
-                    .then(res => {
-                        if(res.data.Availability !== null && res.data.Availability !== undefined ){
-                            setTimeSpacesAvailable(res.data.Availability)
-                    }
-                    })
-                    .catch(err => {
-                        console.log('Error >>>> ', err)
-                    })
+                .then(res => {
+                    //console.log('res.data.Availability >> ', res.data.Availability)
+                    if(res.data.Availability !== null && res.data.Availability !== undefined ){
+
+                        arrayFiltered = res.data.Availability.filter(timeRow => timeRow.dayID === formatedDay)
+                        //console.log('arrayFiltered >> ', arrayFiltered)
+                        setTimeSpacesAvailable(arrayFiltered)
+                }
+                })
+                .catch(err => {
+                    console.log('Error >>>> ', err)
+                })
         }else{
 
             dateWithWeeks = dateNow + 86400
@@ -127,20 +138,22 @@ export const EachBookingComponent = ({  formData,
                                     formData.locationType;
 
             axios.get(availabilityEndPoint)
-            .then(res => {
-                if(res.data.Availability !== null && res.data.Availability !== undefined ){
-                    
-                    setTimeSpacesAvailable(res.data.Availability)
-                }
-            })
-            .catch(err => {
-                console.log('Error >>>> ', err)
-            })
+                .then(res => {
+                    //console.log('res.data.Availability >> ', res.data.Availability)
+                    if(res.data.Availability !== null && res.data.Availability !== undefined ){
+
+                        arrayFiltered = res.data.Availability.filter(timeRow => timeRow.dayID === formatedDay)
+                        //console.log('arrayFiltered >> ', arrayFiltered)
+                        setTimeSpacesAvailable(arrayFiltered)
+                        //setTimeSpacesAvailable(res.data.Availability)
+                    }
+                })
+                .catch(err => {
+                    console.log('Error >>>> ', err)
+                })
         }
 
-        formatedDay = day.toLocaleDateString(undefined, dateOptionsNumeric)
-        formatedDay = formatedDay.split('/')
-        formatedDay = formatedDay[2] + formatedDay[0] + formatedDay[1]
+        
 
         setOpenTimeLayerDrop(true)
         setDateDropOff(day.toLocaleDateString(undefined, dateOptions))
@@ -171,7 +184,7 @@ export const EachBookingComponent = ({  formData,
             setSelectedTime(null)
         }
     }
-
+    
     useEffect(() => {
         if(currentDate !== null){
             setOpenTimeLayerDrop(false)
@@ -212,10 +225,6 @@ export const EachBookingComponent = ({  formData,
                             <DayPicker 
                                 className="endCalendar"
                                 onDayClick={handleDayClick}
-                                // selectedDays={dateSuggested, {
-                                //     after: dayStartRange,
-                                //     before: dateSuggested
-                                // }}
                                 selectedDays={{
                                     after: dayStartRange,
                                     before: dateSuggested
@@ -235,29 +244,40 @@ export const EachBookingComponent = ({  formData,
                         <p className="dateSelected" onClick={() => setOpenTimeLayerDrop(false)}><span>&#60;</span>  {dateDropOff}</p>
                         <div className="timeOptionsWrap">
 
-                            { (timeSpacesAvailable !== null) ? (
-
-                                timeSpacesAvailable
-                                    .filter(timeRow => timeRow.dayID === formatedDay)
-                                    .map((timeRow, index) => {
-                                        return <TimeOption 
-                                                    listClasses={selectedTime === index ? 'timeOption openSelectedDetail' : 'timeOption'}
-                                                    key={index} 
-                                                    trackKey={index}
-                                                    startAt={timeRow.startTime} 
-                                                    endAt={timeRow.startTime / 60} 
-                                                    changeSelectedTime={changeSelectedTime}
-                                                    closeCalendar={closeCalendar}
-                                                />
-                                })
-
-                            ) : (
-                                <div className="calendarAndTimeWrap">
-                                    <div className="timeAvailable">
-                                        <p>Loading...</p>
-                                    </div>
-                                </div>
-                            )}
+                            {(() => {
+                                if (timeSpacesAvailable !== null && timeSpacesAvailable.length > 0) {
+                                    return (
+                                        timeSpacesAvailable
+                                            .map((timeRow, index) => {
+                                                return <TimeOption 
+                                                            listClasses={selectedTime === index ? 'timeOption openSelectedDetail' : 'timeOption'}
+                                                            key={index} 
+                                                            trackKey={index}
+                                                            startAt={timeRow.startTime} 
+                                                            endAt={timeRow.startTime / 60} 
+                                                            changeSelectedTime={changeSelectedTime}
+                                                            closeCalendar={closeCalendar}
+                                                        />
+                                        })
+                                    )
+                                } else if (timeSpacesAvailable !== null && timeSpacesAvailable.length === 0) {
+                                    return (
+                                        <div className="calendarAndTimeWrap">
+                                            <div className="timeAvailable">
+                                                <p>No schedules available.</p>
+                                            </div>
+                                        </div>
+                                    )
+                                } else {
+                                    return (
+                                        <div className="calendarAndTimeWrap">
+                                            <div className="timeAvailable">
+                                                <p>Loading...</p>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                            })() }
                         </div>
                     </div>
                 </div>

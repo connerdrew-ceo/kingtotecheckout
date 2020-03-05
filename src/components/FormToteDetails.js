@@ -87,6 +87,7 @@ export const FormToteDetails = ({
   };
 
   useEffect(() => {
+    
     if(serviceTypes){
 
       let  serviceTypesRowLocal = serviceTypes.filter((serviceTypesRow, index) => {
