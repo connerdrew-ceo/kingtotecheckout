@@ -6,7 +6,7 @@ import { AddressFormStep } from './AddressFormStep';
 import { Confirm } from './Confirm';
 import { Success } from './Success';
 import axios from "axios";
-import { GlobalContext } from "../context/FormContext";
+//import { GlobalContext } from "../context/FormContext";
 
 export const UserForm = () => {
 

@@ -90,37 +90,37 @@ export const EachBookingComponent = ({  formData,
         return (endTime) ? (rhours+2) + ":" + rminutes : rhours + ":" + rminutes;
     }
 
-    const handleDayClick = (day, { selected }) => {
-        
-        let dateNow = (new Date( day ).getTime() / 1000).toFixed(0) + '';
+    const handleDayClick = (day) => {
+
+        let availabilityEndPoint = ''
+        let dateNow = (new Date( day ).getTime() / 1000).toFixed(0)
+        dateNow = parseInt(dateNow)
         let weekInSeconds = getNumberOfWeeks()
-        weekInSeconds = ( weekInSeconds * 7 ) * 24 * 60 * 60 * 1000;
-        let dateWithWeeks = (new Date( Date.now() + weekInSeconds ).getTime() / 1000 ).toFixed(0) + '';
+
+        weekInSeconds = ( weekInSeconds * 7 ) * 24 * 60 * 60;
+
+        let dateWithWeeks = parseInt(dateNow) + parseInt(weekInSeconds)
         
-        let availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
+        if(controlType === 'start'){
+
+            availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
                                     tokenGenerated + '&method=0&pageNo=1&pageSize=100&duration=60&dateStart=' +
                                     dateNow + '&dateEnd=' + dateWithWeeks + '&zip=' + formData.dropOff + '&serviceTypeID=' +
                                     formData.locationType;
 
-        if(controlType === 'start'){
-
-          axios.get(availabilityEndPoint)
-                .then(res => {
-                    if(res.data.Availability !== null && res.data.Availability !== undefined ){
-                        setTimeSpacesAvailable(res.data.Availability)
-                  }
-                })
-                .catch(err => {
-                    console.log('Error >>>> ', err)
-                })
+            axios.get(availabilityEndPoint)
+                    .then(res => {
+                        if(res.data.Availability !== null && res.data.Availability !== undefined ){
+                            setTimeSpacesAvailable(res.data.Availability)
+                    }
+                    })
+                    .catch(err => {
+                        console.log('Error >>>> ', err)
+                    })
         }else{
 
-            //weekInSeconds = getNumberOfWeeks()
-            //weekInSeconds = ( weekInSeconds * 7) * 24 * 60 * 60 * 1000;
-            //dateWithWeeks = (new Date( Date.now() + weekInSeconds ).getTime() / 1000 ).toFixed(0) + '';
-            
-            dateWithWeeks = ((new Date( day ).getTime() + 86400) / 1000).toFixed(0) + '';
-            
+            dateWithWeeks = dateNow + 86400
+
             availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
                                     tokenGenerated + '&method=0&pageNo=1&pageSize=100&duration=60&dateStart=' +
                                     dateNow + '&dateEnd=' + dateWithWeeks + '&zip=' + formData.pickUp + '&serviceTypeID=' +
@@ -212,9 +212,13 @@ export const EachBookingComponent = ({  formData,
                             <DayPicker 
                                 className="endCalendar"
                                 onDayClick={handleDayClick}
-                                selectedDays={dateSuggested, {
+                                // selectedDays={dateSuggested, {
+                                //     after: dayStartRange,
+                                //     before: dateSuggested
+                                // }}
+                                selectedDays={{
                                     after: dayStartRange,
-                                    before: dateSuggested,
+                                    before: dateSuggested
                                 }}
                                 disabledDays={[
                                     {

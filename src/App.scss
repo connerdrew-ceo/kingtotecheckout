@@ -630,15 +630,15 @@ form{
 }
 
 ::-webkit-input-placeholder {
-  color: $greyText;
+  color: rgba($greyText, .5);
 }
 
 :-ms-input-placeholder { 
-  color: $greyText;
+  color: rgba($greyText, .5);
 }
 
 ::placeholder {
-  color: $greyText;
+  color: rgba($greyText, .5);
 }
 
 
