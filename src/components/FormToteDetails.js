@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Formik, Form } from 'formik';
 import { Header } from './Header';
 import { ToteBoxesRow } from './toteBoxes/ToteBoxesRow'
-
+import { GlobalContext } from "../context/FormContext";
 
 let toteBoxesData = []
 let bufferObj = []
@@ -15,7 +15,8 @@ export const FormToteDetails = ({
   serviceTypes,
   toteBoxesContent,
   setToteBoxesContent
-}) => {
+  }) => {
+  const { state, dispatch } = useContext(GlobalContext);
   const [direction, setDirection] = useState('back');
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
   let buttonClasses = ''
@@ -39,7 +40,11 @@ export const FormToteDetails = ({
       'zipCodePickUp': formData.pickUp,
       'toteBoxesGlobalInfo': toteBoxesData,
     });
-    setToteBoxesContent(toteBoxesData)
+    //setToteBoxesContent(toteBoxesData)
+    dispatch({
+      type: "UPDATE_TOTE_BOXES",
+      payload: toteBoxesData
+    })
   };
 
   const updateSelectedBox = (keyObj) => {
@@ -59,7 +64,7 @@ export const FormToteDetails = ({
 
   const setObjectBeforeRenderRows = ( objOrigin ) => {
 
-    if(toteBoxesContent !== null) return
+    if(state.toteBoxesContent !== null) return
 
     let arrToteRows = []
     objOrigin.forEach((eachElem) => {
@@ -83,29 +88,34 @@ export const FormToteDetails = ({
       })
     })
     toteBoxesData = arrToteRows
-    setToteBoxesContent(arrToteRows)
+    //setToteBoxesContent(arrToteRows)
+
+    dispatch({
+      type: "UPDATE_TOTE_BOXES",
+      payload: arrToteRows
+    })
   };
 
   useEffect(() => {
-    
+
     if(serviceTypes){
 
-      let  serviceTypesRowLocal = serviceTypes.filter((serviceTypesRow, index) => {
+      let serviceTypesRowLocal = serviceTypes.filter((serviceTypesRow) => {
           return serviceTypesRow.priceBlockSequence === 1 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
       })
       bufferObj.push(serviceTypesRowLocal)
 
-      let  serviceTypesRowLocal2 = serviceTypes.filter((serviceTypesRow, index) => {
+      let serviceTypesRowLocal2 = serviceTypes.filter((serviceTypesRow) => {
         return serviceTypesRow.priceBlockSequence === 2 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
       })
       bufferObj.push(serviceTypesRowLocal2)
 
-      let  serviceTypesRowLocal3 = serviceTypes.filter((serviceTypesRow, index) => {
+      let serviceTypesRowLocal3 = serviceTypes.filter((serviceTypesRow) => {
         return serviceTypesRow.priceBlockSequence === 3 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
       })
       bufferObj.push(serviceTypesRowLocal3)
 
-      let  serviceTypesRowLocal4 = serviceTypes.filter((serviceTypesRow, index) => {
+      let serviceTypesRowLocal4 = serviceTypes.filter((serviceTypesRow) => {
         return serviceTypesRow.priceBlockSequence === 4 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
       })
 
@@ -113,6 +123,7 @@ export const FormToteDetails = ({
       setObjectBeforeRenderRows(bufferObj)
     }
     switchButtons()
+    
   }, [serviceTypes])
 
   
@@ -132,9 +143,8 @@ export const FormToteDetails = ({
         >
         {() => (
           <Form>
-            { (toteBoxesContent !== null) ? (
-
-              toteBoxesContent.map((toteRow, index) => {
+            { (state.toteBoxesContent !== null) ? (
+              state.toteBoxesContent.map((toteRow, index) => {
                 return <ToteBoxesRow 
                             key={index} 
                             trackKey={index}
@@ -142,11 +152,8 @@ export const FormToteDetails = ({
                             updateSelectedBox={updateSelectedBox}
                         />
               })
-
             ) : ( 
-
               <>
-
                 <div className="formControl fullLenght">
                     <label className="boldLabel">Loading...</label>
                     <p>Loading...</p>
@@ -197,10 +204,6 @@ export const FormToteDetails = ({
               </>
             
             )}
-
-            {/* {toteBoxesContent && (
-              
-            )} */}
             <div className="formControl submitControl fullLenght">
               <button className="whiteBtn" type="submit" onClick={() => setDirection('back')}>
                 <span>Previous</span>

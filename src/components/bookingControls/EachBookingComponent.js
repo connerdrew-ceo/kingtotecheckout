@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import DayPicker from "react-day-picker";
 import axios from "axios";
-import { TimeOption } from "./TimeOption"
+import { TimeOption } from "./TimeOption";
+import { GlobalContext } from "../../context/FormContext";
 
 let dateAvailable = new Date();
 let dateSuggested = new Date();
@@ -17,8 +18,9 @@ export const EachBookingComponent = ({  formData,
                                         currentDate, 
                                         startingTime, 
                                         endingTime, 
-                                        enabled,
-                                        tokenGenerated }) => {
+                                        enabled }) => {
+
+    const { state } = useContext(GlobalContext);
 
     const [selectedTime, setSelectedTime] = useState(null);
     const [selectedTimeStart, setSelectedTimeStart] = useState(startingTime);
@@ -111,17 +113,15 @@ export const EachBookingComponent = ({  formData,
         if(controlType === 'start'){
 
             availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
-                                    tokenGenerated + '&method=0&pageNo=1&pageSize=100&duration=60&dateStart=' +
+                                    state.securityToken + '&method=0&pageNo=1&pageSize=100&duration=60&dateStart=' +
                                     dateNow + '&dateEnd=' + dateWithWeeks + '&zip=' + formData.dropOff + '&serviceTypeID=' +
                                     formData.locationType;
 
             axios.get(availabilityEndPoint)
                 .then(res => {
-                    //console.log('res.data.Availability >> ', res.data.Availability)
                     if(res.data.Availability !== null && res.data.Availability !== undefined ){
 
                         arrayFiltered = res.data.Availability.filter(timeRow => timeRow.dayID === formatedDay)
-                        //console.log('arrayFiltered >> ', arrayFiltered)
                         setTimeSpacesAvailable(arrayFiltered)
                 }
                 })
@@ -133,19 +133,16 @@ export const EachBookingComponent = ({  formData,
             dateWithWeeks = dateNow + 86400
 
             availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
-                                    tokenGenerated + '&method=0&pageNo=1&pageSize=100&duration=60&dateStart=' +
+                                    state.securityToken + '&method=0&pageNo=1&pageSize=100&duration=60&dateStart=' +
                                     dateNow + '&dateEnd=' + dateWithWeeks + '&zip=' + formData.pickUp + '&serviceTypeID=' +
                                     formData.locationType;
 
             axios.get(availabilityEndPoint)
                 .then(res => {
-                    //console.log('res.data.Availability >> ', res.data.Availability)
                     if(res.data.Availability !== null && res.data.Availability !== undefined ){
 
                         arrayFiltered = res.data.Availability.filter(timeRow => timeRow.dayID === formatedDay)
-                        //console.log('arrayFiltered >> ', arrayFiltered)
                         setTimeSpacesAvailable(arrayFiltered)
-                        //setTimeSpacesAvailable(res.data.Availability)
                     }
                 })
                 .catch(err => {
@@ -184,7 +181,7 @@ export const EachBookingComponent = ({  formData,
             setSelectedTime(null)
         }
     }
-    
+
     useEffect(() => {
         if(currentDate !== null){
             setOpenTimeLayerDrop(false)

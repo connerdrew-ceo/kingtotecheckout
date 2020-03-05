@@ -6,10 +6,9 @@ import { AddressFormStep } from './AddressFormStep';
 import { Confirm } from './Confirm';
 import { Success } from './Success';
 import axios from "axios";
-//import { GlobalContext } from "../context/FormContext";
+import { GlobalContext } from "../context/FormContext";
 
 export const UserForm = () => {
-
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     serviceArea: '',
@@ -70,13 +69,6 @@ export const UserForm = () => {
     expirationDateField: '',
     cvcField: '',
     billingZipCode: '',
-    
-    // box25totes: null,
-    // box35totes: null,
-    // box50totes: null,
-    // box70totes: null,
-    // handleCart: null,
-    // kingcart: null,
     dateDropOff: null,
     datePickUp: null,
     timeRangeDropStart: null,
@@ -85,11 +77,11 @@ export const UserForm = () => {
     timeRangePickEnd: null,
     schedulingSummary: null,
     securityToken: null,
-    toteBoxesGlobalInfo: null,
+    //toteBoxesGlobalInfo: null,
   });
 
-  // const { addTransaction } = useContext(GlobalContext);
 
+  const { dispatch } = useContext(GlobalContext);
   const nextStep = () => setStep(prev => prev + 1);
   const prevStep = () => setStep(prev => prev - 1);
 
@@ -100,24 +92,28 @@ export const UserForm = () => {
   const [franchises, setFranchises] = useState(null);
   const [zips, setZips] = useState(null);
   const [serviceTypes, setServiceTypes] = useState(null);
-  const [toteBoxesContent, setToteBoxesContent] = useState(null);
   const [load, setLoad] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
       axios.get(tokenEndPoint)
-            .then(res => {
-              //console.log('Response: ', res)
-              if(res.data !== null && res.data.securityToken){
-                //console.log('tokenGenerated: ', res.data.securityToken)
-                setTokenGenerated(res.data.securityToken);
-                setLoad(true);
-              }
+        .then(res => {
+          //console.log('Response: ', res)
+          if(res.data !== null && res.data.securityToken){
+            //console.log('tokenGenerated: ', res.data.securityToken)
+            setTokenGenerated(res.data.securityToken);
+            setLoad(true);
+
+            dispatch({
+              type: "SET_TOKEN",
+              payload: res.data.securityToken
             })
-            .catch(err => {
-                setError(err.message);
-                setLoad(true)
-            })
+          }
+        })
+        .catch(err => {
+            setError(err.message);
+            setLoad(true)
+        })
   }, []);
 
   useEffect(() => {
@@ -137,16 +133,12 @@ export const UserForm = () => {
                 setLoad(true)
             })
 
-      setFormData({
-        ...formData,
-        'securityToken': tokenGenerated
-      });
-
-      
+        setFormData({
+          ...formData,
+          'securityToken': tokenGenerated
+        });
 
     }else{
-      // reload
-
       if(!load && error !== null){
         //window.location.reload();
         console.log('reload...')
@@ -197,8 +189,6 @@ export const UserForm = () => {
           prevStep={prevStep}
           serviceTypes={serviceTypes}
           setServiceTypes={setServiceTypes}
-          toteBoxesContent={toteBoxesContent}
-          setToteBoxesContent={setToteBoxesContent}
         />
       );
     case 3:
@@ -208,7 +198,6 @@ export const UserForm = () => {
           setFormData={setFormData}
           nextStep={nextStep}
           prevStep={prevStep}
-          tokenGenerated={tokenGenerated}
         />
       );
     case 4:

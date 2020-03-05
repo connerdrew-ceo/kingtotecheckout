@@ -3,8 +3,8 @@ export const FormReducer = (state, action) => {
         case "SET_TOKEN":
             return {...state, securityToken: action.payload}
 
-        case "LOGIN":
-            return {...state, user: action.payload}
+        case "UPDATE_TOTE_BOXES":
+            return {...state, toteBoxesContent: action.payload}
             
         default: 
             return state;

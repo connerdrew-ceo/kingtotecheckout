@@ -5,8 +5,7 @@ export const CalendarControlsWrap = ({
     formData,
     setFormData,
     origin,
-    parentFunction,
-    tokenGenerated
+    parentFunction
     }) => {
 
         const [schedulingSummaryLocal, setSchedulingSummaryLocal] = useState( (formData.schedulingSummary === null) ? 0 : formData.schedulingSummary);
@@ -69,7 +68,6 @@ export const CalendarControlsWrap = ({
                     startingTime={formData.timeRangeDropStart}
                     endingTime={formData.timeRangeDropEnd}
                     enabled={true}
-                    tokenGenerated={tokenGenerated}
                     />
             </div>
             <div className="formControl">
@@ -83,7 +81,6 @@ export const CalendarControlsWrap = ({
                     startingTime={formData.timeRangePickStart}
                     endingTime={formData.timeRangePickEnd}
                     enabled={enableCalendar}
-                    tokenGenerated={tokenGenerated}
                     />
             </div>
             {

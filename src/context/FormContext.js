@@ -1,8 +1,6 @@
 import React from "react";
 import { FormReducer } from "./FormReducer";
 
-//const Context = React.createContext();
-
 const initialState = {
     securityToken: null,
     toteBoxesContent: null
