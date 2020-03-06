@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Formik, Form } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import { Header } from './Header';
 import { ToteBoxesRow } from './toteBoxes/ToteBoxesRow'
 import { GlobalContext } from "../context/FormContext";
@@ -12,9 +12,7 @@ export const FormToteDetails = ({
   setFormData,
   nextStep,
   prevStep,
-  serviceTypes,
-  toteBoxesContent,
-  setToteBoxesContent
+  serviceTypes
   }) => {
   const { state, dispatch } = useContext(GlobalContext);
   const [direction, setDirection] = useState('back');
@@ -32,15 +30,14 @@ export const FormToteDetails = ({
 
   }
 
-  const setToteBoxesInfo = () => {
+  const setToteBoxesInfo = ( values ) => {
 
     setFormData({
       ...formData,
       'zipCodeDropOff': formData.dropOff,
       'zipCodePickUp': formData.pickUp,
-      'toteBoxesGlobalInfo': toteBoxesData,
+      'promoCodeField': values.promoCodeField,
     });
-    //setToteBoxesContent(toteBoxesData)
     dispatch({
       type: "UPDATE_TOTE_BOXES",
       payload: toteBoxesData
@@ -88,8 +85,7 @@ export const FormToteDetails = ({
       })
     })
     toteBoxesData = arrToteRows
-    //setToteBoxesContent(arrToteRows)
-
+    
     dispatch({
       type: "UPDATE_TOTE_BOXES",
       payload: arrToteRows
@@ -202,8 +198,18 @@ export const FormToteDetails = ({
                 </div>
 
               </>
-            
             )}
+            <div className="formControl">
+                <label htmlFor="promoCodeField">Promo Code</label>
+                <Field 
+                  id="promoCodeField"
+                  name='promoCodeField' 
+                  placeholder="Enter Code"
+                  type="string"
+                  />
+                  {/* {errors.cardNumberField && touched.cardNumberField && <div className="errorMessage">{errors.cardNumberField}</div>} */}
+            </div>
+            <div className="formControl"></div>
             <div className="formControl submitControl fullLenght">
               <button className="whiteBtn" type="submit" onClick={() => setDirection('back')}>
                 <span>Previous</span>

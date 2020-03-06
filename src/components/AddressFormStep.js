@@ -193,7 +193,10 @@ export const AddressFormStep = ({
         {({ errors, touched }) => (
           <Form className="fifthForm">
 
-            <div className="flexWrapFileds">
+            {/* <div className="flexWrapFileds"> */}
+            <div className="inlineFifth">
+              <div className="leftFields">
+
               <div className="formControl">
                   <h3>Main Contact Information</h3>
                   <label htmlFor="firstNameInput">First Name</label>
@@ -242,7 +245,69 @@ export const AddressFormStep = ({
                 </div>
                 <div className="formControl">
                 </div>
+
+
             </div>
+
+              <div className="rightFields">
+
+                <div className="formControl">
+                  <h3>Billing Address</h3>
+                  <div className="ratioWrap checkboxInline">
+                    <Field 
+                      id="sameAddressAsDropOff"
+                      name='sameAsMainCoddressAsDropOff' 
+                      type="checkbox"
+                      onClick={() => {
+                        setOpenHideFieldsDropOff(!openHideFieldsDropOff)
+                        } 
+                      }
+                      />
+                    <label htmlFor="sameAddressAsDropOff">Same as Drop-off Address</label>
+                  </div>
+                </div>
+                <div className="formControl">
+                  <label htmlFor="addressPickUpImput">Street Address</label>
+                  <Field 
+                    id="addresslPickUpInput"
+                    name='addressPickUpField' 
+                    placeholder="Street Address"
+                    />
+                    {errors.addressPickUpField && touched.addressPickUpField && <div className="errorMessage">{errors.addressPickUpField}</div>}
+                </div>
+                <div className="formControl">
+                  <label htmlFor="cityPickUpImput">City</label>
+                  <Field 
+                    id="cityPickUpInput"
+                    name='cityPickUpField' 
+                    placeholder="city"
+                    />
+                    {errors.cityPickUpField && touched.cityPickUpField && <div className="errorMessage">{errors.cityPickUpField}</div>}
+                </div>
+                <div className="formControl">
+                  <label htmlFor="statePickUpImput">State</label>
+                  <Field 
+                    id="statePickUpInput"
+                    name='statePickUpField' 
+                    placeholder="state"
+                    />
+                    {errors.statePickUpField && touched.statePickUpField && <div className="errorMessage">{errors.statePickUpField}</div>}
+                </div>
+                <div className="formControl">
+                  <label htmlFor="dropOff">Zip Code</label>
+                  <Field 
+                    name='zipCodePickUp' 
+                    placeholder="zip code"
+                    type="number"
+                    validate={validateZipCode}
+                    />
+                    {errors.zipCodePickUp && touched.zipCodePickUp && <div className="errorMessage">{errors.zipCodePickUp}</div>}
+                </div>
+
+              
+            </div>
+          
+          </div>
 
             {/*   Drop-off Address   */}
 
@@ -361,6 +426,9 @@ export const AddressFormStep = ({
                     />
                       {errors.emailFieldDifferentDrop && touched.emailFieldDifferentDrop && <div className="errorMessage">{errors.emailFieldDifferentDrop}</div>}
                 </div>
+
+                
+
               </div>
             </div>
 

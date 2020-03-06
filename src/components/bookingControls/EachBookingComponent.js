@@ -42,7 +42,7 @@ export const EachBookingComponent = ({  formData,
     const getNumberOfWeeks = () => {
         let maxNumber = 0
         let arrSwitch = []
-        let bufferToteBoxesGlobalInfo = formData.toteBoxesGlobalInfo
+        let bufferToteBoxesGlobalInfo = state.toteBoxesContent
 
         bufferToteBoxesGlobalInfo.forEach((eachElem) => {
             if(eachElem.indexActive !== null) arrSwitch.push(eachElem.indexActive)

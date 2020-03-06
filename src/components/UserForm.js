@@ -9,7 +9,7 @@ import axios from "axios";
 import { GlobalContext } from "../context/FormContext";
 
 export const UserForm = () => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(4);
   const [formData, setFormData] = useState({
     serviceArea: '',
     dropOff: '84020',
@@ -24,6 +24,8 @@ export const UserForm = () => {
     lastNameField: '',
     telField: '',
     emailField: '',
+    sameAddressAsDropOff: false,
+
     addressDropOffField: '',
     sameAsMainContactDropOff: true,
     cityDropOffField: '',
@@ -77,6 +79,7 @@ export const UserForm = () => {
     timeRangePickEnd: null,
     schedulingSummary: null,
     securityToken: null,
+    promoCodeField: ''
     //toteBoxesGlobalInfo: null,
   });
 
