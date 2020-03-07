@@ -25,6 +25,11 @@ export const UserForm = () => {
     telField: '',
     emailField: '',
     sameAddressAsDropOff: false,
+    billingAddressField: '',
+    billingCityField: '',
+    billingStateField: '',
+    billingAddressZipField: '',
+
 
     addressDropOffField: '',
     sameAsMainContactDropOff: true,

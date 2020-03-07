@@ -276,47 +276,47 @@ export const AddressFormStep = ({
                   </div>
                 </div>
                 <div className="formControl">
-                  <label htmlFor="addressPickUpImput" className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}>Street Address</label>
+                  <label htmlFor="billingAddressField" className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}>Street Address</label>
                   <Field 
                     className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}
-                    id="addresslPickUpInput"
-                    name='addressPickUpField' 
+                    id="billingAddressField"
+                    name='billingAddressField' 
                     placeholder="Street Address"
                     />
-                    {errors.addressPickUpField && touched.addressPickUpField && <div className="errorMessage">{errors.addressPickUpField}</div>}
+                    {errors.billingAddressField && touched.billingAddressField && <div className="errorMessage">{errors.billingAddressField}</div>}
                 </div>
                 <div className="formControl">
-                  <label htmlFor="cityPickUpImput" className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}>City</label>
+                  <label htmlFor="billingCityField" className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}>City</label>
                   <Field 
                     className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}
-                    id="cityPickUpInput"
-                    name='cityPickUpField' 
+                    id="billingCityField"
+                    name='billingCityField' 
                     placeholder="city"
                     />
-                    {errors.cityPickUpField && touched.cityPickUpField && <div className="errorMessage">{errors.cityPickUpField}</div>}
+                    {errors.billingCityField && touched.billingCityField && <div className="errorMessage">{errors.billingCityField}</div>}
                 </div>
                 <div className="formControl">
-                  <label htmlFor="statePickUpImput" className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}>State</label>
+                  <label htmlFor="billingStateField" className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}>State</label>
                   <Field 
                     className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}
-                    id="statePickUpInput"
-                    name='statePickUpField' 
+                    id="billingStateField"
+                    name='billingStateField' 
                     placeholder="state"
                     />
-                    {errors.statePickUpField && touched.statePickUpField && <div className="errorMessage">{errors.statePickUpField}</div>}
+                    {errors.billingStateField && touched.billingStateField && <div className="errorMessage">{errors.billingStateField}</div>}
                 </div>
                 <div className="formControl">
-                  <label htmlFor="dropOff" className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}>Zip Code</label>
+                  <label htmlFor="billingAddressZipField" className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}>Zip Code</label>
                   <Field 
                     className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}
-                    name='zipCodePickUp' 
+                    id="billingAddressZipField"
+                    name='billingAddressZipField' 
                     placeholder="zip code"
                     type="number"
                     validate={validateZipCode}
                     />
-                    {errors.zipCodePickUp && touched.zipCodePickUp && <div className="errorMessage">{errors.zipCodePickUp}</div>}
+                    {errors.billingAddressZipField && touched.billingAddressZipField && <div className="errorMessage">{errors.billingAddressZipField}</div>}
                 </div>
-
               
             </div>
           
