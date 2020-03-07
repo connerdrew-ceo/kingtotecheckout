@@ -28,20 +28,20 @@ export const UserForm = () => {
     billingAddressField: '',
     billingCityField: '',
     billingStateField: '',
-    billingAddressZipField: '',
+    billingAddressZipField: '84020',
 
 
     addressDropOffField: '',
     sameAsMainContactDropOff: true,
     cityDropOffField: '',
     stateDropOffField: '',
-    zipCodeDropOff: '',
+    zipCodeDropOff: '84020',
     textareaDropOff: '',
     addressPickUpField: '',
     sameAsMainContactPickUp: true,
     cityPickUpField: '',
     statePickUpField: '',
-    zipCodePickUp: '',
+    zipCodePickUp: '84020',
     textareaPickUp: '',
 
     // firstNameFiled: 'Jorge',

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Header } from './Header';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
+import axios from "axios";
 
 const validationSchemaFourthStep = yup.object({
   firstNameFiled: yup
@@ -154,7 +155,45 @@ export const AddressFormStep = ({
     const [openHideFieldsDropOff, setOpenHideFieldsDropOff] = useState(formData.sameAsMainContactDropOff);
     const [openHideFieldsPickUp, setOpenHideFieldsPickUp] = useState(formData.sameAsMainContactPickUp);
 
+
+    const makeRequest = (values) => {
+
+      let createClientFields = [{ 'fieldID': '121',
+                                  'optionID': (formData.locationType === '16') ? '59' : '60'
+                                },{
+                                  'fieldID': '126',
+                                  'fieldValue': values.lastNameField + ' ' + values.firstNameFiled
+                                },{
+                                  'fieldID': '112',
+                                  'fieldValue': values.telField
+                                },{
+                                  'fieldID': '1091',
+                                  'fieldValue': values.emailField
+                                }]
+
+
+      console.log('createClientFields > ', createClientFields)
+
+      let createClientEndPoint = 'https://kingtote.vonigo.com/api/v1/data/Clients/?securityToken='+ 
+                                  formData.securityToken + '&method=3&Fields=' + createClientFields 
+
+        axios.post(createClientEndPoint)
+              .then(res => {
+
+                console.log('Response: ', res)
+                if(res.data !== null){
+                  
+                }
+              })
+              .catch(err => {
+                console.log('Error >> ', err)
+              })
+      
+
+    } 
+
     useEffect(() => {
+
       let removeErr = document.querySelectorAll('.rightFields .errorMessage');
       if(removeErr.length){
         removeErr[0].style.display = "none"
@@ -166,14 +205,13 @@ export const AddressFormStep = ({
       if(openHideFieldsDropOff && openHideFieldsPickUp){
 
         console.log('>>> openHideFieldsDropOff && openHideFieldsPickUp ')
-        
         setValidationSchemaActive(validationSchemaFourthStep)
 
       }else if(!openHideFieldsDropOff && openHideFieldsPickUp){
 
         console.log('>>> else if !openHideFieldsDropOff && openHideFieldsPickUp ')
-
         setValidationSchemaActive(validationSchemaFourthStepDropOff)
+
       }else{
 
         console.log('>>> else openHideFieldsDropOff && openHideFieldsPickUp ')
@@ -181,7 +219,6 @@ export const AddressFormStep = ({
       }
         
     },[openHideFieldsDropOff, openHideFieldsPickUp]);
-
    
     
   return (
@@ -195,9 +232,10 @@ export const AddressFormStep = ({
         initialValues={formData}
         onSubmit={values => {
           setFormData(values);
-          direction === 'back' ? prevStep() : nextStep();
+          makeRequest(values);
+          // direction === 'back' ? prevStep() : nextStep();
         }}
-        validationSchema={ validationSchemaActive }
+        // validationSchema={ validationSchemaActive }
         >
         {({ errors, touched }) => (
           <Form className="fifthForm">
