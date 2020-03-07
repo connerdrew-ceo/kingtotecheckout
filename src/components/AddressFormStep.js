@@ -148,11 +148,11 @@ export const AddressFormStep = ({
     }) => {
     const [direction, setDirection] = useState('back');
     const [validationSchemaActive, setValidationSchemaActive] = useState(validationSchemaFourthStep);
-    const [openHideFieldsDropOff, setOpenHideFieldsDropOff] = useState(formData.sameAsMainContactDropOff);
-    let sameContactAsDropOff = (openHideFieldsDropOff) ? 'disabledField' : ''
-    const [openHideFieldsPickUp, setOpenHideFieldsPickUp] = useState(formData.sameAsMainContactPickUp);
-    let sameContactAsPickUp = (openHideFieldsPickUp) ? 'disabledField' : ''
 
+    const [openHideFieldsBillingAddress, setOpenHideFieldsBillingAddress] = useState(formData.sameAddressAsDropOff);
+
+    const [openHideFieldsDropOff, setOpenHideFieldsDropOff] = useState(formData.sameAsMainContactDropOff);
+    const [openHideFieldsPickUp, setOpenHideFieldsPickUp] = useState(formData.sameAsMainContactPickUp);
 
     useEffect(() => {
       let removeErr = document.querySelectorAll('.rightFields .errorMessage');
@@ -163,17 +163,26 @@ export const AddressFormStep = ({
         removeErr[3].style.display = "none"
       }
       
-      if(sameContactAsDropOff === 'disabledField' && sameContactAsPickUp === 'disabledField'){
+      if(openHideFieldsDropOff && openHideFieldsPickUp){
+
+        console.log('>>> openHideFieldsDropOff && openHideFieldsPickUp ')
         
         setValidationSchemaActive(validationSchemaFourthStep)
-      }else if(sameContactAsDropOff === '' && sameContactAsPickUp === 'disabledField'){
+
+      }else if(!openHideFieldsDropOff && openHideFieldsPickUp){
+
+        console.log('>>> else if !openHideFieldsDropOff && openHideFieldsPickUp ')
+
         setValidationSchemaActive(validationSchemaFourthStepDropOff)
       }else{
+
+        console.log('>>> else openHideFieldsDropOff && openHideFieldsPickUp ')
         setValidationSchemaActive(validationSchemaFourthStepPickUp)
       }
         
-      },
-      [sameContactAsDropOff, sameContactAsPickUp]);
+    },[openHideFieldsDropOff, openHideFieldsPickUp]);
+
+   
     
   return (
     <>
@@ -259,7 +268,7 @@ export const AddressFormStep = ({
                       name='sameAsMainCoddressAsDropOff' 
                       type="checkbox"
                       onClick={() => {
-                        setOpenHideFieldsDropOff(!openHideFieldsDropOff)
+                        setOpenHideFieldsBillingAddress(!openHideFieldsBillingAddress)
                         } 
                       }
                       />
@@ -267,8 +276,9 @@ export const AddressFormStep = ({
                   </div>
                 </div>
                 <div className="formControl">
-                  <label htmlFor="addressPickUpImput">Street Address</label>
+                  <label htmlFor="addressPickUpImput" className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}>Street Address</label>
                   <Field 
+                    className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}
                     id="addresslPickUpInput"
                     name='addressPickUpField' 
                     placeholder="Street Address"
@@ -276,8 +286,9 @@ export const AddressFormStep = ({
                     {errors.addressPickUpField && touched.addressPickUpField && <div className="errorMessage">{errors.addressPickUpField}</div>}
                 </div>
                 <div className="formControl">
-                  <label htmlFor="cityPickUpImput">City</label>
+                  <label htmlFor="cityPickUpImput" className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}>City</label>
                   <Field 
+                    className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}
                     id="cityPickUpInput"
                     name='cityPickUpField' 
                     placeholder="city"
@@ -285,8 +296,9 @@ export const AddressFormStep = ({
                     {errors.cityPickUpField && touched.cityPickUpField && <div className="errorMessage">{errors.cityPickUpField}</div>}
                 </div>
                 <div className="formControl">
-                  <label htmlFor="statePickUpImput">State</label>
+                  <label htmlFor="statePickUpImput" className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}>State</label>
                   <Field 
+                    className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}
                     id="statePickUpInput"
                     name='statePickUpField' 
                     placeholder="state"
@@ -294,8 +306,9 @@ export const AddressFormStep = ({
                     {errors.statePickUpField && touched.statePickUpField && <div className="errorMessage">{errors.statePickUpField}</div>}
                 </div>
                 <div className="formControl">
-                  <label htmlFor="dropOff">Zip Code</label>
+                  <label htmlFor="dropOff" className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}>Zip Code</label>
                   <Field 
+                    className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}
                     name='zipCodePickUp' 
                     placeholder="zip code"
                     type="number"
@@ -385,9 +398,10 @@ export const AddressFormStep = ({
                   </div>
                 </div>
                 <div className="formControl">
-                  <label htmlFor="firstNameFiledDifferentDrop" className={sameContactAsDropOff}>First Name</label>
+                  <label htmlFor="firstNameFiledDifferentDrop" className={(openHideFieldsDropOff) ? 'disabledField' : ''}>First Name</label>
+                  
                   <Field 
-                    className={sameContactAsDropOff}
+                    className={(openHideFieldsDropOff) ? 'disabledField' : ''}
                     id="firstNameFiledDifferentDrop"
                     name='firstNameFiledDifferentDrop' 
                     placeholder="Jane"
@@ -395,9 +409,9 @@ export const AddressFormStep = ({
                     {errors.firstNameFiledDifferentDrop && touched.firstNameFiledDifferentDrop && <div className="errorMessage">{errors.firstNameFiledDifferentDrop}</div>}
                 </div>
                 <div className="formControl">
-                    <label htmlFor="lastNameFieldDifferentDrop" className={sameContactAsDropOff}>Last Name</label>
+                    <label htmlFor="lastNameFieldDifferentDrop" className={(openHideFieldsDropOff) ? 'disabledField' : ''}>Last Name</label>
                     <Field 
-                      className={sameContactAsDropOff}
+                      className={(openHideFieldsDropOff) ? 'disabledField' : ''}
                       id="lastNameFieldDifferentDrop"
                       name='lastNameFieldDifferentDrop' 
                       placeholder="Doe"
@@ -405,9 +419,9 @@ export const AddressFormStep = ({
                       {errors.lastNameFieldDifferentDrop && touched.lastNameFieldDifferentDrop && <div className="errorMessage">{errors.lastNameFieldDifferentDrop}</div>}
                 </div>
                 <div className="formControl">
-                  <label htmlFor="telFieldDifferentDrop" className={sameContactAsDropOff}>Phone</label>
+                  <label htmlFor="telFieldDifferentDrop" className={(openHideFieldsDropOff) ? 'disabledField' : ''}>Phone</label>
                   <Field 
-                        className={sameContactAsDropOff}
+                        className={(openHideFieldsDropOff) ? 'disabledField' : ''}
                         id="telFieldDifferentDrop"
                         name='telFieldDifferentDrop' 
                         placeholder="(555) 555 555"
@@ -416,9 +430,9 @@ export const AddressFormStep = ({
                       {errors.telFieldDifferentDrop && touched.telFieldDifferentDrop && <div className="errorMessage">{errors.telFieldDifferentDrop}</div>}
                 </div>
                 <div className="formControl">
-                  <label htmlFor="emailFieldDifferentDrop" className={sameContactAsDropOff}>Email</label>
+                  <label htmlFor="emailFieldDifferentDrop" className={(openHideFieldsDropOff) ? 'disabledField' : ''}>Email</label>
                   <Field 
-                    className={sameContactAsDropOff}
+                    className={(openHideFieldsDropOff) ? 'disabledField' : ''}
                     id="emailFieldDifferentDrop"
                     name='emailFieldDifferentDrop' 
                     placeholder="hello@hello.com"
@@ -426,8 +440,6 @@ export const AddressFormStep = ({
                     />
                       {errors.emailFieldDifferentDrop && touched.emailFieldDifferentDrop && <div className="errorMessage">{errors.emailFieldDifferentDrop}</div>}
                 </div>
-
-                
 
               </div>
             </div>
@@ -507,9 +519,9 @@ export const AddressFormStep = ({
                 </div>
 
                 <div className="formControl">
-                  <label htmlFor="firstNameFiledDifferentPickUp" className={sameContactAsPickUp}>First Name</label>
+                  <label htmlFor="firstNameFiledDifferentPickUp" className={(openHideFieldsPickUp) ? 'disabledField' : ''}>First Name</label>
                   <Field 
-                    className={sameContactAsPickUp}
+                    className={(openHideFieldsPickUp) ? 'disabledField' : ''}
                     id="firstNameFiledDifferentPickUp"
                     name='firstNameFiledDifferentPickUp' 
                     placeholder="Jane"
@@ -518,9 +530,9 @@ export const AddressFormStep = ({
                 </div>
 
                 <div className="formControl">
-                  <label htmlFor="lastNameFiledDifferentPickUp" className={sameContactAsPickUp}>Last Name</label>
+                  <label htmlFor="lastNameFiledDifferentPickUp" className={(openHideFieldsPickUp) ? 'disabledField' : ''}>Last Name</label>
                   <Field 
-                    className={sameContactAsPickUp}
+                    className={(openHideFieldsPickUp) ? 'disabledField' : ''}
                     id="lastNameFiledDifferentPickUp"
                     name='lastNameFiledDifferentPickUp' 
                     placeholder="Doe"
@@ -529,9 +541,9 @@ export const AddressFormStep = ({
 
                 </div>
                 <div className="formControl">
-                  <label htmlFor="telFiledDifferentPickUp" className={sameContactAsPickUp}>Phone</label>
+                  <label htmlFor="telFiledDifferentPickUp" className={(openHideFieldsPickUp) ? 'disabledField' : ''}>Phone</label>
                   <Field 
-                        className={sameContactAsPickUp}
+                        className={(openHideFieldsPickUp) ? 'disabledField' : ''}
                         id="telFiledDifferentPickUp"
                         name='telFiledDifferentPickUp' 
                         placeholder="(555) 555 555"
@@ -540,9 +552,9 @@ export const AddressFormStep = ({
                       {errors.telFiledDifferentPickUp && touched.telFiledDifferentPickUp && <div className="errorMessage">{errors.telFiledDifferentPickUp}</div>}
                 </div>
                 <div className="formControl">
-                  <label htmlFor="emailFiledDifferentPickUp" className={sameContactAsPickUp}>Email</label>
+                  <label htmlFor="emailFiledDifferentPickUp" className={(openHideFieldsPickUp) ? 'disabledField' : ''}>Email</label>
                   <Field 
-                    className={sameContactAsPickUp}
+                    className={(openHideFieldsPickUp) ? 'disabledField' : ''}
                     id="emailFiledDifferentPickUp"
                     name='emailFiledDifferentPickUp' 
                     placeholder="hello@hello.com"
