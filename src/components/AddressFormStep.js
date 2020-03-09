@@ -159,7 +159,8 @@ export const AddressFormStep = ({
     const makeRequest = (values) => {
 
       let createClientFields = {
-                                  method: "3",
+                                  securityToken: formData.securityToken,
+                                  method: '3',
                                   Fields: [
                                     {
                                       "fieldID": 121,
@@ -183,21 +184,22 @@ export const AddressFormStep = ({
 
       createClientFields = JSON.stringify(createClientFields)
 
-      
       console.log('createClientFields >>> ', createClientFields)
-
-      axios.post('https://kingtote.vonigo.com/api/v1/data/Clients/?securityToken='+formData.securityToken, createClientFields)
-            .then(res => {
-              console.log('Response: ', res)
-              if(res.data !== null){
-                
-              }
-            })
-            .catch(err => {
-              console.log('Error >> ', err)
-            })
       
-
+      axios.post('https://kingtote.vonigo.com/api/v1/data/Clients/?', createClientFields, {
+          headers: {
+          'Content-Type': 'application/json',
+          }
+        })
+        .then(res => {
+          console.log('Response: ', res)
+          if(res.data !== null){
+            
+          }
+        })
+        .catch(err => {
+          console.log('Error >> ', err)
+        })
     } 
 
     useEffect(() => {
