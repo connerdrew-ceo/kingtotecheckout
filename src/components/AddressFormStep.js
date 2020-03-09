@@ -158,36 +158,44 @@ export const AddressFormStep = ({
 
     const makeRequest = (values) => {
 
-      let createClientFields = [{ 'fieldID': '121',
-                                  'optionID': (formData.locationType === '16') ? '59' : '60'
-                                },{
-                                  'fieldID': '126',
-                                  'fieldValue': values.lastNameField + ' ' + values.firstNameFiled
-                                },{
-                                  'fieldID': '112',
-                                  'fieldValue': values.telField
-                                },{
-                                  'fieldID': '1091',
-                                  'fieldValue': values.emailField
-                                }]
+      let createClientFields = {
+                                  method: "3",
+                                  Fields: [
+                                    {
+                                      "fieldID": 121,
+                                      "optionID": 59
+                                    },
+                                    {
+                                      "fieldID": 126,
+                                      "fieldValue": values.lastNameField + ' ' + values.firstNameFiled
+                                    },
+                                    {
+                                      "fieldID": 112,
+                                      "fieldValue": values.telField
+                                    },
+                                    {
+                                      "fieldID": 1091,
+                                      "fieldValue": values.emailField
+                                    }    
+                                  ]
+                                }
+      
 
+      createClientFields = JSON.stringify(createClientFields)
 
-      console.log('createClientFields > ', createClientFields)
+      
+      console.log('createClientFields >>> ', createClientFields)
 
-      let createClientEndPoint = 'https://kingtote.vonigo.com/api/v1/data/Clients/?securityToken='+ 
-                                  formData.securityToken + '&method=3&Fields=' + createClientFields 
-
-        axios.post(createClientEndPoint)
-              .then(res => {
-
-                console.log('Response: ', res)
-                if(res.data !== null){
-                  
-                }
-              })
-              .catch(err => {
-                console.log('Error >> ', err)
-              })
+      axios.post('https://kingtote.vonigo.com/api/v1/data/Clients/?securityToken='+formData.securityToken, createClientFields)
+            .then(res => {
+              console.log('Response: ', res)
+              if(res.data !== null){
+                
+              }
+            })
+            .catch(err => {
+              console.log('Error >> ', err)
+            })
       
 
     } 

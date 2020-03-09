@@ -199,16 +199,6 @@ export const FormToteDetails = ({
 
               </>
             )}
-            <div className="formControl">
-                <label htmlFor="promoCodeField">Promo Code</label>
-                <Field 
-                  id="promoCodeField"
-                  name='promoCodeField' 
-                  placeholder="Enter Code"
-                  type="string"
-                  />
-                  {/* {errors.cardNumberField && touched.cardNumberField && <div className="errorMessage">{errors.cardNumberField}</div>} */}
-            </div>
             <div className="formControl"></div>
             <div className="formControl submitControl fullLenght">
               <button className="whiteBtn" type="submit" onClick={() => setDirection('back')}>
