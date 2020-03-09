@@ -157,7 +157,7 @@ export const AddressFormStep = ({
 
     const [clientId, setCLientId] = useState(null);
 
-    const addLocation = (values, objectID) => {
+    const addLocation = (values, objectID, requestType) => {
 
       let addLocationFields = {
                                   securityToken: formData.securityToken,
@@ -166,11 +166,11 @@ export const AddressFormStep = ({
                                   Fields: [
                                     {
                                       "fieldID": 773,
-                                      "fieldValue": values.addressDropOffField
+                                      "fieldValue": (requestType === 'dropOff') ? values.addressDropOffField : values.addressPickUpField
                                     },
                                     {
                                       "fieldID": 776,
-                                      "fieldValue": values.cityDropOffField
+                                      "fieldValue": (requestType === 'dropOff') ? values.cityDropOffField : values.cityPickUpField
                                     },
                                     {
                                       "fieldID": 778,
@@ -178,7 +178,7 @@ export const AddressFormStep = ({
                                     },
                                     {
                                       "fieldID": 775,
-                                      "fieldValue": values.zipCodeDropOff
+                                      "fieldValue": (requestType === 'dropOff') ? values.zipCodeDropOff : values.zipCodePickUp
                                     },
                                     {
                                       "fieldID": 779,
@@ -186,7 +186,7 @@ export const AddressFormStep = ({
                                     },
                                     {
                                       "fieldID": 9713,
-                                      "fieldValue": values.textareaDropOff
+                                      "fieldValue": (requestType === 'dropOff') ? values.textareaDropOff : values.textareaPickUp
                                     }
                                   ]
                                 }
@@ -194,7 +194,7 @@ export const AddressFormStep = ({
 
       addLocationFields = JSON.stringify(addLocationFields)
 
-      console.log('Locations >>> ', addLocationFields)
+      console.log(requestType + ' Locations >>> ', addLocationFields)
 
       axios.post('https://kingtote.vonigo.com/api/v1/data/Locations/?', addLocationFields, {
           headers: {
@@ -202,16 +202,46 @@ export const AddressFormStep = ({
           }
         })
         .then(res => {
-          console.log('Locations response : ', res)
+          console.log(requestType +' Locations response : ', res)
           if(res.data !== null){
 
-            console.log('Locations: ', res.data)
-            //setCLientId(res.Client.objectID)
-            //createContact(values, res.Client.objectID)
+            if(requestType === 'pickUp') return
+            addLocation(values, objectID, 'pickUp')
           }
         })
         .catch(err => {
-          console.log('Error >> ', err)
+          console.log('Error Locations>> ', err)
+        })
+    }
+
+    const setMainContact = (mainContactID) => {
+
+      console.log('mainContactID > ', mainContactID)
+
+      let setMainContactFields = {
+                                  securityToken: formData.securityToken,
+                                  method: '9',
+                                  objectID: mainContactID,
+                                  
+                                }
+
+      setMainContactFields = JSON.stringify(setMainContactFields)
+
+      axios.post('https://kingtote.vonigo.com/api/v1/data/WorkOrders/?', setMainContactFields, {
+          headers: {
+          'Content-Type': 'application/json',
+          }
+        })
+        .then(res => {
+          console.log('setMainContactFields response : ', res)
+          if(res.data.Contact !== null){
+
+            console.log('setMainContactFields okay: ', res.data.Contact.objectID)
+            //setMainContact(res.data.Contact.objectID)
+          }
+        })
+        .catch(err => {
+          console.log('Error WorkOrders >> ', err)
         })
     }
 
@@ -224,7 +254,7 @@ export const AddressFormStep = ({
                                   Fields: [
                                     {
                                       "fieldID": 127,
-                                      "optionID": formData.firstNameFiled
+                                      "fieldValue": values.firstNameFiled
                                     },
                                     {
                                       "fieldID": 128,
@@ -240,11 +270,10 @@ export const AddressFormStep = ({
                                     }    
                                   ]
                                 }
-      
 
       createContactFields = JSON.stringify(createContactFields)
 
-      console.log('createContactFields >>> ', createContactFields)
+      console.log('createContactFields >> ', createContactFields)
 
       axios.post('https://kingtote.vonigo.com/api/v1/data/Contacts/?', createContactFields, {
           headers: {
@@ -256,12 +285,11 @@ export const AddressFormStep = ({
           if(res.data.Contact !== null){
 
             console.log('okay: ', res.data.Contact.objectID)
-            //setCLientId(res.Client.objectID)
-            //createContact(values, res.Client.objectID)
+            setMainContact(res.data.Contact.objectID)
           }
         })
         .catch(err => {
-          console.log('Error >> ', err)
+          console.log('Error Contacts>> ', err)
         })
     }
 
@@ -304,11 +332,11 @@ export const AddressFormStep = ({
             //setCLientId(res.Client.objectID)
             console.log('create contact ', res.data.Client.objectID)
             createContact(values, res.data.Client.objectID)
-            addLocation(values, res.data.Client.objectID)
+            addLocation(values, res.data.Client.objectID, 'dropOff')
           }
         })
         .catch(err => {
-          console.log('Error >> ', err)
+          console.log('Error Clients>> ', err)
         })
     } 
 
@@ -648,11 +676,11 @@ export const AddressFormStep = ({
                 <div className="formControl">
                   <label htmlFor="dropOff">Additional Information</label>
                   <Field 
-                    name='textareaDropOff' 
+                    name='textareaPickUp' 
                     placeholder="Additional notes, special instructions, gate code, etc"
                     component="textarea"
                     />
-                    {errors.textareaDropOff && touched.textareaDropOff && <div className="errorMessage">{errors.textareaDropOff}</div>}
+                    {/* {errors.textareaDropOff && touched.textareaDropOff && <div className="errorMessage">{errors.textareaDropOff}</div>} */}
                 </div>
 
               </div>

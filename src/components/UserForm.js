@@ -20,7 +20,7 @@ export const UserForm = () => {
     toteBoxesField: '',
     toteCarField: '',
 
-    firstNameFiled: 'Nameee',
+    firstNameFiled: 'Someone',
     lastNameField: '',
     telField: '1234567890',
     emailField: '',
@@ -31,13 +31,13 @@ export const UserForm = () => {
     billingAddressZipField: '84020',
 
 
-    addressDropOffField: '3526 Nanaimo street',
+    addressDropOffField: '26 Nanaimo Av',
     sameAsMainContactDropOff: true,
     cityDropOffField: 'Louisville',
     stateDropOffField: 'Utah',
     zipCodeDropOff: '84020',
     textareaDropOff: 'Next to the bank',
-    addressPickUpField: '3526 Nanaimo street',
+    addressPickUpField: '123 Vine Street',
     sameAsMainContactPickUp: true,
     cityPickUpField: 'Louisville',
     statePickUpField: 'Utah',
