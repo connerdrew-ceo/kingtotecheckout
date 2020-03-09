@@ -155,8 +155,117 @@ export const AddressFormStep = ({
     const [openHideFieldsDropOff, setOpenHideFieldsDropOff] = useState(formData.sameAsMainContactDropOff);
     const [openHideFieldsPickUp, setOpenHideFieldsPickUp] = useState(formData.sameAsMainContactPickUp);
 
+    const [clientId, setCLientId] = useState(null);
 
-    const makeRequest = (values) => {
+    const addLocation = (values, objectID) => {
+
+      let addLocationFields = {
+                                  securityToken: formData.securityToken,
+                                  method: '3',
+                                  clientID: objectID,
+                                  Fields: [
+                                    {
+                                      "fieldID": 773,
+                                      "fieldValue": values.addressDropOffField
+                                    },
+                                    {
+                                      "fieldID": 776,
+                                      "fieldValue": values.cityDropOffField
+                                    },
+                                    {
+                                      "fieldID": 778,
+                                      "optionID": '9847'
+                                    },
+                                    {
+                                      "fieldID": 775,
+                                      "fieldValue": values.zipCodeDropOff
+                                    },
+                                    {
+                                      "fieldID": 779,
+                                      "optionID": '9906'
+                                    },
+                                    {
+                                      "fieldID": 9713,
+                                      "fieldValue": values.textareaDropOff
+                                    }
+                                  ]
+                                }
+      
+
+      addLocationFields = JSON.stringify(addLocationFields)
+
+      console.log('Locations >>> ', addLocationFields)
+
+      axios.post('https://kingtote.vonigo.com/api/v1/data/Locations/?', addLocationFields, {
+          headers: {
+          'Content-Type': 'application/json',
+          }
+        })
+        .then(res => {
+          console.log('Locations response : ', res)
+          if(res.data !== null){
+
+            console.log('Locations: ', res.data)
+            //setCLientId(res.Client.objectID)
+            //createContact(values, res.Client.objectID)
+          }
+        })
+        .catch(err => {
+          console.log('Error >> ', err)
+        })
+    }
+
+    const createContact = (values, objectID) => {
+
+      let createContactFields = {
+                                  securityToken: formData.securityToken,
+                                  method: '3',
+                                  clientID: objectID,
+                                  Fields: [
+                                    {
+                                      "fieldID": 127,
+                                      "optionID": formData.firstNameFiled
+                                    },
+                                    {
+                                      "fieldID": 128,
+                                      "fieldValue": values.lastNameField
+                                    },
+                                    {
+                                      "fieldID": 1088,
+                                      "fieldValue": values.telField
+                                    },
+                                    {
+                                      "fieldID": 97,
+                                      "fieldValue": values.emailField
+                                    }    
+                                  ]
+                                }
+      
+
+      createContactFields = JSON.stringify(createContactFields)
+
+      console.log('createContactFields >>> ', createContactFields)
+
+      axios.post('https://kingtote.vonigo.com/api/v1/data/Contacts/?', createContactFields, {
+          headers: {
+          'Content-Type': 'application/json',
+          }
+        })
+        .then(res => {
+          console.log('Contacts response : ', res)
+          if(res.data.Contact !== null){
+
+            console.log('okay: ', res.data.Contact.objectID)
+            //setCLientId(res.Client.objectID)
+            //createContact(values, res.Client.objectID)
+          }
+        })
+        .catch(err => {
+          console.log('Error >> ', err)
+        })
+    }
+
+    const createClient = (values) => {
 
       let createClientFields = {
                                   securityToken: formData.securityToken,
@@ -164,7 +273,7 @@ export const AddressFormStep = ({
                                   Fields: [
                                     {
                                       "fieldID": 121,
-                                      "optionID": 59
+                                      "optionID": (formData.locationType === '16') ? 59 : 60
                                     },
                                     {
                                       "fieldID": 126,
@@ -184,17 +293,18 @@ export const AddressFormStep = ({
 
       createClientFields = JSON.stringify(createClientFields)
 
-      console.log('createClientFields >>> ', createClientFields)
-      
       axios.post('https://kingtote.vonigo.com/api/v1/data/Clients/?', createClientFields, {
           headers: {
           'Content-Type': 'application/json',
           }
         })
         .then(res => {
-          console.log('Response: ', res)
-          if(res.data !== null){
-            
+          console.log('Clients Response: ', res)
+          if(res.data.Client !== null){
+            //setCLientId(res.Client.objectID)
+            console.log('create contact ', res.data.Client.objectID)
+            createContact(values, res.data.Client.objectID)
+            addLocation(values, res.data.Client.objectID)
           }
         })
         .catch(err => {
@@ -242,7 +352,7 @@ export const AddressFormStep = ({
         initialValues={formData}
         onSubmit={values => {
           setFormData(values);
-          makeRequest(values);
+          createClient(values);
           // direction === 'back' ? prevStep() : nextStep();
         }}
         // validationSchema={ validationSchemaActive }
