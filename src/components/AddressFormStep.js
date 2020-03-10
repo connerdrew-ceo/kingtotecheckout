@@ -160,6 +160,46 @@ export const AddressFormStep = ({
 
     const { state, dispatch } = useContext(GlobalContext);
 
+    const createNewJob = () => {
+
+      let newJobFields = {
+                                  securityToken: formData.securityToken,
+                                  method: '3',
+                                  clientID: '1',
+                                  Fields: [
+                                    {
+                                      "fieldID": 978,
+                                      "fieldValue": 'Online booking. No summary data'
+                                    },
+                                    {
+                                      "fieldID": 982,
+                                      "fieldValue": (formData.locationType === '16') ? 10278 : 10173
+                                    } 
+                                  ]
+                                }
+
+      newJobFields = JSON.stringify(newJobFields)
+
+      console.log(' createNewJob >> ', lockAvailabilityFields)
+
+      axios.post('https://kingtote.vonigo.com/api/v1/data/Jobs/?', newJobFields, {
+          headers: {
+          'Content-Type': 'application/json',
+          }
+        })
+        .then(res => {
+          console.log(requestType + ' createNewJob response : ', res)
+          if(res.data !== null){
+
+            //console.log('okay lockAvailabilityFields: ', res.data.Contact.objectID)
+            //setMainContact(res.data.Contact.objectID)
+          }
+        })
+        .catch(err => {
+          console.log(requestType + ' Error createNewJob >> ', err)
+        })
+    }
+
 
     const lockAvailability = ( objectID, requestType) => {
 
@@ -176,7 +216,7 @@ export const AddressFormStep = ({
 
       lockAvailabilityFields = JSON.stringify(lockAvailabilityFields)
 
-      console.log(requestType + ' createContactFields >> ', lockAvailabilityFields)
+      //console.log(requestType + ' lockAvailabilityFields >> ', lockAvailabilityFields)
 
       axios.post('https://kingtote.vonigo.com/api/v1/resources/availability/?', lockAvailabilityFields, {
           headers: {
@@ -184,7 +224,7 @@ export const AddressFormStep = ({
           }
         })
         .then(res => {
-          console.log('lockAvailabilityFields response : ', res)
+          console.log(requestType + ' lockAvailabilityFields response : ', res)
           if(res.data !== null){
 
             //console.log('okay lockAvailabilityFields: ', res.data.Contact.objectID)
@@ -192,7 +232,7 @@ export const AddressFormStep = ({
           }
         })
         .catch(err => {
-          console.log('Error lockAvailabilityFields>> ', err)
+          console.log(requestType + ' Error lockAvailabilityFields>> ', err)
         })
     }
 
@@ -200,30 +240,29 @@ export const AddressFormStep = ({
 
       console.log('setBillingAddress > ', locationID)
 
-      let setBillingAddress = {
+      let setBillingAddressFields = {
                                   securityToken: formData.securityToken,
                                   method: '9',
                                   objectID: locationID,
                                   
                                 }
 
-      setBillingAddress = JSON.stringify(setBillingAddress)
+      setBillingAddressFields = JSON.stringify(setBillingAddressFields)
 
-      axios.post('https://kingtote.vonigo.com/api/v1/data/Locations/?', setBillingAddress, {
+      axios.post('https://kingtote.vonigo.com/api/v1/data/Locations/?', setBillingAddressFields, {
           headers: {
           'Content-Type': 'application/json',
           }
         })
         .then(res => {
-          console.log('setMainContactFields response : ', res)
-          if(res.data.Contact !== null){
-
-            console.log('setMainContactFields okay: ', res.data.Contact.objectID)
+          console.log('setBillingAddress response : ', res)
+          if(res.data !== null){
+            //console.log('setBillingAddress okay: ', res.data)
             //setMainContact(res.data.Contact.objectID)
           }
         })
         .catch(err => {
-          console.log('Error WorkOrders >> ', err)
+          console.log('Error setBillingAddress >> ', err)
         })
     }
 
