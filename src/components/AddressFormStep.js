@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Header } from './Header';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import axios from "axios";
+import { GlobalContext } from "../context/FormContext";
 
 const validationSchemaFourthStep = yup.object({
   firstNameFiled: yup
@@ -155,7 +156,45 @@ export const AddressFormStep = ({
     const [openHideFieldsDropOff, setOpenHideFieldsDropOff] = useState(formData.sameAsMainContactDropOff);
     const [openHideFieldsPickUp, setOpenHideFieldsPickUp] = useState(formData.sameAsMainContactPickUp);
 
-    const [clientId, setCLientId] = useState(null);
+    //const [clientId, setCLientId] = useState(null);
+
+    const { state, dispatch } = useContext(GlobalContext);
+
+
+    const lockAvailability = ( objectID, requestType) => {
+
+      let lockAvailabilityFields = {
+                                  securityToken: formData.securityToken,
+                                  method: '2',
+                                  dayID: (requestType === 'dropOff') ? state.dropOffObj.dayID : state.pickUpObj.dayID,
+                                  routeID: (requestType === 'dropOff') ? state.dropOffObj.routeID : state.pickUpObj.routeID,
+                                  locationID: objectID,
+                                  serviceTypeID: formData.locationType,
+                                  duration: 60,
+                                  startTime: (requestType === 'dropOff') ? state.dropOffObj.startTime : state.pickUpObj.startTime
+                                }
+
+      lockAvailabilityFields = JSON.stringify(lockAvailabilityFields)
+
+      console.log(requestType + ' createContactFields >> ', lockAvailabilityFields)
+
+      axios.post('https://kingtote.vonigo.com/api/v1/resources/availability/?', lockAvailabilityFields, {
+          headers: {
+          'Content-Type': 'application/json',
+          }
+        })
+        .then(res => {
+          console.log('lockAvailabilityFields response : ', res)
+          if(res.data !== null){
+
+            //console.log('okay lockAvailabilityFields: ', res.data.Contact.objectID)
+            //setMainContact(res.data.Contact.objectID)
+          }
+        })
+        .catch(err => {
+          console.log('Error lockAvailabilityFields>> ', err)
+        })
+    }
 
     const setBillingAddress = (locationID) => {
 
@@ -240,10 +279,13 @@ export const AddressFormStep = ({
             if(requestType === 'pickUp'){
 
               setBillingAddress(res.data.Location.objectID)
+              lockAvailability(res.data.Location.objectID, requestType)
 
               return
 
-            } 
+            }else if(requestType === 'dropOff'){ // drop
+              lockAvailability(res.data.Location.objectID, requestType)
+            }
             addLocation(values, objectID, 'pickUp')
           }
         })
@@ -374,7 +416,7 @@ export const AddressFormStep = ({
           }
         })
         .catch(err => {
-          console.log('Error Clients>> ', err)
+          console.log('Error Clients  >> ', err)
         })
     } 
 
