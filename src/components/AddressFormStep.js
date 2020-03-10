@@ -595,8 +595,8 @@ export const AddressFormStep = ({
 
       removeErr.forEach((eachElem, index) => {
 
-        console.log(removeErr[index])
-        removeErr[index].setAttribute('name', 'democlass');
+        //console.log(removeErr[index])
+        //removeErr[index].setAttribute('name', 'democlass');
         //if(eachElem.indexActive !== null) arrSwitch.push(eachElem.indexActive)
       });
 
@@ -619,7 +619,7 @@ export const AddressFormStep = ({
           createClient(values);
           // direction === 'back' ? prevStep() : nextStep();
         }}
-        validationSchema={ validationSchemaActive }
+        validationSchema={ validationSchemaFourthStep }
         >
         {({ errors, touched }) => (
           <Form className="fifthForm">
@@ -829,17 +829,11 @@ export const AddressFormStep = ({
                     {
                       (openHideFieldsDropOff) ? (
                         ''
+                      ) : (
+                        <div>{errors.firstNameFieldDifferentDrop && touched.firstNameFieldDifferentDrop && <div className={(openHideFieldsDropOff) ? 'disabledField errorMessage' : 'errorMessage'}>{errors.firstNameFieldDifferentDrop}</div>}</div>
 
-                        ) : (
-                          <div>{errors.firstNameFieldDifferentDrop && touched.firstNameFieldDifferentDrop && <div className={(openHideFieldsDropOff) ? 'disabledField errorMessage' : 'errorMessage'}>{errors.firstNameFieldDifferentDrop}</div>}</div>
-
-                        )
-                      
+                      )
                     }
-                    
-                    
-                    
-                    
                 </div>
                 <div className="formControl">
                     <label htmlFor="lastNameFieldDifferentDrop" className={(openHideFieldsDropOff) ? 'disabledField' : ''}>Last Name</label>
@@ -854,13 +848,13 @@ export const AddressFormStep = ({
                 <div className="formControl">
                   <label htmlFor="telFieldDifferentDrop" className={(openHideFieldsDropOff) ? 'disabledField' : ''}>Phone</label>
                   <Field 
-                        className={(openHideFieldsDropOff) ? 'disabledField setNameBasedOnId' : ' setNameBasedOnId'}
-                        id="telFieldDifferentDrop"
-                        name='telFieldDifferentDrop' 
-                        placeholder="(555) 555 555"
-                        type="tel"
-                        />
-                      {errors.telFieldDifferentDrop && touched.telFieldDifferentDrop && <div className={(openHideFieldsDropOff) ? 'disabledField errorMessage' : 'errorMessage'}>{errors.telFieldDifferentDrop}</div>}
+                    className={(openHideFieldsDropOff) ? 'disabledField setNameBasedOnId' : ' setNameBasedOnId'}
+                    id="telFieldDifferentDrop"
+                    name='telFieldDifferentDrop' 
+                    placeholder="(555) 555 555"
+                    type="tel"
+                    />
+                   {errors.telFieldDifferentDrop && touched.telFieldDifferentDrop && <div className={(openHideFieldsDropOff) ? 'disabledField errorMessage' : 'errorMessage'}>{errors.telFieldDifferentDrop}</div>}
                 </div>
                 <div className="formControl">
                   <label htmlFor="emailFieldDifferentDrop" className={(openHideFieldsDropOff) ? 'disabledField' : ''}>Email</label>
@@ -871,7 +865,7 @@ export const AddressFormStep = ({
                     placeholder="hello@hello.com"
                     type="email"
                     />
-                      {errors.emailFieldDifferentDrop && touched.emailFieldDifferentDrop && <div className={(openHideFieldsDropOff) ? 'disabledField errorMessage' : 'errorMessage'}>{errors.emailFieldDifferentDrop}</div>}
+                    {errors.emailFieldDifferentDrop && touched.emailFieldDifferentDrop && <div className={(openHideFieldsDropOff) ? 'disabledField errorMessage' : 'errorMessage'}>{errors.emailFieldDifferentDrop}</div>}
                 </div>
 
               </div>
