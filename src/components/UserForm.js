@@ -20,7 +20,7 @@ export const UserForm = () => {
     toteBoxesField: '',
     toteCarField: '',
 
-    firstNameFiled: 'Jim',
+    firstNameField: 'Jim',
     lastNameField: 'Curtis',
     telField: '1234567890',
     emailField: '',
@@ -61,7 +61,7 @@ export const UserForm = () => {
     // zipCodePickUp: '',
     // textareaPickUp: '',
 
-    firstNameFiledDifferentDrop: '',
+    firstNameFieldDifferentDrop: '',
     lastNameFieldDifferentDrop: '',
     telFieldDifferentDrop: '',
     emailFieldDifferentDrop: '',
