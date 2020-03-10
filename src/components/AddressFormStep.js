@@ -5,68 +5,7 @@ import * as yup from 'yup';
 import axios from "axios";
 import { GlobalContext } from "../context/FormContext";
 
-const validationSchemaFourthStep = yup.object({
-  firstNameField: yup
-    .string()
-    .required('First name is required'),
-  lastNameField: yup
-    .string()
-    .required('Last name is required'),
-  telField: yup
-    .string()
-    .required('Telephone is required'),
-  emailField: yup
-    .string()
-    .required('Email is required'),
-  addressDropOffField: yup
-    .string()
-    .required('Address is required'),
-  cityDropOffField: yup
-    .string()
-    .required('City is required'),
-  stateDropOffField: yup
-    .string()
-    .required('State is required'),
-  addressPickUpField: yup
-    .string()
-    .required('Address is required'),
-  cityPickUpField: yup
-    .string()
-    .required('City is required'),
-  statePickUpField: yup
-    .string()
-    .required('State is required'),
 
-  billingAddressField: yup
-    .string()
-    .required('Address is required'),
-  billingCityField: yup
-    .string()
-    .required('City is required'),
-  billingStateField: yup
-    .string()
-    .required('State is required'),
-
-    
-  firstNameFieldDifferentDrop: yup
-    .string()
-    .required('First name is required'),
-  lastNameFieldDifferentDrop: yup
-    .string()
-    .required('Last name is required'),
-  telFieldDifferentDrop: yup
-    .string()
-    .required('Telephone is required'),
-  emailFieldDifferentDrop: yup
-    .string()
-    .required('Email is required'),
-
-    
-
-    
-  
-  
-});
 
 const validationSchemaFourthStepDropOff = yup.object({
   firstNameField: yup
@@ -128,6 +67,8 @@ const validationSchemaFourthStepPickUp = yup.object({
   emailField: yup
     .string()
     .required('Email is required'),
+
+
   firstNameFiledDifferentPickUp: yup
     .string()
     .required('First name is required'),
@@ -140,6 +81,8 @@ const validationSchemaFourthStepPickUp = yup.object({
   emailFiledDifferentPickUp: yup
     .string()
     .required('Email is required'),
+
+
   addressDropOffField: yup
     .string()
     .required('Address is required'),
@@ -160,6 +103,76 @@ const validationSchemaFourthStepPickUp = yup.object({
     .required('State is required'),
 });
 
+
+const validationSchemaFourthStep = yup.object({
+  firstNameField: yup
+    .string()
+    .required('First name is required'),
+  lastNameField: yup
+    .string()
+    .required('Last name is required'),
+  telField: yup
+    .string()
+    .required('Telephone is required'),
+  emailField: yup
+    .string()
+    .required('Email is required'),
+  addressDropOffField: yup
+    .string()
+    .required('Address is required'),
+  cityDropOffField: yup
+    .string()
+    .required('City is required'),
+  stateDropOffField: yup
+    .string()
+    .required('State is required'),
+  addressPickUpField: yup
+    .string()
+    .required('Address is required'),
+  cityPickUpField: yup
+    .string()
+    .required('City is required'),
+  statePickUpField: yup
+    .string()
+    .required('State is required'),
+
+  billingAddressField: yup
+    .string()
+    .required('Address is required'),
+  billingCityField: yup
+    .string()
+    .required('City is required'),
+  billingStateField: yup
+    .string()
+    .required('State is required'),
+    
+  firstNameFieldDifferentDrop: yup
+    .string()
+    .required('First name is required'),
+  lastNameFieldDifferentDrop: yup
+    .string()
+    .required('Last name is required'),
+  telFieldDifferentDrop: yup
+    .string()
+    .required('Telephone is required'),
+  emailFieldDifferentDrop: yup
+    .string()
+    .required('Email is required'),
+
+  firstNameFieldDifferentPickUp: yup
+    .string()
+    .required('First name is required'),
+  lastNameFieldDifferentPickUp: yup
+    .string()
+    .required('Last name is required'),
+  telFieldDifferentPickUp: yup
+    .string()
+    .required('Telephone is required'),
+  emailFieldDifferentPickUp: yup
+    .string()
+    .required('Email is required'),
+  
+});
 
 let dropOffGlobalObj = {
   contactID: 0,
@@ -544,34 +557,34 @@ export const AddressFormStep = ({
         })
       } 
 
-    useEffect(() => {
+    // useEffect(() => {
 
-      let removeErr = document.querySelectorAll('.rightFields .errorMessage');
-      if(removeErr.length){
-        removeErr[0].style.display = "none"
-        removeErr[1].style.display = "none"
-        removeErr[2].style.display = "none"
-        removeErr[3].style.display = "none"
-      }
+    //   let removeErr = document.querySelectorAll('.rightFields .errorMessage');
+    //   if(removeErr.length){
+    //     removeErr[0].style.display = "none"
+    //     removeErr[1].style.display = "none"
+    //     removeErr[2].style.display = "none"
+    //     removeErr[3].style.display = "none"
+    //   }
       
-      if(openHideFieldsDropOff && openHideFieldsPickUp){
+    //   if(openHideFieldsDropOff && openHideFieldsPickUp){
 
-        console.log('>>> openHideFieldsDropOff && openHideFieldsPickUp ')
-        setValidationSchemaActive(validationSchemaFourthStep)
+    //     console.log('>>> openHideFieldsDropOff && openHideFieldsPickUp ')
+    //     setValidationSchemaActive(validationSchemaFourthStep)
 
-      }else if(!openHideFieldsDropOff && openHideFieldsPickUp){
+    //   }else if(!openHideFieldsDropOff && openHideFieldsPickUp){
 
-        console.log('>>> else if !openHideFieldsDropOff && openHideFieldsPickUp ')
-        setValidationSchemaActive(validationSchemaFourthStepDropOff)
+    //     console.log('>>> else if !openHideFieldsDropOff && openHideFieldsPickUp ')
+    //     setValidationSchemaActive(validationSchemaFourthStepDropOff)
 
-      }else{
+    //   }else{
 
-        console.log('>>> else openHideFieldsDropOff && openHideFieldsPickUp ')
-        setValidationSchemaActive(validationSchemaFourthStepPickUp)
-      }
+    //     console.log('>>> else openHideFieldsDropOff && openHideFieldsPickUp ')
+    //     setValidationSchemaActive(validationSchemaFourthStepPickUp)
+    //   }
         
-    //},[openHideFieldsDropOff, openHideFieldsPickUp]);
-    },[]);
+    // //},[openHideFieldsDropOff, openHideFieldsPickUp]);
+    // },[]);
 
 
     useEffect(() => {
@@ -579,6 +592,13 @@ export const AddressFormStep = ({
       let removeErr = document.querySelectorAll('.rightFields .disabledField.setNameBasedOnId');
 
       console.log('removeErr > ', removeErr.length)
+
+      removeErr.forEach((eachElem, index) => {
+
+        console.log(removeErr[index])
+        removeErr[index].setAttribute('name', 'democlass');
+        //if(eachElem.indexActive !== null) arrSwitch.push(eachElem.indexActive)
+      });
 
       // set Name to inputs based on Id
 
@@ -806,7 +826,20 @@ export const AddressFormStep = ({
                     name='firstNameFieldDifferentDrop' 
                     placeholder="Jane"
                     />
-                    {errors.firstNameFieldDifferentDrop && touched.firstNameFieldDifferentDrop && <div className={(openHideFieldsDropOff) ? 'disabledField errorMessage' : 'errorMessage'}>{errors.firstNameFieldDifferentDrop}</div>}
+                    {
+                      (openHideFieldsDropOff) ? (
+                        ''
+
+                        ) : (
+                          <div>{errors.firstNameFieldDifferentDrop && touched.firstNameFieldDifferentDrop && <div className={(openHideFieldsDropOff) ? 'disabledField errorMessage' : 'errorMessage'}>{errors.firstNameFieldDifferentDrop}</div>}</div>
+
+                        )
+                      
+                    }
+                    
+                    
+                    
+                    
                 </div>
                 <div className="formControl">
                     <label htmlFor="lastNameFieldDifferentDrop" className={(openHideFieldsDropOff) ? 'disabledField' : ''}>Last Name</label>
@@ -919,52 +952,51 @@ export const AddressFormStep = ({
                 </div>
 
                 <div className="formControl">
-                  <label htmlFor="firstNameFiledDifferentPickUp" className={(openHideFieldsPickUp) ? 'disabledField' : ''}>First Name</label>
+                  <label htmlFor="firstNameFieldDifferentPickUp" className={(openHideFieldsPickUp) ? 'disabledField' : ''}>First Name</label>
                   <Field 
                     className={(openHideFieldsPickUp) ? 'disabledField setNameBasedOnId' : 'setNameBasedOnId'}
-                    id="firstNameFiledDifferentPickUp"
-                    name='firstNameFiledDifferentPickUp' 
+                    id="firstNameFieldDifferentPickUp"
+                    name='firstNameFieldDifferentPickUp' 
                     placeholder="Jane"
                     />
-                    {errors.firstNameFiledDifferentPickUp && touched.firstNameFiledDifferentPickUp && <div className="errorMessage">{errors.firstNameFiledDifferentPickUp}</div>}
+                    {errors.firstNameFieldDifferentPickUp && touched.firstNameFieldDifferentPickUp && <div className={(openHideFieldsPickUp) ? 'disabledField errorMessage' : 'errorMessage'}>{errors.firstNameFieldDifferentPickUp}</div>}
                 </div>
 
                 <div className="formControl">
-                  <label htmlFor="lastNameFiledDifferentPickUp" className={(openHideFieldsPickUp) ? 'disabledField' : ''}>Last Name</label>
+                  <label htmlFor="lastNameFieldDifferentPickUp" className={(openHideFieldsPickUp) ? 'disabledField' : ''}>Last Name</label>
                   <Field 
                     className={(openHideFieldsPickUp) ? 'disabledField setNameBasedOnId' : 'setNameBasedOnId'}
-                    id="lastNameFiledDifferentPickUp"
-                    name='lastNameFiledDifferentPickUp' 
+                    id="lastNameFieldDifferentPickUp"
+                    name='lastNameFieldDifferentPickUp' 
                     placeholder="Doe"
                     />
-                    {errors.lastNameFiledDifferentPickUp && touched.lastNameFiledDifferentPickUp && <div className="errorMessage">{errors.lastNameFiledDifferentPickUp}</div>}
+                    {errors.lastNameFieldDifferentPickUp && touched.lastNameFieldDifferentPickUp && <div className={(openHideFieldsPickUp) ? 'disabledField errorMessage' : 'errorMessage'}>{errors.lastNameFieldDifferentPickUp}</div>}
 
                 </div>
                 <div className="formControl">
-                  <label htmlFor="telFiledDifferentPickUp" className={(openHideFieldsPickUp) ? 'disabledField' : ''}>Phone</label>
+                  <label htmlFor="telFieldDifferentPickUp" className={(openHideFieldsPickUp) ? 'disabledField' : ''}>Phone</label>
                   <Field 
                         className={(openHideFieldsPickUp) ? 'disabledField setNameBasedOnId' : 'setNameBasedOnId'}
-                        id="telFiledDifferentPickUp"
-                        name='telFiledDifferentPickUp' 
+                        id="telFieldDifferentPickUp"
+                        name='telFieldDifferentPickUp' 
                         placeholder="(555) 555 555"
                         type="tel"
                         />
-                      {errors.telFiledDifferentPickUp && touched.telFiledDifferentPickUp && <div className="errorMessage">{errors.telFiledDifferentPickUp}</div>}
+                      {errors.telFieldDifferentPickUp && touched.telFieldDifferentPickUp && <div className={(openHideFieldsPickUp) ? 'disabledField errorMessage' : 'errorMessage'}>{errors.telFieldDifferentPickUp}</div>}
                 </div>
                 <div className="formControl">
-                  <label htmlFor="emailFiledDifferentPickUp" className={(openHideFieldsPickUp) ? 'disabledField' : ''}>Email</label>
+                  <label htmlFor="emailFieldDifferentPickUp" className={(openHideFieldsPickUp) ? 'disabledField' : ''}>Email</label>
                   <Field 
                     className={(openHideFieldsPickUp) ? 'disabledField setNameBasedOnId' : 'setNameBasedOnId'}
-                    id="emailFiledDifferentPickUp"
-                    name='emailFiledDifferentPickUp' 
+                    id="emailFieldDifferentPickUp"
+                    name='emailFieldDifferentPickUp' 
                     placeholder="hello@hello.com"
                     type="email"
                     />
-                      {errors.emailFiledDifferentPickUp && touched.emailFiledDifferentPickUp && <div className="errorMessage">{errors.emailFiledDifferentPickUp}</div>}
+                      {errors.emailFieldDifferentPickUp && touched.emailFieldDifferentPickUp && <div className={(openHideFieldsPickUp) ? 'disabledField errorMessage' : 'errorMessage'}>{errors.emailFieldDifferentPickUp}</div>}
                 </div>
               </div>
             </div>
-            
             
             <div className="formControl submitControl fullLenght">
               <button className="whiteBtn" type="submit" onClick={() => prevStep()}>

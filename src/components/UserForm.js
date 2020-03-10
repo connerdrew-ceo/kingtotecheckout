@@ -66,10 +66,10 @@ export const UserForm = () => {
     telFieldDifferentDrop: '',
     emailFieldDifferentDrop: '',
 
-    firstNameFiledDifferentPickUp: '',
-    lastNameFiledDifferentPickUp: '',
-    telFiledDifferentPickUp: '',
-    emailFiledDifferentPickUp: '',
+    firstNameFieldDifferentPickUp: '',
+    lastNameFieldDifferentPickUp: '',
+    telFieldDifferentPickUp: '',
+    emailFieldDifferentPickUp: '',
 
     cardHolderNameFiled: '',
     cardNumberField: '',
