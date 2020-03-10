@@ -6,7 +6,7 @@ import axios from "axios";
 import { GlobalContext } from "../context/FormContext";
 
 const validationSchemaFourthStep = yup.object({
-  firstNameFiled: yup
+  firstNameField: yup
     .string()
     .required('First name is required'),
   lastNameField: yup
@@ -39,7 +39,7 @@ const validationSchemaFourthStep = yup.object({
 });
 
 const validationSchemaFourthStepDropOff = yup.object({
-  firstNameFiled: yup
+  firstNameField: yup
     .string()
     .required('First name is required'),
   lastNameField: yup
@@ -129,6 +129,19 @@ const validationSchemaFourthStepPickUp = yup.object({
 });
 
 
+let dropOffGlobalObj = {
+  contactID: 0,
+  locationID: 0,
+  optionID: 245
+}
+
+let pickUpGlobalObj = {
+  contactID: 0,
+  locationID: 0,
+  optionID: 246
+}
+
+
 const validateZipCode = value => {
 
   let stringValue = value + ''
@@ -160,27 +173,66 @@ export const AddressFormStep = ({
 
     const { state, dispatch } = useContext(GlobalContext);
 
+    const createWorkOrders = () => {
+
+      let workOrderFields = {
+                          securityToken: formData.securityToken,
+                          method: '3',
+                          clientID: '1',
+                          Fields: [
+                            {
+                              "fieldID": 978,
+                              "fieldValue": 'Online booking. No summary data'
+                            },
+                            {
+                              "fieldID": 982,
+                              "fieldValue": (formData.locationType === '16') ? 10278 : 10173
+                            } 
+                          ]
+                        }
+
+      workOrderFields = JSON.stringify(workOrderFields)
+
+      console.log(' createWorkOrders >> ', workOrderFields)
+
+      axios.post('https://kingtote.vonigo.com/api/v1/data/Jobs/?', workOrderFields, {
+          headers: {
+          'Content-Type': 'application/json',
+          }
+        })
+        .then(res => {
+          console.log('createWorkOrders response : ', res)
+          if(res.data !== null){
+            //console.log('okay lockAvailabilityFields: ', res.data.Contact.objectID)
+            //setMainContact(res.data.Contact.objectID)
+          }
+        })
+        .catch(err => {
+          console.log('Error createWorkOrders >> ', err)
+        })
+    }
+
     const createNewJob = () => {
 
       let newJobFields = {
-                                  securityToken: formData.securityToken,
-                                  method: '3',
-                                  clientID: '1',
-                                  Fields: [
-                                    {
-                                      "fieldID": 978,
-                                      "fieldValue": 'Online booking. No summary data'
-                                    },
-                                    {
-                                      "fieldID": 982,
-                                      "fieldValue": (formData.locationType === '16') ? 10278 : 10173
-                                    } 
-                                  ]
-                                }
+                          securityToken: formData.securityToken,
+                          method: '3',
+                          clientID: '1',
+                          Fields: [
+                            {
+                              "fieldID": 978,
+                              "fieldValue": 'Online booking. No summary data'
+                            },
+                            {
+                              "fieldID": 982,
+                              "fieldValue": (formData.locationType === '16') ? 10278 : 10173
+                            } 
+                          ]
+                        }
 
       newJobFields = JSON.stringify(newJobFields)
 
-      console.log(' createNewJob >> ', lockAvailabilityFields)
+      console.log(' createNewJob >> ', newJobFields)
 
       axios.post('https://kingtote.vonigo.com/api/v1/data/Jobs/?', newJobFields, {
           headers: {
@@ -188,7 +240,7 @@ export const AddressFormStep = ({
           }
         })
         .then(res => {
-          console.log(requestType + ' createNewJob response : ', res)
+          console.log('createNewJob response : ', res)
           if(res.data !== null){
 
             //console.log('okay lockAvailabilityFields: ', res.data.Contact.objectID)
@@ -196,10 +248,9 @@ export const AddressFormStep = ({
           }
         })
         .catch(err => {
-          console.log(requestType + ' Error createNewJob >> ', err)
+          console.log('Error createNewJob >> ', err)
         })
     }
-
 
     const lockAvailability = ( objectID, requestType) => {
 
@@ -225,7 +276,9 @@ export const AddressFormStep = ({
         })
         .then(res => {
           console.log(requestType + ' lockAvailabilityFields response : ', res)
-          if(res.data !== null){
+          if(res.data !== null){  
+
+            createNewJob()
 
             //console.log('okay lockAvailabilityFields: ', res.data.Contact.objectID)
             //setMainContact(res.data.Contact.objectID)
@@ -457,7 +510,7 @@ export const AddressFormStep = ({
         .catch(err => {
           console.log('Error Clients  >> ', err)
         })
-    } 
+      } 
 
     useEffect(() => {
 
@@ -486,6 +539,13 @@ export const AddressFormStep = ({
       }
         
     },[openHideFieldsDropOff, openHideFieldsPickUp]);
+
+
+    useEffect(() => {
+
+      // set Name to inputs based on Id
+
+    },[]);
    
     
   return (
@@ -516,10 +576,10 @@ export const AddressFormStep = ({
                   <label htmlFor="firstNameInput">First Name</label>
                   <Field 
                     id="firstNameInput"
-                    name='firstNameFiled' 
+                    name='firstNameField' 
                     placeholder="Jane"
                     />
-                  {errors.firstNameFiled && touched.firstNameFiled && <div className="errorMessage">{errors.firstNameFiled}</div>}
+                  {errors.firstNameField && touched.firstNameField && <div className="errorMessage">{errors.firstNameField}</div>}
               </div>
               <div className="formControl">
               </div>
@@ -583,7 +643,7 @@ export const AddressFormStep = ({
                 <div className="formControl">
                   <label htmlFor="billingAddressField" className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}>Street Address</label>
                   <Field 
-                    className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}
+                    className={(openHideFieldsBillingAddress) ? 'disabledField setNameBasedOnId' : 'setNameBasedOnId'}
                     id="billingAddressField"
                     name='billingAddressField' 
                     placeholder="Street Address"
@@ -593,7 +653,7 @@ export const AddressFormStep = ({
                 <div className="formControl">
                   <label htmlFor="billingCityField" className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}>City</label>
                   <Field 
-                    className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}
+                    className={(openHideFieldsBillingAddress) ? 'disabledField setNameBasedOnId' : 'setNameBasedOnId'}
                     id="billingCityField"
                     name='billingCityField' 
                     placeholder="city"
@@ -603,7 +663,7 @@ export const AddressFormStep = ({
                 <div className="formControl">
                   <label htmlFor="billingStateField" className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}>State</label>
                   <Field 
-                    className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}
+                    className={(openHideFieldsBillingAddress) ? 'disabledField setNameBasedOnId' : 'setNameBasedOnId'}
                     id="billingStateField"
                     name='billingStateField' 
                     placeholder="state"
@@ -613,7 +673,7 @@ export const AddressFormStep = ({
                 <div className="formControl">
                   <label htmlFor="billingAddressZipField" className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}>Zip Code</label>
                   <Field 
-                    className={(openHideFieldsBillingAddress) ? 'disabledField' : ''}
+                    className={(openHideFieldsBillingAddress) ? 'disabledField setNameBasedOnId' : 'setNameBasedOnId'}
                     id="billingAddressZipField"
                     name='billingAddressZipField' 
                     placeholder="zip code"
@@ -695,7 +755,6 @@ export const AddressFormStep = ({
                       type="checkbox"
                       onClick={() => {
                         setOpenHideFieldsDropOff(!openHideFieldsDropOff)
-                        
                         } 
                       }
                       />
@@ -706,7 +765,7 @@ export const AddressFormStep = ({
                   <label htmlFor="firstNameFiledDifferentDrop" className={(openHideFieldsDropOff) ? 'disabledField' : ''}>First Name</label>
                   
                   <Field 
-                    className={(openHideFieldsDropOff) ? 'disabledField' : ''}
+                    className={(openHideFieldsDropOff) ? 'disabledField setNameBasedOnId' : 'setNameBasedOnId'}
                     id="firstNameFiledDifferentDrop"
                     name='firstNameFiledDifferentDrop' 
                     placeholder="Jane"
@@ -716,7 +775,7 @@ export const AddressFormStep = ({
                 <div className="formControl">
                     <label htmlFor="lastNameFieldDifferentDrop" className={(openHideFieldsDropOff) ? 'disabledField' : ''}>Last Name</label>
                     <Field 
-                      className={(openHideFieldsDropOff) ? 'disabledField' : ''}
+                      className={(openHideFieldsDropOff) ? 'disabledField setNameBasedOnId' : 'setNameBasedOnId'}
                       id="lastNameFieldDifferentDrop"
                       name='lastNameFieldDifferentDrop' 
                       placeholder="Doe"
@@ -726,7 +785,7 @@ export const AddressFormStep = ({
                 <div className="formControl">
                   <label htmlFor="telFieldDifferentDrop" className={(openHideFieldsDropOff) ? 'disabledField' : ''}>Phone</label>
                   <Field 
-                        className={(openHideFieldsDropOff) ? 'disabledField' : ''}
+                        className={(openHideFieldsDropOff) ? 'disabledField setNameBasedOnId' : ' setNameBasedOnId'}
                         id="telFieldDifferentDrop"
                         name='telFieldDifferentDrop' 
                         placeholder="(555) 555 555"
@@ -737,7 +796,7 @@ export const AddressFormStep = ({
                 <div className="formControl">
                   <label htmlFor="emailFieldDifferentDrop" className={(openHideFieldsDropOff) ? 'disabledField' : ''}>Email</label>
                   <Field 
-                    className={(openHideFieldsDropOff) ? 'disabledField' : ''}
+                    className={(openHideFieldsDropOff) ? 'disabledField setNameBasedOnId' : 'setNameBasedOnId'}
                     id="emailFieldDifferentDrop"
                     name='emailFieldDifferentDrop' 
                     placeholder="hello@hello.com"
@@ -826,7 +885,7 @@ export const AddressFormStep = ({
                 <div className="formControl">
                   <label htmlFor="firstNameFiledDifferentPickUp" className={(openHideFieldsPickUp) ? 'disabledField' : ''}>First Name</label>
                   <Field 
-                    className={(openHideFieldsPickUp) ? 'disabledField' : ''}
+                    className={(openHideFieldsPickUp) ? 'disabledField setNameBasedOnId' : 'setNameBasedOnId'}
                     id="firstNameFiledDifferentPickUp"
                     name='firstNameFiledDifferentPickUp' 
                     placeholder="Jane"
@@ -837,7 +896,7 @@ export const AddressFormStep = ({
                 <div className="formControl">
                   <label htmlFor="lastNameFiledDifferentPickUp" className={(openHideFieldsPickUp) ? 'disabledField' : ''}>Last Name</label>
                   <Field 
-                    className={(openHideFieldsPickUp) ? 'disabledField' : ''}
+                    className={(openHideFieldsPickUp) ? 'disabledField setNameBasedOnId' : 'setNameBasedOnId'}
                     id="lastNameFiledDifferentPickUp"
                     name='lastNameFiledDifferentPickUp' 
                     placeholder="Doe"
@@ -848,7 +907,7 @@ export const AddressFormStep = ({
                 <div className="formControl">
                   <label htmlFor="telFiledDifferentPickUp" className={(openHideFieldsPickUp) ? 'disabledField' : ''}>Phone</label>
                   <Field 
-                        className={(openHideFieldsPickUp) ? 'disabledField' : ''}
+                        className={(openHideFieldsPickUp) ? 'disabledField setNameBasedOnId' : 'setNameBasedOnId'}
                         id="telFiledDifferentPickUp"
                         name='telFiledDifferentPickUp' 
                         placeholder="(555) 555 555"
@@ -859,7 +918,7 @@ export const AddressFormStep = ({
                 <div className="formControl">
                   <label htmlFor="emailFiledDifferentPickUp" className={(openHideFieldsPickUp) ? 'disabledField' : ''}>Email</label>
                   <Field 
-                    className={(openHideFieldsPickUp) ? 'disabledField' : ''}
+                    className={(openHideFieldsPickUp) ? 'disabledField setNameBasedOnId' : 'setNameBasedOnId'}
                     id="emailFiledDifferentPickUp"
                     name='emailFiledDifferentPickUp' 
                     placeholder="hello@hello.com"
@@ -867,10 +926,8 @@ export const AddressFormStep = ({
                     />
                       {errors.emailFiledDifferentPickUp && touched.emailFiledDifferentPickUp && <div className="errorMessage">{errors.emailFiledDifferentPickUp}</div>}
                 </div>
-                
               </div>
             </div>
-            
             
             
             <div className="formControl submitControl fullLenght">
