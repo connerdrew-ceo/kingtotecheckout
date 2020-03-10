@@ -20,7 +20,7 @@ export const EachBookingComponent = ({  formData,
                                         endingTime, 
                                         enabled }) => {
 
-    const { state } = useContext(GlobalContext);
+    const { state, dispatch } = useContext(GlobalContext);
 
     const [selectedTime, setSelectedTime] = useState(null);
     const [selectedTimeStart, setSelectedTimeStart] = useState(startingTime);
@@ -122,11 +122,12 @@ export const EachBookingComponent = ({  formData,
                     if(res.data.Availability !== null && res.data.Availability !== undefined ){
 
                         arrayFiltered = res.data.Availability.filter(timeRow => timeRow.dayID === formatedDay)
+                        console.log('arrayFiltered > ', arrayFiltered)
                         setTimeSpacesAvailable(arrayFiltered)
                 }
                 })
                 .catch(err => {
-                    console.log('Error >>>> ', err)
+                    console.log('Erroravailability >>> ', err)
                 })
         }else{
 
@@ -142,11 +143,12 @@ export const EachBookingComponent = ({  formData,
                     if(res.data.Availability !== null && res.data.Availability !== undefined ){
 
                         arrayFiltered = res.data.Availability.filter(timeRow => timeRow.dayID === formatedDay)
+                        console.log('arrayFiltered > ', arrayFiltered)
                         setTimeSpacesAvailable(arrayFiltered)
                     }
                 })
                 .catch(err => {
-                    console.log('Error >>>> ', err)
+                    console.log('Error availability >>> ', err)
                 })
         }
 
@@ -165,16 +167,35 @@ export const EachBookingComponent = ({  formData,
     const changeSelectedTime = (key) => {
 
         setSelectedTime(key)
-        setSelectedTimeStart(timeConverter(timeSpacesAvailable[key].startTime))
-        setSelectedTimeEnd(timeConverter(timeSpacesAvailable[key].startTime, 'endTime'))
+        setSelectedTimeStart( timeConverter(timeSpacesAvailable[key].startTime))
+        setSelectedTimeEnd( timeConverter(timeSpacesAvailable[key].startTime, 'endTime'))
         updateStateSchedulingTime({ kind: controlType, 
                                     stringTimeStart: timeSpacesAvailable[key].startTime, 
                                     stringTimeEnd: timeSpacesAvailable[key].startTime})
+
+
+        console.log('timeSpacesAvailable[key] >> ', timeSpacesAvailable[key])
+
+
+        if(controlType === 'start'){
+            dispatch({
+                type: "SET_DROP_OFF",
+                payload: timeSpacesAvailable[key]
+            })
+
+        }else{
+            dispatch({
+                type: "SET_PICK_UP",
+                payload: timeSpacesAvailable[key]
+            })
+
+        }
+
+        
         
     };
 
     const resetControl = () => {
-
         setShowResumeInfo(false)
         if(controlType === 'start'){
             updateStateSchedulingStart({kind: 'end', stringDate: null})

@@ -3,7 +3,9 @@ import { FormReducer } from "./FormReducer";
 
 const initialState = {
     securityToken: null,
-    toteBoxesContent: null
+    toteBoxesContent: null,
+    dropOffObj: null,
+    pickUpObj: null
 }
 
 export const GlobalContext = React.createContext(initialState);

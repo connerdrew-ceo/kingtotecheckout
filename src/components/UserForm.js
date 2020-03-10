@@ -9,7 +9,7 @@ import axios from "axios";
 import { GlobalContext } from "../context/FormContext";
 
 export const UserForm = () => {
-  const [step, setStep] = useState(4);
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     serviceArea: '',
     dropOff: '84020',

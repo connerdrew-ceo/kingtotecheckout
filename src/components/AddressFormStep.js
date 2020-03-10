@@ -157,6 +157,37 @@ export const AddressFormStep = ({
 
     const [clientId, setCLientId] = useState(null);
 
+    const setBillingAddress = (locationID) => {
+
+      console.log('setBillingAddress > ', locationID)
+
+      let setBillingAddress = {
+                                  securityToken: formData.securityToken,
+                                  method: '9',
+                                  objectID: locationID,
+                                  
+                                }
+
+      setBillingAddress = JSON.stringify(setBillingAddress)
+
+      axios.post('https://kingtote.vonigo.com/api/v1/data/Locations/?', setBillingAddress, {
+          headers: {
+          'Content-Type': 'application/json',
+          }
+        })
+        .then(res => {
+          console.log('setMainContactFields response : ', res)
+          if(res.data.Contact !== null){
+
+            console.log('setMainContactFields okay: ', res.data.Contact.objectID)
+            //setMainContact(res.data.Contact.objectID)
+          }
+        })
+        .catch(err => {
+          console.log('Error WorkOrders >> ', err)
+        })
+    }
+
     const addLocation = (values, objectID, requestType) => {
 
       let addLocationFields = {
@@ -191,10 +222,9 @@ export const AddressFormStep = ({
                                   ]
                                 }
       
-
       addLocationFields = JSON.stringify(addLocationFields)
 
-      console.log(requestType + ' Locations >>> ', addLocationFields)
+      // console.log(requestType + ' Locations >>> ', addLocationFields)
 
       axios.post('https://kingtote.vonigo.com/api/v1/data/Locations/?', addLocationFields, {
           headers: {
@@ -205,7 +235,15 @@ export const AddressFormStep = ({
           console.log(requestType +' Locations response : ', res)
           if(res.data !== null){
 
-            if(requestType === 'pickUp') return
+            // set logic for Billing address
+
+            if(requestType === 'pickUp'){
+
+              setBillingAddress(res.data.Location.objectID)
+
+              return
+
+            } 
             addLocation(values, objectID, 'pickUp')
           }
         })
@@ -227,7 +265,7 @@ export const AddressFormStep = ({
 
       setMainContactFields = JSON.stringify(setMainContactFields)
 
-      axios.post('https://kingtote.vonigo.com/api/v1/data/WorkOrders/?', setMainContactFields, {
+      axios.post('https://kingtote.vonigo.com/api/v1/data/Contacts/?', setMainContactFields, {
           headers: {
           'Content-Type': 'application/json',
           }
@@ -273,7 +311,7 @@ export const AddressFormStep = ({
 
       createContactFields = JSON.stringify(createContactFields)
 
-      console.log('createContactFields >> ', createContactFields)
+      //console.log('createContactFields >> ', createContactFields)
 
       axios.post('https://kingtote.vonigo.com/api/v1/data/Contacts/?', createContactFields, {
           headers: {
