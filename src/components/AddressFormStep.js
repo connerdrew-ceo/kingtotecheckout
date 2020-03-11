@@ -5,7 +5,6 @@ import * as yup from 'yup';
 import axios from "axios";
 import { GlobalContext } from "../context/FormContext";
 
-
 const validationSchemaFourthStep = yup.object({
   firstNameField: yup
     .string()
@@ -36,58 +35,8 @@ const validationSchemaFourthStep = yup.object({
     .required('City is required'),
   statePickUpField: yup
     .string()
-    .required('State is required'),
-
-  // billingAddressField: yup
-  //   .string()
-  //   .required('Address is required'),
-  // billingCityField: yup
-  //   .string()
-  //   .required('City is required'),
-  
-  // billingStateField: yup
-  //   .string()
-  //   .required('State is required'),
-    
-  // firstNameFieldDifferentDrop: yup
-  //   .string()
-  //   .required('First name is required'),
-  // lastNameFieldDifferentDrop: yup
-  //   .string()
-  //   .required('Last name is required'),
-  // telFieldDifferentDrop: yup
-  //   .string()
-  //   .required('Telephone is required'),
-  // emailFieldDifferentDrop: yup
-  //   .string()
-  //   .required('Email is required'),
-
-  // firstNameFieldDifferentPickUp: yup
-  //   .string()
-  //   .required('First name is required'),
-  // lastNameFieldDifferentPickUp: yup
-  //   .string()
-  //   .required('Last name is required'),
-  // telFieldDifferentPickUp: yup
-  //   .string()
-  //   .required('Telephone is required'),
-  // emailFieldDifferentPickUp: yup
-  //   .string()
-  //   .required('Email is required'),
-  
+    .required('State is required')
 });
-
-let dropOffGlobalObj = {
-  contactID: 0,
-  locationID: 0,
-  optionID: 245
-}
-
-let pickUpGlobalObj = {
-  contactID: 0,
-  locationID: 0,
-  optionID: 246
-}
 
 const validateAddress = value => {
 
@@ -166,12 +115,17 @@ const validateEmail = value => {
     return error;
 };
 
+let dropOffGlobalObj = {
+  contactID: 0,
+  locationID: 0,
+  optionID: 245
+}
 
-
-
-
-
-
+let pickUpGlobalObj = {
+  contactID: 0,
+  locationID: 0,
+  optionID: 246
+}
 
 export const AddressFormStep = ({
     formData,
@@ -187,11 +141,9 @@ export const AddressFormStep = ({
     const [openHideFieldsDropOff, setOpenHideFieldsDropOff] = useState(formData.sameAsMainContactDropOff);
     const [openHideFieldsPickUp, setOpenHideFieldsPickUp] = useState(formData.sameAsMainContactPickUp);
 
-    //const [clientId, setCLientId] = useState(null);
-
     const { state, dispatch } = useContext(GlobalContext);
 
-    const createWorkOrders = () => {
+    const createWorkOrders = async () => {
 
       let workOrderFields = {
                           securityToken: formData.securityToken,
@@ -213,24 +165,24 @@ export const AddressFormStep = ({
 
       console.log(' createWorkOrders >> ', workOrderFields)
 
-      axios.post('https://kingtote.vonigo.com/api/v1/data/Jobs/?', workOrderFields, {
+      try {
+        const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/WorkOrders/?', workOrderFields, {
           headers: {
           'Content-Type': 'application/json',
           }
-        })
-        .then(res => {
-          console.log('createWorkOrders response : ', res)
-          if(res.data !== null){
-            //console.log('okay lockAvailabilityFields: ', res.data.Contact.objectID)
-            //setMainContact(res.data.Contact.objectID)
-          }
-        })
-        .catch(err => {
-          console.log('Error createWorkOrders >> ', err)
-        })
+        });
+        console.log('createWorkOrders response : ', res)
+        if(res.data !== null){
+          //console.log('okay lockAvailabilityFields: ', res.data.Contact.objectID)
+          //setMainContact(res.data.Contact.objectID)
+        }
+      } catch (err) {
+        console.log('Error createWorkOrders >> ', err)
+      }
+      
     }
 
-    const createNewJob = () => {
+    const createNewJob = async () => {
 
       let newJobFields = {
                           securityToken: formData.securityToken,
@@ -251,26 +203,24 @@ export const AddressFormStep = ({
       newJobFields = JSON.stringify(newJobFields)
 
       console.log(' createNewJob >> ', newJobFields)
-
-      axios.post('https://kingtote.vonigo.com/api/v1/data/Jobs/?', newJobFields, {
+      try {
+        const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Jobs/?', newJobFields, {
           headers: {
           'Content-Type': 'application/json',
           }
-        })
-        .then(res => {
-          console.log('createNewJob response : ', res)
-          if(res.data !== null){
+        });
+        console.log('createNewJob response : ', res)
+        if(res.data !== null){
 
-            //console.log('okay lockAvailabilityFields: ', res.data.Contact.objectID)
-            //setMainContact(res.data.Contact.objectID)
-          }
-        })
-        .catch(err => {
-          console.log('Error createNewJob >> ', err)
-        })
+          
+        }
+      } catch (err) {
+        console.log('Error createNewJob >> ', err)
+      }
+      
     }
 
-    const lockAvailability = ( objectID, requestType) => {
+    const lockAvailability = async ( objectID, requestType) => {
 
       let lockAvailabilityFields = {
                                   securityToken: formData.securityToken,
@@ -286,28 +236,24 @@ export const AddressFormStep = ({
       lockAvailabilityFields = JSON.stringify(lockAvailabilityFields)
 
       //console.log(requestType + ' lockAvailabilityFields >> ', lockAvailabilityFields)
-
-      axios.post('https://kingtote.vonigo.com/api/v1/resources/availability/?', lockAvailabilityFields, {
+      try {
+        const res = await axios.post('https://kingtote.vonigo.com/api/v1/resources/availability/?', lockAvailabilityFields, {
           headers: {
           'Content-Type': 'application/json',
           }
-        })
-        .then(res => {
-          console.log(requestType + ' lockAvailabilityFields response : ', res)
-          if(res.data !== null){  
+        });
+        console.log(requestType + ' lockAvailabilityFields response : ', res)
+        if(res.data !== null){  
 
-            createNewJob()
-
-            //console.log('okay lockAvailabilityFields: ', res.data.Contact.objectID)
-            //setMainContact(res.data.Contact.objectID)
-          }
-        })
-        .catch(err => {
+          createNewJob()
+        }
+      } catch (err) {
           console.log(requestType + ' Error lockAvailabilityFields>> ', err)
-        })
+      }
+      
     }
 
-    const setBillingAddress = (locationID) => {
+    const setBillingAddress = async (locationID) => {
 
       console.log('setBillingAddress > ', locationID)
 
@@ -320,24 +266,23 @@ export const AddressFormStep = ({
 
       setBillingAddressFields = JSON.stringify(setBillingAddressFields)
 
-      axios.post('https://kingtote.vonigo.com/api/v1/data/Locations/?', setBillingAddressFields, {
+      try {
+        const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Locations/?', setBillingAddressFields, {
           headers: {
           'Content-Type': 'application/json',
           }
-        })
-        .then(res => {
-          console.log('setBillingAddress response : ', res)
-          if(res.data !== null){
-            //console.log('setBillingAddress okay: ', res.data)
-            //setMainContact(res.data.Contact.objectID)
-          }
-        })
-        .catch(err => {
-          console.log('Error setBillingAddress >> ', err)
-        })
+        });
+        console.log('setBillingAddress response : ', res)
+        if(res.data !== null){
+          //console.log('setBillingAddress okay: ', res.data)
+          //setMainContact(res.data.Contact.objectID)
+        }
+      } catch (err) {
+        console.log('Error setBillingAddress >> ', err)
+      }
     }
 
-    const addLocation = (values, objectID, requestType) => {
+    const addLocation = async (values, objectID, requestType) => {
 
       let addLocationFields = {
                                   securityToken: formData.securityToken,
@@ -373,40 +318,37 @@ export const AddressFormStep = ({
       
       addLocationFields = JSON.stringify(addLocationFields)
 
-      // console.log(requestType + ' Locations >>> ', addLocationFields)
-
-      axios.post('https://kingtote.vonigo.com/api/v1/data/Locations/?', addLocationFields, {
+      try {
+        const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Locations/?', addLocationFields, {
           headers: {
           'Content-Type': 'application/json',
           }
-        })
-        .then(res => {
-          console.log(requestType +' Locations response : ', res)
+        });
+        console.log(requestType +' Locations response : ', res)
           if(res.data !== null){
 
             // set logic for Billing address
-
             if(requestType === 'pickUp'){
 
               setBillingAddress(res.data.Location.objectID)
               lockAvailability(res.data.Location.objectID, requestType)
+              pickUpGlobalObj.locationID = res.data.Location.objectID
 
               return
 
-            }else if(requestType === 'dropOff'){ // drop
+            }else if(requestType === 'dropOff'){ 
               lockAvailability(res.data.Location.objectID, requestType)
+              dropOffGlobalObj.locationID = res.data.Location.objectID
             }
             addLocation(values, objectID, 'pickUp')
           }
-        })
-        .catch(err => {
-          console.log('Error Locations>> ', err)
-        })
+      } catch (err) {
+        console.log(requestType + ' Error Locations>> ', err)
+      }
+      
     }
 
-    const setMainContact = (mainContactID) => {
-
-      console.log('mainContactID > ', mainContactID)
+    const setMainContact = async (mainContactID) => {
 
       let setMainContactFields = {
                                   securityToken: formData.securityToken,
@@ -417,25 +359,25 @@ export const AddressFormStep = ({
 
       setMainContactFields = JSON.stringify(setMainContactFields)
 
-      axios.post('https://kingtote.vonigo.com/api/v1/data/Contacts/?', setMainContactFields, {
+      try {
+        const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Contacts/?', setMainContactFields, {
           headers: {
           'Content-Type': 'application/json',
           }
-        })
-        .then(res => {
-          console.log('setMainContactFields response : ', res)
-          if(res.data.Contact !== null){
+        });
+        console.log('setMainContactFields response : ', res)
+        if(res.data.Contact !== null){
 
-            console.log('setMainContactFields okay: ', res.data.Contact.objectID)
-            //setMainContact(res.data.Contact.objectID)
-          }
-        })
-        .catch(err => {
+          console.log('setMainContactFields okay: ', res.data.Contact.objectID)
+          //setMainContact(res.data.Contact.objectID)
+        }
+      } catch (err) {
           console.log('Error WorkOrders >> ', err)
-        })
+      }
+      
     }
 
-    const createContact = (values, objectID) => {
+    const createContact = async (values, objectID) => {
 
       let createContactFields = {
                                   securityToken: formData.securityToken,
@@ -462,28 +404,28 @@ export const AddressFormStep = ({
                                 }
 
       createContactFields = JSON.stringify(createContactFields)
-
       //console.log('createContactFields >> ', createContactFields)
 
-      axios.post('https://kingtote.vonigo.com/api/v1/data/Contacts/?', createContactFields, {
+      try {
+        const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Contacts/?', createContactFields, {
           headers: {
           'Content-Type': 'application/json',
           }
-        })
-        .then(res => {
-          console.log('Contacts response : ', res)
-          if(res.data.Contact !== null){
+        });
 
-            console.log('okay: ', res.data.Contact.objectID)
-            setMainContact(res.data.Contact.objectID)
-          }
-        })
-        .catch(err => {
-          console.log('Error Contacts>> ', err)
-        })
+        console.log('Contacts response: ', res)
+        if(res.data.Contact !== null){
+
+          console.log('res.data.Contact.objectID: ', res.data.Contact.objectID)
+          setMainContact(res.data.Contact.objectID)
+        }
+      } catch (err) {
+        console.log('Error Contacts>> ', err)
+      }
+
     }
 
-    const createClient = (values) => {
+    const createClient = async (values) => {
 
       let createClientFields = {
                                   securityToken: formData.securityToken,
@@ -507,47 +449,28 @@ export const AddressFormStep = ({
                                     }    
                                   ]
                                 }
-      
 
       createClientFields = JSON.stringify(createClientFields)
 
-      axios.post('https://kingtote.vonigo.com/api/v1/data/Clients/?', createClientFields, {
+      try {
+        const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Clients/?', createClientFields, {
           headers: {
           'Content-Type': 'application/json',
           }
-        })
-        .then(res => {
-          console.log('Clients Response: ', res)
-          if(res.data.Client !== null){
-            //setCLientId(res.Client.objectID)
-            console.log('create contact ', res.data.Client.objectID)
-            createContact(values, res.data.Client.objectID)
-            addLocation(values, res.data.Client.objectID, 'dropOff')
-          }
-        })
-        .catch(err => {
+        });
+        console.log('Clients Response: ', res)
+        if(res.data.Client !== null){
+          //setCLientId(res.Client.objectID)
+          console.log('create contact ', res.data.Client.objectID)
+          createContact(values, res.data.Client.objectID)
+          addLocation(values, res.data.Client.objectID, 'dropOff')
+        }
+      } catch (err) {
           console.log('Error Clients  >> ', err)
-        })
+      }
+
     } 
 
-    
-    useEffect(() => {
-
-      let removeErr = document.querySelectorAll('.rightFields .disabledField.setNameBasedOnId');
-
-      console.log('removeErr > ', removeErr.length)
-
-      removeErr.forEach((eachElem, index) => {
-
-        console.log(removeErr[index])
-        //removeErr[index].setAttribute('name', 'democlass');
-        removeErr[index].value = 'Empty';
-        //if(eachElem.indexActive !== null) arrSwitch.push(eachElem.indexActive)
-      });
-
-      
-    }, [openHideFieldsBillingAddress, openHideFieldsDropOff, openHideFieldsPickUp]);
-   
     
   return (
     <>
@@ -940,13 +863,10 @@ export const AddressFormStep = ({
                         />
                         {errors.emailFieldDifferentPickUp && touched.emailFieldDifferentPickUp && <div className="errorMessage">{errors.emailFieldDifferentPickUp}</div>}
                     </div>
-                  
                     </>
                   )
                 }
-
               </div>
-            
             </div>
             
             <div className="formControl submitControl fullLenght">
