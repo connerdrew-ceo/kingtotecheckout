@@ -244,8 +244,9 @@ export const Confirm = ({
         'Content-Type': 'application/json',
         }
       });
-      console.log('setBillingAddress response : ', res)
+      
       if(res.data !== null){
+        console.log('setBillingAddress : ', res.data)
         //console.log('setBillingAddress okay: ', res.data)
         //setMainContact(res.data.Contact.objectID)
       }
@@ -303,10 +304,8 @@ export const Confirm = ({
 
           if(requestType === 'billing'){
             setBillingAddress(res.data.Location.objectID)
-
             return
           }
-
 
           if(requestType === 'pickUp'){
 
@@ -319,8 +318,6 @@ export const Confirm = ({
             
             lockAvailability(res.data.Location.objectID, requestType)
             pickUpGlobalObj.locationID = res.data.Location.objectID
-
-            
 
             return
 
