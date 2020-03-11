@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 //import PropTypes from 'prop-types';
 import { Header } from './Header';
 import { CalendarControlsWrap } from './bookingControls/CalendarControlsWrap'
@@ -58,7 +58,9 @@ export const Confirm = ({
     const [nameCard, setNameCard] = useState('');
     const [numberCard, setNumberCard] = useState('');
 
+    const [tokenGenerated, setTokenGenerated] = useState(null);
     const { state, dispatch } = useContext(GlobalContext);
+    
 
 
   const validateNameCardHolder = value => {
@@ -93,16 +95,15 @@ export const Confirm = ({
 
   const trackFocus = (e) => {
     const { name, value } = e.target;
-    console.log('trackFocus name: ', name)
-    console.log('trackFocus value: ', value)
-
+    //console.log('trackFocus name: ', name)
+    //console.log('trackFocus value: ', value)
     setFocus(e.target.name)
   }
 
   const createWorkOrders = async () => {
 
     let workOrderFields = {
-                        securityToken: formData.securityToken,
+                        securityToken: tokenGenerated,
                         method: '3',
                         clientID: '1',
                         Fields: [
@@ -141,7 +142,7 @@ export const Confirm = ({
   const createNewJob = async () => {
 
     let newJobFields = {
-                        securityToken: formData.securityToken,
+                        securityToken: tokenGenerated,
                         method: '3',
                         clientID: '1',
                         Fields: [
@@ -179,7 +180,7 @@ export const Confirm = ({
   const lockAvailability = async ( objectID, requestType) => {
 
     let lockAvailabilityFields = {
-                                securityToken: formData.securityToken,
+                                securityToken: tokenGenerated,
                                 method: '2',
                                 dayID: (requestType === 'dropOff') ? state.dropOffObj.dayID : state.pickUpObj.dayID,
                                 routeID: (requestType === 'dropOff') ? state.dropOffObj.routeID : state.pickUpObj.routeID,
@@ -214,7 +215,7 @@ export const Confirm = ({
     console.log('setBillingAddress > ', locationID)
 
     let setBillingAddressFields = {
-                                securityToken: formData.securityToken,
+                                securityToken: tokenGenerated,
                                 method: '9',
                                 objectID: locationID,
                                 
@@ -241,7 +242,7 @@ export const Confirm = ({
   const addLocation = async (values, objectID, requestType) => {
 
     let addLocationFields = {
-                                securityToken: formData.securityToken,
+                                securityToken: tokenGenerated,
                                 method: '3',
                                 clientID: objectID,
                                 Fields: [
@@ -307,7 +308,7 @@ export const Confirm = ({
   const setMainContact = async (mainContactID) => {
 
     let setMainContactFields = {
-                                securityToken: formData.securityToken,
+                                securityToken: tokenGenerated,
                                 method: '9',
                                 objectID: mainContactID,
                                 
@@ -336,7 +337,7 @@ export const Confirm = ({
   const createContact = async (values, objectID) => {
 
     let createContactFields = {
-                                securityToken: formData.securityToken,
+                                securityToken: tokenGenerated,
                                 method: '3',
                                 clientID: objectID,
                                 Fields: [
@@ -384,7 +385,7 @@ export const Confirm = ({
   const createClient = async (values) => {
 
     let createClientFields = {
-                                securityToken: formData.securityToken,
+                                securityToken: tokenGenerated,
                                 method: '3',
                                 Fields: [
                                   {
@@ -424,8 +425,31 @@ export const Confirm = ({
     } catch (err) {
         console.log('Error Clients  >> ', err)
     }
-
   }
+
+  useEffect(() => {
+
+    const generateToken = async () => {
+
+      const tokenEndPoint = 'https://kingtote.vonigo.com/api/v1/security/login/?appVersion=1company=Vonigo&password=de1485461568b6ce64c6687e98a9e194&userName=API.user'
+
+      try {
+        const res = await axios.get(tokenEndPoint)
+        console.log(res.data);
+        setTokenGenerated(res.data.securityToken);
+        
+        dispatch({
+          type: "SET_TOKEN",
+          payload: res.data.securityToken
+        })
+      } catch (err) {
+          console.error(err);
+          
+      }
+    }
+    generateToken();
+
+  }, []);
 
   return (
     <>
@@ -545,17 +569,17 @@ export const Confirm = ({
 
             <div className="formControl inlineFields">
               <div className="wrapBillingInline">
-                  <label htmlFor="expirationDateInput">Promo Code</label>
+                  <label htmlFor="promoCodeField">Promo Code</label>
                   <Field 
-                    id="expirationDateInput"
-                    name='expirationDateField' 
+                    id="promoCodeField"
+                    name='promoCodeField' 
                     placeholder="Enter Code"
                     type="string"
                     />
-                    {errors.expirationDateField && touched.expirationDateField && <div className="errorMessage">{errors.expirationDateField}</div>}
+                    
               </div>
               <div className="wrapBillingInline">
-                <label className="transparent" htmlFor="expirationDateInput">Apply</label>
+                <label className="transparent">Apply</label>
                 <button className="whiteBtn" onClick={() => console.log('hola') }>
                   <span>Apply</span>
                 </button>

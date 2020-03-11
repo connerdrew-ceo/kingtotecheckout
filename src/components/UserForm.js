@@ -9,7 +9,7 @@ import axios from "axios";
 import { GlobalContext } from "../context/FormContext";
 
 export const UserForm = () => {
-  const [step, setStep] = useState(4);
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     serviceArea: '',
     dropOff: '84020',
@@ -104,24 +104,47 @@ export const UserForm = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-      axios.get(tokenEndPoint)
-        .then(res => {
-          //console.log('Response: ', res)
-          if(res.data !== null && res.data.securityToken){
-            //console.log('tokenGenerated: ', res.data.securityToken)
-            setTokenGenerated(res.data.securityToken);
-            setLoad(true);
 
-            dispatch({
-              type: "SET_TOKEN",
-              payload: res.data.securityToken
-            })
-          }
+    const generateToken = async () => {
+
+      try {
+        const res = await axios.get(tokenEndPoint)
+        console.log(res.data);
+        setTokenGenerated(res.data.securityToken);
+        setLoad(true);
+
+        dispatch({
+          type: "SET_TOKEN",
+          payload: res.data.securityToken
         })
-        .catch(err => {
-            setError(err.message);
-            setLoad(true)
-        })
+      } catch (err) {
+          console.error(err);
+          setError(err.message);
+          setLoad(true)
+      }
+
+    }
+
+    generateToken();
+      // axios.get(tokenEndPoint)
+      //   .then(res => {
+      //     //console.log('Response: ', res)
+      //     if(res.data !== null && res.data.securityToken){
+      //       //console.log('tokenGenerated: ', res.data.securityToken)
+      //       setTokenGenerated(res.data.securityToken);
+      //       setLoad(true);
+
+      //       dispatch({
+      //         type: "SET_TOKEN",
+      //         payload: res.data.securityToken
+      //       })
+      //     }
+      //   })
+      //   .catch(err => {
+      //       setError(err.message);
+      //       setLoad(true)
+      //   })
+
   }, []);
 
   useEffect(() => {
