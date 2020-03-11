@@ -334,7 +334,7 @@ export const Confirm = ({
     
   }
 
-  const createContact = async (values, objectID) => {
+  const createContact = async (values, objectID, contactType) => {
 
     let createContactFields = {
                                 securityToken: state.securityToken,
@@ -370,20 +370,28 @@ export const Confirm = ({
         }
       });
 
-      console.log('Contacts response: ', res)
+      console.log(contactType,' + + + + + + Contacts: ', res)
       if(res.data.Contact !== null){
 
-        //console.log('res.data.Contact.objectID: ', res.data.Contact.objectID)
-        setMainContact(res.data.Contact.objectID)
+        if(contactType === 'main'){
+          setMainContact(res.data.Contact.objectID)
+        }
+
+        if(!values.sameAsMainContactDropOff){
+          createContact(values, objectID, 'dropOff')
+        }
+    
+        if(!values.sameAsMainContactPickUp){
+          createContact(values, objectID, 'pickUp')
+        }
       }
     } catch (err) {
-      console.log('Error Contacts>> ', err)
+      console.log(contactType,' Error Contacts>> ', err)
     }
 
   }
 
   const createClient = async (values) => {
-
 
     console.log('GLobal obj >> ', values)
 
@@ -422,7 +430,7 @@ export const Confirm = ({
       if(res.data.Client !== null){
         //setCLientId(res.Client.objectID)
         console.log('create contact ', res.data.Client.objectID)
-        createContact(values, res.data.Client.objectID)
+        createContact(values, res.data.Client.objectID, 'main')
         addLocation(values, res.data.Client.objectID, 'dropOff')
       }
     } catch (err) {
@@ -430,29 +438,24 @@ export const Confirm = ({
     }
   }
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const generateToken = async () => {
+  //     const tokenEndPoint = 'https://kingtote.vonigo.com/api/v1/security/login/?appVersion=1company=Vonigo&password=de1485461568b6ce64c6687e98a9e194&userName=API.user'
 
-    const generateToken = async () => {
-
-      const tokenEndPoint = 'https://kingtote.vonigo.com/api/v1/security/login/?appVersion=1company=Vonigo&password=de1485461568b6ce64c6687e98a9e194&userName=API.user'
-
-      try {
-        const res = await axios.get(tokenEndPoint)
-        console.log(res.data);
-        setTokenGenerated(res.data.securityToken);
-        
-        dispatch({
-          type: "SET_TOKEN",
-          payload: res.data.securityToken
-        })
-      } catch (err) {
-          console.error(err);
-          
-      }
-    }
-    generateToken();
-
-  }, []);
+  //     try {
+  //       const res = await axios.get(tokenEndPoint)
+  //       console.log(res.data);
+  //       setTokenGenerated(res.data.securityToken);
+  //       dispatch({
+  //         type: "SET_TOKEN",
+  //         payload: res.data.securityToken
+  //       })
+  //     } catch (err) {
+  //         console.error(err);
+  //     }
+  //   }
+  //   generateToken();
+  // }, []);
 
   return (
     <>
