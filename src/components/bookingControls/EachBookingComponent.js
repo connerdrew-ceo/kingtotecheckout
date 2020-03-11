@@ -122,12 +122,11 @@ export const EachBookingComponent = ({  formData,
                     if(res.data.Availability !== null && res.data.Availability !== undefined ){
 
                         arrayFiltered = res.data.Availability.filter(timeRow => timeRow.dayID === formatedDay)
-                        console.log('arrayFiltered > ', arrayFiltered)
                         setTimeSpacesAvailable(arrayFiltered)
                 }
                 })
                 .catch(err => {
-                    console.log('Erroravailability >>> ', err)
+                    console.log('Error availability >>> ', err)
                 })
         }else{
 
@@ -143,7 +142,6 @@ export const EachBookingComponent = ({  formData,
                     if(res.data.Availability !== null && res.data.Availability !== undefined ){
 
                         arrayFiltered = res.data.Availability.filter(timeRow => timeRow.dayID === formatedDay)
-                        console.log('arrayFiltered > ', arrayFiltered)
                         setTimeSpacesAvailable(arrayFiltered)
                     }
                 })

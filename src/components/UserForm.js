@@ -15,10 +15,10 @@ export const UserForm = () => {
     dropOff: '84020',
     pickUp: '84020',
     locationType: '16',
-    firstBooking: '',
-    lasttBooking: '',
-    toteBoxesField: '',
-    toteCarField: '',
+    // firstBooking: '',
+    // lasttBooking: '',
+    // toteBoxesField: '',
+    // toteCarField: '',
 
     firstNameField: 'Jim',
     lastNameField: 'Curtis',
@@ -71,11 +71,11 @@ export const UserForm = () => {
     telFieldDifferentPickUp: '',
     emailFieldDifferentPickUp: '',
 
-    cardHolderNameFiled: '',
-    cardNumberField: '',
-    expirationDateField: '',
-    cvcField: '',
-    billingZipCode: '',
+    cardHolderNameFiled: 'Jim Curtis',
+    cardNumberField: '232323232323',
+    expirationDateField: '2323',
+    cvcField: '123',
+    billingZipCode: '84020',
     dateDropOff: null,
     datePickUp: null,
     timeRangeDropStart: null,
@@ -122,28 +122,8 @@ export const UserForm = () => {
           setError(err.message);
           setLoad(true)
       }
-
     }
-
     generateToken();
-      // axios.get(tokenEndPoint)
-      //   .then(res => {
-      //     //console.log('Response: ', res)
-      //     if(res.data !== null && res.data.securityToken){
-      //       //console.log('tokenGenerated: ', res.data.securityToken)
-      //       setTokenGenerated(res.data.securityToken);
-      //       setLoad(true);
-
-      //       dispatch({
-      //         type: "SET_TOKEN",
-      //         payload: res.data.securityToken
-      //       })
-      //     }
-      //   })
-      //   .catch(err => {
-      //       setError(err.message);
-      //       setLoad(true)
-      //   })
 
   }, []);
 

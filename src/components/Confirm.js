@@ -37,12 +37,14 @@ const validateZipCode = value => {
 let dropOffGlobalObj = {
   contactID: 0,
   locationID: 0,
+  lockID: 0,
   optionID: 245
 }
 
 let pickUpGlobalObj = {
   contactID: 0,
   locationID: 0,
+  lockID: 0,
   optionID: 246
 }
 
@@ -199,10 +201,23 @@ export const Confirm = ({
         'Content-Type': 'application/json',
         }
       });
-      console.log(requestType + ' lockAvailabilityFields response : ', res)
+      
       if(res.data !== null){  
 
-        createNewJob()
+        console.log(requestType + ' lockAvailabilityFields response : ', res.data)
+
+        //createNewJob()
+        if(requestType === 'dropOff'){
+
+          dropOffGlobalObj.lockID = res.data.Ids.lockID
+          console.log('dropOffGlobalObj > ', dropOffGlobalObj)
+        }
+
+        if(requestType === 'pickUp'){
+
+          pickUpGlobalObj.lockID = res.data.Ids.lockID
+          console.log('pickUpGlobalObj > ', pickUpGlobalObj)
+        }
       }
     } catch (err) {
         console.log(requestType + ' Error lockAvailabilityFields>> ', err)
@@ -281,24 +296,43 @@ export const Confirm = ({
         'Content-Type': 'application/json',
         }
       });
-      console.log(requestType +' Locations response : ', res)
+      
         if(res.data !== null){
-
+          console.log(requestType +' Locations : ', res.data)
           // set logic for Billing address
+
+          if(requestType === 'billing'){
+            setBillingAddress(res.data.Location.objectID)
+
+            return
+          }
+
+
           if(requestType === 'pickUp'){
 
-            setBillingAddress(res.data.Location.objectID)
+            if(values.sameAddressAsDropOff){
+              setBillingAddress(res.data.Location.objectID)
+            }else{
+              addLocation(values, objectID, 'billing')
+            }
+
+            
             lockAvailability(res.data.Location.objectID, requestType)
             pickUpGlobalObj.locationID = res.data.Location.objectID
+
+            
 
             return
 
           }else if(requestType === 'dropOff'){ 
+
             lockAvailability(res.data.Location.objectID, requestType)
             dropOffGlobalObj.locationID = res.data.Location.objectID
           }
+
           addLocation(values, objectID, 'pickUp')
         }
+
     } catch (err) {
       console.log(requestType + ' Error Locations>> ', err)
     }
@@ -322,7 +356,7 @@ export const Confirm = ({
         'Content-Type': 'application/json',
         }
       });
-      console.log('setMainContactFields response : ', res)
+      //console.log('setMainContactFields response : ', res)
       if(res.data.Contact !== null){
 
         //console.log('setMainContactFields okay: ', res.data.Contact.objectID)
@@ -370,11 +404,15 @@ export const Confirm = ({
         }
       });
 
-      console.log(contactType,' + + + + + + Contacts: ', res)
+      
       if(res.data.Contact !== null){
+
+        console.log(contactType,' + + + + + + Contacts: ', res.data)
 
         if(contactType === 'main'){
           setMainContact(res.data.Contact.objectID)
+          dropOffGlobalObj.contactID = res.data.Contact.objectID
+          pickUpGlobalObj.contactID = res.data.Contact.objectID
         }
 
         if(contactType === 'dropOff'){
@@ -401,7 +439,7 @@ export const Confirm = ({
 
   const createClient = async (values) => {
 
-    console.log('GLobal obj >> ', values)
+    console.log('GLobal obj >>>>> ', values)
 
     let createClientFields = {
                                 securityToken: state.securityToken,
@@ -434,10 +472,10 @@ export const Confirm = ({
         'Content-Type': 'application/json',
         }
       });
-      console.log('Clients Response: ', res)
+      //console.log('Clients Response: ', res)
       if(res.data.Client !== null){
         //setCLientId(res.Client.objectID)
-        console.log('create contact ', res.data.Client.objectID)
+        console.log('Client: ', res.data.Client.objectID)
         createContact(values, res.data.Client.objectID, 'main')
         addLocation(values, res.data.Client.objectID, 'dropOff')
       }
@@ -478,7 +516,8 @@ export const Confirm = ({
         onSubmit={values => {
           setFormData(values);
           createClient(values);
-          direction === 'back' ? prevStep() : nextStep();
+          
+          //direction === 'back' ? prevStep() : nextStep();
           // console.log('AddressFormStep submit >>>> ', values)
         }}
         validationSchema={validationSchemaFourthStep}
