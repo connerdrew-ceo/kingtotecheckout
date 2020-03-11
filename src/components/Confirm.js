@@ -35,6 +35,7 @@ const validateZipCode = value => {
 };
 
 let dropOffGlobalObj = {
+  clientID: 0,
   contactID: 0,
   locationID: 0,
   lockID: 0,
@@ -42,6 +43,7 @@ let dropOffGlobalObj = {
 }
 
 let pickUpGlobalObj = {
+  clientID: 0,
   contactID: 0,
   locationID: 0,
   lockID: 0,
@@ -102,27 +104,36 @@ export const Confirm = ({
     setFocus(e.target.name)
   }
 
-  const createWorkOrders = async () => {
+  const createWorkOrders = async ( jobID, requestType ) => {
 
     let workOrderFields = {
                         securityToken: state.securityToken,
                         method: '3',
-                        clientID: '1',
+                        jobID: jobID,
+                        lockID: (requestType === 'dropOff') ? dropOffGlobalObj.lockID : pickUpGlobalObj.lockID,
+                        clientID: (requestType === 'dropOff') ? dropOffGlobalObj.clientID : pickUpGlobalObj.clientID,
+                        contactID: (requestType === 'dropOff') ? dropOffGlobalObj.contactID : pickUpGlobalObj.contactID,
+                        locationID: (requestType === 'dropOff') ? dropOffGlobalObj.locationID : pickUpGlobalObj.locationID,
+                        serviceTypeID: formData.locationType,
                         Fields: [
                           {
-                            "fieldID": 978,
+                            "fieldID": 200,
                             "fieldValue": 'Online booking. No summary data'
                           },
                           {
-                            "fieldID": 982,
-                            "fieldValue": (formData.locationType === '16') ? 10278 : 10173
+                            "fieldID": 186,
+                            "fieldValue": 60
+                          },
+                          {
+                            "fieldID": 201,
+                            "fieldValue": (requestType === 'dropOff') ? 245 : 246
                           } 
                         ]
                       }
 
     workOrderFields = JSON.stringify(workOrderFields)
 
-    // console.log(' createWorkOrders >> ', workOrderFields)
+    console.log(' CreateWorkOrders >> ', workOrderFields)
 
     try {
       const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/WorkOrders/?', workOrderFields, {
@@ -130,13 +141,16 @@ export const Confirm = ({
         'Content-Type': 'application/json',
         }
       });
-      console.log('createWorkOrders response : ', res)
+      
       if(res.data !== null){
+        console.log('-- -- -- -- -- -- -- --')
+
+        console.log(requestType, ' createWorkOrders response : ', res.data)
         //console.log('okay lockAvailabilityFields: ', res.data.Contact.objectID)
         //setMainContact(res.data.Contact.objectID)
       }
     } catch (err) {
-      console.log('Error createWorkOrders >> ', err)
+      console.log(requestType,' Error createWorkOrders >> ', err)
     }
     
   }
@@ -146,7 +160,7 @@ export const Confirm = ({
     let newJobFields = {
                         securityToken: state.securityToken,
                         method: '3',
-                        clientID: '1',
+                        clientID: dropOffGlobalObj.clientID,
                         Fields: [
                           {
                             "fieldID": 978,
@@ -159,18 +173,20 @@ export const Confirm = ({
                         ]
                       }
 
+    console.log(' newJobFields >>>>> ', newJobFields )
+
     newJobFields = JSON.stringify(newJobFields)
 
-    //console.log(' createNewJob >> ', newJobFields)
     try {
       const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Jobs/?', newJobFields, {
         headers: {
         'Content-Type': 'application/json',
         }
       });
-      console.log('createNewJob response : ', res)
+      console.log(' $ $ $ createNewJob : ', res.data)
       if(res.data !== null){
-
+        createWorkOrders(res.data.Job.objectID, 'dropOff')
+        createWorkOrders(res.data.Job.objectID, 'pickUp')
         
       }
     } catch (err) {
@@ -206,17 +222,17 @@ export const Confirm = ({
 
         console.log(requestType + ' lockAvailabilityFields response : ', res.data)
 
-        //createNewJob()
         if(requestType === 'dropOff'){
 
           dropOffGlobalObj.lockID = res.data.Ids.lockID
-          console.log('dropOffGlobalObj > ', dropOffGlobalObj)
+          //console.log('dropOffGlobalObj > ', dropOffGlobalObj)
+          createNewJob()
         }
 
         if(requestType === 'pickUp'){
 
           pickUpGlobalObj.lockID = res.data.Ids.lockID
-          console.log('pickUpGlobalObj > ', pickUpGlobalObj)
+          //console.log('pickUpGlobalObj > ', pickUpGlobalObj)
         }
       }
     } catch (err) {
@@ -227,7 +243,7 @@ export const Confirm = ({
 
   const setBillingAddress = async (locationID) => {
 
-    console.log('setBillingAddress > ', locationID)
+    //console.log('setBillingAddress > ', locationID)
 
     let setBillingAddressFields = {
                                 securityToken: state.securityToken,
@@ -246,7 +262,7 @@ export const Confirm = ({
       });
       
       if(res.data !== null){
-        console.log('setBillingAddress : ', res.data)
+        //console.log('setBillingAddress : ', res.data)
         //console.log('setBillingAddress okay: ', res.data)
         //setMainContact(res.data.Contact.objectID)
       }
@@ -299,9 +315,8 @@ export const Confirm = ({
       });
       
         if(res.data !== null){
-          console.log(requestType +' Locations : ', res.data)
-          // set logic for Billing address
-
+          //console.log(requestType +' Locations : ', res.data + "\n")
+          
           if(requestType === 'billing'){
             setBillingAddress(res.data.Location.objectID)
             return
@@ -404,7 +419,7 @@ export const Confirm = ({
       
       if(res.data.Contact !== null){
 
-        console.log(contactType,' + + + + + + Contacts: ', res.data)
+        //console.log(contactType,' + + + + + + Contacts: ', res.data + "\n")
 
         if(contactType === 'main'){
           setMainContact(res.data.Contact.objectID)
@@ -472,9 +487,11 @@ export const Confirm = ({
       //console.log('Clients Response: ', res)
       if(res.data.Client !== null){
         //setCLientId(res.Client.objectID)
-        console.log('Client: ', res.data.Client.objectID)
+        //console.log('Client: ', res.data.Client.objectID)
         createContact(values, res.data.Client.objectID, 'main')
         addLocation(values, res.data.Client.objectID, 'dropOff')
+        dropOffGlobalObj.clientID = res.data.Client.objectID
+        pickUpGlobalObj.clientID = res.data.Client.objectID
       }
     } catch (err) {
         console.log('Error Clients  >> ', err)
