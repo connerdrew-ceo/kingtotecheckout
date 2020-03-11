@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 //import PropTypes from 'prop-types';
 import { Header } from './Header';
 import { CalendarControlsWrap } from './bookingControls/CalendarControlsWrap'
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import Cards from 'react-credit-cards';
+import axios from "axios";
+import { GlobalContext } from "../context/FormContext";
 
 const validationSchemaFourthStep = yup.object({
   cardHolderNameFiled: yup
@@ -16,7 +18,6 @@ const validationSchemaFourthStep = yup.object({
   expirationDateField: yup
     .string()
     .required('Expiration date is required'),
-    
 });
 
 const validateZipCode = value => {
@@ -33,7 +34,17 @@ const validateZipCode = value => {
     return error;
 };
 
+let dropOffGlobalObj = {
+  contactID: 0,
+  locationID: 0,
+  optionID: 245
+}
 
+let pickUpGlobalObj = {
+  contactID: 0,
+  locationID: 0,
+  optionID: 246
+}
 
 export const Confirm = ({ 
     formData, 
@@ -46,6 +57,8 @@ export const Confirm = ({
     const [focus, setFocus] = useState('');
     const [nameCard, setNameCard] = useState('');
     const [numberCard, setNumberCard] = useState('');
+
+    const { state, dispatch } = useContext(GlobalContext);
 
 
   const validateNameCardHolder = value => {
@@ -86,6 +99,334 @@ export const Confirm = ({
     setFocus(e.target.name)
   }
 
+  const createWorkOrders = async () => {
+
+    let workOrderFields = {
+                        securityToken: formData.securityToken,
+                        method: '3',
+                        clientID: '1',
+                        Fields: [
+                          {
+                            "fieldID": 978,
+                            "fieldValue": 'Online booking. No summary data'
+                          },
+                          {
+                            "fieldID": 982,
+                            "fieldValue": (formData.locationType === '16') ? 10278 : 10173
+                          } 
+                        ]
+                      }
+
+    workOrderFields = JSON.stringify(workOrderFields)
+
+    // console.log(' createWorkOrders >> ', workOrderFields)
+
+    try {
+      const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/WorkOrders/?', workOrderFields, {
+        headers: {
+        'Content-Type': 'application/json',
+        }
+      });
+      console.log('createWorkOrders response : ', res)
+      if(res.data !== null){
+        //console.log('okay lockAvailabilityFields: ', res.data.Contact.objectID)
+        //setMainContact(res.data.Contact.objectID)
+      }
+    } catch (err) {
+      console.log('Error createWorkOrders >> ', err)
+    }
+    
+  }
+
+  const createNewJob = async () => {
+
+    let newJobFields = {
+                        securityToken: formData.securityToken,
+                        method: '3',
+                        clientID: '1',
+                        Fields: [
+                          {
+                            "fieldID": 978,
+                            "fieldValue": 'Online booking. No summary data'
+                          },
+                          {
+                            "fieldID": 982,
+                            "fieldValue": (formData.locationType === '16') ? 10278 : 10173
+                          } 
+                        ]
+                      }
+
+    newJobFields = JSON.stringify(newJobFields)
+
+    console.log(' createNewJob >> ', newJobFields)
+    try {
+      const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Jobs/?', newJobFields, {
+        headers: {
+        'Content-Type': 'application/json',
+        }
+      });
+      console.log('createNewJob response : ', res)
+      if(res.data !== null){
+
+        
+      }
+    } catch (err) {
+      console.log('Error createNewJob >> ', err)
+    }
+    
+  }
+
+  const lockAvailability = async ( objectID, requestType) => {
+
+    let lockAvailabilityFields = {
+                                securityToken: formData.securityToken,
+                                method: '2',
+                                dayID: (requestType === 'dropOff') ? state.dropOffObj.dayID : state.pickUpObj.dayID,
+                                routeID: (requestType === 'dropOff') ? state.dropOffObj.routeID : state.pickUpObj.routeID,
+                                locationID: objectID,
+                                serviceTypeID: formData.locationType,
+                                duration: 60,
+                                startTime: (requestType === 'dropOff') ? state.dropOffObj.startTime : state.pickUpObj.startTime
+                              }
+
+    lockAvailabilityFields = JSON.stringify(lockAvailabilityFields)
+
+    //console.log(requestType + ' lockAvailabilityFields >> ', lockAvailabilityFields)
+    try {
+      const res = await axios.post('https://kingtote.vonigo.com/api/v1/resources/availability/?', lockAvailabilityFields, {
+        headers: {
+        'Content-Type': 'application/json',
+        }
+      });
+      console.log(requestType + ' lockAvailabilityFields response : ', res)
+      if(res.data !== null){  
+
+        createNewJob()
+      }
+    } catch (err) {
+        console.log(requestType + ' Error lockAvailabilityFields>> ', err)
+    }
+    
+  }
+
+  const setBillingAddress = async (locationID) => {
+
+    console.log('setBillingAddress > ', locationID)
+
+    let setBillingAddressFields = {
+                                securityToken: formData.securityToken,
+                                method: '9',
+                                objectID: locationID,
+                                
+                              }
+
+    setBillingAddressFields = JSON.stringify(setBillingAddressFields)
+
+    try {
+      const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Locations/?', setBillingAddressFields, {
+        headers: {
+        'Content-Type': 'application/json',
+        }
+      });
+      console.log('setBillingAddress response : ', res)
+      if(res.data !== null){
+        //console.log('setBillingAddress okay: ', res.data)
+        //setMainContact(res.data.Contact.objectID)
+      }
+    } catch (err) {
+      console.log('Error setBillingAddress >> ', err)
+    }
+  }
+
+  const addLocation = async (values, objectID, requestType) => {
+
+    let addLocationFields = {
+                                securityToken: formData.securityToken,
+                                method: '3',
+                                clientID: objectID,
+                                Fields: [
+                                  {
+                                    "fieldID": 773,
+                                    "fieldValue": (requestType === 'dropOff') ? values.addressDropOffField : values.addressPickUpField
+                                  },
+                                  {
+                                    "fieldID": 776,
+                                    "fieldValue": (requestType === 'dropOff') ? values.cityDropOffField : values.cityPickUpField
+                                  },
+                                  {
+                                    "fieldID": 778,
+                                    "optionID": '9847'
+                                  },
+                                  {
+                                    "fieldID": 775,
+                                    "fieldValue": (requestType === 'dropOff') ? values.zipCodeDropOff : values.zipCodePickUp
+                                  },
+                                  {
+                                    "fieldID": 779,
+                                    "optionID": '9906'
+                                  },
+                                  {
+                                    "fieldID": 9713,
+                                    "fieldValue": (requestType === 'dropOff') ? values.textareaDropOff : values.textareaPickUp
+                                  }
+                                ]
+                              }
+    
+    addLocationFields = JSON.stringify(addLocationFields)
+
+    try {
+      const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Locations/?', addLocationFields, {
+        headers: {
+        'Content-Type': 'application/json',
+        }
+      });
+      console.log(requestType +' Locations response : ', res)
+        if(res.data !== null){
+
+          // set logic for Billing address
+          if(requestType === 'pickUp'){
+
+            setBillingAddress(res.data.Location.objectID)
+            lockAvailability(res.data.Location.objectID, requestType)
+            pickUpGlobalObj.locationID = res.data.Location.objectID
+
+            return
+
+          }else if(requestType === 'dropOff'){ 
+            lockAvailability(res.data.Location.objectID, requestType)
+            dropOffGlobalObj.locationID = res.data.Location.objectID
+          }
+          addLocation(values, objectID, 'pickUp')
+        }
+    } catch (err) {
+      console.log(requestType + ' Error Locations>> ', err)
+    }
+    
+  }
+
+  const setMainContact = async (mainContactID) => {
+
+    let setMainContactFields = {
+                                securityToken: formData.securityToken,
+                                method: '9',
+                                objectID: mainContactID,
+                                
+                              }
+
+    setMainContactFields = JSON.stringify(setMainContactFields)
+
+    try {
+      const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Contacts/?', setMainContactFields, {
+        headers: {
+        'Content-Type': 'application/json',
+        }
+      });
+      console.log('setMainContactFields response : ', res)
+      if(res.data.Contact !== null){
+
+        console.log('setMainContactFields okay: ', res.data.Contact.objectID)
+        //setMainContact(res.data.Contact.objectID)
+      }
+    } catch (err) {
+        console.log('Error WorkOrders >> ', err)
+    }
+    
+  }
+
+  const createContact = async (values, objectID) => {
+
+    let createContactFields = {
+                                securityToken: formData.securityToken,
+                                method: '3',
+                                clientID: objectID,
+                                Fields: [
+                                  {
+                                    "fieldID": 127,
+                                    "fieldValue": values.firstNameFiled
+                                  },
+                                  {
+                                    "fieldID": 128,
+                                    "fieldValue": values.lastNameField
+                                  },
+                                  {
+                                    "fieldID": 1088,
+                                    "fieldValue": values.telField
+                                  },
+                                  {
+                                    "fieldID": 97,
+                                    "fieldValue": values.emailField
+                                  }    
+                                ]
+                              }
+
+    createContactFields = JSON.stringify(createContactFields)
+    //console.log('createContactFields >> ', createContactFields)
+
+    try {
+      const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Contacts/?', createContactFields, {
+        headers: {
+        'Content-Type': 'application/json',
+        }
+      });
+
+      console.log('Contacts response: ', res)
+      if(res.data.Contact !== null){
+
+        console.log('res.data.Contact.objectID: ', res.data.Contact.objectID)
+        setMainContact(res.data.Contact.objectID)
+      }
+    } catch (err) {
+      console.log('Error Contacts>> ', err)
+    }
+
+  }
+
+  const createClient = async (values) => {
+
+    let createClientFields = {
+                                securityToken: formData.securityToken,
+                                method: '3',
+                                Fields: [
+                                  {
+                                    "fieldID": 121,
+                                    "optionID": (formData.locationType === '16') ? 59 : 60
+                                  },
+                                  {
+                                    "fieldID": 126,
+                                    "fieldValue": values.lastNameField + ' ' + values.firstNameFiled
+                                  },
+                                  {
+                                    "fieldID": 112,
+                                    "fieldValue": values.telField
+                                  },
+                                  {
+                                    "fieldID": 1091,
+                                    "fieldValue": values.emailField
+                                  }    
+                                ]
+                              }
+
+    createClientFields = JSON.stringify(createClientFields)
+
+    try {
+      const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Clients/?', createClientFields, {
+        headers: {
+        'Content-Type': 'application/json',
+        }
+      });
+      console.log('Clients Response: ', res)
+      if(res.data.Client !== null){
+        //setCLientId(res.Client.objectID)
+        console.log('create contact ', res.data.Client.objectID)
+        createContact(values, res.data.Client.objectID)
+        addLocation(values, res.data.Client.objectID, 'dropOff')
+      }
+    } catch (err) {
+        console.log('Error Clients  >> ', err)
+    }
+
+  }
+
   return (
     <>
       <Header title='Confirm User Data' step="Five"/>
@@ -98,6 +439,7 @@ export const Confirm = ({
         initialValues={formData}
         onSubmit={values => {
           setFormData(values);
+          createClient(values);
           direction === 'back' ? prevStep() : nextStep();
           // console.log('AddressFormStep submit >>>> ', values)
         }}
