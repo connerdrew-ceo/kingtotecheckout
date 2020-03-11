@@ -163,7 +163,7 @@ export const AddressFormStep = ({
 
       workOrderFields = JSON.stringify(workOrderFields)
 
-      console.log(' createWorkOrders >> ', workOrderFields)
+      // console.log(' createWorkOrders >> ', workOrderFields)
 
       try {
         const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/WorkOrders/?', workOrderFields, {
@@ -484,7 +484,7 @@ export const AddressFormStep = ({
         onSubmit={values => {
           setFormData(values);
           createClient(values);
-          // direction === 'back' ? prevStep() : nextStep();
+          direction === 'back' ? prevStep() : nextStep();
         }}
         validationSchema={ validationSchemaFourthStep }
         >
