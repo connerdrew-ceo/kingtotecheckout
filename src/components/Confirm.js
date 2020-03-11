@@ -377,12 +377,14 @@ export const Confirm = ({
           setMainContact(res.data.Contact.objectID)
         }
 
+        //if(contactType === 'dropOff')
+
         if(!values.sameAsMainContactDropOff){
-          createContact(values, objectID, 'dropOff')
+          //createContact(values, objectID, 'dropOff')
         }
     
         if(!values.sameAsMainContactPickUp){
-          createContact(values, objectID, 'pickUp')
+          //createContact(values, objectID, 'pickUp')
         }
       }
     } catch (err) {
