@@ -214,7 +214,7 @@ export const AddressFormStep = ({
                   <div className="ratioWrap checkboxInline">
                     <Field 
                       id="sameAddressAsDropOff"
-                      name='sameAsMainCoddressAsDropOff' 
+                      name='sameAddressAsDropOff' 
                       type="checkbox"
                       onClick={() => {
                         setOpenHideFieldsBillingAddress(!openHideFieldsBillingAddress)

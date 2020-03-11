@@ -103,7 +103,7 @@ export const Confirm = ({
   const createWorkOrders = async () => {
 
     let workOrderFields = {
-                        securityToken: tokenGenerated,
+                        securityToken: state.securityToken,
                         method: '3',
                         clientID: '1',
                         Fields: [
@@ -142,7 +142,7 @@ export const Confirm = ({
   const createNewJob = async () => {
 
     let newJobFields = {
-                        securityToken: tokenGenerated,
+                        securityToken: state.securityToken,
                         method: '3',
                         clientID: '1',
                         Fields: [
@@ -159,7 +159,7 @@ export const Confirm = ({
 
     newJobFields = JSON.stringify(newJobFields)
 
-    console.log(' createNewJob >> ', newJobFields)
+    //console.log(' createNewJob >> ', newJobFields)
     try {
       const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Jobs/?', newJobFields, {
         headers: {
@@ -180,7 +180,7 @@ export const Confirm = ({
   const lockAvailability = async ( objectID, requestType) => {
 
     let lockAvailabilityFields = {
-                                securityToken: tokenGenerated,
+                                securityToken: state.securityToken,
                                 method: '2',
                                 dayID: (requestType === 'dropOff') ? state.dropOffObj.dayID : state.pickUpObj.dayID,
                                 routeID: (requestType === 'dropOff') ? state.dropOffObj.routeID : state.pickUpObj.routeID,
@@ -215,7 +215,7 @@ export const Confirm = ({
     console.log('setBillingAddress > ', locationID)
 
     let setBillingAddressFields = {
-                                securityToken: tokenGenerated,
+                                securityToken: state.securityToken,
                                 method: '9',
                                 objectID: locationID,
                                 
@@ -242,36 +242,36 @@ export const Confirm = ({
   const addLocation = async (values, objectID, requestType) => {
 
     let addLocationFields = {
-                                securityToken: tokenGenerated,
-                                method: '3',
-                                clientID: objectID,
-                                Fields: [
-                                  {
-                                    "fieldID": 773,
-                                    "fieldValue": (requestType === 'dropOff') ? values.addressDropOffField : values.addressPickUpField
-                                  },
-                                  {
-                                    "fieldID": 776,
-                                    "fieldValue": (requestType === 'dropOff') ? values.cityDropOffField : values.cityPickUpField
-                                  },
-                                  {
-                                    "fieldID": 778,
-                                    "optionID": '9847'
-                                  },
-                                  {
-                                    "fieldID": 775,
-                                    "fieldValue": (requestType === 'dropOff') ? values.zipCodeDropOff : values.zipCodePickUp
-                                  },
-                                  {
-                                    "fieldID": 779,
-                                    "optionID": '9906'
-                                  },
-                                  {
-                                    "fieldID": 9713,
-                                    "fieldValue": (requestType === 'dropOff') ? values.textareaDropOff : values.textareaPickUp
-                                  }
-                                ]
-                              }
+                              securityToken: state.securityToken,
+                              method: '3',
+                              clientID: objectID,
+                              Fields: [
+                                {
+                                  "fieldID": 773,
+                                  "fieldValue": (requestType === 'dropOff') ? values.addressDropOffField : values.addressPickUpField
+                                },
+                                {
+                                  "fieldID": 776,
+                                  "fieldValue": (requestType === 'dropOff') ? values.cityDropOffField : values.cityPickUpField
+                                },
+                                {
+                                  "fieldID": 778,
+                                  "optionID": '9847'
+                                },
+                                {
+                                  "fieldID": 775,
+                                  "fieldValue": (requestType === 'dropOff') ? values.zipCodeDropOff : values.zipCodePickUp
+                                },
+                                {
+                                  "fieldID": 779,
+                                  "optionID": '9906'
+                                },
+                                {
+                                  "fieldID": 9713,
+                                  "fieldValue": (requestType === 'dropOff') ? values.textareaDropOff : values.textareaPickUp
+                                }
+                              ]
+                            }
     
     addLocationFields = JSON.stringify(addLocationFields)
 
@@ -308,7 +308,7 @@ export const Confirm = ({
   const setMainContact = async (mainContactID) => {
 
     let setMainContactFields = {
-                                securityToken: tokenGenerated,
+                                securityToken: state.securityToken,
                                 method: '9',
                                 objectID: mainContactID,
                                 
@@ -325,7 +325,7 @@ export const Confirm = ({
       console.log('setMainContactFields response : ', res)
       if(res.data.Contact !== null){
 
-        console.log('setMainContactFields okay: ', res.data.Contact.objectID)
+        //console.log('setMainContactFields okay: ', res.data.Contact.objectID)
         //setMainContact(res.data.Contact.objectID)
       }
     } catch (err) {
@@ -337,7 +337,7 @@ export const Confirm = ({
   const createContact = async (values, objectID) => {
 
     let createContactFields = {
-                                securityToken: tokenGenerated,
+                                securityToken: state.securityToken,
                                 method: '3',
                                 clientID: objectID,
                                 Fields: [
@@ -373,7 +373,7 @@ export const Confirm = ({
       console.log('Contacts response: ', res)
       if(res.data.Contact !== null){
 
-        console.log('res.data.Contact.objectID: ', res.data.Contact.objectID)
+        //console.log('res.data.Contact.objectID: ', res.data.Contact.objectID)
         setMainContact(res.data.Contact.objectID)
       }
     } catch (err) {
@@ -384,8 +384,11 @@ export const Confirm = ({
 
   const createClient = async (values) => {
 
+
+    console.log('GLobal obj >> ', values)
+
     let createClientFields = {
-                                securityToken: tokenGenerated,
+                                securityToken: state.securityToken,
                                 method: '3',
                                 Fields: [
                                   {
