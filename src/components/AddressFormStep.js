@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 import { Header } from './Header';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
-import axios from "axios";
-import { GlobalContext } from "../context/FormContext";
 
 const validationSchemaFourthStep = yup.object({
   firstNameField: yup
@@ -115,7 +113,6 @@ const validateEmail = value => {
     return error;
 };
 
-
 export const AddressFormStep = ({
     formData,
     setFormData,
@@ -123,17 +120,9 @@ export const AddressFormStep = ({
     prevStep
     }) => {
     const [direction, setDirection] = useState('back');
-    const [validationSchemaActive, setValidationSchemaActive] = useState(validationSchemaFourthStep);
-
     const [openHideFieldsBillingAddress, setOpenHideFieldsBillingAddress] = useState(formData.sameAddressAsDropOff);
-
     const [openHideFieldsDropOff, setOpenHideFieldsDropOff] = useState(formData.sameAsMainContactDropOff);
     const [openHideFieldsPickUp, setOpenHideFieldsPickUp] = useState(formData.sameAsMainContactPickUp);
-
-    const { state, dispatch } = useContext(GlobalContext);
-
-     
-
     
   return (
     <>
@@ -224,7 +213,6 @@ export const AddressFormStep = ({
                     <label htmlFor="sameAddressAsDropOff">Same as Drop-off Address</label>
                   </div>
                 </div>
-
                 {
                   (openHideFieldsBillingAddress) ? (
                     ''
@@ -274,9 +262,7 @@ export const AddressFormStep = ({
                     </>
                   )
                 }
-              
             </div>
-          
           </div>
 
             {/*   Drop-off Address   */}

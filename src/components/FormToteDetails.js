@@ -27,7 +27,6 @@ export const FormToteDetails = ({
     });
 
     (arrSwitch.length) ? setNextButtonDisabled(false) : setNextButtonDisabled(true)
-
   }
 
   const setToteBoxesInfo = ( values ) => {

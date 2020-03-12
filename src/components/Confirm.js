@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-//import PropTypes from 'prop-types';
 import { Header } from './Header';
 import { CalendarControlsWrap } from './bookingControls/CalendarControlsWrap'
 import { Formik, Form, Field } from 'formik';
@@ -55,19 +54,16 @@ let pickUpGlobalObj = {
 export const Confirm = ({ 
     formData, 
     setFormData,
-    prevStep, 
-    nextStep }) => {
+    prevStep }) => {
     const [direction, setDirection] = useState('back');
     const [cvc, setCVC] = useState('');
     const [expiry, setExpiry] = useState('');
     const [focus, setFocus] = useState('');
     const [nameCard, setNameCard] = useState('');
     const [numberCard, setNumberCard] = useState('');
+    const [listOrderDetails, setListOrderDetails] = useState('');
 
-    const [tokenGenerated, setTokenGenerated] = useState(null);
-    const { state, dispatch } = useContext(GlobalContext);
-    
-
+    const { state } = useContext(GlobalContext);
 
   const validateNameCardHolder = value => {
 
@@ -576,6 +572,15 @@ export const Confirm = ({
     }
   }
 
+
+  // toteBoxesContent
+
+  useEffect(() => {
+
+
+    
+  }, [])
+
   return (
     <>
       <Header title='Confirm User Data' step="Five"/>
@@ -675,14 +680,21 @@ export const Confirm = ({
             <div className="formControl"></div>
             <div className="formControl">
                 <h3>Order Details</h3>
+                {
+                  state.toteBoxesContent
+                    .filter(toteRow => toteRow.indexActive !== null)
+                    .map((toteRow, index) => {
+                      return <div key={index} className="rowDetailWrap">
+                                <p>{toteRow.title}</p>
+                                <span>${toteRow.prices[toteRow.indexActive].price}</span>
+                            </div>
+                    })
+                }
                 {/* <div className="rowDetailWrap">
                   <p>35 Totes {formData.schedulingSummary / 7}</p>
                   <span>$120</span>
                 </div> */}
-                {/* <div className="rowDetailWrap">
-                  <p>Additional Day x 4</p>
-                  <span>$120</span>
-                </div>
+                {/* 
                 <div className="rowDetailWrap disccountStyle">
                   <p>Additional Day x 4</p>
                   <span>$120</span>

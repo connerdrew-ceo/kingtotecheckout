@@ -150,8 +150,6 @@ export const EachBookingComponent = ({  formData,
                 })
         }
 
-        
-
         setOpenTimeLayerDrop(true)
         setDateDropOff(day.toLocaleDateString(undefined, dateOptions))
     };
@@ -170,27 +168,18 @@ export const EachBookingComponent = ({  formData,
         updateStateSchedulingTime({ kind: controlType, 
                                     stringTimeStart: timeSpacesAvailable[key].startTime, 
                                     stringTimeEnd: timeSpacesAvailable[key].startTime})
-
-
-        console.log('timeSpacesAvailable[key] >> ', timeSpacesAvailable[key])
-
-
+        
         if(controlType === 'start'){
             dispatch({
                 type: "SET_DROP_OFF",
                 payload: timeSpacesAvailable[key]
             })
-
         }else{
             dispatch({
                 type: "SET_PICK_UP",
                 payload: timeSpacesAvailable[key]
             })
-
         }
-
-        
-        
     };
 
     const resetControl = () => {
@@ -237,7 +226,7 @@ export const EachBookingComponent = ({  formData,
                                     { daysOfWeek: [0] }
                                 ]}
                             />
-                        ) : (
+                            ) : (
                             <DayPicker 
                                 className="endCalendar"
                                 onDayClick={handleDayClick}
@@ -259,7 +248,6 @@ export const EachBookingComponent = ({  formData,
                         <br/>
                         <p className="dateSelected" onClick={() => setOpenTimeLayerDrop(false)}><span>&#60;</span>  {dateDropOff}</p>
                         <div className="timeOptionsWrap">
-
                             {(() => {
                                 if (timeSpacesAvailable !== null && timeSpacesAvailable.length > 0) {
                                     return (
