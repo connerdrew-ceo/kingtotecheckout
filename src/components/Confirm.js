@@ -126,7 +126,7 @@ export const Confirm = ({
                           },
                           {
                             "fieldID": 201,
-                            "fieldValue": (requestType === 'dropOff') ? 245 : 246
+                            "optionID": (requestType === 'dropOff') ? 245 : 246
                           } 
                         ]
                       }
@@ -144,10 +144,7 @@ export const Confirm = ({
       
       if(res.data !== null){
         console.log('-- -- -- -- -- -- -- --')
-
         console.log(requestType, ' createWorkOrders response : ', res.data)
-        //console.log('okay lockAvailabilityFields: ', res.data.Contact.objectID)
-        //setMainContact(res.data.Contact.objectID)
       }
     } catch (err) {
       console.log(requestType,' Error createWorkOrders >> ', err)
@@ -168,7 +165,7 @@ export const Confirm = ({
                           },
                           {
                             "fieldID": 982,
-                            "fieldValue": (formData.locationType === '16') ? 10278 : 10173
+                            "optionID": (formData.locationType === '16') ? 10278 : 10173
                           } 
                         ]
                       }
