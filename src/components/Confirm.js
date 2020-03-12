@@ -39,7 +39,8 @@ let dropOffGlobalObj = {
   contactID: 0,
   locationID: 0,
   lockID: 0,
-  optionID: 245
+  optionID: 245,
+  workOrder: 0
 }
 
 let pickUpGlobalObj = {
@@ -47,7 +48,8 @@ let pickUpGlobalObj = {
   contactID: 0,
   locationID: 0,
   lockID: 0,
-  optionID: 246
+  optionID: 246,
+  workOrder: 0
 }
 
 export const Confirm = ({ 
@@ -145,6 +147,12 @@ export const Confirm = ({
       if(res.data !== null){
         console.log('-- -- -- -- -- -- -- --')
         console.log(requestType, ' createWorkOrders response : ', res.data)
+
+        if(requestType === 'dropOff'){
+          dropOffGlobalObj.workOrder = res.data.WorkOrder.objectID
+        }else{
+          pickUpGlobalObj.workOrder = res.data.WorkOrder.objectID
+        }
       }
     } catch (err) {
       console.log(requestType,' Error createWorkOrders >> ', err)
@@ -259,7 +267,7 @@ export const Confirm = ({
       });
       
       if(res.data !== null){
-        //console.log('setBillingAddress : ', res.data)
+        console.log('setBillingAddress : ', res.data)
         //console.log('setBillingAddress okay: ', res.data)
         //setMainContact(res.data.Contact.objectID)
       }
@@ -321,12 +329,9 @@ export const Confirm = ({
 
           if(requestType === 'pickUp'){
 
-            if(values.sameAddressAsDropOff){
-              setBillingAddress(res.data.Location.objectID)
-            }else{
+            if(!values.sameAddressAsDropOff){
               addLocation(values, objectID, 'billing')
             }
-
             
             lockAvailability(res.data.Location.objectID, requestType)
             pickUpGlobalObj.locationID = res.data.Location.objectID
@@ -337,6 +342,9 @@ export const Confirm = ({
 
             lockAvailability(res.data.Location.objectID, requestType)
             dropOffGlobalObj.locationID = res.data.Location.objectID
+            if(values.sameAddressAsDropOff){
+              setBillingAddress(res.data.Location.objectID)
+            }
           }
 
           addLocation(values, objectID, 'pickUp')
@@ -618,14 +626,14 @@ export const Confirm = ({
                   <p>35 Totes (1 Week)</p>
                   <span>$120</span>
                 </div>
-                <div className="rowDetailWrap">
+                {/* <div className="rowDetailWrap">
                   <p>Additional Day x 4</p>
                   <span>$120</span>
                 </div>
                 <div className="rowDetailWrap disccountStyle">
                   <p>Additional Day x 4</p>
                   <span>$120</span>
-                </div>
+                </div> */}
             </div>
 
             <div className="formControl">
