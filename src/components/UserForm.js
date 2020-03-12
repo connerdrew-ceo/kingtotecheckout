@@ -50,7 +50,7 @@ export const UserForm = () => {
     telFieldDifferentPickUp: 'PickUp-Telephone',
     emailFieldDifferentPickUp: 'PickUp-Email@main.co',
 
-    cardHolderNameFiled: 'Cardholder-FName',
+    cardHolderNameField: 'Cardholder-FName',
     cardNumberField: '232323232323',
     expirationDateField: '2323',
     cvcField: '123',

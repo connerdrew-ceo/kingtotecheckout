@@ -9,7 +9,7 @@ import axios from "axios";
 import { GlobalContext } from "../context/FormContext";
 
 const validationSchemaFourthStep = yup.object({
-  cardHolderNameFiled: yup
+  cardHolderNameField: yup
     .string()
     .required('Name is required'),
   cardNumberField: yup
@@ -292,7 +292,6 @@ export const Confirm = ({
                                 securityToken: state.securityToken,
                                 method: '9',
                                 objectID: locationID,
-                                
                               }
 
     setBillingAddressFields = JSON.stringify(setBillingAddressFields)
@@ -434,7 +433,7 @@ export const Confirm = ({
                                 Fields: [
                                   {
                                     "fieldID": 127,
-                                    "fieldValue": values.firstNameFiled
+                                    "fieldValue": values.firstNameField
                                   },
                                   {
                                     "fieldID": 128,
@@ -508,7 +507,7 @@ export const Confirm = ({
                                   },
                                   {
                                     "fieldID": 126,
-                                    "fieldValue": values.lastNameField + ' ' + values.firstNameFiled
+                                    "fieldValue": values.lastNameField + ' ' + values.firstNameField
                                   },
                                   {
                                     "fieldID": 112,
@@ -531,8 +530,7 @@ export const Confirm = ({
       });
       //console.log('Clients Response: ', res)
       if(res.data.Client !== null){
-        //setCLientId(res.Client.objectID)
-        //console.log('Client: ', res.data.Client.objectID)
+        console.log('Client: ', res.data.Client.objectID)
         createContact(values, res.data.Client.objectID, 'main')
         addLocation(values, res.data.Client.objectID, 'dropOff')
         dropOffGlobalObj.clientID = res.data.Client.objectID
@@ -542,25 +540,6 @@ export const Confirm = ({
         console.log('Error Clients  >> ', err)
     }
   }
-
-  // useEffect(() => {
-  //   const generateToken = async () => {
-  //     const tokenEndPoint = 'https://kingtote.vonigo.com/api/v1/security/login/?appVersion=1company=Vonigo&password=de1485461568b6ce64c6687e98a9e194&userName=API.user'
-
-  //     try {
-  //       const res = await axios.get(tokenEndPoint)
-  //       console.log(res.data);
-  //       setTokenGenerated(res.data.securityToken);
-  //       dispatch({
-  //         type: "SET_TOKEN",
-  //         payload: res.data.securityToken
-  //       })
-  //     } catch (err) {
-  //         console.error(err);
-  //     }
-  //   }
-  //   generateToken();
-  // }, []);
 
   return (
     <>
@@ -597,12 +576,12 @@ export const Confirm = ({
                 <label htmlFor="cardHolderNameInput">Cardholder Name</label>
                 <Field 
                   id="cardHolderNameInput"
-                  name='cardHolderNameFiled' 
+                  name='cardHolderNameField' 
                   placeholder="Jane Doe"
                   validate={validateNameCardHolder}
                   onFocus={trackFocus}
                   />
-                {errors.cardHolderNameFiled && touched.cardHolderNameFiled && <div className="errorMessage">{errors.cardHolderNameFiled}</div>}
+                {errors.cardHolderNameField && touched.cardHolderNameField && <div className="errorMessage">{errors.cardHolderNameField}</div>}
             </div>
             <div className="formControl"></div>
             <div className="formControl">
