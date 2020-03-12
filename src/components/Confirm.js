@@ -106,6 +106,44 @@ export const Confirm = ({
     setFocus(e.target.name)
   }
 
+  const createPayment = async () =>{
+
+    let workOrderFields = {
+      securityToken: state.securityToken,
+      method: '3',
+      clientID: dropOffGlobalObj.clientID,
+      jobID: 'jobID',
+      authNetClient: '',
+      authNetCard: '',
+      authNetCardLast4Digits: '',
+      authNetTransaction: '',
+      authNetTransactionLog: '',
+      Fields: [
+        {
+          "fieldID": 930,
+          "fieldValue": 500
+        },
+        {
+          "fieldID": 931,
+          "fieldValue": 500
+        },
+        {
+          "fieldID": 936,
+          "optionID": 10121
+        },
+        {
+          "fieldID": 929,
+          "optionID": 'check No:12345'
+        },
+        {
+          "fieldID": 928,
+          "optionID": 'Payment Notes'
+        } 
+      ]
+    }
+    
+  }
+
   const createWorkOrders = async ( jobID, requestType ) => {
 
     let workOrderFields = {
@@ -135,7 +173,7 @@ export const Confirm = ({
 
     workOrderFields = JSON.stringify(workOrderFields)
 
-    console.log(' CreateWorkOrders >> ', workOrderFields)
+    //console.log(' CreateWorkOrders >> ', workOrderFields)
 
     try {
       const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/WorkOrders/?', workOrderFields, {
@@ -146,7 +184,7 @@ export const Confirm = ({
       
       if(res.data !== null){
         console.log('-- -- -- -- -- -- -- --')
-        console.log(requestType, ' createWorkOrders response : ', res.data)
+        //console.log(requestType, ' createWorkOrders response : ', res.data)
 
         if(requestType === 'dropOff'){
           dropOffGlobalObj.workOrder = res.data.WorkOrder.objectID
@@ -178,7 +216,7 @@ export const Confirm = ({
                         ]
                       }
 
-    console.log(' newJobFields >>>>> ', newJobFields )
+    //console.log(' newJobFields >>>>> ', newJobFields )
 
     newJobFields = JSON.stringify(newJobFields)
 
@@ -188,7 +226,7 @@ export const Confirm = ({
         'Content-Type': 'application/json',
         }
       });
-      console.log(' $ $ $ createNewJob : ', res.data)
+      //console.log(' $ $ $ createNewJob : ', res.data)
       if(res.data !== null){
         createWorkOrders(res.data.Job.objectID, 'dropOff')
         createWorkOrders(res.data.Job.objectID, 'pickUp')
@@ -225,7 +263,7 @@ export const Confirm = ({
       
       if(res.data !== null){  
 
-        console.log(requestType + ' lockAvailabilityFields response : ', res.data)
+        //console.log(requestType + ' lockAvailabilityFields response : ', res.data)
 
         if(requestType === 'dropOff'){
 
@@ -320,7 +358,8 @@ export const Confirm = ({
       });
       
         if(res.data !== null){
-          //console.log(requestType +' Locations : ', res.data + "\n")
+          console.log("\n")
+          console.log(requestType +' Locations : ', res.data)
           
           if(requestType === 'billing'){
             setBillingAddress(res.data.Location.objectID)
@@ -342,6 +381,7 @@ export const Confirm = ({
 
             lockAvailability(res.data.Location.objectID, requestType)
             dropOffGlobalObj.locationID = res.data.Location.objectID
+
             if(values.sameAddressAsDropOff){
               setBillingAddress(res.data.Location.objectID)
             }
@@ -535,7 +575,6 @@ export const Confirm = ({
         onSubmit={values => {
           setFormData(values);
           createClient(values);
-          
           //direction === 'back' ? prevStep() : nextStep();
           // console.log('AddressFormStep submit >>>> ', values)
         }}
@@ -622,10 +661,10 @@ export const Confirm = ({
             <div className="formControl"></div>
             <div className="formControl">
                 <h3>Order Details</h3>
-                <div className="rowDetailWrap">
-                  <p>35 Totes (1 Week)</p>
+                {/* <div className="rowDetailWrap">
+                  <p>35 Totes {formData.schedulingSummary / 7}</p>
                   <span>$120</span>
-                </div>
+                </div> */}
                 {/* <div className="rowDetailWrap">
                   <p>Additional Day x 4</p>
                   <span>$120</span>
