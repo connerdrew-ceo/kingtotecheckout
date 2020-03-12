@@ -346,6 +346,41 @@ export const Confirm = ({
                                 }
                               ]
                             }
+
+      if(requestType === 'billing'){
+
+        addLocationFields = {
+                              securityToken: state.securityToken,
+                              method: '3',
+                              clientID: objectID,
+                              Fields: [
+                                {
+                                  "fieldID": 773,
+                                  "fieldValue": values.billingAddressField
+                                },
+                                {
+                                  "fieldID": 776,
+                                  "fieldValue": values.billingCityField
+                                },
+                                {
+                                  "fieldID": 778,
+                                  "optionID": '9847'
+                                },
+                                {
+                                  "fieldID": 775,
+                                  "fieldValue": values.billingAddressZipField
+                                },
+                                {
+                                  "fieldID": 779,
+                                  "optionID": '9906'
+                                },
+                                {
+                                  "fieldID": 9713,
+                                  "fieldValue": '-'
+                                }
+                              ]
+                            }
+    }
     
     addLocationFields = JSON.stringify(addLocationFields)
 
