@@ -104,7 +104,7 @@ export const Confirm = ({
 
   const createPayment = async () =>{
 
-    let worPaymentderFields = {
+    let newPaymentFields = {
       securityToken: state.securityToken,
       method: '3',
       clientID: dropOffGlobalObj.clientID,
@@ -138,7 +138,7 @@ export const Confirm = ({
       ]
     }
 
-    newJobFields = JSON.stringify(newPaymentFields)
+    newPaymentFields = JSON.stringify(newPaymentFields)
     console.log('createPayment: ', newPaymentFields)
 
     try {
