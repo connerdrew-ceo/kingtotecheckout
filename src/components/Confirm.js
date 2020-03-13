@@ -637,9 +637,6 @@ export const Confirm = ({
   // toteBoxesContent
 
   useEffect(() => {
-
-
-    
   }, [])
 
   return (
@@ -656,7 +653,6 @@ export const Confirm = ({
           setFormData(values);
           createClient(values);
           //direction === 'back' ? prevStep() : nextStep();
-          // console.log('AddressFormStep submit >>>> ', values)
         }}
         validationSchema={validationSchemaFourthStep}
         >
@@ -804,7 +800,7 @@ export const Confirm = ({
           </Form>
         )}
       </Formik>
-      {/* <pre>{JSON.stringify(formData, null, 2)}</pre> */}
+      
     
     </>
   );
