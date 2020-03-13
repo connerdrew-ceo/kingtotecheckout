@@ -477,63 +477,31 @@ export const Confirm = ({
     
   }
 
-  const getContactInfoByType = (values, objectID, contactType) => {
-    let createContactFields
-    let firstName
-    let lastName
-    let tel
-    let email
-    switch (contactType) {
-      case "main":
-        firstName = values.firstNameField
-        lastName = values.lastNameField
-        tel = values.telField
-        email = values.emailField
-        break;
-      case "dropOff":
-        firstName = values.firstNameFieldDifferentDrop
-        lastName = values.lastNameFieldDifferentDrop
-        tel = values.telFieldDifferentDrop
-        email = values.emailFieldDifferentDrop
-        break;
-      case "pickUp":
-        firstName = values.firstNameFieldDifferentPickUp
-        lastName = values.lastNameFieldDifferentPickUp
-        tel = values.telFieldDifferentPickUp
-        email = values.emailFieldDifferentPickUp
-        break;
-      default:
-        break;
-    }
-    createContactFields = {
-      securityToken: state.securityToken,
-      method: '3',
-      clientID: objectID,
-      Fields: [
-        {
-          "fieldID": 127,
-          "fieldValue": firstName
-        },
-        {
-          "fieldID": 128,
-          "fieldValue": lastName
-        },
-        {
-          "fieldID": 1088,
-          "fieldValue": tel
-        },
-        {
-          "fieldID": 97,
-          "fieldValue": email
-        }    
-      ]
-    }
-    return createContactFields;
-  }
-
   const createContact = async (values, objectID, contactType) => {
-    console.log(values);
-    let createContactFields = getContactInfoByType(values, objectID, contactType);
+
+    let createContactFields = {
+                                securityToken: state.securityToken,
+                                method: '3',
+                                clientID: objectID,
+                                Fields: [
+                                  {
+                                    "fieldID": 127,
+                                    "fieldValue": values.firstNameField
+                                  },
+                                  {
+                                    "fieldID": 128,
+                                    "fieldValue": values.lastNameField
+                                  },
+                                  {
+                                    "fieldID": 1088,
+                                    "fieldValue": values.telField
+                                  },
+                                  {
+                                    "fieldID": 97,
+                                    "fieldValue": values.emailField
+                                  }    
+                                ]
+                              }
 
     createContactFields = JSON.stringify(createContactFields)
     //console.log('createContactFields >> ', createContactFields)
@@ -552,12 +520,8 @@ export const Confirm = ({
 
         if(contactType === 'main'){
           setMainContact(res.data.Contact.objectID)
-          if(values.sameAsMainContactDropOff){
-            dropOffGlobalObj.contactID = res.data.Contact.objectID
-          }
-          if(values.sameAsMainContactPickUp){
-            pickUpGlobalObj.contactID = res.data.Contact.objectID
-          }
+          dropOffGlobalObj.contactID = res.data.Contact.objectID
+          pickUpGlobalObj.contactID = res.data.Contact.objectID
         }
 
         if(contactType === 'dropOff'){
@@ -568,7 +532,13 @@ export const Confirm = ({
           pickUpGlobalObj.contactID = res.data.Contact.objectID
         }
 
-        
+        if(!values.sameAsMainContactDropOff && dropOffGlobalObj.contactID === 0){
+          createContact(values, objectID, 'dropOff')
+        }
+
+        if(!values.sameAsMainContactPickUp && pickUpGlobalObj.contactID === 0){
+          createContact(values, objectID, 'pickUp')
+        }
       }
     } catch (err) {
       console.log(contactType,' Error Contacts>> ', err)
@@ -613,20 +583,11 @@ export const Confirm = ({
       });
       //console.log('Clients Response: ', res)
       if(res.data.Client !== null){
-        console.log("sdfsdfasdfasdfsadfsadfsadfsdfasfdsdf");
-        console.log(values.sameAsMainContactDropOff, dropOffGlobalObj.contactID)
         console.log('Client: ', res.data.Client.objectID)
-        await createContact(values, res.data.Client.objectID, 'main')
-        if(!values.sameAsMainContactDropOff && dropOffGlobalObj.contactID === 0){
-          await createContact(values, res.data.Client.objectID, 'dropOff')
-        }
-        if(!values.sameAsMainContactPickUp && pickUpGlobalObj.contactID === 0){
-          await createContact(values, res.data.Client.objectID, 'pickUp')
-        }
+        createContact(values, res.data.Client.objectID, 'main')
         addLocation(values, res.data.Client.objectID, 'dropOff')
         dropOffGlobalObj.clientID = res.data.Client.objectID
         pickUpGlobalObj.clientID = res.data.Client.objectID
-        
       }
     } catch (err) {
         console.log('Error Clients  >> ', err)
