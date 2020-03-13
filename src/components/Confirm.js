@@ -39,7 +39,8 @@ let dropOffGlobalObj = {
   locationID: 0,
   lockID: 0,
   optionID: 245,
-  workOrder: 0
+  workOrder: 0,
+  jobID: 0
 }
 
 let pickUpGlobalObj = {
@@ -48,7 +49,8 @@ let pickUpGlobalObj = {
   locationID: 0,
   lockID: 0,
   optionID: 246,
-  workOrder: 0
+  workOrder: 0,
+  jobID: 0
 }
 
 export const Confirm = ({ 
@@ -102,13 +104,13 @@ export const Confirm = ({
     setFocus(e.target.name)
   }
 
-  const createPayment = async () =>{
+  const createPayment = async ( jobID ) =>{
 
     let newPaymentFields = {
       securityToken: state.securityToken,
       method: '3',
       clientID: dropOffGlobalObj.clientID,
-      jobID: 'jobID',
+      jobID: jobID,
       authNetClient: '',
       authNetCard: '',
       authNetCardLast4Digits: '',
@@ -245,6 +247,7 @@ export const Confirm = ({
       if(res.data !== null){
         createWorkOrders(res.data.Job.objectID, 'dropOff')
         createWorkOrders(res.data.Job.objectID, 'pickUp')
+        createPayment(res.data.Job.objectID)
         
       }
     } catch (err) {
