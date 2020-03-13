@@ -104,7 +104,7 @@ export const Confirm = ({
 
   const createPayment = async () =>{
 
-    let workOrderFields = {
+    let worPaymentderFields = {
       securityToken: state.securityToken,
       method: '3',
       clientID: dropOffGlobalObj.clientID,
@@ -136,6 +136,25 @@ export const Confirm = ({
           "optionID": 'Payment Notes'
         } 
       ]
+    }
+
+    newJobFields = JSON.stringify(newPaymentFields)
+    console.log('createPayment: ', newPaymentFields)
+
+    try {
+      const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Payments/?', newPaymentFields, {
+        headers: {
+        'Content-Type': 'application/json',
+        }
+      });
+      console.log(' $ $ $ createNewJob : ', res.data)
+      if(res.data !== null){
+        //createWorkOrders(res.data.Job.objectID, 'dropOff')
+        //createWorkOrders(res.data.Job.objectID, 'pickUp')
+        
+      }
+    } catch (err) {
+      console.log('Error createPayment >> ', err)
     }
     
   }
