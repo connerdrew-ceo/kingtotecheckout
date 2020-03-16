@@ -81,6 +81,24 @@ export const EachBookingComponent = ({  formData,
         
     }
 
+    const convertTo12HoursFormat = ( time ) => {
+
+        if(time === null) return
+
+        time = time.split(':')
+        time = (time[0].length === 1) ? '0'+time[0]+':' + time[1] : time[0]+':' + time[1]
+
+        time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time]
+
+        if (time.length > 1) { 
+            time = time.slice (1)
+            time[5] = +time[0] < 12 ? 'am' : 'pm'
+            time[0] = +time[0] % 12 || 12
+        }
+
+        return time.join('')
+    }
+
     const timeConverter = (timeString, endTime) => {
         let num = timeString;
         let hours = (num / 60);
@@ -163,8 +181,8 @@ export const EachBookingComponent = ({  formData,
     const changeSelectedTime = (key) => {
 
         setSelectedTime(key)
-        setSelectedTimeStart( timeConverter(timeSpacesAvailable[key].startTime))
-        setSelectedTimeEnd( timeConverter(timeSpacesAvailable[key].startTime, 'endTime'))
+        setSelectedTimeStart( timeSpacesAvailable[key].startTime )
+        setSelectedTimeEnd( timeSpacesAvailable[key].startTime)
         updateStateSchedulingTime({ kind: controlType, 
                                     stringTimeStart: timeSpacesAvailable[key].startTime, 
                                     stringTimeEnd: timeSpacesAvailable[key].startTime})
@@ -209,7 +227,7 @@ export const EachBookingComponent = ({  formData,
                 <div className="dateAndTimeSelected">
                     <p className="dateSelected">{dateDropOff}
                         <br/>
-                        between {selectedTimeStart} - {selectedTimeEnd}
+                        between { convertTo12HoursFormat( timeConverter(selectedTimeEnd)) } - { convertTo12HoursFormat( timeConverter(selectedTimeEnd, 'endTime')) }
                     </p>
                     <span className="iconEditTime" onClick={() => resetControl() }>
                     </span>
