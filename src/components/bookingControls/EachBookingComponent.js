@@ -20,7 +20,7 @@ export const EachBookingComponent = ({  formData,
                                         endingTime, 
                                         enabled }) => {
 
-    const { state, dispatch } = useContext(GlobalContext);
+    const { state, dispatch } = useContext( GlobalContext );
 
     const [selectedTime, setSelectedTime] = useState(null);
     const [selectedTimeStart, setSelectedTimeStart] = useState(startingTime);

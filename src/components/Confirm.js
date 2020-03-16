@@ -626,6 +626,10 @@ export const Confirm = ({
     });
   }, []);
 
+  const formatPrice = (price) => {
+    return (price % 1 !== 0) ? price+'0' : price
+  }
+
   return (
     <>
       <Header title='Confirm User Data' step="Five"/>
@@ -717,9 +721,10 @@ export const Confirm = ({
                   state.toteBoxesContent
                     .filter(toteRow => toteRow.indexActive !== null)
                     .map((toteRow, index) => {
+
                       return <div key={index} className="rowDetailWrap">
                                 <p>{toteRow.title}</p>
-                                <span>${toteRow.prices[toteRow.indexActive].price}</span>
+                                <span>${ formatPrice(toteRow.prices[toteRow.indexActive].price) }</span>
                             </div>
                     })
                 }

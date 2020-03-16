@@ -9,7 +9,7 @@ export const EachBox = ({listClasses, trackKey, dataBox, changeSelectedBox}) => 
         <>
             <div className={listClasses} onClick={() => clickBoxHandler()}>
                 <p>{dataBox.week} Week rental</p>
-                <span className="price">${dataBox.price}</span>
+                <span className="price">${ (dataBox.price % 1 !== 0) ? dataBox.price+'0' : dataBox.price  }</span>
             </div>
         </>
     );
