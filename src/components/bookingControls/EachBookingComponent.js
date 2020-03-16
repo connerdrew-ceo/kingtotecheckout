@@ -5,8 +5,8 @@ import { TimeOption } from "./TimeOption";
 import { GlobalContext } from "../../context/FormContext";
 
 let dateAvailable = new Date();
-let dateSuggested = new Date();
-let dayStartRange = '';
+let dateSuggested = '';
+// let dayStartRange = '';
 let formatedDay = '';
 const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const dateOptionsNumeric = { year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -29,6 +29,11 @@ export const EachBookingComponent = ({  formData,
     const [openTimeLayerDrop, setOpenTimeLayerDrop] = useState(false);
     const [showResumeInfo, setShowResumeInfo] = useState(false);
 
+    const [getYear, setGetYear] = useState(2020);
+    const [getMonth, setGetMonth] = useState(3);
+
+     
+
     const [timeSpacesAvailable, setTimeSpacesAvailable] = useState(null);
     
     const addWeeks = (dt, n) => {
@@ -36,7 +41,7 @@ export const EachBookingComponent = ({  formData,
             //return new Date(dt.setDate(dt.getDate() + (n * 7) + 1 ));
             return new Date(dt.setDate(dt.getDate() + (n * 7) ));
         }
-        dayStartRange = new Date(dt.setDate(dt.getDate()));
+        //dayStartRange = new Date(dt.setDate(dt.getDate()));
         return new Date(dt.setDate(dt.getDate() + 1));
     }
 
@@ -79,6 +84,9 @@ export const EachBookingComponent = ({  formData,
                                                 :   new Date()
 
         dateSuggested = addWeeks(new Date(formData.dateDropOff), getNumberOfWeeks() )
+
+        //setGetYear(dateSuggested.getYear())
+        //setGetMonth(dateSuggested.getYear()+', '+dateSuggested.getMonth())
         
     }
 
@@ -130,6 +138,9 @@ export const EachBookingComponent = ({  formData,
         setTimeSpacesAvailable(null)
         
         if(controlType === 'start'){
+
+            setGetYear( day.getYear() )
+            setGetMonth( day.getMonth() )
 
             availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
                                     state.securityToken + '&method=0&pageNo=1&pageSize=100&duration=60&dateStart=' +
@@ -249,6 +260,7 @@ export const EachBookingComponent = ({  formData,
                             <DayPicker 
                                 className="endCalendar"
                                 onDayClick={handleDayClick}
+                                initialMonth={new Date( getYear, getMonth)}
                                 // selectedDays={{
                                 //     after: dayStartRange,
                                 //     before: dateSuggested
