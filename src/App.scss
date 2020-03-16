@@ -226,25 +226,25 @@ button{
   }
 }
 
-.endCalendar{
-  .DayPicker-Day{
-    background-color: rgba($purple, .3) !important;
-    &.DayPicker-Day--outside{
-      background-color: rgba($purple, 0) !important;
-    }
-    &.DayPicker-Day--today{
-      background-color: rgba($purple, 0) !important;
-    }
-    &.DayPicker-Day--selected{
-      background-color: rgba($purple, .1) !important;
-      color: $purple;
-    }
-    &.DayPicker-Day--disabled{
-      background-color: rgba($purple, 0) !important;
-      color: rgba($greyText, .5) !important;
-    }
-  }  
-}
+// .endCalendar{
+//   .DayPicker-Day{
+//     background-color: rgba($purple, .3) !important;
+//     &.DayPicker-Day--outside{
+//       background-color: rgba($purple, 0) !important;
+//     }
+//     &.DayPicker-Day--today{
+//       background-color: rgba($purple, 0) !important;
+//     }
+//     &.DayPicker-Day--selected{
+//       background-color: rgba($purple, .1) !important;
+//       color: $purple;
+//     }
+//     &.DayPicker-Day--disabled{
+//       background-color: rgba($purple, 0) !important;
+//       color: rgba($greyText, .5) !important;
+//     }
+//   }  
+// }
 
 
 .DayPicker-NavButton--prev{

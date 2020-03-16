@@ -33,7 +33,8 @@ export const EachBookingComponent = ({  formData,
     
     const addWeeks = (dt, n) => {
         if(n){
-            return new Date(dt.setDate(dt.getDate() + (n * 7) + 1 ));
+            //return new Date(dt.setDate(dt.getDate() + (n * 7) + 1 ));
+            return new Date(dt.setDate(dt.getDate() + (n * 7) ));
         }
         dayStartRange = new Date(dt.setDate(dt.getDate()));
         return new Date(dt.setDate(dt.getDate() + 1));
@@ -248,10 +249,11 @@ export const EachBookingComponent = ({  formData,
                             <DayPicker 
                                 className="endCalendar"
                                 onDayClick={handleDayClick}
-                                selectedDays={{
-                                    after: dayStartRange,
-                                    before: dateSuggested
-                                }}
+                                // selectedDays={{
+                                //     after: dayStartRange,
+                                //     before: dateSuggested
+                                // }}
+                                selectedDays={new Date(dateSuggested)}
                                 disabledDays={[
                                     {
                                         before: dateAvailable,
