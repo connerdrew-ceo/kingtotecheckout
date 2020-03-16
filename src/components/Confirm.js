@@ -19,20 +19,6 @@ const validationSchemaFourthStep = yup.object({
     .required('Expiration date is required'),
 });
 
-const validateZipCode = value => {
-
-  let stringValue = value + ''
-  let error;
-    if (!value) {
-      error = 'Zip code required';
-    } else if (stringValue.length > 5) {
-      error = 'postal code is 5 digits';
-    } else if (stringValue.length < 5) {
-      error = 'postal code is 5 digits';
-    }
-    return error;
-};
-
 let dropOffGlobalObj = {
   clientID: 0,
   contactID: 0,
@@ -548,7 +534,7 @@ export const Confirm = ({
       
       if(res.data.Contact !== null){
 
-        //console.log(contactType,' + + + + + + Contacts: ', res.data + "\n")
+        //console.log(contactType,' + + + + + + Contacts: ', res.data )
 
         if(contactType === 'main'){
           setMainContact(res.data.Contact.objectID)
@@ -633,11 +619,12 @@ export const Confirm = ({
     }
   }
 
-
-  // toteBoxesContent
-
   useEffect(() => {
-  }, [])
+    window.scrollTo({
+        behavior: "smooth",
+        top: 0
+    });
+  }, []);
 
   return (
     <>
@@ -723,18 +710,7 @@ export const Confirm = ({
             
             <div className="formControl">
             </div>
-            <div className="formControl">
-              <label htmlFor="billingZipCode">Billing Zip Code</label>
-              <Field 
-                name='billingZipCode' 
-                placeholder="zip code"
-                type="number"
-                validate={validateZipCode}
-                />
-                {errors.billingZipCode && touched.billingZipCode && <div className="errorMessage">{errors.billingZipCode}</div>}
-            </div>
-
-            <div className="formControl"></div>
+            
             <div className="formControl">
                 <h3>Order Details</h3>
                 {

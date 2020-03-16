@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form } from 'formik';
 import { Header } from './Header';
@@ -26,6 +26,12 @@ export const Scheduling = ({
             }
         }
     }
+    useEffect(() => {
+        window.scrollTo({
+            behavior: "smooth",
+            top: 0
+        });
+    }, []);
 
     return (
         <>

@@ -209,7 +209,7 @@ export const EachBookingComponent = ({  formData,
                 <div className="dateAndTimeSelected">
                     <p className="dateSelected">{dateDropOff}
                         <br/>
-                        bwtween {selectedTimeStart} - {selectedTimeEnd}
+                        between {selectedTimeStart} - {selectedTimeEnd}
                     </p>
                     <span className="iconEditTime" onClick={() => resetControl() }>
                     </span>

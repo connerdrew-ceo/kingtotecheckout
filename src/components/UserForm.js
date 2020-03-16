@@ -155,6 +155,8 @@ export const UserForm = () => {
     }
   }, [tokenGenerated]);
 
+  
+
 
   switch (step) {
     case 1:
