@@ -731,7 +731,6 @@ export const Confirm = ({
             
             <div className="formControl">
                 <h3>Order Details </h3>
-                <span>Window size: {width} x {height}</span>
                 {
                   state.toteBoxesContent
                     .filter(toteRow => toteRow.indexActive !== null)
