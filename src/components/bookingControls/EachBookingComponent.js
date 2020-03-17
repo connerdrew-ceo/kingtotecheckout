@@ -264,7 +264,6 @@ export const EachBookingComponent = ({  formData,
                                 className="endCalendar"
                                 onDayClick={handleDayClick}
                                 month={new Date( theYear, theMonth)}
-                                //initialMonth={new Date( getYear, getMonth)}
                                 // selectedDays={{
                                 //     after: dayStartRange,
                                 //     before: dateSuggested
@@ -293,8 +292,8 @@ export const EachBookingComponent = ({  formData,
                                                             listClasses={selectedTime === index ? 'timeOption openSelectedDetail' : 'timeOption'}
                                                             key={index} 
                                                             trackKey={index}
-                                                            startAt={timeRow.startTime} 
-                                                            endAt={timeRow.startTime / 60} 
+                                                            startAt={ convertTo12HoursFormat( timeConverter(timeRow.startTime)) } 
+                                                            endAt={ convertTo12HoursFormat( timeConverter(timeRow.startTime, 'endTime')) } 
                                                             changeSelectedTime={changeSelectedTime}
                                                             closeCalendar={closeCalendar}
                                                         />
