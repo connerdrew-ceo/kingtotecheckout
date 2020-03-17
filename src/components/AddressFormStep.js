@@ -99,7 +99,7 @@ const validateTelephone = value => {
 
   let error;
     if (!value) {
-      error = 'Telephone name is required';
+      error = 'Telephone is required';
     } 
     return error;
 };
