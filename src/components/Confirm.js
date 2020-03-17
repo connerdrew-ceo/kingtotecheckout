@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useLayoutEffect } from 'react';
 import { Header } from './Header';
 import { CalendarControlsWrap } from './bookingControls/CalendarControlsWrap'
 import { Formik, Form, Field } from 'formik';
@@ -39,6 +39,19 @@ let pickUpGlobalObj = {
   jobID: 0
 }
 
+const useWindowSize = () => {
+  const [size, setSize] = useState([0, 0]);
+  useLayoutEffect(() => {
+    function updateSize() {
+      setSize([window.innerWidth, window.innerHeight]);
+    }
+    window.addEventListener('resize', updateSize);
+    updateSize();
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+  return size;
+}
+
 export const Confirm = ({ 
     formData, 
     setFormData,
@@ -49,7 +62,8 @@ export const Confirm = ({
     const [focus, setFocus] = useState('');
     const [nameCard, setNameCard] = useState('');
     const [numberCard, setNumberCard] = useState('');
-    const [listOrderDetails, setListOrderDetails] = useState('');
+    //const [listOrderDetails, setListOrderDetails] = useState('');
+    const [width, height] = useWindowSize();
 
     const { state } = useContext(GlobalContext);
 
@@ -716,7 +730,8 @@ export const Confirm = ({
             </div>
             
             <div className="formControl">
-                <h3>Order Details</h3>
+                <h3>Order Details </h3>
+                <span>Window size: {width} x {height}</span>
                 {
                   state.toteBoxesContent
                     .filter(toteRow => toteRow.indexActive !== null)
@@ -751,7 +766,6 @@ export const Confirm = ({
                     placeholder="Enter Code"
                     type="string"
                     />
-                    
               </div>
               <div className="wrapBillingInline">
                 <label className="transparent">Apply</label>
@@ -760,10 +774,8 @@ export const Confirm = ({
                 </button>
               </div>
             </div>
-
             <div className="formControl">
             </div>
-
             <CalendarControlsWrap
               formData={formData}
               setFormData={setFormData}
@@ -775,7 +787,7 @@ export const Confirm = ({
                 <span>Previous</span>
               </button>
               <button type="submit" className="submitOrder" onClick={() => setDirection('next')}>
-                <span>Submit Order</span>
+                <span>{ (width > 768) ? 'Submit Order' : 'Submit' } </span>
               </button>
             </div>
           </Form>
