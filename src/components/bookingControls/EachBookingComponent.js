@@ -6,6 +6,8 @@ import { GlobalContext } from "../../context/FormContext";
 
 let dateAvailable = new Date();
 let dateSuggested = '';
+let theYear = new Date().getFullYear();
+let theMonth = new Date().getMonth();
 // let dayStartRange = '';
 let formatedDay = '';
 const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -136,11 +138,12 @@ export const EachBookingComponent = ({  formData,
         formatedDay = formatedDay[2] + formatedDay[0] + formatedDay[1]
 
         setTimeSpacesAvailable(null)
+        theYear = day.getFullYear()
+        theMonth = day.getMonth()
         
         if(controlType === 'start'){
 
-            setGetYear( day.getYear() )
-            setGetMonth( day.getMonth() )
+            
 
             availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
                                     state.securityToken + '&method=0&pageNo=1&pageSize=100&duration=60&dateStart=' +
@@ -234,7 +237,7 @@ export const EachBookingComponent = ({  formData,
     }, [currentDate])
 
     return (
-        <>
+        <>  
             <div className={openDetailedBooking}>
                 <div className="dateAndTimeSelected">
                     <p className="dateSelected">{dateDropOff}
@@ -260,7 +263,8 @@ export const EachBookingComponent = ({  formData,
                             <DayPicker 
                                 className="endCalendar"
                                 onDayClick={handleDayClick}
-                                initialMonth={new Date( getYear, getMonth)}
+                                month={new Date( theYear, theMonth)}
+                                //initialMonth={new Date( getYear, getMonth)}
                                 // selectedDays={{
                                 //     after: dayStartRange,
                                 //     before: dateSuggested

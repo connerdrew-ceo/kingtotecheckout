@@ -191,7 +191,7 @@ button{
       font-weight: 600;
       background-color: rgba($purple, .10);
       &.DayPicker-Day--outside{
-        background-color: rgba($purple, 0);
+        background-color: rgba($purple, 0) !important;
       }
       &.DayPicker-Day--today{
         position: relative;
