@@ -16,9 +16,6 @@ export const UserForm = () => {
     pickUp: '',
     locationType: '16',
 
-    // dropOff: '84020',
-    // pickUp: '84020',
-    
     firstNameField: '',
     lastNameField: '',
     telField: '',
@@ -151,10 +148,10 @@ export const UserForm = () => {
                 setLoad(true)
             })
 
-        setFormData({
-          ...formData,
-          'securityToken': tokenGenerated
-        });
+        // setFormData({
+        //   ...formData,
+        //   'securityToken': tokenGenerated
+        // });
 
     }else{
       if(!load && error !== null){

@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Header } from './Header';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import axios from "axios";
+import { GlobalContext } from "../context/FormContext";
 
-let flagOnce = true
+
+let serviceTypeAndZip = null
+
 export const FormUserDetails = ({ formData, 
                                   setFormData, 
                                   nextStep, 
@@ -14,6 +17,8 @@ export const FormUserDetails = ({ formData,
                                   setServiceTypes }) => {
 
   let serviceAreaValue = ''
+
+  const { state, dispatch } = useContext(GlobalContext);
   
   const validationSchemaFirstStep = yup.object({
     locationType: yup
@@ -48,25 +53,32 @@ export const FormUserDetails = ({ formData,
 
   const toteBoxesRequest = ( zipValue, locationId ) => {
 
-    if(serviceTypes !== null) return
+    //if(serviceTypes !== null) return
+    if(serviceTypeAndZip === locationId+ '' +zipValue ) return
 
-    let priceListsEndPoint = 'https://kingtote.vonigo.com/api/v1/data/priceLists/?securityToken='+ 
-                          formData.securityToken +
+    dispatch({
+      type: "UPDATE_TOTE_BOXES",
+      payload: null
+    })
+
+    let priceListsEndPoint = 'https://kingtote.vonigo.com/api/v1/data/priceLists/?securityToken='+ state.securityToken +
                           '&method=2&zipCode=' + zipValue + '&serviceTypeID='+ locationId +
                           '&pageNo=1&pageSize=500'
 
-    if(formData.securityToken && flagOnce){
+    //if(formData.securityToken && flagOnce){
       axios.get(priceListsEndPoint)
             .then(res => {
               if(res.data !== null){
+                //console.log('res.data >> ', res.data)
                 setServiceTypes(res.data.PriceItems)
-                flagOnce = false
+
+                serviceTypeAndZip = locationId+ '' +zipValue
               }
             })
             .catch(err => {
               console.log('Error >> ', err)
             })
-    }
+    //}
   };
 
   const validateZipCode = value => {
@@ -82,14 +94,13 @@ export const FormUserDetails = ({ formData,
       } else if (stringValue.length === 5) {
         zipResult = zipCodeFilter(value)
         if(zipResult.length > 0 && zipResult[0].franchiseID === serviceAreaValue){
-          //console.log('Ok perfect')
+          //console.log('perfect')
         } else {
           error = 'this code is out of the service area'
         }
       }
       return error;
   };
-
 
   return (
     <>
@@ -103,8 +114,8 @@ export const FormUserDetails = ({ formData,
       <Formik
         initialValues={formData}
         onSubmit={values => {
-          setFormData(values);
           toteBoxesRequest( values.dropOff, values.locationType );
+          setFormData(values);
           nextStep();
         }}
         validationSchema={validationSchemaFirstStep}

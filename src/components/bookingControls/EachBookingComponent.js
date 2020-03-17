@@ -25,14 +25,14 @@ export const EachBookingComponent = ({  formData,
     const { state, dispatch } = useContext( GlobalContext );
 
     const [selectedTime, setSelectedTime] = useState(null);
-    const [selectedTimeStart, setSelectedTimeStart] = useState(startingTime);
+    //const [selectedTimeStart, setSelectedTimeStart] = useState(startingTime);
     const [selectedTimeEnd, setSelectedTimeEnd] = useState(endingTime);
     const [dateDropOff, setDateDropOff] = useState('');
     const [openTimeLayerDrop, setOpenTimeLayerDrop] = useState(false);
     const [showResumeInfo, setShowResumeInfo] = useState(false);
 
-    const [getYear, setGetYear] = useState(2020);
-    const [getMonth, setGetMonth] = useState(3);
+    //const [getYear, setGetYear] = useState(2020);
+    //const [getMonth, setGetMonth] = useState(3);
 
      
 
@@ -196,7 +196,7 @@ export const EachBookingComponent = ({  formData,
     const changeSelectedTime = (key) => {
 
         setSelectedTime(key)
-        setSelectedTimeStart( timeSpacesAvailable[key].startTime )
+        //setSelectedTimeStart( timeSpacesAvailable[key].startTime )
         setSelectedTimeEnd( timeSpacesAvailable[key].startTime)
         updateStateSchedulingTime({ kind: controlType, 
                                     stringTimeStart: timeSpacesAvailable[key].startTime, 

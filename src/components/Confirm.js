@@ -55,7 +55,8 @@ const useWindowSize = () => {
 export const Confirm = ({ 
     formData, 
     setFormData,
-    prevStep }) => {
+    prevStep,
+    nextStep }) => {
     const [direction, setDirection] = useState('back');
     const [cvc, setCVC] = useState('');
     const [expiry, setExpiry] = useState('');
@@ -63,7 +64,7 @@ export const Confirm = ({
     const [nameCard, setNameCard] = useState('');
     const [numberCard, setNumberCard] = useState('');
     //const [listOrderDetails, setListOrderDetails] = useState('');
-    const [width, height] = useWindowSize();
+    const [width] = useWindowSize();
 
     const { state } = useContext(GlobalContext);
 
@@ -98,7 +99,7 @@ export const Confirm = ({
   };
 
   const trackFocus = (e) => {
-    const { name, value } = e.target;
+    //const { name, value } = e.target;
     //console.log('trackFocus name: ', name)
     //console.log('trackFocus value: ', value)
     setFocus(e.target.name)
@@ -657,7 +658,7 @@ export const Confirm = ({
         onSubmit={values => {
           setFormData(values);
           createClient(values);
-          //direction === 'back' ? prevStep() : nextStep();
+          direction === 'back' ? prevStep() : nextStep();
         }}
         validationSchema={validationSchemaFourthStep}
         >

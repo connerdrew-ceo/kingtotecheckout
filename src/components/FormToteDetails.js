@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import { Header } from './Header';
 import { ToteBoxesRow } from './toteBoxes/ToteBoxesRow'
 import { GlobalContext } from "../context/FormContext";
@@ -21,8 +21,11 @@ export const FormToteDetails = ({
   buttonClasses = (nextButtonDisabled) ? 'disabled' : ''
 
   const switchButtons = () => {
+
+    if(state.toteBoxesContent === null) return
     let arrSwitch = []
-    toteBoxesData.forEach((eachElem) => {
+    //console.log('arrSwitch > ', arrSwitch)
+    state.toteBoxesContent.forEach((eachElem) => {
       if(eachElem.indexActive !== null) arrSwitch.push(eachElem)
     });
 
@@ -94,6 +97,8 @@ export const FormToteDetails = ({
   useEffect(() => {
 
     if(serviceTypes){
+
+      bufferObj = []
 
       let serviceTypesRowLocal = serviceTypes.filter((serviceTypesRow) => {
           return serviceTypesRow.priceBlockSequence === 1 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
