@@ -65,7 +65,6 @@ export const Confirm = ({
     const [focus, setFocus] = useState('');
     const [nameCard, setNameCard] = useState('');
     const [numberCard, setNumberCard] = useState('');
-    //const [listOrderDetails, setListOrderDetails] = useState('');
     const [width] = useWindowSize();
 
     const { state } = useContext(GlobalContext);
@@ -121,9 +120,9 @@ export const Confirm = ({
               "amount": "5",
               "payment": {
                   "creditCard": {
-                      "cardNumber": "5424000000000015",
-                      "expirationDate": "2020-12",
-                      "cardCode": "999"
+                      "cardNumber": numberCard,
+                      "expirationDate": expiry,
+                      "cardCode": cvc
                   }
               },
               "lineItems": {
@@ -188,7 +187,7 @@ export const Confirm = ({
         });
         console.log(' $ createAuthorize : ', res)
         if(res.data !== null){
-          createPayment(res.data.Job.objectID)
+          createPayment(jobID)
           
         }
       } catch (err) {
