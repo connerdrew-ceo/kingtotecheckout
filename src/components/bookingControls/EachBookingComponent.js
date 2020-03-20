@@ -8,7 +8,6 @@ let dateAvailable = new Date();
 let dateSuggested = '';
 let theYear = new Date().getFullYear();
 let theMonth = new Date().getMonth();
-// let dayStartRange = '';
 let formatedDay = '';
 const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const dateOptionsNumeric = { year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -23,27 +22,17 @@ export const EachBookingComponent = ({  formData,
                                         enabled }) => {
 
     const { state, dispatch } = useContext( GlobalContext );
-
     const [selectedTime, setSelectedTime] = useState(null);
-    //const [selectedTimeStart, setSelectedTimeStart] = useState(startingTime);
     const [selectedTimeEnd, setSelectedTimeEnd] = useState(endingTime);
     const [dateDropOff, setDateDropOff] = useState('');
     const [openTimeLayerDrop, setOpenTimeLayerDrop] = useState(false);
     const [showResumeInfo, setShowResumeInfo] = useState(false);
-
-    //const [getYear, setGetYear] = useState(2020);
-    //const [getMonth, setGetMonth] = useState(3);
-
-     
-
     const [timeSpacesAvailable, setTimeSpacesAvailable] = useState(null);
     
     const addWeeks = (dt, n) => {
         if(n){
-            //return new Date(dt.setDate(dt.getDate() + (n * 7) + 1 ));
             return new Date(dt.setDate(dt.getDate() + (n * 7) ));
         }
-        //dayStartRange = new Date(dt.setDate(dt.getDate()));
         return new Date(dt.setDate(dt.getDate() + 1));
     }
 
@@ -86,10 +75,6 @@ export const EachBookingComponent = ({  formData,
                                                 :   new Date()
 
         dateSuggested = addWeeks(new Date(formData.dateDropOff), getNumberOfWeeks() )
-
-        //setGetYear(dateSuggested.getYear())
-        //setGetMonth(dateSuggested.getYear()+', '+dateSuggested.getMonth())
-        
     }
 
     const convertTo12HoursFormat = ( time ) => {
@@ -196,7 +181,6 @@ export const EachBookingComponent = ({  formData,
     const changeSelectedTime = (key) => {
 
         setSelectedTime(key)
-        //setSelectedTimeStart( timeSpacesAvailable[key].startTime )
         setSelectedTimeEnd( timeSpacesAvailable[key].startTime)
         updateStateSchedulingTime({ kind: controlType, 
                                     stringTimeStart: timeSpacesAvailable[key].startTime, 
@@ -264,10 +248,6 @@ export const EachBookingComponent = ({  formData,
                                 className="endCalendar"
                                 onDayClick={handleDayClick}
                                 month={new Date( theYear, theMonth)}
-                                // selectedDays={{
-                                //     after: dayStartRange,
-                                //     before: dateSuggested
-                                // }}
                                 selectedDays={new Date(dateSuggested)}
                                 disabledDays={[
                                     {

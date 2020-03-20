@@ -53,7 +53,6 @@ export const FormUserDetails = ({ formData,
 
   const toteBoxesRequest = ( zipValue, locationId ) => {
 
-    //if(serviceTypes !== null) return
     if(serviceTypeAndZip === locationId+ '' +zipValue ) return
 
     dispatch({
@@ -65,7 +64,6 @@ export const FormUserDetails = ({ formData,
                           '&method=2&zipCode=' + zipValue + '&serviceTypeID='+ locationId +
                           '&pageNo=1&pageSize=500'
 
-    //if(formData.securityToken && flagOnce){
       axios.get(priceListsEndPoint)
             .then(res => {
               if(res.data !== null){
@@ -78,7 +76,6 @@ export const FormUserDetails = ({ formData,
             .catch(err => {
               console.log('Error >> ', err)
             })
-    //}
   };
 
   const validateZipCode = value => {

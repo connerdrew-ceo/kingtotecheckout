@@ -7,6 +7,8 @@ import Cards from 'react-credit-cards';
 import axios from "axios";
 import { GlobalContext } from "../context/FormContext";
 
+const API = 'https://kingtote.vonigo.com/'
+
 const validationSchemaFourthStep = yup.object({
   cardHolderNameField: yup
     .string()
@@ -105,7 +107,97 @@ export const Confirm = ({
     setFocus(e.target.name)
   }
 
-  const createPayment = async ( jobID ) =>{
+  const createAuthorize = async (jobID) => {
+
+    let authorizeFilds = {
+      "createTransactionRequest": {
+          "merchantAuthentication": {
+              "name": "87wD7pPE5",//Use the above
+              "transactionKey": "7gGd7CA4866Z9zFQ", //use the above.
+          },
+          "refId": jobID,//”REF{jobID}
+          "transactionRequest": {
+              "transactionType": "authCaptureTransaction",
+              "amount": "5",
+              "payment": {
+                  "creditCard": {
+                      "cardNumber": "5424000000000015",
+                      "expirationDate": "2020-12",
+                      "cardCode": "999"
+                  }
+              },
+              "lineItems": {
+                  "lineItem": {
+                      "itemId": "1",
+                      "name": "vase",
+                      "description": "Cannes logo",
+                      "quantity": "18",
+                      "unitPrice": "45.00"
+                  }
+              },
+              "tax": {
+                  "amount": "4.26",
+                  "name": "level2 tax name",
+                  "description": "level2 tax"
+              },
+              "duty": {
+                  "amount": "8.55",
+                  "name": "duty name",
+                  "description": "duty description"
+              },
+              "shipping": {
+                  "amount": "4.26",
+                  "name": "level2 tax name",
+                  "description": "level2 tax"
+              },
+              "poNumber": "456654",
+              "customer": {
+                  "id": "99999456654"
+              },
+              "billTo": {
+                  "firstName": "Ellen",
+                  "lastName": "Johnson",
+                  "company": "Souveniropolis",
+                  "address": "14 Main Street",
+                  "city": "Pecan Springs",
+                  "state": "TX",
+                  "zip": "44628",
+                  "country": "USA"
+              },
+              "shipTo": {
+                  "firstName": "China",
+                  "lastName": "Bayles",
+                  "company": "Thyme for Tea",
+                  "address": "12 Main Street",
+                  "city": "Pecan Springs",
+                  "state": "TX",
+                  "zip": "44628",
+                  "country": "USA"
+              }
+          }
+        }
+      }
+
+      authorizeFilds = JSON.stringify(authorizeFilds)
+
+      try {
+        const res = await axios.post('https://api.authorize.net/xml/v1/request.api?', authorizeFilds, {
+          headers: {
+          'Content-Type': 'application/json',
+          }
+        });
+        console.log(' $ createAuthorize : ', res)
+        if(res.data !== null){
+          createPayment(res.data.Job.objectID)
+          
+        }
+      } catch (err) {
+        console.log('Error createAuthorize >> ', err)
+      }
+  
+  }
+
+  const createPayment = async ( jobID ) => {
 
     let newPaymentFields = {
       securityToken: state.securityToken,
@@ -139,26 +231,26 @@ export const Confirm = ({
           "optionID": 'Payment Notes'
         } 
       ]
-    }
-
-    newPaymentFields = JSON.stringify(newPaymentFields)
-    console.log('createPayment: ', newPaymentFields)
-
-    try {
-      const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Payments/?', newPaymentFields, {
-        headers: {
-        'Content-Type': 'application/json',
-        }
-      });
-      console.log(' $ $ $ createNewJob : ', res.data)
-      if(res.data !== null){
-        //createWorkOrders(res.data.Job.objectID, 'dropOff')
-        //createWorkOrders(res.data.Job.objectID, 'pickUp')
-        
       }
-    } catch (err) {
-      console.log('Error createPayment >> ', err)
-    }
+
+      newPaymentFields = JSON.stringify(newPaymentFields)
+      console.log('createPayment: ', newPaymentFields)
+
+      try {
+        const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Payments/?', newPaymentFields, {
+          headers: {
+          'Content-Type': 'application/json',
+          }
+        });
+        console.log(' $ $ $ createNewJob : ', res.data)
+        if(res.data !== null){
+          //createWorkOrders(res.data.Job.objectID, 'dropOff')
+          //createWorkOrders(res.data.Job.objectID, 'pickUp')
+          
+        }
+      } catch (err) {
+        console.log('Error createPayment >> ', err)
+      }
     
   }
 
@@ -248,7 +340,8 @@ export const Confirm = ({
       if(res.data !== null){
         createWorkOrders(res.data.Job.objectID, 'dropOff')
         createWorkOrders(res.data.Job.objectID, 'pickUp')
-        createPayment(res.data.Job.objectID)
+        createAuthorize(res.data.Job.objectID)
+        //createPayment(res.data.Job.objectID)
         
       }
     } catch (err) {
@@ -579,8 +672,6 @@ export const Confirm = ({
 
   const createClient = async (values) => {
 
-    console.log('GLobal obj >>>>> ', values)
-
     let createClientFields = {
                                 securityToken: state.securityToken,
                                 method: '3',
@@ -607,16 +698,12 @@ export const Confirm = ({
     createClientFields = JSON.stringify(createClientFields)
 
     try {
-      const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Clients/?', createClientFields, {
+      const res = await axios.post(API + 'api/v1/data/Clients/?', createClientFields, {
         headers: {
         'Content-Type': 'application/json',
         }
       });
-      //console.log('Clients Response: ', res)
       if(res.data.Client !== null){
-        console.log("sdfsdfasdfasdfsadfsadfsadfsdfasfdsdf");
-        console.log(values.sameAsMainContactDropOff, dropOffGlobalObj.contactID)
-        console.log('Client: ', res.data.Client.objectID)
         await createContact(values, res.data.Client.objectID, 'main')
         if(!values.sameAsMainContactDropOff && dropOffGlobalObj.contactID === 0){
           await createContact(values, res.data.Client.objectID, 'dropOff')
@@ -781,7 +868,6 @@ export const Confirm = ({
               setFormData={setFormData}
               origin="Confirm"
             />
-
             <div className="formControl submitControl fullLenght">
               <button className="whiteBtn" type="submit" onClick={() => prevStep()}>
                 <span>Previous</span>
@@ -793,8 +879,6 @@ export const Confirm = ({
           </Form>
         )}
       </Formik>
-      
-    
     </>
   );
 };
