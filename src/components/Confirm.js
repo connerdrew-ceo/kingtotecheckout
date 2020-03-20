@@ -107,9 +107,48 @@ export const Confirm = ({
     setFocus(e.target.name)
   }
 
+  const getProfileUsingID = async (customerProfileId, jobID, authNetTransaction) => {
+
+    let authNetClient, authNetCard, authNetTransactionLog = 0
+    let authorizeFilds9dot3 = {
+        "getCustomerProfileRequest": {
+            "merchantAuthentication": {
+                "name": "87wD7pPE5",
+                "transactionKey": "7gGd7CA4866Z9zFQ"
+            },
+            "customerProfileId": customerProfileId,
+            "includeIssuerInfo": "true"
+        }
+      }
+
+      authorizeFilds9dot3 = JSON.stringify(authorizeFilds9dot3)
+
+      try {                           
+        const res = await axios.post('https://apitest.authorize.net/xml/v1/request.api?', authorizeFilds9dot3, {
+          headers: {
+          'Content-Type': 'application/json',
+          }
+        });
+        console.log(' $ getProfileUsingID : ', res.data)
+        if(res.data !== null){
+          authNetClient = res.data.customerProfileId
+          authNetCard = res.data.customerPaymentProfileIdList[0]
+          authNetTransactionLog = res.data.validationDirectResponseList[0]
+          
+          createPayment(jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog)
+          
+        }
+      } catch (err) {
+        console.log('Error getProfileUsingID >> ', err)
+      }
+  
+
+  }
+
   const getValuesToCompletePayment = async (jobID, authNetTransaction) => {
 
     let authNetClient, authNetCard, authNetTransactionLog = 0
+    let customerProfileId = 0
 
     let authorizeFilds9dot2 = {
       "createCustomerProfileRequest": {
@@ -133,9 +172,9 @@ export const Confirm = ({
           },
           "validationMode": "testMode"
       }
-  }
+    }
 
-  authorizeFilds9dot2 = JSON.stringify(authorizeFilds9dot2)
+    authorizeFilds9dot2 = JSON.stringify(authorizeFilds9dot2)
 
     try {                           
       const res = await axios.post('https://apitest.authorize.net/xml/v1/request.api?', authorizeFilds9dot2, {
@@ -145,11 +184,26 @@ export const Confirm = ({
       });
       console.log(' $ getValuesToCompletePayment : ', res.data)
       if(res.data !== null){
-        authNetClient = res.data.customerProfileId
-        authNetCard = res.data.customerPaymentProfileIdList[0]
-        authNetTransactionLog = res.data.validationDirectResponseList[0]
+
+        if(res.data.messages.resultCode === 'Error'){
+
+          customerProfileId = res.data.messages.message[0].text
+          customerProfileId = customerProfileId.split(' ')[5]
+          getProfileUsingID(customerProfileId, jobID, authNetTransaction)
+
+          console.log('customerProfileId >> ', customerProfileId)
+
+        }
         
-        createPayment(jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog)
+        if(res.data.messages.resultCode === 'Ok'){
+          authNetClient = res.data.customerProfileId
+          authNetCard = res.data.customerPaymentProfileIdList[0]
+          authNetTransactionLog = res.data.validationDirectResponseList[0]
+          
+          createPayment(jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog)
+
+        }
+        
         
       }
     } catch (err) {
@@ -285,7 +339,7 @@ export const Confirm = ({
       }
 
       newPaymentFields = JSON.stringify(newPaymentFields)
-      console.log('createPayment: ', newPaymentFields)
+      //console.log('createPayment: ', newPaymentFields)
 
       try {
         const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Payments/?', newPaymentFields, {
