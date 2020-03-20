@@ -8,6 +8,7 @@ import axios from "axios";
 import { GlobalContext } from "../context/FormContext";
 
 const API = 'https://kingtote.vonigo.com/'
+let globalFormValues = ''
 
 const validationSchemaFourthStep = yup.object({
   cardHolderNameField: yup
@@ -106,6 +107,57 @@ export const Confirm = ({
     setFocus(e.target.name)
   }
 
+  const getValuesToCompletePayment = async (jobID, authNetTransaction) => {
+
+    let authNetClient, authNetCard, authNetTransactionLog = 0
+
+    let authorizeFilds9dot2 = {
+      "createCustomerProfileRequest": {
+          "merchantAuthentication": {
+              "name": "87wD7pPE5",
+              "transactionKey": "7gGd7CA4866Z9zFQ"
+          },
+          "profile": {
+              "merchantCustomerId": "Merchant_Customer_ID",//ignore this
+              "description": "Profile description here",//additional note
+              "email": globalFormValues.emailField,
+              "paymentProfiles": {
+                  "customerType": "individual",
+                  "payment": {
+                      "creditCard": {
+                          "cardNumber": numberCard,
+                          "expirationDate": expiry
+                      }
+                  }
+              }
+          },
+          "validationMode": "testMode"
+      }
+  }
+
+  authorizeFilds9dot2 = JSON.stringify(authorizeFilds9dot2)
+
+    try {                           
+      const res = await axios.post('https://apitest.authorize.net/xml/v1/request.api?', authorizeFilds9dot2, {
+        headers: {
+        'Content-Type': 'application/json',
+        }
+      });
+      console.log(' $ getValuesToCompletePayment : ', res.data)
+      if(res.data !== null){
+        authNetClient = res.data.customerProfileId
+        authNetCard = res.data.customerPaymentProfileIdList[0]
+        authNetTransactionLog = res.data.validationDirectResponseList[0]
+        
+        createPayment(jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog)
+        
+      }
+    } catch (err) {
+      console.log('Error getValuesToCompletePayment >> ', err)
+    }
+
+  }
+
   const createAuthorize = async (jobID) => {
 
     let authorizeFilds = {
@@ -179,16 +231,15 @@ export const Confirm = ({
 
       authorizeFilds = JSON.stringify(authorizeFilds)
 
-      try {
-        const res = await axios.post('https://api.authorize.net/xml/v1/request.api?', authorizeFilds, {
+      try {                           
+        const res = await axios.post('https://apitest.authorize.net/xml/v1/request.api?', authorizeFilds, {
           headers: {
           'Content-Type': 'application/json',
           }
         });
-        console.log(' $ createAuthorize : ', res)
+        console.log(' $ createAuthorize : ', res.data)
         if(res.data !== null){
-          createPayment(jobID)
-          
+          getValuesToCompletePayment(jobID, res.data.transactionResponse.transId )
         }
       } catch (err) {
         console.log('Error createAuthorize >> ', err)
@@ -196,18 +247,19 @@ export const Confirm = ({
   
   }
 
-  const createPayment = async ( jobID ) => {
+  const createPayment = async ( jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog ) => {
 
+    
     let newPaymentFields = {
       securityToken: state.securityToken,
       method: '3',
       clientID: dropOffGlobalObj.clientID,
       jobID: jobID,
-      authNetClient: '',
-      authNetCard: '',
-      authNetCardLast4Digits: '',
-      authNetTransaction: '',
-      authNetTransactionLog: '',
+      authNetClient: authNetClient,
+      authNetCard: authNetCard,
+      authNetCardLast4Digits: numberCard.substring(11,15),
+      authNetTransaction: authNetTransaction,
+      authNetTransactionLog: authNetTransactionLog,
       Fields: [
         {
           "fieldID": 930,
@@ -241,8 +293,11 @@ export const Confirm = ({
           'Content-Type': 'application/json',
           }
         });
-        console.log(' $ $ $ createNewJob : ', res.data)
+        console.log(' $ $ $ createPayment : ', res.data)
         if(res.data !== null){
+
+          direction === 'back' ? prevStep() : nextStep();
+          alert('Congratulations!')
           //createWorkOrders(res.data.Job.objectID, 'dropOff')
           //createWorkOrders(res.data.Job.objectID, 'pickUp')
           
@@ -694,6 +749,9 @@ export const Confirm = ({
                                 ]
                               }
 
+
+    globalFormValues = values
+
     createClientFields = JSON.stringify(createClientFields)
 
     try {
@@ -744,7 +802,7 @@ export const Confirm = ({
         onSubmit={values => {
           setFormData(values);
           createClient(values);
-          direction === 'back' ? prevStep() : nextStep();
+          
         }}
         validationSchema={validationSchemaFourthStep}
         >
