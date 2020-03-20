@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import Cards from 'react-credit-cards';
 import axios from "axios";
 import { GlobalContext } from "../context/FormContext";
+import { merchantName, merchantKey } from './constant';
 
 const API = 'https://kingtote.vonigo.com/'
 let globalFormValues = ''
@@ -113,8 +114,8 @@ export const Confirm = ({
     let authorizeFilds9dot3 = {
         "getCustomerProfileRequest": {
             "merchantAuthentication": {
-                "name": "87wD7pPE5",
-                "transactionKey": "7gGd7CA4866Z9zFQ"
+                "name": merchantName,
+                "transactionKey": merchantKey
             },
             "customerProfileId": customerProfileId,
             "includeIssuerInfo": "true"
@@ -131,11 +132,16 @@ export const Confirm = ({
         });
         console.log(' $ getProfileUsingID : ', res.data)
         if(res.data !== null){
-          authNetClient = res.data.customerProfileId
-          authNetCard = res.data.customerPaymentProfileIdList[0]
-          authNetTransactionLog = res.data.validationDirectResponseList[0]
-          
-          createPayment(jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog)
+
+          if(res.data.messages.resultCode === 'Ok'){
+
+            authNetClient = customerProfileId
+            //authNetCard = res.data.profile.paymentProfiles[0]
+            //authNetTransactionLog = res.data.profile.paymentProfiles[0]
+
+            createPayment(jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog)
+
+          }
           
         }
       } catch (err) {
@@ -153,22 +159,22 @@ export const Confirm = ({
     let authorizeFilds9dot2 = {
       "createCustomerProfileRequest": {
           "merchantAuthentication": {
-              "name": "87wD7pPE5",
-              "transactionKey": "7gGd7CA4866Z9zFQ"
+            "name": merchantName,
+            "transactionKey": merchantKey
           },
           "profile": {
-              "merchantCustomerId": "Merchant_Customer_ID",//ignore this
-              "description": "Profile description here",//additional note
-              "email": globalFormValues.emailField,
-              "paymentProfiles": {
-                  "customerType": "individual",
-                  "payment": {
-                      "creditCard": {
-                          "cardNumber": numberCard,
-                          "expirationDate": expiry
-                      }
-                  }
-              }
+            "merchantCustomerId": "Merchant_Customer_ID",//ignore this
+            "description": "Profile description here",//additional note
+            "email": globalFormValues.emailField,
+            "paymentProfiles": {
+                "customerType": "individual",
+                "payment": {
+                    "creditCard": {
+                        "cardNumber": numberCard,
+                        "expirationDate": expiry
+                    }
+                }
+            }
           },
           "validationMode": "testMode"
       }
@@ -192,7 +198,6 @@ export const Confirm = ({
           getProfileUsingID(customerProfileId, jobID, authNetTransaction)
 
           console.log('customerProfileId >> ', customerProfileId)
-
         }
         
         if(res.data.messages.resultCode === 'Ok'){
@@ -201,9 +206,7 @@ export const Confirm = ({
           authNetTransactionLog = res.data.validationDirectResponseList[0]
           
           createPayment(jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog)
-
         }
-        
         
       }
     } catch (err) {
@@ -217,10 +220,10 @@ export const Confirm = ({
     let authorizeFilds = {
       "createTransactionRequest": {
           "merchantAuthentication": {
-              "name": "87wD7pPE5",
-              "transactionKey": "7gGd7CA4866Z9zFQ",
+            "name": merchantName,
+            "transactionKey": merchantKey
           },
-          "refId": jobID,//”REF{jobID}
+          "refId": jobID,
           "transactionRequest": {
               "transactionType": "authCaptureTransaction",
               "amount": "5",
@@ -850,13 +853,11 @@ export const Confirm = ({
         <h2>Order Confirmation</h2>
         <p>Please fill out your contact information as Delivery and Pick-Up addresses</p>
       </div>
-      
       <Formik
         initialValues={formData}
         onSubmit={values => {
           setFormData(values);
           createClient(values);
-          
         }}
         validationSchema={validationSchemaFourthStep}
         >
