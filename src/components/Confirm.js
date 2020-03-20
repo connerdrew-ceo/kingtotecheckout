@@ -112,8 +112,8 @@ export const Confirm = ({
     let authorizeFilds = {
       "createTransactionRequest": {
           "merchantAuthentication": {
-              "name": "87wD7pPE5",//Use the above
-              "transactionKey": "7gGd7CA4866Z9zFQ", //use the above.
+              "name": "87wD7pPE5",
+              "transactionKey": "7gGd7CA4866Z9zFQ",
           },
           "refId": jobID,//”REF{jobID}
           "transactionRequest": {
