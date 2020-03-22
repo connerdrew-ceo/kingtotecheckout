@@ -195,7 +195,7 @@ export const Confirm = ({
           customerProfileId = customerProfileId.split(' ')[5]
           getProfileUsingID(customerProfileId, jobID, authNetTransaction)
 
-          console.log('customerProfileId >> ', customerProfileId)
+          //console.log('customerProfileId >> ', customerProfileId)
         }
         
         if(res.data.messages.resultCode === 'Ok'){
@@ -308,7 +308,7 @@ export const Confirm = ({
           'Content-Type': 'application/json',
           }
         });
-        console.log(' $ createAuthorize : ', res.data)
+        //console.log(' $ createAuthorize : ', res.data)
         if(res.data !== null){
           getValuesToCompletePayment(jobID, res.data.transactionResponse.transId )
         }
