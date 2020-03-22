@@ -346,7 +346,7 @@ export const Confirm = ({
         },
         {
           "fieldID": 928,
-          "optionID": 'Online booking. No summary data'
+          "fieldValue": 'Online booking. No summary data'
         } 
       ]
       }
