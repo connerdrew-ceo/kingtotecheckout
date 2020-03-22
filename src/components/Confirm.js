@@ -222,7 +222,7 @@ export const Confirm = ({
       let selectedTotes = state.toteBoxesContent.filter(toteRow => toteRow.indexActive !== null)
       for (var i = 0, len = selectedTotes.length; i < len; i++) {
         var toteRow = selectedTotes[i];
-        totalPrice = toteRow.prices[toteRow.indexActive].price
+        totalPrice += toteRow.prices[toteRow.indexActive].price
       }
       return totalPrice;                    
     }
@@ -352,7 +352,6 @@ export const Confirm = ({
       }
 
       newPaymentFields = JSON.stringify(newPaymentFields)
-      //console.log('createPayment: ', newPaymentFields)
 
       try {
         const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Payments/?', newPaymentFields, {
@@ -404,8 +403,6 @@ export const Confirm = ({
 
     workOrderFields = JSON.stringify(workOrderFields)
 
-    //console.log(' CreateWorkOrders >> ', workOrderFields)
-
     try {
       const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/WorkOrders/?', workOrderFields, {
         headers: {
@@ -414,9 +411,7 @@ export const Confirm = ({
       });
       
       if(res.data !== null){
-        console.log('-- -- -- -- -- -- -- --')
-        //console.log(requestType, ' createWorkOrders response : ', res.data)
-
+        
         if(requestType === 'dropOff'){
           dropOffGlobalObj.workOrder = res.data.WorkOrder.objectID
         }else{
@@ -447,8 +442,6 @@ export const Confirm = ({
                         ]
                       }
 
-    //console.log(' newJobFields >>>>> ', newJobFields )
-
     newJobFields = JSON.stringify(newJobFields)
 
     try {
@@ -457,18 +450,15 @@ export const Confirm = ({
         'Content-Type': 'application/json',
         }
       });
-      //console.log(' $ $ $ createNewJob : ', res.data)
       if(res.data !== null){
         createWorkOrders(res.data.Job.objectID, 'dropOff')
         createWorkOrders(res.data.Job.objectID, 'pickUp')
         createAuthorize(res.data.Job.objectID)
-        //createPayment(res.data.Job.objectID)
         
       }
     } catch (err) {
       console.log('Error createNewJob >> ', err)
     }
-    
   }
 
   const lockAvailability = async ( objectID, requestType) => {
@@ -486,7 +476,6 @@ export const Confirm = ({
 
     lockAvailabilityFields = JSON.stringify(lockAvailabilityFields)
 
-    //console.log(requestType + ' lockAvailabilityFields >> ', lockAvailabilityFields)
     try {
       const res = await axios.post('https://kingtote.vonigo.com/api/v1/resources/availability/?', lockAvailabilityFields, {
         headers: {
@@ -494,21 +483,15 @@ export const Confirm = ({
         }
       });
       
-      if(res.data !== null){  
-
-        //console.log(requestType + ' lockAvailabilityFields response : ', res.data)
-
+      if(res.data !== null){
+        
         if(requestType === 'dropOff'){
-
           dropOffGlobalObj.lockID = res.data.Ids.lockID
-          //console.log('dropOffGlobalObj > ', dropOffGlobalObj)
           createNewJob()
         }
 
         if(requestType === 'pickUp'){
-
           pickUpGlobalObj.lockID = res.data.Ids.lockID
-          //console.log('pickUpGlobalObj > ', pickUpGlobalObj)
         }
       }
     } catch (err) {
@@ -518,8 +501,6 @@ export const Confirm = ({
   }
 
   const setBillingAddress = async (locationID) => {
-
-    //console.log('setBillingAddress > ', locationID)
 
     let setBillingAddressFields = {
                                 securityToken: state.securityToken,
@@ -942,16 +923,22 @@ export const Confirm = ({
             <div className="formControl">
                 <h3>Order Details </h3>
                 {
-                  state.toteBoxesContent?state.toteBoxesContent
+                  state.toteBoxesContent ? state.toteBoxesContent
                     .filter(toteRow => toteRow.indexActive !== null)
                     .map((toteRow, index) => {
-
                       return <div key={index} className="rowDetailWrap">
                                 <p>{toteRow.title}</p>
                                 <span>${ formatPrice(toteRow.prices[toteRow.indexActive].price) }</span>
                             </div>
-                    }):''
+                    }) : ''
                 }
+                <div className="rowDetailWrap">
+                  <p>Total = </p>
+                  <span>${getTotalPrice()}</span>
+                </div>
+
+                
+
                 {/* <div className="rowDetailWrap">
                   <p>35 Totes {formData.schedulingSummary / 7}</p>
                   <span>$120</span>
