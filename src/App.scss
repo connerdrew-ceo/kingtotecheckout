@@ -8,6 +8,13 @@ $bgInput: #F4F5F7;
   box-sizing: border-box;
 }
 
+body{
+  &.busy-cursor {
+    cursor: progress;
+  }
+}
+
+
 .App {
   text-align: center;
 }

@@ -362,7 +362,8 @@ export const Confirm = ({
         if(res.data !== null){
 
           direction === 'back' ? prevStep() : nextStep();
-          alert('Congratulations!')
+          //alert('Congratulations!')
+          document.body.classList.remove('busy-cursor');
           //createWorkOrders(res.data.Job.objectID, 'dropOff')
           //createWorkOrders(res.data.Job.objectID, 'pickUp')
           
@@ -848,6 +849,7 @@ export const Confirm = ({
         onSubmit={values => {
           setFormData(values);
           createClient(values);
+          document.body.classList.add('busy-cursor');
         }}
         validationSchema={validationSchemaFourthStep}
         >
