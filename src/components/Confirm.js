@@ -224,7 +224,7 @@ export const Confirm = ({
         var toteRow = selectedTotes[i];
         totalPrice += toteRow.prices[toteRow.indexActive].price
       }
-      return totalPrice;                    
+      return formatPrice(totalPrice);                    
     }
   }
 
@@ -319,7 +319,6 @@ export const Confirm = ({
   }
 
   const createPayment = async ( jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog, amount ) => {
-
     
     let newPaymentFields = {
       securityToken: state.securityToken,
