@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import Cards from 'react-credit-cards';
 import axios from "axios";
 import { GlobalContext } from "../context/FormContext";
-import { merchantName, merchantKey } from './constant';
+import { merchantName, merchantKey, authNetURL } from './constant';
 
 const API = 'https://kingtote.vonigo.com/'
 let globalFormValues = ''
@@ -125,7 +125,7 @@ export const Confirm = ({
       authorizeFilds9dot3 = JSON.stringify(authorizeFilds9dot3)
 
       try {                           
-        const res = await axios.post('https://apitest.authorize.net/xml/v1/request.api?', authorizeFilds9dot3, {
+        const res = await axios.post(authNetURL, authorizeFilds9dot3, {
           headers: {
           'Content-Type': 'application/json',
           }
@@ -139,7 +139,7 @@ export const Confirm = ({
             //authNetCard = res.data.profile.paymentProfiles[0]
             //authNetTransactionLog = res.data.profile.paymentProfiles[0]
 
-            createPayment(jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog)
+            createPayment(jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog, getTotalPrice())
 
           }
           
@@ -163,8 +163,6 @@ export const Confirm = ({
             "transactionKey": merchantKey
           },
           "profile": {
-            "merchantCustomerId": "Merchant_Customer_ID",//ignore this
-            "description": "Profile description here",//additional note
             "email": globalFormValues.emailField,
             "paymentProfiles": {
                 "customerType": "individual",
@@ -183,7 +181,7 @@ export const Confirm = ({
     authorizeFilds9dot2 = JSON.stringify(authorizeFilds9dot2)
 
     try {                           
-      const res = await axios.post('https://apitest.authorize.net/xml/v1/request.api?', authorizeFilds9dot2, {
+      const res = await axios.post(authNetURL, authorizeFilds9dot2, {
         headers: {
         'Content-Type': 'application/json',
         }
@@ -205,7 +203,7 @@ export const Confirm = ({
           authNetCard = res.data.customerPaymentProfileIdList[0]
           authNetTransactionLog = res.data.validationDirectResponseList[0]
           
-          createPayment(jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog)
+          createPayment(jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog, getTotalPrice())
         }
         
       }
@@ -215,8 +213,70 @@ export const Confirm = ({
 
   }
 
-  const createAuthorize = async (jobID) => {
+  const getTotalPrice = () => {
+    if(!state.toteBoxesContent){
+      return 0
+    }
+    else{
+      var totalPrice = 0;
+      let selectedTotes = state.toteBoxesContent.filter(toteRow => toteRow.indexActive !== null)
+      for (var i = 0, len = selectedTotes.length; i < len; i++) {
+        var toteRow = selectedTotes[i];
+        totalPrice = toteRow.prices[toteRow.indexActive].price
+      }
+      return totalPrice;                    
+    }
+  }
 
+  const getBillTo = () => {
+    var retData = {
+        "firstName": state.firstNameField,
+        "lastName": state.lastNameField,
+        "company": "",
+        "address": state.addressDropOffField,
+        "city": state.cityDropOffField,
+        "state": state.stateDropOffField,
+        "zip": state.zipCodeDropOff,
+        "country": state.locationType===16?'USA':'Canada'
+    }
+    if(!state.sameAddressAsDropOff){
+      retData.address = state.billingAddressField
+      retData.city = state.billingCityField
+      retData.state = state.billingStateField
+      retData.zip = state.billingAddressZipField
+      retData.country = state.locationType===16?'USA':'Canada'
+    }
+    if(!state.sameAsMainContactDropOff){
+      retData.firstName = state.firstNameFieldDifferentDrop
+      retData.lastName = state.lastNameFieldDifferentDrop
+    }
+    return retData
+  }
+  const getShipTo = () => {
+    let retData = {
+        "firstName": state.firstNameField,
+        "lastName": state.lastNameField,
+        "company": "",
+        "address": "",
+        "city": "",
+        "state": "",
+        "zip": "",
+        "country": ""
+    }
+    retData.address = state.addressPickUpField
+    retData.city = state.cityPickUpField
+    retData.state = state.statePickUpField
+    retData.zip = state.zipCodePickUp
+    retData.country = state.locationType===16?'USA':'Canada'
+    if(!state.sameAsMainContactPickUp){
+      retData.firstName = state.firstNameFieldDifferentPickUp
+      retData.lastName = state.lastNameFieldDifferentPickUp
+    }
+    return retData
+  }
+
+  const createAuthorize = async (jobID) => {
+    console.log('total price >>>' + getTotalPrice())
     let authorizeFilds = {
       "createTransactionRequest": {
           "merchantAuthentication": {
@@ -226,7 +286,7 @@ export const Confirm = ({
           "refId": jobID,
           "transactionRequest": {
               "transactionType": "authCaptureTransaction",
-              "amount": "5",
+              "amount": getTotalPrice(),
               "payment": {
                   "creditCard": {
                       "cardNumber": numberCard,
@@ -234,54 +294,8 @@ export const Confirm = ({
                       "cardCode": cvc
                   }
               },
-              "lineItems": {
-                  "lineItem": {
-                      "itemId": "1",
-                      "name": "vase",
-                      "description": "Cannes logo",
-                      "quantity": "18",
-                      "unitPrice": "45.00"
-                  }
-              },
-              "tax": {
-                  "amount": "4.26",
-                  "name": "level2 tax name",
-                  "description": "level2 tax"
-              },
-              "duty": {
-                  "amount": "8.55",
-                  "name": "duty name",
-                  "description": "duty description"
-              },
-              "shipping": {
-                  "amount": "4.26",
-                  "name": "level2 tax name",
-                  "description": "level2 tax"
-              },
-              "poNumber": "456654",
-              "customer": {
-                  "id": "99999456654"
-              },
-              "billTo": {
-                  "firstName": "Ellen",
-                  "lastName": "Johnson",
-                  "company": "Souveniropolis",
-                  "address": "14 Main Street",
-                  "city": "Pecan Springs",
-                  "state": "TX",
-                  "zip": "44628",
-                  "country": "USA"
-              },
-              "shipTo": {
-                  "firstName": "China",
-                  "lastName": "Bayles",
-                  "company": "Thyme for Tea",
-                  "address": "12 Main Street",
-                  "city": "Pecan Springs",
-                  "state": "TX",
-                  "zip": "44628",
-                  "country": "USA"
-              }
+              "billTo": getBillTo(),
+              "shipTo": getShipTo()
           }
         }
       }
@@ -289,7 +303,7 @@ export const Confirm = ({
       authorizeFilds = JSON.stringify(authorizeFilds)
 
       try {                           
-        const res = await axios.post('https://apitest.authorize.net/xml/v1/request.api?', authorizeFilds, {
+        const res = await axios.post(authNetURL, authorizeFilds, {
           headers: {
           'Content-Type': 'application/json',
           }
@@ -304,7 +318,7 @@ export const Confirm = ({
   
   }
 
-  const createPayment = async ( jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog ) => {
+  const createPayment = async ( jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog, amount ) => {
 
     
     let newPaymentFields = {
@@ -320,23 +334,19 @@ export const Confirm = ({
       Fields: [
         {
           "fieldID": 930,
-          "fieldValue": 500
+          "fieldValue": amount
         },
         {
           "fieldID": 931,
-          "fieldValue": 500
+          "fieldValue": amount
         },
         {
           "fieldID": 936,
-          "optionID": 10121
-        },
-        {
-          "fieldID": 929,
-          "optionID": 'check No:12345'
+          "optionID": 10124
         },
         {
           "fieldID": 928,
-          "optionID": 'Payment Notes'
+          "optionID": 'Online booking. No summary data'
         } 
       ]
       }
@@ -932,7 +942,7 @@ export const Confirm = ({
             <div className="formControl">
                 <h3>Order Details </h3>
                 {
-                  state.toteBoxesContent
+                  state.toteBoxesContent?state.toteBoxesContent
                     .filter(toteRow => toteRow.indexActive !== null)
                     .map((toteRow, index) => {
 
@@ -940,7 +950,7 @@ export const Confirm = ({
                                 <p>{toteRow.title}</p>
                                 <span>${ formatPrice(toteRow.prices[toteRow.indexActive].price) }</span>
                             </div>
-                    })
+                    }):''
                 }
                 {/* <div className="rowDetailWrap">
                   <p>35 Totes {formData.schedulingSummary / 7}</p>

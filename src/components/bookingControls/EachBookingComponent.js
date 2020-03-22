@@ -41,6 +41,10 @@ export const EachBookingComponent = ({  formData,
         let arrSwitch = []
         let bufferToteBoxesGlobalInfo = state.toteBoxesContent
 
+        if(!bufferToteBoxesGlobalInfo){
+            return maxNumber;
+        }
+
         bufferToteBoxesGlobalInfo.forEach((eachElem) => {
             if(eachElem.indexActive !== null) arrSwitch.push(eachElem.indexActive)
         });
