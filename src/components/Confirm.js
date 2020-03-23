@@ -6,8 +6,8 @@ import * as yup from 'yup';
 import Cards from 'react-credit-cards';
 import axios from "axios";
 import { GlobalContext } from "../context/FormContext";
-import { merchantName, merchantKey, authNetURL } from './constant';
-
+import { merchantName_17, merchantKey_17, merchantName_20, merchantKey_20, merchantName_21, merchantKey_21, authNetURL } from './constant';
+let merchantName, merchantKey = ''
 const API = 'https://kingtote.vonigo.com/'
 let globalFormValues = ''
 
@@ -67,6 +67,7 @@ export const Confirm = ({
     const [focus, setFocus] = useState('');
     const [nameCard, setNameCard] = useState('');
     const [numberCard, setNumberCard] = useState('');
+    const [globalDiscount, setGlobalDiscount] = useState(0);
     const [width] = useWindowSize();
 
     const { state } = useContext(GlobalContext);
@@ -106,6 +107,42 @@ export const Confirm = ({
     //console.log('trackFocus name: ', name)
     //console.log('trackFocus value: ', value)
     setFocus(e.target.name)
+  }
+
+  const getPromoDiscount = async (e) => {
+
+    e.preventDefault()
+
+    let inputVal = document.getElementById('promoCodeField').value;
+    console.log(inputVal)
+
+    let discountFields = {
+      "securityToken": state.securityToken,
+      "method": "1",
+      "promo": inputVal
+    }
+
+    discountFields = JSON.stringify(discountFields)
+
+    try {
+      const res = await axios.post(API + 'api/v1/resources/promos/?', discountFields, {
+        headers: {
+        'Content-Type': 'application/json',
+        }
+      });
+
+      console.log('getPromoDiscount >> ', res)
+      if(res.data !== null){
+        
+        setGlobalDiscount(res.data.Promo[0].promoDiscount)
+        
+        console.log('globalDiscount >> ', res.data.Promo[0].promoDiscount)
+        
+      }
+    } catch (err) {
+        console.log('Error getPromoDiscount  >> ', err)
+    }
+
   }
 
   const getProfileUsingID = async (customerProfileId, jobID, authNetTransaction) => {
@@ -224,6 +261,8 @@ export const Confirm = ({
         var toteRow = selectedTotes[i];
         totalPrice += toteRow.prices[toteRow.indexActive].price
       }
+
+      totalPrice = (totalPrice * (100 - globalDiscount)) / 100
       return formatPrice(totalPrice);                    
     }
   }
@@ -800,6 +839,25 @@ export const Confirm = ({
 
     globalFormValues = values
 
+    switch (values.serviceArea) {
+      case "17":
+        merchantName = merchantName_17
+        merchantKey = merchantKey_17
+        break;
+      case "20":
+        merchantName = merchantName_20
+        merchantKey = merchantKey_20
+        break;
+      case "21":
+        merchantName = merchantName_21
+        merchantKey = merchantKey_21
+        break;
+      default:
+        break;
+    }
+
+    console.log('values.serviceArea >> ', values.serviceArea)
+
     createClientFields = JSON.stringify(createClientFields)
 
     try {
@@ -937,9 +995,6 @@ export const Confirm = ({
                   <p>Total = </p>
                   <span>${getTotalPrice()}</span>
                 </div>
-
-                
-
                 {/* <div className="rowDetailWrap">
                   <p>35 Totes {formData.schedulingSummary / 7}</p>
                   <span>$120</span>
@@ -966,7 +1021,7 @@ export const Confirm = ({
               </div>
               <div className="wrapBillingInline">
                 <label className="transparent">Apply</label>
-                <button className="whiteBtn" onClick={() => console.log('hola') }>
+                <button className="whiteBtn" onClick={ getPromoDiscount }>
                   <span>Apply</span>
                 </button>
               </div>

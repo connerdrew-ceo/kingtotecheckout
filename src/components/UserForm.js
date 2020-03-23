@@ -113,7 +113,6 @@ export const UserForm = () => {
 
       try {
         const res = await axios.get(tokenEndPoint)
-        //console.log(res.data);
         setTokenGenerated(res.data.securityToken);
         setLoad(true);
 
