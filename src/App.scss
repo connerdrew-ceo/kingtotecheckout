@@ -11,6 +11,10 @@ $bgInput: #F4F5F7;
 body{
   &.busy-cursor {
     cursor: progress;
+    button{
+      opacity: .5;
+      pointer-events: none;
+    }
   }
 }
 
