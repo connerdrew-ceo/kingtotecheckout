@@ -523,6 +523,10 @@ form{
       justify-content: space-between;
       flex-direction: row;
       margin-bottom: .75rem;
+      &.topLine{
+        border-top: 1px solid $greyText;
+        padding-top: .6rem;
+      }
       p, span{
         margin: 0;
         font-size: 1.25rem;

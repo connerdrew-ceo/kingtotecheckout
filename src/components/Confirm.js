@@ -900,7 +900,7 @@ export const Confirm = ({
       <Header title='Confirm User Data' step="Five"/>
       <div className="introWrap">
         <h2>Order Confirmation</h2>
-        <p>Please fill out your contact information as Delivery and Pick-Up addresses</p>
+        <p>Please fill out your contact information as Delivery and Pick-Up addresses 5424000000000015</p>
       </div>
       <Formik
         initialValues={formData}
@@ -991,7 +991,7 @@ export const Confirm = ({
                             </div>
                     }) : ''
                 }
-                <div className="rowDetailWrap">
+                <div className="rowDetailWrap topLine">
                   <p>Total = </p>
                   <span>${getTotalPrice()}</span>
                 </div>
