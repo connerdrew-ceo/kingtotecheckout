@@ -113,8 +113,9 @@ export const Confirm = ({
     e.preventDefault()
 
     let inputVal = document.getElementById('promoCodeField').value;
-    console.log(inputVal)
 
+    if(inputVal === '' || inputVal.length < 2) setGlobalDiscount(0)
+    
     let discountFields = {
       "securityToken": state.securityToken,
       "method": "1",
