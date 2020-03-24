@@ -69,7 +69,6 @@ export const Confirm = ({
     const [numberCard, setNumberCard] = useState('');
     const [globalDiscount, setGlobalDiscount] = useState(0);
     const [width] = useWindowSize();
-
     const { state } = useContext(GlobalContext);
 
   const validateNameCardHolder = value => {
@@ -131,13 +130,9 @@ export const Confirm = ({
         }
       });
 
-      console.log('getPromoDiscount >> ', res)
       if(res.data !== null){
         
         setGlobalDiscount(res.data.Promo[0].promoDiscount)
-        
-        console.log('globalDiscount >> ', res.data.Promo[0].promoDiscount)
-        
       }
     } catch (err) {
         console.log('Error getPromoDiscount  >> ', err)
@@ -250,19 +245,22 @@ export const Confirm = ({
 
   }
 
+  const getTotalPriceWithDiscount = (totalPrice) => {
+
+    return totalPrice = (totalPrice * (100 - globalDiscount)) / 100
+  }
+
   const getTotalPrice = () => {
     if(!state.toteBoxesContent){
       return 0
     }
     else{
-      var totalPrice = 0;
+      let totalPrice = 0;
       let selectedTotes = state.toteBoxesContent.filter(toteRow => toteRow.indexActive !== null)
       for (var i = 0, len = selectedTotes.length; i < len; i++) {
-        var toteRow = selectedTotes[i];
+        let toteRow = selectedTotes[i];
         totalPrice += toteRow.prices[toteRow.indexActive].price
       }
-
-      totalPrice = (totalPrice * (100 - globalDiscount)) / 100
       return formatPrice(totalPrice);                    
     }
   }
@@ -892,7 +890,9 @@ export const Confirm = ({
   }, []);
 
   const formatPrice = (price) => {
-    return (price % 1 !== 0) ? price+'0' : price
+    //return (price % 1 !== 0) ? price+'0' : price
+    return (price % 1 !== 0) ? price.toFixed(2) : price
+    
   }
 
   return (
@@ -991,19 +991,26 @@ export const Confirm = ({
                             </div>
                     }) : ''
                 }
+                {
+                  (globalDiscount > 0) ? (
+                    <>
+                    <div className="rowDetailWrap topLine">
+                      <p>Sum </p>
+                      <span>${getTotalPrice()}</span>
+                    </div>
+                    <div className="rowDetailWrap">
+                      <p>Discount </p>
+                      <span>- ${ (getTotalPrice() * globalDiscount) / 100}</span>
+                    </div>
+                    
+                    </>
+                  ) : ''
+                }
                 <div className="rowDetailWrap topLine">
                   <p>Total = </p>
-                  <span>${getTotalPrice()}</span>
+                  <span>${ formatPrice(getTotalPriceWithDiscount( getTotalPrice()))}</span>
                 </div>
-                {/* <div className="rowDetailWrap">
-                  <p>35 Totes {formData.schedulingSummary / 7}</p>
-                  <span>$120</span>
-                </div> */}
-                {/* 
-                <div className="rowDetailWrap disccountStyle">
-                  <p>Additional Day x 4</p>
-                  <span>$120</span>
-                </div> */}
+                
             </div>
 
             <div className="formControl">
