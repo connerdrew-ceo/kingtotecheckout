@@ -1007,11 +1007,11 @@ export const Confirm = ({
                 }
                 <div className="rowDetailWrap ">
                   <p>Taxes </p>
-                  <span>${ formatPrice((getTotalPriceWithDiscount( getTotalPrice())) * .15 ) }</span>
+                  <span>${ formatPrice((getTotalPriceWithDiscount( getTotalPrice())) * .075 ) }</span>
                 </div>
                 <div className="rowDetailWrap topLine">
                   <p>Total</p>
-                  <span>${ formatPrice((getTotalPriceWithDiscount( getTotalPrice()) * 1.15) ) }</span>
+                  <span>${ formatPrice((getTotalPriceWithDiscount( getTotalPrice()) * 1.075) ) }</span>
                 </div>
                 
             </div>
