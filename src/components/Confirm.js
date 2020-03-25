@@ -1007,7 +1007,7 @@ export const Confirm = ({
                   ) : ''
                 }
                 <div className="rowDetailWrap topLine">
-                  <p>Total = </p>
+                  <p>Total</p>
                   <span>${ formatPrice(getTotalPriceWithDiscount( getTotalPrice()))}</span>
                 </div>
                 
