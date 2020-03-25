@@ -105,7 +105,7 @@ export const FormUserDetails = ({ formData,
 
       <div className="introWrap">
         <h2>Welcome</h2>
-        <p>Get started by selecting a service area to verify we service your zip codes.</p>
+        <p>Get started by selecting a service area and entering your zip codes to verify we service your area</p>
       </div>
 
       <Formik

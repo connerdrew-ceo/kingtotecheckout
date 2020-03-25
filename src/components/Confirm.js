@@ -93,8 +93,8 @@ export const Confirm = ({
     setCVC(value)
       if (!value) {
         error = 'CVC required';
-      } else if (stringValue.length > 3) {
-        error = 'CVC code is 3 digits';
+      } else if (stringValue.length > 4) {
+        error = 'CVC code is 4 digits or less';
       } else if (stringValue.length < 3) {
         error = 'CVC code is 3 digits';
       }
@@ -891,8 +891,8 @@ export const Confirm = ({
   }, []);
 
   const formatPrice = (price) => {
-    //return (price % 1 !== 0) ? price+'0' : price
-    return (price % 1 !== 0) ? price.toFixed(2) : price
+    
+    return (price % 1 !== 0) ? price.toFixed(2) : price.toFixed(2)
     
   }
 
@@ -901,7 +901,7 @@ export const Confirm = ({
       <Header title='Confirm User Data' step="Five"/>
       <div className="introWrap">
         <h2>Order Confirmation</h2>
-        <p>Please fill out your contact information as Delivery and Pick-Up addresses 5424000000000015</p>
+        <p>Please provide Payment Information and review your order details</p>
       </div>
       <Formik
         initialValues={formData}

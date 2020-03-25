@@ -137,7 +137,7 @@ export const AddressFormStep = ({
       <Header title='Enter Personal Details' step="Four" />
       <div className="introWrap">
         <h2>Your Details</h2>
-        <p>Please fill out your contact information as Delivery and Pick-Up addresses</p>
+        <p>Please fill out your contact information and Delivery and Pick-Up addresses</p>
       </div>
       <Formik
         initialValues={formData}
