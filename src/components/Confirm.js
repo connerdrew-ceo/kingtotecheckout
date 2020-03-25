@@ -994,21 +994,24 @@ export const Confirm = ({
                 {
                   (globalDiscount > 0) ? (
                     <>
-                    <div className="rowDetailWrap topLine">
-                      <p>Sum </p>
-                      <span>${getTotalPrice()}</span>
-                    </div>
                     <div className="rowDetailWrap">
                       <p>Discount </p>
                       <span>- ${ (getTotalPrice() * globalDiscount) / 100}</span>
                     </div>
-                    
+                    <div className="rowDetailWrap topLine">
+                      <p>Sub Total </p>
+                      <span>${ formatPrice(getTotalPriceWithDiscount( getTotalPrice()))}</span>
+                    </div>
                     </>
                   ) : ''
                 }
+                <div className="rowDetailWrap ">
+                  <p>Taxes </p>
+                  <span>${ formatPrice((getTotalPriceWithDiscount( getTotalPrice())) * .15 ) }</span>
+                </div>
                 <div className="rowDetailWrap topLine">
                   <p>Total</p>
-                  <span>${ formatPrice(getTotalPriceWithDiscount( getTotalPrice()))}</span>
+                  <span>${ formatPrice((getTotalPriceWithDiscount( getTotalPrice()) * 1.15) ) }</span>
                 </div>
                 
             </div>
