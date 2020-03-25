@@ -96,7 +96,7 @@ export const Confirm = ({
       } else if (stringValue.length > 4) {
         error = 'CVC code is 4 digits or less';
       } else if (stringValue.length < 3) {
-        error = 'CVC code is 3 digits';
+        error = 'CVC code is 3 digits at least';
       }
       return error;
   };
