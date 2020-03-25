@@ -206,8 +206,7 @@ export const Confirm = ({
                     }
                 }
             }
-          },
-          "validationMode": "testMode"
+          }
       }
     }
 
