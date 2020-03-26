@@ -365,6 +365,11 @@ export const Confirm = ({
                       "cardCode": cvc
                   }
               },
+              "tax": {
+                "amount": taxPercent,
+                "name": "vonigo tax",
+                "description": "coming from API"
+              },
               "billTo": getBillTo(),
               "shipTo": getShipTo()
           }
