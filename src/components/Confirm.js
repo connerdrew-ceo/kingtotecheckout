@@ -68,6 +68,7 @@ export const Confirm = ({
     const [nameCard, setNameCard] = useState('');
     const [numberCard, setNumberCard] = useState('');
     const [globalDiscount, setGlobalDiscount] = useState(0);
+    const [taxPercent, setTaxPercent] = useState(1);
     const [width] = useWindowSize();
     const { state } = useContext(GlobalContext);
 
@@ -114,7 +115,10 @@ export const Confirm = ({
 
     let inputVal = document.getElementById('promoCodeField').value;
 
-    if(inputVal === '' || inputVal.length < 2) setGlobalDiscount(0)
+    if(inputVal === '' || inputVal.length < 4) {
+      setGlobalDiscount(0)
+      return
+    }
     
     let discountFields = {
       "securityToken": state.securityToken,
@@ -138,7 +142,6 @@ export const Confirm = ({
     } catch (err) {
         console.log('Error getPromoDiscount  >> ', err)
     }
-
   }
 
   const getProfileUsingID = async (customerProfileId, jobID, authNetTransaction) => {
@@ -172,7 +175,8 @@ export const Confirm = ({
             //authNetCard = res.data.profile.paymentProfiles[0]
             //authNetTransactionLog = res.data.profile.paymentProfiles[0]
 
-            createPayment(jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog, getTotalPrice())
+            createPayment(jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog, 
+              formatPrice((getTotalPriceWithDiscount( getTotalPrice()) * ((taxPercent / 100) + 1))) )
 
           }
           
@@ -207,8 +211,8 @@ export const Confirm = ({
                 }
             }
           }
+        }
       }
-    }
 
     authorizeFilds9dot2 = JSON.stringify(authorizeFilds9dot2)
 
@@ -226,8 +230,6 @@ export const Confirm = ({
           customerProfileId = res.data.messages.message[0].text
           customerProfileId = customerProfileId.split(' ')[5]
           getProfileUsingID(customerProfileId, jobID, authNetTransaction)
-
-          //console.log('customerProfileId >> ', customerProfileId)
         }
         
         if(res.data.messages.resultCode === 'Ok'){
@@ -235,14 +237,14 @@ export const Confirm = ({
           authNetCard = res.data.customerPaymentProfileIdList[0]
           authNetTransactionLog = res.data.validationDirectResponseList[0]
           
-          createPayment(jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog, getTotalPrice())
+          createPayment(jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog, 
+            formatPrice((getTotalPriceWithDiscount( getTotalPrice()) * ((taxPercent / 100) + 1))) )
         }
         
       }
     } catch (err) {
       console.log('Error getValuesToCompletePayment >> ', err)
     }
-
   }
 
   const getTotalPriceWithDiscount = (totalPrice) => {
@@ -262,6 +264,31 @@ export const Confirm = ({
         totalPrice += toteRow.prices[toteRow.indexActive].price
       }
       return formatPrice(totalPrice);                    
+    }
+  }
+
+  const getTaxesPercent = async () => {
+
+    let getTaxesFields = {
+      securityToken: state.securityToken,
+      pageNo: '1',
+      pageSize: '50'
+    }
+
+    getTaxesFields = JSON.stringify(getTaxesFields)
+
+    try {
+      const res = await axios.post(API + 'api/v1/resources/taxes/?', getTaxesFields, {
+        headers: {
+        'Content-Type': 'application/json',
+        }
+      });
+      if(res.data.Taxes !== null){
+        //console.log('res.data.Taxes > ', res.data.Taxes)
+        setTaxPercent(res.data.Taxes[0].taxPercent)
+      }
+    } catch (err) {
+        console.log('Error getTaxesPercent  >> ', err)
     }
   }
 
@@ -313,7 +340,14 @@ export const Confirm = ({
   }
 
   const createAuthorize = async (jobID) => {
-    console.log('total price >>>' + getTotalPrice())
+
+    // card  5424000000000015
+    console.log('price >>>' + getTotalPrice())
+    console.log('total price >>>' + formatPrice((getTotalPriceWithDiscount( getTotalPrice()) * ((taxPercent / 100) + 1) ) ))
+
+    let expiryFormatted = '20'+expiry.substring(2,4)+'-'+expiry.substring(0,2)
+    console.log('expiryFormatted >>' + expiryFormatted)
+
     let authorizeFilds = {
       "createTransactionRequest": {
           "merchantAuthentication": {
@@ -323,11 +357,11 @@ export const Confirm = ({
           "refId": jobID,
           "transactionRequest": {
               "transactionType": "authCaptureTransaction",
-              "amount": getTotalPrice(),
+              "amount": formatPrice((getTotalPriceWithDiscount( getTotalPrice()) * ((taxPercent / 100) + 1) ) ),
               "payment": {
                   "creditCard": {
                       "cardNumber": numberCard,
-                      "expirationDate": expiry,
+                      "expirationDate": expiryFormatted,
                       "cardCode": cvc
                   }
               },
@@ -854,8 +888,6 @@ export const Confirm = ({
         break;
     }
 
-    console.log('values.serviceArea >> ', values.serviceArea)
-
     createClientFields = JSON.stringify(createClientFields)
 
     try {
@@ -880,6 +912,7 @@ export const Confirm = ({
     } catch (err) {
         console.log('Error Clients  >> ', err)
     }
+
   }
 
   useEffect(() => {
@@ -887,12 +920,12 @@ export const Confirm = ({
         behavior: "smooth",
         top: 0
     });
+    getTaxesPercent()
   }, []);
 
   const formatPrice = (price) => {
     
     return (price % 1 !== 0) ? price.toFixed(2) : price.toFixed(2)
-    
   }
 
   return (
@@ -955,7 +988,7 @@ export const Confirm = ({
                   <Field 
                     id="expirationDateInput"
                     name='expirationDateField' 
-                    placeholder="MM/YYYY"
+                    placeholder="MM/YY"
                     type="string"
                     validate={validateDateExp}
                     onFocus={trackFocus}
@@ -1005,15 +1038,20 @@ export const Confirm = ({
                     </>
                   ) : ''
                 }
-                <div className="rowDetailWrap ">
-                  <p>Taxes </p>
-                  <span>${ formatPrice((getTotalPriceWithDiscount( getTotalPrice())) * .075 ) }</span>
-                </div>
-                <div className="rowDetailWrap topLine">
-                  <p>Total</p>
-                  <span>${ formatPrice((getTotalPriceWithDiscount( getTotalPrice()) * 1.075) ) }</span>
-                </div>
-                
+                {
+                  (taxPercent > 1) ? (
+                    <>
+                    <div className="rowDetailWrap ">
+                      <p>Taxes ({taxPercent}%)</p>
+                      <span>${ formatPrice((getTotalPriceWithDiscount( getTotalPrice())) * (taxPercent / 100) ) }</span>
+                    </div>
+                    <div className="rowDetailWrap topLine">
+                      <p>Total</p>
+                      <span>${ formatPrice((getTotalPriceWithDiscount( getTotalPrice()) * ((taxPercent / 100) + 1) ) ) }</span>
+                    </div>
+                    </>
+                  ) : ''
+                }
             </div>
 
             <div className="formControl">
