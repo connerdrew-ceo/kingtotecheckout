@@ -310,14 +310,14 @@ export const Confirm = ({
         "city": state.cityDropOffField,
         "state": state.stateDropOffField,
         "zip": state.zipCodeDropOff,
-        "country": state.locationType===16?'USA':'Canada'
+        "country": state.locationType==='16'?'USA':'Canada'
     }
     if(!state.sameAddressAsDropOff){
       retData.address = state.billingAddressField
       retData.city = state.billingCityField
       retData.state = state.billingStateField
       retData.zip = state.billingAddressZipField
-      retData.country = state.locationType===16?'USA':'Canada'
+      retData.country = state.locationType==='16'?'USA':'Canada'
     }
     if(!state.sameAsMainContactDropOff){
       retData.firstName = state.firstNameFieldDifferentDrop
@@ -340,7 +340,7 @@ export const Confirm = ({
     retData.city = state.cityPickUpField
     retData.state = state.statePickUpField
     retData.zip = state.zipCodePickUp
-    retData.country = state.locationType===16?'USA':'Canada'
+    retData.country = state.locationType==='16'?'USA':'Canada'
     if(!state.sameAsMainContactPickUp){
       retData.firstName = state.firstNameFieldDifferentPickUp
       retData.lastName = state.lastNameFieldDifferentPickUp
@@ -354,7 +354,7 @@ export const Confirm = ({
     console.log('price >>>' + getTotalPrice())
     console.log('total price >>>' + formatPrice((getTotalPriceWithDiscount( getTotalPrice()) * ((taxPercent / 100) + 1) ) ))
 
-    let expiryFormatted = '20'+expiry.substring(2,4)+'-'+expiry.substring(0,2)
+    let expiryFormatted = '20'+expiry.substring(3,5)+'-'+expiry.substring(0,2)
     console.log('expiryFormatted >>' + expiryFormatted)
 
     let authorizeFilds = {
@@ -375,9 +375,9 @@ export const Confirm = ({
                   }
               },
               "tax": {
-                "amount": taxPercent,
-                "name": "vonigo tax",
-                "description": "coming from API"
+                "amount": formatPrice((getTotalPriceWithDiscount( getTotalPrice()) * ((taxPercent / 100) + 1) ) ),
+                "name": "voing tax",
+                "description": `${taxPercent} %`
               },
               "billTo": getBillTo(),
               "shipTo": getShipTo()
@@ -985,7 +985,7 @@ export const Confirm = ({
                 <Field 
                   id="cardNumberInput"
                   name='cardNumberField' 
-                  placeholder="XXXX-XXXX-XXXX-XXXX"
+                  placeholder=""
                   validate={validateNameCardNumber}
                   onFocus={trackFocus}
                   />
@@ -1032,11 +1032,11 @@ export const Confirm = ({
               
               </div>
               <div className="wrapBillingInline">
-                  <label htmlFor="cvcInput">CVV</label>
+                  <label htmlFor="cvcInput">Security Code</label>
                   <Field 
                     id="cvcInput"
                     name='cvcField' 
-                    placeholder="3 digit code"
+                    placeholder=""
                     type="number"
                     validate={validateCVCCode}
                     onFocus={trackFocus}
