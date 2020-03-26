@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, useLayoutEffect } from 'react';
 import { Header } from './Header';
 import { CalendarControlsWrap } from './bookingControls/CalendarControlsWrap'
 import { Formik, Form, Field } from 'formik';
+import MaskedInput from "react-text-mask";
 import * as yup from 'yup';
 import Cards from 'react-credit-cards';
 import axios from "axios";
@@ -22,6 +23,14 @@ const validationSchemaFourthStep = yup.object({
     .string()
     .required('Expiration date is required'),
 });
+
+const expiryMask = [
+  /[0-9]/,
+  /[0-9]/,
+  "/",
+  /[0-9]/,
+  /[0-9]/,
+];
 
 let dropOffGlobalObj = {
   clientID: 0,
@@ -391,7 +400,6 @@ export const Confirm = ({
       } catch (err) {
         console.log('Error createAuthorize >> ', err)
       }
-  
   }
 
   const createPayment = async ( jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog, amount ) => {
@@ -436,9 +444,7 @@ export const Confirm = ({
         });
         console.log(' $ $ $ createPayment : ', res.data)
         if(res.data !== null){
-
           direction === 'back' ? prevStep() : nextStep();
-          //alert('Congratulations!')
           document.body.classList.remove('busy-cursor');
           //createWorkOrders(res.data.Job.objectID, 'dropOff')
           //createWorkOrders(res.data.Job.objectID, 'pickUp')
@@ -990,15 +996,40 @@ export const Confirm = ({
             <div className="formControl inlineFields">
               <div className="wrapBillingInline">
                   <label htmlFor="expirationDateInput">Expiration Date</label>
-                  <Field 
+                  {/* <Field 
                     id="expirationDateInput"
                     name='expirationDateField' 
                     placeholder="MM/YY"
                     type="string"
                     validate={validateDateExp}
                     onFocus={trackFocus}
-                    />
-                    {errors.expirationDateField && touched.expirationDateField && <div className="errorMessage">{errors.expirationDateField}</div>}
+                    /> */}
+                    
+                  <Field
+                    name='expirationDateField'
+                    validate={validateDateExp}
+                    onFocus={trackFocus}
+                    render={({ field }) => (
+                      <MaskedInput
+                        {...field}
+                        mask={expiryMask}
+                        id="expirationDateInput"
+                        placeholder="MM/YY"
+                        type="text"
+                        // onChange={handleChange}
+                        // onBlur={handleBlur}
+                        // className={
+                        //   errors.phone && touched.phone
+                        //     ? "text-input error"
+                        //     : "text-input"
+                        // }
+                      />
+                    )}
+                  />
+                  {errors.expirationDateField && touched.expirationDateField && <div className="errorMessage">{errors.expirationDateField}</div>}
+
+              
+              
               </div>
               <div className="wrapBillingInline">
                   <label htmlFor="cvcInput">CVV</label>
