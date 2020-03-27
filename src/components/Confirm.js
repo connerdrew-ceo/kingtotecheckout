@@ -183,18 +183,13 @@ export const Confirm = ({
             authNetClient = customerProfileId
             //authNetCard = res.data.profile.paymentProfiles[0]
             //authNetTransactionLog = res.data.profile.paymentProfiles[0]
-
             createPayment(jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog, 
               formatPrice((getTotalPriceWithDiscount( getTotalPrice()) * ((taxPercent / 100) + 1))) )
-
           }
-          
         }
       } catch (err) {
         console.log('Error getProfileUsingID >> ', err)
       }
-  
-
   }
 
   const getValuesToCompletePayment = async (jobID, authNetTransaction) => {
@@ -992,19 +987,9 @@ export const Confirm = ({
                   {errors.cardNumberField && touched.cardNumberField && <div className="errorMessage">{errors.cardNumberField}</div>}
             </div>
             <div className="formControl"></div>
-            
             <div className="formControl inlineFields">
               <div className="wrapBillingInline">
                   <label htmlFor="expirationDateInput">Expiration Date</label>
-                  {/* <Field 
-                    id="expirationDateInput"
-                    name='expirationDateField' 
-                    placeholder="MM/YY"
-                    type="string"
-                    validate={validateDateExp}
-                    onFocus={trackFocus}
-                    /> */}
-                    
                   <Field
                     name='expirationDateField'
                     validate={validateDateExp}
@@ -1016,20 +1001,10 @@ export const Confirm = ({
                         id="expirationDateInput"
                         placeholder="MM/YY"
                         type="text"
-                        // onChange={handleChange}
-                        // onBlur={handleBlur}
-                        // className={
-                        //   errors.phone && touched.phone
-                        //     ? "text-input error"
-                        //     : "text-input"
-                        // }
                       />
                     )}
                   />
                   {errors.expirationDateField && touched.expirationDateField && <div className="errorMessage">{errors.expirationDateField}</div>}
-
-              
-              
               </div>
               <div className="wrapBillingInline">
                   <label htmlFor="cvcInput">Security Code</label>
@@ -1044,10 +1019,8 @@ export const Confirm = ({
                     {errors.cvcField && touched.cvcField && <div className="errorMessage">{errors.cvcField}</div>}
               </div>
             </div>
-            
             <div className="formControl">
             </div>
-            
             <div className="formControl">
                 <h3>Order Details </h3>
                 {
@@ -1095,10 +1068,8 @@ export const Confirm = ({
                   ) : ''
                 }
             </div>
-
             <div className="formControl">
             </div>
-
             <div className="formControl inlineFields">
               <div className="wrapBillingInline">
                   <label htmlFor="promoCodeField">Promo Code</label>

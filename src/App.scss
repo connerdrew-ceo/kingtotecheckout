@@ -29,6 +29,9 @@ h2{
 
 p{
   color: $greyText;
+  strong{
+    color: black;
+  }
 }
 
 button{
@@ -224,8 +227,8 @@ button{
         }
       }
       &.DayPicker-Day--selected{
-        background-color: rgba($purple, .3);
-        color: $purple;
+        background-color: rgba($purple, .9);
+        color: $white;
       }
       &.DayPicker-Day--disabled{
         background-color: rgba($purple, 0);

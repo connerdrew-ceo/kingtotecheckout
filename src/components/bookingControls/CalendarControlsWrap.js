@@ -7,8 +7,8 @@ export const CalendarControlsWrap = ({
     origin,
     parentFunction
     }) => {
-
         const [schedulingSummaryLocal, setSchedulingSummaryLocal] = useState( (formData.schedulingSummary === null) ? 0 : formData.schedulingSummary);
+        const [serviceWeeks, setServiceWeeks] = useState(0)
         const calculateDays = (endDate) => {
             let dt1Full = new Date(formData.dateDropOff)
             let dt2Full = new Date(endDate)
@@ -53,8 +53,6 @@ export const CalendarControlsWrap = ({
                 });
             }
         }
-
-        
     return (
         <>
             <div className="formControl">
@@ -68,6 +66,7 @@ export const CalendarControlsWrap = ({
                     startingTime={formData.timeRangeDropStart}
                     endingTime={formData.timeRangeDropEnd}
                     enabled={true}
+                    setServiceWeeks={setServiceWeeks}
                     />
             </div>
             <div className="formControl">
@@ -81,17 +80,22 @@ export const CalendarControlsWrap = ({
                     startingTime={formData.timeRangePickStart}
                     endingTime={formData.timeRangePickEnd}
                     enabled={enableCalendar}
+                    setServiceWeeks={setServiceWeeks}
                     />
             </div>
             {
             (origin === 'Scheduling') ? (
                 <div className="formControl">
-                <label className="boldLabelCalendar">Scheduling Summary</label>
-                <p>{(schedulingSummaryLocal > 0) ? schedulingSummaryLocal : 0 } days total</p>
+                    <label className="boldLabelCalendar">Scheduling Summary</label>
+                    <p>{(schedulingSummaryLocal > 0) ? schedulingSummaryLocal : 0 } days total</p>
+                    {
+                        (schedulingSummaryLocal > 0 && (schedulingSummaryLocal/serviceWeeks) > 7 ) ? (
+                            <p><strong>You have selected more days than your original package and are subject to additional charges</strong></p>
+                        ) : ''
+                    }
                 </div>
             ) : ''
             }
-            
         </>
     );
 };
