@@ -98,7 +98,7 @@ export const UserForm = () => {
   const prevStep = () => setStep(prev => prev - 1);
 
   //const tokenEndPoint = 'https://kingtote.vonigo.com/api/v1/security/login/?appVersion=1company=Vonigo&password=a8b58ed9ef2fffb4a5ddb88626fa2727&userName=King.tote'
-  const tokenEndPoint = 'https://kingtote.vonigo.com/api/v1/security/login/?appVersion=1company=Vonigo&password=de1485461568b6ce64c6687e98a9e194&userName=API.user'
+  const tokenEndPoint = 'https://kingtote.vonigo.com/api/v1/security/login/?appVersion=1company=Vonigo&password=de1485461568b6ce64c6687e98a9e194&userName=API.User'
   
   const [tokenGenerated, setTokenGenerated] = useState(null);
   const [franchises, setFranchises] = useState(null);

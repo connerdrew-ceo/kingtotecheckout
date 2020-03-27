@@ -1060,20 +1060,26 @@ export const Confirm = ({
                             </div>
                     }) : ''
                 }
+                
+                <div className="rowDetailWrap topLine">
+                  <p>Sub Total </p>
+                  <span>${ formatPrice( getTotalPrice()*1.00)}</span>
+                </div>
                 {
-                  (globalDiscount > 0) ? (
-                    <>
-                    <div className="rowDetailWrap">
-                      <p>Discount </p>
-                      <span>- ${ (getTotalPrice() * globalDiscount) / 100}</span>
-                    </div>
-                    <div className="rowDetailWrap topLine">
-                      <p>Sub Total </p>
-                      <span>${ formatPrice(getTotalPriceWithDiscount( getTotalPrice()))}</span>
-                    </div>
-                    </>
-                  ) : ''
-                }
+                    (globalDiscount > 0) ? (
+                      <>
+                      <div className="rowDetailWrap">
+                        <p>Discount </p>
+                        <span>- ${ formatPrice((getTotalPrice() * globalDiscount) / 100)}</span>
+                      </div>
+                      {/* <div className="rowDetailWrap topLine">
+                        <p>Sub Total </p>
+                        <span>${ formatPrice(getTotalPriceWithDiscount( getTotalPrice()))}</span>
+                      </div> */}
+                      </>
+                    ) : ''
+                  }
+                
                 {
                   (taxPercent > 1) ? (
                     <>
@@ -1081,7 +1087,7 @@ export const Confirm = ({
                       <p>Taxes ({taxPercent}%)</p>
                       <span>${ formatPrice((getTotalPriceWithDiscount( getTotalPrice())) * (taxPercent / 100) ) }</span>
                     </div>
-                    <div className="rowDetailWrap topLine">
+                    <div className="rowDetailWrap topLine bold">
                       <p>Total</p>
                       <span>${ formatPrice((getTotalPriceWithDiscount( getTotalPrice()) * ((taxPercent / 100) + 1) ) ) }</span>
                     </div>

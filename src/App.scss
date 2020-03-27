@@ -527,6 +527,11 @@ form{
         border-top: 1px solid $greyText;
         padding-top: .6rem;
       }
+      &.bold{
+        border-top: 1px solid $greyText;
+        padding-top: .6rem;
+        font-weight: 600;
+      }
       p, span{
         margin: 0;
         font-size: 1.25rem;
@@ -703,7 +708,7 @@ form{
         padding-left: 1.5%;
       }
       input[type=text], select{
-        height: 3.25rem;
+        // height: 3rem;
       }
       .checkboxInline{
         margin-top: 3.5rem;
