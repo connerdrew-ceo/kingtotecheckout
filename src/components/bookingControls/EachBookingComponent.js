@@ -19,7 +19,8 @@ export const EachBookingComponent = ({  formData,
                                         currentDate, 
                                         startingTime, 
                                         endingTime, 
-                                        enabled }) => {
+                                        enabled,
+                                        setServiceWeeks }) => {
 
     const { state, dispatch } = useContext( GlobalContext );
     const [selectedTime, setSelectedTime] = useState(null);
@@ -79,6 +80,8 @@ export const EachBookingComponent = ({  formData,
                                                 :   new Date()
 
         dateSuggested = addWeeks(new Date(formData.dateDropOff), getNumberOfWeeks() )
+
+        setServiceWeeks( getNumberOfWeeks() )
     }
 
     const convertTo12HoursFormat = ( time ) => {
@@ -131,8 +134,6 @@ export const EachBookingComponent = ({  formData,
         theMonth = day.getMonth()
         console.log(theMonth)
         if(controlType === 'start'){
-
-            
 
             availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
                                     state.securityToken + '&method=0&pageNo=1&pageSize=100&duration=60&dateStart=' +
