@@ -90,7 +90,7 @@ export const CalendarControlsWrap = ({
                     <p>{(schedulingSummaryLocal > 0) ? schedulingSummaryLocal : 0 } days total</p>
                     {
                         (schedulingSummaryLocal > 0 && (schedulingSummaryLocal/serviceWeeks) > 7 ) ? (
-                            <p className="strong"><strong>You have selected more days than your original package and are subject to additional charges</strong></p>
+                            <p><strong>You have selected more days than your original package and are subject to additional charges</strong></p>
                         ) : ''
                     }
                 </div>
