@@ -804,9 +804,6 @@ form{
       }
     }
   }
-
-
-
   .DayPicker-Months{
     .DayPicker-Month{
       .DayPicker-Weekday{
@@ -826,11 +823,34 @@ form{
       } 
       .timeSelected{
         width: 90%;
+        .timeDetail{
+          width: 62%;
+        }
+        button{
+          width: 36%;
+          padding: 0 1rem;
+        }
       }
     }
   }
 }
 
+@media screen and (min-width: 900px) {
+  .timeOptionsWrap{
+    .timeOption{
+      .timeSelected{
+        width: 90%;
+        .timeDetail{
+          width: 48%;
+        }
+        button{
+          width: 48%;
+          padding: 0 2rem;
+        }
+      }
+    }
+  }
+}
 
 @media screen and (min-width: 1268px) {
 
