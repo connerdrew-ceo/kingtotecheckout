@@ -14,6 +14,7 @@ export const FormToteDetails = ({
   prevStep,
   serviceTypes
   }) => {
+    console.log(serviceTypes)
   const { state, dispatch } = useContext(GlobalContext);
   const [direction, setDirection] = useState('back');
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
@@ -132,7 +133,7 @@ export const FormToteDetails = ({
       <Header title='Enter Personal Details' step="Two"/>
       <div className="introWrap">
         <h2>Order details</h2>
-        <p>Please select the applicable option(s) bellow.</p>
+        <p>Please select the applicable option(s) below.</p>
       </div>
       <Formik
         initialValues={formData}

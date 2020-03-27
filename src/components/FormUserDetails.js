@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import { Header } from './Header';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
@@ -35,7 +35,6 @@ export const FormUserDetails = ({ formData,
   });
   
   const validateServideArea = value => {
-
     let error;
     if (!value) {
       error = 'Service area is required';
@@ -47,7 +46,7 @@ export const FormUserDetails = ({ formData,
 
   const zipCodeFilter = ( zipInteger ) => {
     let zipString = zipInteger + ''
-    let zipCodeDropExist = zipCodes.filter(item => item.zip === zipString)
+    let zipCodeDropExist = zipCodes.filter(item => item.zip === zipString && item.franchiseID===serviceAreaValue && item.zipStatus=='Owned - Currently Serviced')
     return zipCodeDropExist
   };
 

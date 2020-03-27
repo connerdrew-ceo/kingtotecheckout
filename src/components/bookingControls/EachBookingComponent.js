@@ -129,7 +129,7 @@ export const EachBookingComponent = ({  formData,
         setTimeSpacesAvailable(null)
         theYear = day.getFullYear()
         theMonth = day.getMonth()
-        
+        console.log(theMonth)
         if(controlType === 'start'){
 
             
@@ -251,7 +251,7 @@ export const EachBookingComponent = ({  formData,
                             <DayPicker 
                                 className="endCalendar"
                                 onDayClick={handleDayClick}
-                                month={new Date( theYear, theMonth)}
+                                month={new Date( theYear, (new Date(dateSuggested)).getMonth())}
                                 selectedDays={new Date(dateSuggested)}
                                 disabledDays={[
                                     {
