@@ -16,8 +16,8 @@ export const FormUserDetails = ({ formData,
                                   serviceTypes, 
                                   setServiceTypes }) => {
 
-  let serviceAreaValue = ''
-
+  // let serviceAreaValue = ''
+  const [serviceAreaValue,setServiceAreaValue] = useState(0)
   const { state, dispatch } = useContext(GlobalContext);
   
   const validationSchemaFirstStep = yup.object({
@@ -31,22 +31,27 @@ export const FormUserDetails = ({ formData,
       .number()
       .positive()
       .integer()
-      .required('Pick up is required'),
+      .required('zip code is required'),
   });
   
-  const validateServideArea = value => {
+  const validateServideArea = async (value) => {
     let error;
     if (!value) {
       error = 'Service area is required';
     } else {
-      serviceAreaValue = parseInt(value) 
+      setServiceAreaValue(value)
+      let zipCodeEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/zips/?securityToken='+ state.securityToken + '&pageNo=1&pageSize=50'
+      let changeFranchise = 'https://kingtote.vonigo.com/api/v1/security/session/?securityToken='+ state.securityToken + '&method=2&franchiseID='+serviceAreaValue
+      await axios.post(changeFranchise);
+      const res = await axios.post(zipCodeEndPoint);
+      zipCodes = res.data.Zips
     }
     return error;
   };
 
   const zipCodeFilter = ( zipInteger ) => {
     let zipString = zipInteger + ''
-    let zipCodeDropExist = zipCodes.filter(item => item.zip === zipString && item.franchiseID===serviceAreaValue && item.zipStatus=='Owned - Currently Serviced')
+    let zipCodeDropExist = zipCodes.filter(item => item.zip === zipString && item.franchiseID==serviceAreaValue)
     return zipCodeDropExist
   };
 
@@ -66,7 +71,6 @@ export const FormUserDetails = ({ formData,
       axios.get(priceListsEndPoint)
             .then(res => {
               if(res.data !== null){
-                //console.log('res.data >> ', res.data)
                 setServiceTypes(res.data.PriceItems)
 
                 serviceTypeAndZip = locationId+ '' +zipValue
@@ -81,19 +85,14 @@ export const FormUserDetails = ({ formData,
     let stringValue = value + ''
     let zipResult = ''
     let error;
-      if (!value) {
-        error = 'postal code is required';
-      } else if (stringValue.length > 5) {
-        error = 'postal code is 5 digits';
-      } else if (stringValue.length < 5) {
-        error = 'postal code is 5 digits';
-      } else if (stringValue.length === 5) {
+      if (stringValue.length === 5) {
         zipResult = zipCodeFilter(value)
-        if(zipResult.length > 0 && zipResult[0].franchiseID === serviceAreaValue){
-          //console.log('perfect')
-        } else {
+        if(zipResult.length === 0 ){
           error = 'this code is out of the service area'
         }
+      }
+      else{
+        error = 'invalid zip code';
       }
       return error;
   };

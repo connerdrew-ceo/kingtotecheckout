@@ -14,7 +14,6 @@ export const FormToteDetails = ({
   prevStep,
   serviceTypes
   }) => {
-    console.log(serviceTypes)
   const { state, dispatch } = useContext(GlobalContext);
   const [direction, setDirection] = useState('back');
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
