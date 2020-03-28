@@ -5,7 +5,6 @@ import * as yup from 'yup';
 import axios from "axios";
 import { GlobalContext } from "../context/FormContext";
 
-
 let serviceTypeAndZip = null
 
 export const FormUserDetails = ({ formData, 
@@ -15,9 +14,7 @@ export const FormUserDetails = ({ formData,
                                   zipCodes, 
                                   serviceTypes, 
                                   setServiceTypes }) => {
-
-  // let serviceAreaValue = ''
-  const [serviceAreaValue,setServiceAreaValue] = useState(0)
+  let serviceAreaValue = 0
   const { state, dispatch } = useContext(GlobalContext);
   
   const validationSchemaFirstStep = yup.object({
@@ -39,19 +36,29 @@ export const FormUserDetails = ({ formData,
     if (!value) {
       error = 'Service area is required';
     } else {
-      setServiceAreaValue(value)
-      let zipCodeEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/zips/?securityToken='+ state.securityToken + '&pageNo=1&pageSize=50'
-      let changeFranchise = 'https://kingtote.vonigo.com/api/v1/security/session/?securityToken='+ state.securityToken + '&method=2&franchiseID='+serviceAreaValue
-      await axios.post(changeFranchise);
-      const res = await axios.post(zipCodeEndPoint);
-      zipCodes = res.data.Zips
+
+      if(value !== serviceAreaValue && value !== 0){
+        serviceAreaValue = value
+        let zipCodeEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/zips/?securityToken='+ state.securityToken + '&pageNo=1&pageSize=50'
+        let changeFranchise = 'https://kingtote.vonigo.com/api/v1/security/session/?securityToken='+ state.securityToken + '&method=2&franchiseID='+serviceAreaValue
+        await axios.post(changeFranchise);
+        const res = await axios.post(zipCodeEndPoint);
+        zipCodes = res.data.Zips
+      }
+      
     }
     return error;
   };
 
   const zipCodeFilter = ( zipInteger ) => {
     let zipString = zipInteger + ''
-    let zipCodeDropExist = zipCodes.filter(item => item.zip === zipString && item.franchiseID==serviceAreaValue)
+    let zipCodeDropExist = zipCodes.filter(item => {
+      return (
+        item.zip === zipString &&
+        item.franchiseID == serviceAreaValue
+      )
+    });
+
     return zipCodeDropExist
   };
 
@@ -70,6 +77,7 @@ export const FormUserDetails = ({ formData,
 
       axios.get(priceListsEndPoint)
             .then(res => {
+              console.log('priceListsEndPoint >> ', res.data)
               if(res.data !== null){
                 setServiceTypes(res.data.PriceItems)
 
@@ -133,7 +141,6 @@ export const FormUserDetails = ({ formData,
               {errors.serviceArea && touched.serviceArea && <div className="errorMessage">{errors.serviceArea}</div>}
             </div>
             <div className="formControl">
-              
             </div>
             <div className="formControl">
               <label htmlFor="dropOff">Drop-off Zip Code</label>

@@ -133,6 +133,7 @@ export const EachBookingComponent = ({  formData,
         setTimeSpacesAvailable(null)
         theYear = day.getFullYear()
         theMonth = day.getMonth()
+        
         if(controlType === 'start'){
 
             availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
