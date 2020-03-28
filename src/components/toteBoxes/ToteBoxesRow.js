@@ -3,7 +3,6 @@ import { EachBox } from './EachBox'
 
 export const ToteBoxesRow = ({trackKey, dataObj, updateSelectedBox}) => {
     // let dataObj1= dataObj.filter(item=>item.title!=='Additional Tote')
-    console.log(dataObj)
     const [selectedBox, setSelectedBox] = useState(dataObj.indexActive);
     if(dataObj.title === 'Additional Tote'){
         return null
@@ -20,7 +19,6 @@ export const ToteBoxesRow = ({trackKey, dataObj, updateSelectedBox}) => {
         }
     }
     const boxesRender = dataObj.prices
-    console.log(dataObj);
     let toteBoxes = boxesRender.map((toteBox, index) => {
         return <EachBox 
                     listClasses={selectedBox === index ? 'eachToteItem toteActive' : 'eachToteItem'}

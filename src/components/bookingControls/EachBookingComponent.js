@@ -5,6 +5,7 @@ import { TimeOption } from "./TimeOption";
 import { GlobalContext } from "../../context/FormContext";
 
 let dateAvailable = new Date();
+let disDays = [];
 let dateSuggested = '';
 let theYear = new Date().getFullYear();
 let theMonth = new Date().getMonth();
@@ -128,11 +129,10 @@ export const EachBookingComponent = ({  formData,
         formatedDay = day.toLocaleDateString(undefined, dateOptionsNumeric)
         formatedDay = formatedDay.split('/')
         formatedDay = formatedDay[2] + formatedDay[0] + formatedDay[1]
-
+        let nowDayId = parseInt(formatedDay);
         setTimeSpacesAvailable(null)
         theYear = day.getFullYear()
         theMonth = day.getMonth()
-        console.log(theMonth)
         if(controlType === 'start'){
 
             availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
@@ -143,7 +143,32 @@ export const EachBookingComponent = ({  formData,
             axios.get(availabilityEndPoint)
                 .then(res => {
                     if(res.data.Availability !== null && res.data.Availability !== undefined ){
-
+                        const getDateFromDayId = (value) => {
+                            let dateStr = ''+value
+                            let y = dateStr.substr(0,4)
+                            let m = parseInt(dateStr.substr(4,2))-1
+                            let d = dateStr.substr(6,2)
+                            return new Date(y,m,d)
+                        }
+                        const getDayIDFromDate = (dateVal) => {
+                            var x = dateVal;
+                            var y = x.getFullYear().toString();
+                            var m = (x.getMonth() + 1).toString();
+                            var d = x.getDate().toString();
+                            (d.length === 1) && (d = '0' + d);
+                            (m.length === 1) && (m = '0' + m);
+                            var yyyymmdd = y + m + d;
+                            return yyyymmdd;
+                        }
+                        let disableDaysList = []
+                        for (let d=getDateFromDayId(nowDayId);d<new Date(dateWithWeeks*1000);d.setDate(d.getDate() + 1)){
+                            let filterDayID = getDayIDFromDate(d)
+                            arrayFiltered = res.data.Availability.filter(timeRow => timeRow.dayID === (''+filterDayID))
+                            if(arrayFiltered.length===0){
+                                disableDaysList.push(getDateFromDayId(filterDayID))
+                            }
+                        }
+                        disDays = disableDaysList
                         arrayFiltered = res.data.Availability.filter(timeRow => timeRow.dayID === formatedDay)
                         setTimeSpacesAvailable(arrayFiltered)
                 }
@@ -163,7 +188,7 @@ export const EachBookingComponent = ({  formData,
             axios.get(availabilityEndPoint)
                 .then(res => {
                     if(res.data.Availability !== null && res.data.Availability !== undefined ){
-
+                        
                         arrayFiltered = res.data.Availability.filter(timeRow => timeRow.dayID === formatedDay)
                         setTimeSpacesAvailable(arrayFiltered)
                     }
@@ -242,10 +267,11 @@ export const EachBookingComponent = ({  formData,
                             <DayPicker 
                                 onDayClick={handleDayClick}
                                 disabledDays={[
+                                    ...disDays,
                                     {
                                         before: dateAvailable,
-                                    },
-                                    { daysOfWeek: [0] }
+                                    }
+                                    // { daysOfWeek: [0] }
                                 ]}
                             />
                             ) : (
@@ -255,10 +281,11 @@ export const EachBookingComponent = ({  formData,
                                 month={new Date( theYear, (new Date(dateSuggested)).getMonth())}
                                 selectedDays={new Date(dateSuggested)}
                                 disabledDays={[
+                                    ...disDays,
                                     {
                                         before: dateAvailable,
-                                    },
-                                    { daysOfWeek: [0] }
+                                    }
+                                    // { daysOfWeek: [0] }
                                 ]}
                             />
                         )}
