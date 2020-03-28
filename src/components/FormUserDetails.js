@@ -37,7 +37,7 @@ export const FormUserDetails = ({ formData,
       error = 'Service area is required';
     } else {
 
-      if(value !== serviceAreaValue && value !== 0){
+      if(value !== serviceAreaValue){
         serviceAreaValue = value
         let zipCodeEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/zips/?securityToken='+ state.securityToken + '&pageNo=1&pageSize=50'
         let changeFranchise = 'https://kingtote.vonigo.com/api/v1/security/session/?securityToken='+ state.securityToken + '&method=2&franchiseID='+serviceAreaValue
@@ -45,7 +45,6 @@ export const FormUserDetails = ({ formData,
         const res = await axios.post(zipCodeEndPoint);
         zipCodes = res.data.Zips
       }
-      
     }
     return error;
   };
@@ -77,7 +76,6 @@ export const FormUserDetails = ({ formData,
 
       axios.get(priceListsEndPoint)
             .then(res => {
-              console.log('priceListsEndPoint >> ', res.data)
               if(res.data !== null){
                 setServiceTypes(res.data.PriceItems)
 
