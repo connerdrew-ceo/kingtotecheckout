@@ -30,9 +30,7 @@ export const CalendarControlsWrap = ({
                 calculateDays(0)
 
                 setArrayDisabled(dateData.arr)
-
-
-                //getDisabledDays(dateData.stringDate, formData.pickUp, 'pickUp')
+                
             }else{
                 if(dateData.stringDate === null){
                     setEnableCalendar(false)
