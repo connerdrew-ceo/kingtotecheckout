@@ -16,6 +16,10 @@ export const CalendarControlsWrap = ({
             return dt1Full
         }
         const [enableCalendar, setEnableCalendar] = useState( (formData.dateDropOff === null) ? false : true );
+
+        const [arrayDisabled, setArrayDisabled] = useState([])
+
+        
         const updateStateSchedulingStart = ( dateData ) => {
             if(dateData.kind === 'start'){
                 setEnableCalendar(true)
@@ -24,6 +28,11 @@ export const CalendarControlsWrap = ({
                     'dateDropOff': dateData.stringDate
                 });
                 calculateDays(0)
+
+                setArrayDisabled(dateData.arr)
+
+
+                //getDisabledDays(dateData.stringDate, formData.pickUp, 'pickUp')
             }else{
                 if(dateData.stringDate === null){
                     setEnableCalendar(false)
@@ -67,6 +76,7 @@ export const CalendarControlsWrap = ({
                     endingTime={formData.timeRangeDropEnd}
                     enabled={true}
                     setServiceWeeks={setServiceWeeks}
+                    arrayDisabled={arrayDisabled}
                     />
             </div>
             <div className="formControl">
@@ -81,6 +91,7 @@ export const CalendarControlsWrap = ({
                     endingTime={formData.timeRangePickEnd}
                     enabled={enableCalendar}
                     setServiceWeeks={setServiceWeeks}
+                    arrayDisabled={arrayDisabled}
                     />
             </div>
             {
