@@ -12,13 +12,30 @@ export const FormToteDetails = ({
   setFormData,
   nextStep,
   prevStep,
-  serviceTypes
+  serviceTypes,
+  resetCalendars,
+  setResetCalendars
   }) => {
   const { state, dispatch } = useContext(GlobalContext);
   const [direction, setDirection] = useState('back');
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
   let buttonClasses = ''
   buttonClasses = (nextButtonDisabled) ? 'disabled' : ''
+
+  if(resetCalendars){
+    setFormData({
+      ...formData,
+      'dateDropOff': null,
+      'datePickUp': null,
+      'schedulingSummary': null,
+      'timeRangeDropStart': null,
+      'timeRangeDropEnd': null,
+      'timeRangePickStart': null,
+      'timeRangePickEnd': null,
+    });
+
+    setResetCalendars(false)
+  }
 
   const switchButtons = () => {
 

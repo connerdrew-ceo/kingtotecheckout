@@ -13,7 +13,8 @@ export const FormUserDetails = ({ formData,
                                   franchises, 
                                   zipCodes, 
                                   serviceTypes, 
-                                  setServiceTypes }) => {
+                                  setServiceTypes,
+                                  setResetCalendars }) => {
   let serviceAreaValue = 0
   const { state, dispatch } = useContext(GlobalContext);
   
@@ -61,17 +62,19 @@ export const FormUserDetails = ({ formData,
     return zipCodeDropExist
   };
 
-  const toteBoxesRequest = ( zipValue, locationId ) => {
+  const toteBoxesRequest = ( zipValueDropOff, zipValuePickUp, locationId ) => {
 
-    if(serviceTypeAndZip === locationId+ '' +zipValue ) return
+    if(serviceTypeAndZip === locationId+''+zipValueDropOff+''+zipValuePickUp) return
 
     dispatch({
       type: "UPDATE_TOTE_BOXES",
       payload: null
     })
 
+    if(formData.dateDropOff !== null) setResetCalendars(true)
+
     let priceListsEndPoint = 'https://kingtote.vonigo.com/api/v1/data/priceLists/?securityToken='+ state.securityToken +
-                          '&method=2&zipCode=' + zipValue + '&serviceTypeID='+ locationId +
+                          '&method=2&zipCode=' + zipValueDropOff + '&serviceTypeID='+ locationId +
                           '&pageNo=1&pageSize=500'
 
       axios.get(priceListsEndPoint)
@@ -79,7 +82,7 @@ export const FormUserDetails = ({ formData,
               if(res.data !== null){
                 setServiceTypes(res.data.PriceItems)
 
-                serviceTypeAndZip = locationId+ '' +zipValue
+                serviceTypeAndZip = locationId+ '' +zipValueDropOff+ '' +zipValuePickUp
               }
             })
             .catch(err => {
@@ -115,7 +118,7 @@ export const FormUserDetails = ({ formData,
       <Formik
         initialValues={formData}
         onSubmit={values => {
-          toteBoxesRequest( values.dropOff, values.locationType );
+          toteBoxesRequest( values.dropOff, values.pickUp, values.locationType );
           setFormData(values);
           nextStep();
         }}

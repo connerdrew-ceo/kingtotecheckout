@@ -26,16 +26,6 @@ export const UserForm = () => {
     billingStateField: '',
     billingAddressZipField: '',
 
-    // firstNameField: 'Main-FName',
-    // lastNameField: 'Main-LName',
-    // telField: '1234567890',
-    // emailField: 'Main-Email@main.co',
-    // sameAddressAsDropOff: false,
-    // billingAddressField: 'StreetAddress(Billing)',
-    // billingCityField: 'City(Billing)',
-    // billingStateField: 'State(Billing)',
-    // billingAddressZipField: '84020',
-
     addressDropOffField: '',
     sameAsMainContactDropOff: true,
     cityDropOffField: '',
@@ -43,26 +33,12 @@ export const UserForm = () => {
     zipCodeDropOff: '',
     textareaDropOff: '',
 
-    // addressDropOffField: 'StreetAddress(DropOff)',
-    // sameAsMainContactDropOff: true,
-    // cityDropOffField: 'City(DropOff)',
-    // stateDropOffField: 'State(DropOff)',
-    // zipCodeDropOff: '84020',
-    // textareaDropOff: 'Comments(DropOff)',
-
     addressPickUpField: '',
     sameAsMainContactPickUp: true,
     cityPickUpField: '',
     statePickUpField: '',
     zipCodePickUp: '',
     textareaPickUp: '',
-
-    // addressPickUpField: 'StreetAddress(PickUp)',
-    // sameAsMainContactPickUp: true,
-    // cityPickUpField: 'City(PickUp)',
-    // statePickUpField: 'State(PickUp)',
-    // zipCodePickUp: '84020',
-    // textareaPickUp: 'Comments(PickUp)',
 
     firstNameFieldDifferentDrop: '',
     lastNameFieldDifferentDrop: '',
@@ -78,9 +54,7 @@ export const UserForm = () => {
     cardNumberField: '',
     expirationDateField: '',
     cvcField: '',
-    //billingZipCode: '84020',
-
-
+    
     dateDropOff: null,
     datePickUp: null,
     timeRangeDropStart: null,
@@ -91,7 +65,6 @@ export const UserForm = () => {
     securityToken: null,
     promoCodeField: ''
   });
-
 
   const { dispatch } = useContext(GlobalContext);
   const nextStep = () => setStep(prev => prev + 1);
@@ -106,6 +79,8 @@ export const UserForm = () => {
   const [serviceTypes, setServiceTypes] = useState(null);
   const [load, setLoad] = useState(false);
   const [error, setError] = useState(null);
+  const [resetCalendars, setResetCalendars] = useState(false);
+
 
   useEffect(() => {
 
@@ -191,6 +166,7 @@ export const UserForm = () => {
           zipCodes={zips}
           serviceTypes={serviceTypes}
           setServiceTypes={setServiceTypes}
+          setResetCalendars={setResetCalendars}
         />
       );
     case 2:
@@ -202,6 +178,8 @@ export const UserForm = () => {
           prevStep={prevStep}
           serviceTypes={serviceTypes}
           setServiceTypes={setServiceTypes}
+          resetCalendars={resetCalendars}
+          setResetCalendars={setResetCalendars}
         />
       );
     case 3:

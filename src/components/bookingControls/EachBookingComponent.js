@@ -248,7 +248,6 @@ export const EachBookingComponent = ({  formData,
                     console.log('Error availability >>> ', err)
                 })
         }else{
-
             
             dateWithWeeks = dateNow + 86400
 
@@ -309,8 +308,6 @@ export const EachBookingComponent = ({  formData,
         }
     }
 
-    
-
     useEffect(() => {
         if(currentDate !== null){
             setOpenTimeLayerDrop(false)
@@ -329,9 +326,6 @@ export const EachBookingComponent = ({  formData,
         getDisabledDays(new Date(), formData.dropOff)
         
     }, [])
-
-    
-    
 
     return (
         <>  
@@ -354,7 +348,6 @@ export const EachBookingComponent = ({  formData,
                                     {
                                         before: dateAvailable,
                                     }
-                                    // { daysOfWeek: [0] }
                                 ]}
                             />
                             ) : (
@@ -368,7 +361,6 @@ export const EachBookingComponent = ({  formData,
                                     {
                                         before: dateAvailable,
                                     }
-                                    // { daysOfWeek: [0] }
                                 ]}
                             />
                         )}
