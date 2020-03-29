@@ -34,7 +34,7 @@ export const EachBookingComponent = ({  formData,
 
     const [disDaysDropOff, setDisDaysDropOff] = useState([]);
     
-    const getDisabledDays = (day, zipCode, whichCalebdar) => {
+    const getDisabledDays = (day, zipCode) => {
 
         let availabilityEndPoint = ''
         let disableDaysList = []
@@ -54,95 +54,45 @@ export const EachBookingComponent = ({  formData,
         theYear = day.getFullYear()
         theMonth = day.getMonth()
 
-        if(whichCalebdar === 'dropOff'){
+        availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
+                                state.securityToken + '&method=0&pageNo=1&pageSize=100&duration=60&dateStart=' +
+                                dateNow + '&dateEnd=' + dateWithWeeks + '&zip=' + zipCode + '&serviceTypeID=' +
+                                formData.locationType;
 
-            availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
-                                    state.securityToken + '&method=0&pageNo=1&pageSize=100&duration=60&dateStart=' +
-                                    dateNow + '&dateEnd=' + dateWithWeeks + '&zip=' + zipCode + '&serviceTypeID=' +
-                                    formData.locationType;
-
-            axios.get(availabilityEndPoint)
-                .then(res => {
-                    if(res.data.Availability !== null && res.data.Availability !== undefined ){
-                        const getDateFromDayId = (value) => {
-                            let dateStr = ''+value
-                            let y = dateStr.substr(0,4)
-                            let m = parseInt(dateStr.substr(4,2))-1
-                            let d = dateStr.substr(6,2)
-                            return new Date(y,m,d)
-                        }
-                        const getDayIDFromDate = (dateVal) => {
-                            var x = dateVal;
-                            var y = x.getFullYear().toString();
-                            var m = (x.getMonth() + 1).toString();
-                            var d = x.getDate().toString();
-                            (d.length === 1) && (d = '0' + d);
-                            (m.length === 1) && (m = '0' + m);
-                            var yyyymmdd = y + m + d;
-                            return yyyymmdd;
-                        }
-                        
-                        for (let d=getDateFromDayId(nowDayId);d<new Date(dateWithWeeks*1000);d.setDate(d.getDate() + 1)){
-                            let filterDayID = getDayIDFromDate(d)
-                            arrayFiltered = res.data.Availability.filter(timeRow => timeRow.dayID === (''+filterDayID))
-                            if(arrayFiltered.length===0){
-                                disableDaysList.push(getDateFromDayId(filterDayID))
-                            }
-                        }
-                        setDisDaysDropOff(disableDaysList)
+        axios.get(availabilityEndPoint)
+            .then(res => {
+                if(res.data.Availability !== null && res.data.Availability !== undefined ){
+                    const getDateFromDayId = (value) => {
+                        let dateStr = ''+value
+                        let y = dateStr.substr(0,4)
+                        let m = parseInt(dateStr.substr(4,2))-1
+                        let d = dateStr.substr(6,2)
+                        return new Date(y,m,d)
                     }
-                })
-                .catch(err => {
-                    console.log('Error availability >>> ', err)
-                })
-        }else{
-
-            console.log('getDisabledDays > ', day)
-
-            //dateWithWeeks = dateNow + 86400
-
-            availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
-                                    state.securityToken + '&method=0&pageNo=1&pageSize=100&duration=60&dateStart=' +
-                                    dateNow + '&dateEnd=' + dateWithWeeks + '&zip=' + zipCode + '&serviceTypeID=' +
-                                    formData.locationType;
-
-            axios.get(availabilityEndPoint)
-                .then(res => {
+                    const getDayIDFromDate = (dateVal) => {
+                        var x = dateVal;
+                        var y = x.getFullYear().toString();
+                        var m = (x.getMonth() + 1).toString();
+                        var d = x.getDate().toString();
+                        (d.length === 1) && (d = '0' + d);
+                        (m.length === 1) && (m = '0' + m);
+                        var yyyymmdd = y + m + d;
+                        return yyyymmdd;
+                    }
                     
-                    if(res.data.Availability !== null && res.data.Availability !== undefined ){
-                        const getDateFromDayId = (value) => {
-                            let dateStr = ''+value
-                            let y = dateStr.substr(0,4)
-                            let m = parseInt(dateStr.substr(4,2))-1
-                            let d = dateStr.substr(6,2)
-                            return new Date(y,m,d)
+                    for (let d=getDateFromDayId(nowDayId);d<new Date(dateWithWeeks*1000);d.setDate(d.getDate() + 1)){
+                        let filterDayID = getDayIDFromDate(d)
+                        arrayFiltered = res.data.Availability.filter(timeRow => timeRow.dayID === (''+filterDayID))
+                        if(arrayFiltered.length===0){
+                            disableDaysList.push(getDateFromDayId(filterDayID))
                         }
-                        const getDayIDFromDate = (dateVal) => {
-                            var x = dateVal;
-                            var y = x.getFullYear().toString();
-                            var m = (x.getMonth() + 1).toString();
-                            var d = x.getDate().toString();
-                            (d.length === 1) && (d = '0' + d);
-                            (m.length === 1) && (m = '0' + m);
-                            var yyyymmdd = y + m + d;
-                            return yyyymmdd;
-                        }
-                        //let disableDaysList = []
-                        for (let d=getDateFromDayId(nowDayId);d<new Date(dateWithWeeks*1000);d.setDate(d.getDate() + 1)){
-                            let filterDayID = getDayIDFromDate(d)
-                            arrayFiltered = res.data.Availability.filter(timeRow => timeRow.dayID === (''+filterDayID))
-                            if(arrayFiltered.length===0){
-                                disableDaysList.push(getDateFromDayId(filterDayID))
-                            }
-                        }
-                        setDisDaysDropOff(disableDaysList)
-                        
                     }
-                })
-                .catch(err => {
-                    console.log('Error availability >>> ', err)
-                })
-        }
+                    setDisDaysDropOff(disableDaysList)
+                }
+            })
+            .catch(err => {
+                console.log('Error availability >>> ', err)
+            })
         
     };
     
@@ -197,8 +147,6 @@ export const EachBookingComponent = ({  formData,
 
         dateSuggested = addWeeks(new Date(formData.dateDropOff), getNumberOfWeeks() )
 
-        // getDisabledDays(new Date(formData.dateDropOff), formData.pickUp, 'pickUp')
-
         setServiceWeeks( getNumberOfWeeks() )
     }
 
@@ -232,8 +180,6 @@ export const EachBookingComponent = ({  formData,
     }
 
     const handleDayClick = (day) => {
-
-        console.log('day > ', day)
 
         let availabilityEndPoint = ''
         let arrayFiltered = []
@@ -292,7 +238,7 @@ export const EachBookingComponent = ({  formData,
                             }
                         }
 
-                        getDisabledDays(day, formData.pickUp, 'pickUp')
+                        getDisabledDays(day, formData.pickUp)
                         arrayFiltered = res.data.Availability.filter(timeRow => timeRow.dayID === formatedDay)
                         setTimeSpacesAvailable(arrayFiltered)
                         
@@ -380,7 +326,7 @@ export const EachBookingComponent = ({  formData,
 
     useEffect(() => {
 
-        getDisabledDays(new Date(), formData.dropOff, 'dropOff')
+        getDisabledDays(new Date(), formData.dropOff)
         
     }, [])
 
