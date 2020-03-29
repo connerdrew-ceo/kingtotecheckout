@@ -227,7 +227,7 @@ button{
         }
       }
       &.DayPicker-Day--selected{
-        background-color: rgba($purple, .9);
+        background-color: rgba($purple, .9) !important;
         color: $white;
       }
       &.DayPicker-Day--disabled{
@@ -392,9 +392,9 @@ button{
       }
       &.disabled{
         opacity: .5;
-        .DayPicker-Day--selected{
-          background-color: rgba($purple, 0);
-        }
+        // .DayPicker-Day--selected{
+        //   background-color: rgba($purple, 0);
+        // }
         .hideCalendar{
           display: block;
         }
