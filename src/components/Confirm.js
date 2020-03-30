@@ -956,6 +956,18 @@ export const Confirm = ({
           <div className="inlineFifth">
 
             <div className="leftFields">
+              {/* <div className="formControl">
+                  
+                  <div className="cardWarp">
+                    <Cards
+                      cvc={cvc}
+                      expiry={expiry}
+                      focused={focus}
+                      name={nameCard}
+                      number={numberCard}
+                      />
+                  </div>
+              </div> */}
               <div className="formControl">
                 <h3>Payment Information</h3>
                 <label htmlFor="cardHolderNameInput">Cardholder Name</label>
@@ -1012,50 +1024,9 @@ export const Confirm = ({
                       {errors.cvcField && touched.cvcField && <div className="errorMessage">{errors.cvcField}</div>}
                 </div>
               </div>
-              <div className="formControl">
-              </div>
+              
 
             </div>
-
-            <div className="rightFields">
-              <div className="formControl">
-                  
-                  <div className="cardWarp">
-                    <Cards
-                      cvc={cvc}
-                      expiry={expiry}
-                      focused={focus}
-                      name={nameCard}
-                      number={numberCard}
-                      />
-                  </div>
-              </div>
-            </div>
-          
-          </div>
-
-          <div className="inlineFifth">
-
-            <div className="leftFields">
-              <div className="formControl inlineFields">
-                <div className="wrapBillingInline">
-                    <label htmlFor="promoCodeField">Promo Code</label>
-                    <Field 
-                      id="promoCodeField"
-                      name='promoCodeField' 
-                      placeholder="Enter Code"
-                      type="string"
-                      />
-                </div>
-                <div className="wrapBillingInline">
-                  <label className="transparent">Apply</label>
-                  <button className="whiteBtn" onClick={ getPromoDiscount }>
-                    <span>Apply</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
             <div className="rightFields">
               <div className="formControl">
                 <h3>Order Details </h3>
@@ -1099,10 +1070,35 @@ export const Confirm = ({
                   ) : ''
                 }
             </div>
+            <div className="formControl inlineFields">
+                <div className="wrapBillingInline">
+                    <label htmlFor="promoCodeField">Promo Code</label>
+                    <Field 
+                      id="promoCodeField"
+                      name='promoCodeField' 
+                      placeholder="Enter Code"
+                      type="string"
+                      />
+                </div>
+                <div className="wrapBillingInline">
+                  <label className="transparent">Apply</label>
+                  <button className="whiteBtn" onClick={ getPromoDiscount }>
+                    <span>Apply</span>
+                  </button>
+                </div>
+              </div>
+            
+          </div>
+            
+            {/* <div className="rightFields">
+              
+            </div> */}
+            
           </div>
 
-            
-          
+        <div className="inlineFifth">            
+            <div className="rightFields">
+              </div>
         </div>
 
           <div className="inlineFifth calendars">

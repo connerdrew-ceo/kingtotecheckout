@@ -347,6 +347,7 @@ button{
   .dateAndTimeSelected{
     display: none;
     justify-content: space-between;
+    padding-right:20px;
     flex-direction: row;
     width: 100%;
     margin-top: 1rem;
@@ -430,7 +431,7 @@ button{
     }
   }
   &.openDetailedBooking{
-    min-height: 100px;
+    // min-height: 100px;
     .dateAndTimeSelected{
       display: flex;
     }
