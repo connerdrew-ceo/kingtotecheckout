@@ -951,19 +951,13 @@ export const Confirm = ({
         validationSchema={validationSchemaFourthStep}
         >
         {({ errors, touched }) => (
-          <Form>
-            <div className="formControl">
-                <h3>Payment Information</h3>
-                <div className="cardWarp">
-                  <Cards
-                    cvc={cvc}
-                    expiry={expiry}
-                    focused={focus}
-                    name={nameCard}
-                    number={numberCard}
-                    />
+        <Form className="fifthForm">
 
-                </div>
+          <div className="inlineFifth">
+
+            <div className="leftFields">
+              <div className="formControl">
+                <h3>Payment Information</h3>
                 <label htmlFor="cardHolderNameInput">Cardholder Name</label>
                 <Field 
                   id="cardHolderNameInput"
@@ -972,56 +966,98 @@ export const Confirm = ({
                   validate={validateNameCardHolder}
                   onFocus={trackFocus}
                   />
-                {errors.cardHolderNameField && touched.cardHolderNameField && <div className="errorMessage">{errors.cardHolderNameField}</div>}
-            </div>
-            <div className="formControl"></div>
-            <div className="formControl">
-                <label htmlFor="cardNumberInput">Card Number</label>
-                <Field 
-                  id="cardNumberInput"
-                  name='cardNumberField' 
-                  placeholder=""
-                  validate={validateNameCardNumber}
-                  onFocus={trackFocus}
-                  />
-                  {errors.cardNumberField && touched.cardNumberField && <div className="errorMessage">{errors.cardNumberField}</div>}
-            </div>
-            <div className="formControl"></div>
-            <div className="formControl inlineFields">
-              <div className="wrapBillingInline">
-                  <label htmlFor="expirationDateInput">Expiration Date</label>
-                  <Field
-                    name='expirationDateField'
-                    validate={validateDateExp}
-                    onFocus={trackFocus}
-                    render={({ field }) => (
-                      <MaskedInput
-                        {...field}
-                        mask={expiryMask}
-                        id="expirationDateInput"
-                        placeholder="MM/YY"
-                        type="text"
-                      />
-                    )}
-                  />
-                  {errors.expirationDateField && touched.expirationDateField && <div className="errorMessage">{errors.expirationDateField}</div>}
+                  {errors.cardHolderNameField && touched.cardHolderNameField && <div className="errorMessage">{errors.cardHolderNameField}</div>}
               </div>
-              <div className="wrapBillingInline">
-                  <label htmlFor="cvcInput">Security Code</label>
+              
+              <div className="formControl">
+                  <label htmlFor="cardNumberInput">Card Number</label>
                   <Field 
-                    id="cvcInput"
-                    name='cvcField' 
+                    id="cardNumberInput"
+                    name='cardNumberField' 
                     placeholder=""
-                    type="number"
-                    validate={validateCVCCode}
+                    validate={validateNameCardNumber}
                     onFocus={trackFocus}
                     />
-                    {errors.cvcField && touched.cvcField && <div className="errorMessage">{errors.cvcField}</div>}
+                    {errors.cardNumberField && touched.cardNumberField && <div className="errorMessage">{errors.cardNumberField}</div>}
+              </div>
+              <div className="formControl inlineFields">
+                <div className="wrapBillingInline">
+                    <label htmlFor="expirationDateInput">Expiration Date</label>
+                    <Field
+                      name='expirationDateField'
+                      validate={validateDateExp}
+                      onFocus={trackFocus}
+                      render={({ field }) => (
+                        <MaskedInput
+                          {...field}
+                          mask={expiryMask}
+                          id="expirationDateInput"
+                          placeholder="MM/YY"
+                          type="text"
+                        />
+                      )}
+                    />
+                    {errors.expirationDateField && touched.expirationDateField && <div className="errorMessage">{errors.expirationDateField}</div>}
+                </div>
+                <div className="wrapBillingInline">
+                    <label htmlFor="cvcInput">Security Code</label>
+                    <Field 
+                      id="cvcInput"
+                      name='cvcField' 
+                      placeholder=""
+                      type="number"
+                      validate={validateCVCCode}
+                      onFocus={trackFocus}
+                      />
+                      {errors.cvcField && touched.cvcField && <div className="errorMessage">{errors.cvcField}</div>}
+                </div>
+              </div>
+              <div className="formControl">
+              </div>
+
+            </div>
+
+            <div className="rightFields">
+              <div className="formControl">
+                  
+                  <div className="cardWarp">
+                    <Cards
+                      cvc={cvc}
+                      expiry={expiry}
+                      focused={focus}
+                      name={nameCard}
+                      number={numberCard}
+                      />
+                  </div>
               </div>
             </div>
-            <div className="formControl">
+          
+          </div>
+
+          <div className="inlineFifth">
+
+            <div className="leftFields">
+              <div className="formControl inlineFields">
+                <div className="wrapBillingInline">
+                    <label htmlFor="promoCodeField">Promo Code</label>
+                    <Field 
+                      id="promoCodeField"
+                      name='promoCodeField' 
+                      placeholder="Enter Code"
+                      type="string"
+                      />
+                </div>
+                <div className="wrapBillingInline">
+                  <label className="transparent">Apply</label>
+                  <button className="whiteBtn" onClick={ getPromoDiscount }>
+                    <span>Apply</span>
+                  </button>
+                </div>
+              </div>
             </div>
-            <div className="formControl">
+
+            <div className="rightFields">
+              <div className="formControl">
                 <h3>Order Details </h3>
                 {
                   state.toteBoxesContent ? state.toteBoxesContent
@@ -1063,41 +1099,29 @@ export const Confirm = ({
                   ) : ''
                 }
             </div>
-            <div className="formControl">
-            </div>
-            <div className="formControl inlineFields">
-              <div className="wrapBillingInline">
-                  <label htmlFor="promoCodeField">Promo Code</label>
-                  <Field 
-                    id="promoCodeField"
-                    name='promoCodeField' 
-                    placeholder="Enter Code"
-                    type="string"
-                    />
-              </div>
-              <div className="wrapBillingInline">
-                <label className="transparent">Apply</label>
-                <button className="whiteBtn" onClick={ getPromoDiscount }>
-                  <span>Apply</span>
-                </button>
-              </div>
-            </div>
-            <div className="formControl">
-            </div>
+          </div>
+
+            
+          
+        </div>
+
+          <div className="inlineFifth calendars">
             <CalendarControlsWrap
               formData={formData}
               setFormData={setFormData}
               origin="Confirm"
             />
-            <div className="formControl submitControl fullLenght">
-              <button className="whiteBtn" type="submit" onClick={() => prevStep()}>
-                <span>Previous</span>
-              </button>
-              <button type="submit" className="submitOrder" onClick={() => setDirection('next')}>
-                <span>{ (width > 768) ? 'Submit Order' : 'Submit' } </span>
-              </button>
-            </div>
-          </Form>
+          </div>
+          
+          <div className="formControl submitControl fullLenght">
+            <button className="whiteBtn" type="submit" onClick={() => prevStep()}>
+              <span>Previous</span>
+            </button>
+            <button type="submit" className="submitOrder" onClick={() => setDirection('next')}>
+              <span>{ (width > 768) ? 'Submit Order' : 'Submit' } </span>
+            </button>
+          </div>
+        </Form>
         )}
       </Formik>
     </>

@@ -92,7 +92,16 @@ export const CalendarControlsWrap = ({
                     arrayDisabled={arrayDisabled}
                     />
             </div>
-            {
+            <div className="formControl">
+                <label className="boldLabelCalendar">Scheduling Summary</label>
+                <p>{(schedulingSummaryLocal > 0) ? schedulingSummaryLocal : 0 } days total</p>
+                {
+                    (schedulingSummaryLocal > 0 && (schedulingSummaryLocal/serviceWeeks) > 7 ) ? (
+                        <p><strong>You have selected more days than your original package and are subject to additional charges</strong></p>
+                    ) : ''
+                }
+            </div>
+            {/* {
             (origin === 'Scheduling') ? (
                 <div className="formControl">
                     <label className="boldLabelCalendar">Scheduling Summary</label>
@@ -104,7 +113,7 @@ export const CalendarControlsWrap = ({
                     }
                 </div>
             ) : ''
-            }
+            } */}
         </>
     );
 };
