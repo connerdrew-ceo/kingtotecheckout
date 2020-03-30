@@ -1035,7 +1035,7 @@ export const Confirm = ({
                     .filter(toteRow => toteRow.indexActive !== null)
                     .map((toteRow, index) => {
                       return <div key={index} className="rowDetailWrap">
-                                <p>{toteRow.indexActive + 1} week - {toteRow.title}</p>
+                                <p>{toteRow.indexActive + 1} {(toteRow.indexActive > 0 ? 'weeks' : 'week')} - {toteRow.title}</p>
                                 <span>${ formatPrice(toteRow.prices[toteRow.indexActive].price) }</span>
                             </div>
                     }) : ''

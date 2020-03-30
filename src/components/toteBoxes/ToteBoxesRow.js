@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import { EachBox } from './EachBox'
 
 export const ToteBoxesRow = ({trackKey, dataObj, updateSelectedBox}) => {
-    // let dataObj1= dataObj.filter(item=>item.title!=='Additional Tote')
     const [selectedBox, setSelectedBox] = useState(dataObj.indexActive);
     if(dataObj.title === 'Additional Tote'){
         return null
