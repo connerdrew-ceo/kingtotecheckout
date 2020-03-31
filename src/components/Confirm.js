@@ -76,7 +76,8 @@ export const Confirm = ({
     const [focus, setFocus] = useState('');
     const [nameCard, setNameCard] = useState('');
     const [numberCard, setNumberCard] = useState('');
-    const [globalDiscount, setGlobalDiscount] = useState(0);
+    // const [globalDiscount, setGlobalDiscount] = useState(0);
+    const [globalDiscount, setGlobalDiscount] = useState({amount: 0, description:''});
     const [taxPercent, setTaxPercent] = useState(1);
     const [width] = useWindowSize();
     const { state } = useContext(GlobalContext);
@@ -125,7 +126,7 @@ export const Confirm = ({
     let inputVal = document.getElementById('promoCodeField').value;
 
     if(inputVal === '' || inputVal.length < 4) {
-      setGlobalDiscount(0)
+      setGlobalDiscount({amount: 0, description:''})
       return
     }
     
@@ -146,7 +147,7 @@ export const Confirm = ({
 
       if(res.data !== null){
         
-        setGlobalDiscount(res.data.Promo[0].promoDiscount)
+        setGlobalDiscount({amount: res.data.Promo[0].promoDiscount, description:res.data.Promo[0].promoDescription})
       }
     } catch (err) {
         console.log('Error getPromoDiscount  >> ', err)
@@ -253,7 +254,7 @@ export const Confirm = ({
 
   const getTotalPriceWithDiscount = (totalPrice) => {
 
-    return totalPrice = (totalPrice * (100 - globalDiscount)) / 100
+    return totalPrice = (totalPrice * (100 - globalDiscount.amount)) / 100
   }
 
   const getTotalPrice = () => {
@@ -957,7 +958,6 @@ export const Confirm = ({
 
             <div className="leftFields">
               {/* <div className="formControl">
-                  
                   <div className="cardWarp">
                     <Cards
                       cvc={cvc}
@@ -1046,11 +1046,11 @@ export const Confirm = ({
                   <span>${ formatPrice( getTotalPrice()*1.00)}</span>
                 </div>
                 {
-                  (globalDiscount > 0) ? (
+                  (globalDiscount.amount > 0) ? (
                     <>
                     <div className="rowDetailWrap">
-                      <p>Discount </p>
-                      <span>- ${ formatPrice((getTotalPrice() * globalDiscount) / 100)}</span>
+                      <p>Discount ({globalDiscount.description})</p>
+                      <span>- ${ formatPrice((getTotalPrice() * globalDiscount.amount) / 100)}</span>
                     </div>
                     </>
                   ) : ''

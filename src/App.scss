@@ -4,11 +4,14 @@ $lightPurple: #a1819f;
 $greyText: #6e6d6d;
 $bgInput: #F4F5F7;
 
+@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+
 *, *:before, *:after{
   box-sizing: border-box;
 }
 
 body{
+  font-family: 'Poppins', sans-serif;
   &.busy-cursor {
     cursor: progress;
     button{
@@ -869,4 +872,15 @@ form{
     padding: 0 15vw;
   }
 
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
