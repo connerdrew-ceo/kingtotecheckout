@@ -243,27 +243,6 @@ button{
   }
 }
 
-// .endCalendar{
-//   .DayPicker-Day{
-//     background-color: rgba($purple, .3) !important;
-//     &.DayPicker-Day--outside{
-//       background-color: rgba($purple, 0) !important;
-//     }
-//     &.DayPicker-Day--today{
-//       background-color: rgba($purple, 0) !important;
-//     }
-//     &.DayPicker-Day--selected{
-//       background-color: rgba($purple, .1) !important;
-//       color: $purple;
-//     }
-//     &.DayPicker-Day--disabled{
-//       background-color: rgba($purple, 0) !important;
-//       color: rgba($greyText, .5) !important;
-//     }
-//   }  
-// }
-
-
 .DayPicker-NavButton--prev{
   background-image: url('./images/arrow-prev.png');
   background-size: 63%;
@@ -434,13 +413,11 @@ button{
     }
   }
   &.openDetailedBooking{
-    // min-height: 100px;
     .dateAndTimeSelected{
       display: flex;
     }
     .calendarAndTimeWrap{
       display: none;
-      
     }
   }
 }
@@ -457,6 +434,7 @@ form{
   color: inherit;
   display: block;
   padding: 0 5vw;
+  font-family: 'Poppins', sans-serif;
   h3{
     font-weight: 500;
     color: $greyText;
@@ -566,6 +544,7 @@ form{
   }
 
   button{
+    font-family: 'Poppins', sans-serif;
     &.disabled{
       opacity: .4;
       pointer-events: none;
@@ -585,11 +564,13 @@ form{
     height: 2.75rem;
     color: $greyText;
     border: 1px solid $bgInput;
+    font-family: 'Poppins', sans-serif;
     &.err{
       border: 1px solid orangered;
     }
   }
   select{
+    font-family: 'Poppins', sans-serif;
     max-height: 2.75rem;
     background-position: 97% center !important;
     background-image: url('./images/select-arrow.png');
@@ -656,14 +637,17 @@ form{
 
 ::-webkit-input-placeholder {
   color: rgba($greyText, .5);
+  font-family: 'Poppins', sans-serif;
 }
 
 :-ms-input-placeholder { 
   color: rgba($greyText, .5);
+  font-family: 'Poppins', sans-serif;
 }
 
 ::placeholder {
   color: rgba($greyText, .5);
+  font-family: 'Poppins', sans-serif;
 }
 
 
