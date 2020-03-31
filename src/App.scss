@@ -231,7 +231,7 @@ button{
       }
       &.DayPicker-Day--selected{
         background-color: rgba($purple, .9) !important;
-        color: $white;
+        color: $white !important;
       }
       &.DayPicker-Day--disabled{
         background-color: rgba($purple, 0);
