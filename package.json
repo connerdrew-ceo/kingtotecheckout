@@ -1,6 +1,7 @@
 {
   "name": "my-app-wp-test",
   "version": "0.1.0",
+  "homepage": "https://kingtote.com/kingtotecheckoutbuild",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.6.1",
@@ -21,10 +22,10 @@
     "yup": "^0.28.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -40,5 +41,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "config-overrides-path": "node_modules/react-app-rewire-disable-chunks",
+  "devDependencies": {
+    "react-app-rewire-disable-chunks": "^0.0.1",
+    "react-app-rewired": "^2.1.5"
   }
 }

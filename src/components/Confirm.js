@@ -176,7 +176,6 @@ export const Confirm = ({
           'Content-Type': 'application/json',
           }
         });
-        console.log(' $ getProfileUsingID : ', res.data)
         if(res.data !== null){
 
           if(res.data.messages.resultCode === 'Ok'){
@@ -289,7 +288,6 @@ export const Confirm = ({
         }
       });
       if(res.data.Taxes !== null){
-        //console.log('res.data.Taxes > ', res.data.Taxes)
         setTaxPercent(res.data.Taxes[0].taxPercent)
       }
     } catch (err) {
@@ -346,12 +344,7 @@ export const Confirm = ({
 
   const createAuthorize = async (jobID) => {
 
-    // card  5424000000000015
-    console.log('price >>>' + getTotalPrice())
-    console.log('total price >>>' + formatPrice((getTotalPriceWithDiscount( getTotalPrice()) * ((taxPercent / 100) + 1) ) ))
-
     let expiryFormatted = '20'+expiry.substring(3,5)+'-'+expiry.substring(0,2)
-    console.log('expiryFormatted >>' + expiryFormatted)
 
     let authorizeFilds = {
       "createTransactionRequest": {
@@ -389,7 +382,6 @@ export const Confirm = ({
           'Content-Type': 'application/json',
           }
         });
-        //console.log(' $ createAuthorize : ', res.data)
         if(res.data !== null){
           getValuesToCompletePayment(jobID, res.data.transactionResponse.transId )
         }
@@ -596,7 +588,6 @@ export const Confirm = ({
       });
       
       if(res.data !== null){
-        console.log('setBillingAddress : ', res.data)
         //console.log('setBillingAddress okay: ', res.data)
         //setMainContact(res.data.Contact.objectID)
       }
@@ -684,8 +675,6 @@ export const Confirm = ({
       });
       
         if(res.data !== null){
-          console.log("\n")
-          console.log(requestType +' Locations : ', res.data)
           
           if(requestType === 'billing'){
             setBillingAddress(res.data.Location.objectID)
@@ -739,7 +728,6 @@ export const Confirm = ({
         'Content-Type': 'application/json',
         }
       });
-      //console.log('setMainContactFields response : ', res)
       if(res.data.Contact !== null){
 
         //console.log('setMainContactFields okay: ', res.data.Contact.objectID)
