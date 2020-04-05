@@ -1,6 +1,7 @@
 {
   "name": "my-app-wp-test",
   "version": "0.1.0",
+  "homepage": "https://kingtote.com/kingtotecheckoutbuild",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.6.1",
