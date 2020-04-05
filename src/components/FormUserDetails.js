@@ -21,21 +21,21 @@ export const FormUserDetails = ({ formData,
   const validationSchemaFirstStep = yup.object({
     locationType: yup
       .string()
-      .required('Pick up is required'),
+      .required('Pick-up is required'),
     serviceArea: yup
       .string()
-      .required('Service area is required'),
+      .required('Service Area is required'),
     pickUp: yup
       .number()
       .positive()
       .integer()
-      .required('zip code is required'),
+      .required('Zip Code is required'),
   });
   
   const validateServideArea = async (value) => {
     let error;
     if (!value) {
-      error = 'Service area is required';
+      error = 'Service Area is required';
     } else {
 
       if(value !== serviceAreaValue){
@@ -97,11 +97,11 @@ export const FormUserDetails = ({ formData,
       if (stringValue.length === 5) {
         zipResult = zipCodeFilter(value)
         if(zipResult.length === 0 ){
-          error = 'this code is out of the service area'
+          error = 'This Zip Code is out of the Service Area'
         }
       }
       else{
-        error = 'invalid zip code';
+        error = 'Invalid Zip Code';
       }
       return error;
   };
@@ -181,12 +181,14 @@ export const FormUserDetails = ({ formData,
                   type="radio"
                   value="15"
                 />
-                <label htmlFor="locationCommertial">Commertial</label>
+                <label htmlFor="locationCommertial">Commercial</label>
               </div>
               {errors.locationType && touched.locationType && <div className="errorMessage">{errors.locationType}</div>}
             </div>
             <div className="formControl submitControl">
-              <button className="button global" name="submit" type="submit">
+              <button className="button global" name="submit" type="submit" onClick={()=> 
+                  Event("CHECKOUT", "Step 1 Next", "CHECKOUT")
+                }>
                 <span>Next</span>
               </button>
             </div>
