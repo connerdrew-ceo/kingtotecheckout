@@ -92,11 +92,37 @@ export const FormToteDetails = ({
                         }
         
         if( addElement( arrToteRows, eachElemLevel1.priceItemView, bufferElem ) ){
+          let additionalPrice = '';
+          switch (eachElemLevel1.priceItemView) {
+            case '25 Totes':
+                additionalPrice = '$5';
+              break;
+            case '35 Totes':
+                additionalPrice = '$7';
+                break;
+            case '50 Totes':
+                additionalPrice = '$9';
+              break;
+            case '70 Totes':
+                additionalPrice = '$11';
+              break;
+            case '100 Totes':
+                additionalPrice = '$13';
+                break;
+            case 'King Tote Hand Truck':
+                additionalPrice = '$2';
+              break;
+            case 'King Tote Wheels':
+                additionalPrice = '$1';
+              break;
+            default:
+              break;
+          }
           arrToteRows.push({
             title: eachElemLevel1.priceItemView,
             indexActive: null,
             sub: eachElemLevel1.descriptionHelp, 
-            additionalWeek:'$35 each additional week',
+            additionalWeek:`${additionalPrice} each additional week`,
             prices: [bufferElem]
           })
         }else{

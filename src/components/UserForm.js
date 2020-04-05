@@ -7,7 +7,18 @@ import { Confirm } from './Confirm';
 import { Success } from './Success';
 import axios from "axios";
 import { GlobalContext } from "../context/FormContext";
+import {PageView, initGA} from './Tracking';
+import {Event} from './Tracking';
 
+const trackingGAID = 'UA-55582204-1';
+initGA(trackingGAID);
+PageView();
+let params = {
+  step:`Step ${1}`,
+  action: 'started',
+  desc: `A new user visited the page.`
+}
+Event(params);
 export const UserForm = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -67,8 +78,26 @@ export const UserForm = () => {
   });
 
   const { dispatch } = useContext(GlobalContext);
-  const nextStep = () => setStep(prev => prev + 1);
-  const prevStep = () => setStep(prev => prev - 1);
+  const nextStep = () => {
+    let action = `next`;
+    let params = {
+      step:`Step ${step}`,
+      action: action,
+      desc: `[Step ${step}] -> [Step ${step+1}]`
+    }
+    Event(params);
+    setStep(prev => prev + 1)
+  }
+  const prevStep = () => {
+    let action = `prev`;
+    let params = {
+      step:`Step ${step}`,
+      action: action,
+      desc: `[Step ${step}] -> [Step ${step-1}]`
+    }
+    Event(params);
+    setStep(prev => prev - 1);
+  }  
 
   //const tokenEndPoint = 'https://kingtote.vonigo.com/api/v1/security/login/?appVersion=1company=Vonigo&password=a8b58ed9ef2fffb4a5ddb88626fa2727&userName=King.tote'
   const tokenEndPoint = 'https://kingtote.vonigo.com/api/v1/security/login/?appVersion=1company=Vonigo&password=de1485461568b6ce64c6687e98a9e194&userName=API.User'
@@ -210,6 +239,13 @@ export const UserForm = () => {
         />
       );
     default:
+      let action = `submit`;
+      let params = {
+        step:`Step ${step}`,
+        action: action,
+        desc: `submitted`
+      }
+      Event(params);      
       return <Success />;
   }
 };
