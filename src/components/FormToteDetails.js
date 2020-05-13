@@ -15,14 +15,14 @@ export const FormToteDetails = ({
   serviceTypes,
   resetCalendars,
   setResetCalendars
-  }) => {
+}) => {
   const { state, dispatch } = useContext(GlobalContext);
   const [direction, setDirection] = useState('back');
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
   let buttonClasses = ''
   buttonClasses = (nextButtonDisabled) ? 'disabled' : ''
 
-  if(resetCalendars){
+  if (resetCalendars) {
     setFormData({
       ...formData,
       'dateDropOff': null,
@@ -39,17 +39,17 @@ export const FormToteDetails = ({
 
   const switchButtons = () => {
 
-    if(state.toteBoxesContent === null) return
+    if (state.toteBoxesContent === null) return
     let arrSwitch = []
     //console.log('arrSwitch > ', arrSwitch)
     state.toteBoxesContent.forEach((eachElem) => {
-      if(eachElem.indexActive !== null) arrSwitch.push(eachElem)
+      if (eachElem.indexActive !== null) arrSwitch.push(eachElem)
     });
 
     (arrSwitch.length) ? setNextButtonDisabled(false) : setNextButtonDisabled(true)
   }
 
-  const setToteBoxesInfo = ( values ) => {
+  const setToteBoxesInfo = (values) => {
 
     setFormData({
       ...formData,
@@ -69,51 +69,53 @@ export const FormToteDetails = ({
     switchButtons()
   };
 
-  const addElement = ( elem, nameKey, bufferElem ) => {
+  const addElement = (elem, nameKey, bufferElem) => {
     const found = elem.findIndex(el => el.title === nameKey);
-    if(found !== -1){
+    if (found !== -1) {
       let temporalArrPush = elem[found].prices
       temporalArrPush.push(bufferElem)
     }
+
     return (found === -1) ? true : false
   };
 
-  const setObjectBeforeRenderRows = ( objOrigin ) => {
+  const setObjectBeforeRenderRows = (objOrigin) => {
 
-    if(state.toteBoxesContent !== null) return
+    if (state.toteBoxesContent !== null) return
 
     let arrToteRows = []
     objOrigin.forEach((eachElem) => {
       eachElem.forEach((eachElemLevel1) => {
 
-        let bufferElem = {price: eachElemLevel1.value, 
-                          week: eachElemLevel1.priceBlockSequence, 
-                          legend: eachElemLevel1.priceBlock
-                        }
-        
-        if( addElement( arrToteRows, eachElemLevel1.priceItemView, bufferElem ) ){
+        let bufferElem = {
+          price: eachElemLevel1.value,
+          week: eachElemLevel1.priceBlockSequence,
+          legend: eachElemLevel1.priceBlock
+        }
+
+        if (addElement(arrToteRows, eachElemLevel1.priceItemView, bufferElem)) {
           let additionalPrice = '';
           switch (eachElemLevel1.priceItemView) {
             case '25 Totes':
-                additionalPrice = '$5';
+              additionalPrice = '$5';
               break;
             case '35 Totes':
-                additionalPrice = '$7';
-                break;
+              additionalPrice = '$7';
+              break;
             case '50 Totes':
-                additionalPrice = '$9';
+              additionalPrice = '$9';
               break;
             case '70 Totes':
-                additionalPrice = '$11';
+              additionalPrice = '$11';
               break;
             case '100 Totes':
-                additionalPrice = '$13';
-                break;
+              additionalPrice = '$13';
+              break;
             case 'King Tote Hand Truck':
-                additionalPrice = '$2';
+              additionalPrice = '$2';
               break;
             case 'King Tote Wheels':
-                additionalPrice = '$1';
+              additionalPrice = '$1';
               break;
             default:
               break;
@@ -121,16 +123,16 @@ export const FormToteDetails = ({
           arrToteRows.push({
             title: eachElemLevel1.priceItemView,
             indexActive: null,
-            sub: eachElemLevel1.descriptionHelp, 
-            additionalWeek:`${additionalPrice} each additional week`,
+            sub: eachElemLevel1.descriptionHelp,
+            additionalWeek: `${additionalPrice} each additional week`,
             prices: [bufferElem]
           })
-        }else{
+        } else {
         }
       })
     })
     toteBoxesData = arrToteRows
-    
+
     dispatch({
       type: "UPDATE_TOTE_BOXES",
       payload: arrToteRows
@@ -139,12 +141,12 @@ export const FormToteDetails = ({
 
   useEffect(() => {
 
-    if(serviceTypes){
+    if (serviceTypes) {
 
       bufferObj = []
 
       let serviceTypesRowLocal = serviceTypes.filter((serviceTypesRow) => {
-          return serviceTypesRow.priceBlockSequence === 1 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
+        return serviceTypesRow.priceBlockSequence === 1 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
       })
       bufferObj.push(serviceTypesRowLocal)
 
@@ -166,13 +168,13 @@ export const FormToteDetails = ({
       setObjectBeforeRenderRows(bufferObj)
     }
     switchButtons()
-    
+
   }, [serviceTypes])
 
-  
+
   return (
     <>
-      <Header title='Enter Personal Details' step="Two"/>
+      <Header title='Enter Personal Details' step="Two" />
       <div className="introWrap">
         <h2>Order details</h2>
         <p>Please select the applicable option(s) below.</p>
@@ -183,69 +185,69 @@ export const FormToteDetails = ({
           setToteBoxesInfo(values);
           direction === 'back' ? prevStep() : nextStep();
         }}
-        >
+      >
         {() => (
           <Form>
-            { (state.toteBoxesContent !== null) ? (
+            {(state.toteBoxesContent !== null) ? (
               state.toteBoxesContent.map((toteRow, index) => {
-                return <ToteBoxesRow 
-                            key={index} 
-                            trackKey={index}
-                            dataObj={toteRow}
-                            updateSelectedBox={updateSelectedBox}
-                        />
+                return <ToteBoxesRow
+                  key={index}
+                  trackKey={index}
+                  dataObj={toteRow}
+                  updateSelectedBox={updateSelectedBox}
+                />
               })
-            ) : ( 
-              <>
-                <div className="formControl fullLenght">
+            ) : (
+                <>
+                  <div className="formControl fullLenght">
                     <label className="boldLabel">Loading...</label>
                     <p>Loading...</p>
                     <div className="toteBoxes loadingToteBoxes">
                       <div className="eachToteItem">
-                          <p>Week rental</p>
-                          <span className="price">$ price</span>
+                        <p>Week rental</p>
+                        <span className="price">$ price</span>
                       </div>
                       <div className="eachToteItem">
-                          <p>Week rental</p>
-                          <span className="price">$ price</span>
+                        <p>Week rental</p>
+                        <span className="price">$ price</span>
                       </div>
                       <div className="eachToteItem">
-                          <p>Week rental</p>
-                          <span className="price">$ price</span>
+                        <p>Week rental</p>
+                        <span className="price">$ price</span>
                       </div>
                       <div className="eachToteItem">
-                          <p>Week rental</p>
-                          <span className="price">$ price</span>
+                        <p>Week rental</p>
+                        <span className="price">$ price</span>
                       </div>
                     </div>
                     <p className="bottomCentered">Loading..</p>
-                </div>
-                <div className="formControl fullLenght">
+                  </div>
+                  <div className="formControl fullLenght">
                     <label className="boldLabel">Loading...</label>
                     <p>Loading...</p>
                     <div className="toteBoxes loadingToteBoxes">
                       <div className="eachToteItem">
-                          <p>Week rental</p>
-                          <span className="price">$ price</span>
+                        <p>Week rental</p>
+                        <span className="price">$ price</span>
                       </div>
                       <div className="eachToteItem">
-                          <p>Week rental</p>
-                          <span className="price">$ price</span>
+                        <p>Week rental</p>
+                        <span className="price">$ price</span>
                       </div>
                       <div className="eachToteItem">
-                          <p>Week rental</p>
-                          <span className="price">$ price</span>
+                        <p>Week rental</p>
+                        <span className="price">$ price</span>
                       </div>
                       <div className="eachToteItem">
-                          <p>Week rental</p>
-                          <span className="price">$ price</span>
+                        <p>Week rental</p>
+                        <span className="price">$ price</span>
                       </div>
                     </div>
                     <p className="bottomCentered">Loading..</p>
-                </div>
+                  </div>
 
-              </>
-            )}
+                </>
+              )}
             <div className="formControl"></div>
             <div className="formControl submitControl fullLenght">
               <button className="whiteBtn" type="submit" onClick={() => setDirection('back')}>

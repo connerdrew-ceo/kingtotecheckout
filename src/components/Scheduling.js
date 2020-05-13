@@ -10,18 +10,18 @@ export const Scheduling = ({
     setFormData,
     nextStep,
     prevStep
-    }) => {
+}) => {
     const [direction, setDirection] = useState('back');
     const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
     let buttonClasses = (nextButtonDisabled) ? 'disabled' : ''
-    if(formData.dateDropOff !== null && formData.datePickUp !== null) {
+    if (formData.dateDropOff !== null && formData.datePickUp !== null) {
         buttonClasses = ''
     }
-    const parentFunction = ( dateData ) => {
-        if(dateData.kind === 'end'){
-            if(dateData.stringDate === null){
+    const parentFunction = (dateData) => {
+        if (dateData.kind === 'end') {
+            if (dateData.stringDate === null) {
                 setNextButtonDisabled(true)
-            }else{
+            } else {
                 setNextButtonDisabled(false)
             }
         }
@@ -35,43 +35,43 @@ export const Scheduling = ({
 
     return (
         <>
-        <Header title='Enter Personal Details' step="Three"/>
-        <div className="introWrap">
-            <h2>Scheduling</h2>
-            <p>Please select a date and time to drop-off and pick-up totes</p>
-        </div>
+            <Header title='Enter Personal Details' step="Three" />
+            <div className="introWrap">
+                <h2>Scheduling</h2>
+                <p>Please select a date and time to drop-off and pick-up totes</p>
+            </div>
             <Formik
                 initialValues={formData}
                 onSubmit={values => {
                     direction === 'back' ? prevStep() : nextStep();
                 }}
             >
-            {() => (
-                <Form>
-                    <CalendarControlsWrap
-                        formData={formData}
-                        setFormData={setFormData}
-                        origin="Scheduling"
-                        parentFunction={parentFunction}
-                    />
-                    <div className="formControl submitControl fullLenght">
-                    <button className="whiteBtn" type="submit" onClick={() => prevStep()}>
-                        <span>Previous</span>
-                    </button>
-                    <button className={buttonClasses} type="submit" onClick={() => setDirection('next')}>
-                        <span>Next</span>
-                    </button>
-                    </div>
-                </Form>
-            )}
-        </Formik>
+                {() => (
+                    <Form>
+                        <CalendarControlsWrap
+                            formData={formData}
+                            setFormData={setFormData}
+                            origin="Scheduling"
+                            parentFunction={parentFunction}
+                        />
+                        <div className="formControl submitControl fullLenght">
+                            <button className="whiteBtn" type="submit" onClick={() => prevStep()}>
+                                <span>Previous</span>
+                            </button>
+                            <button className={buttonClasses} type="submit" onClick={() => setDirection('next')}>
+                                <span>Next</span>
+                            </button>
+                        </div>
+                    </Form>
+                )}
+            </Formik>
         </>
     );
 };
 
 Scheduling.propTypes = {
-  formData: PropTypes.object.isRequired,
-  setFormData: PropTypes.func.isRequired,
-  nextStep: PropTypes.func.isRequired,
-  prevStep: PropTypes.func.isRequired
+    formData: PropTypes.object.isRequired,
+    setFormData: PropTypes.func.isRequired,
+    nextStep: PropTypes.func.isRequired,
+    prevStep: PropTypes.func.isRequired
 };

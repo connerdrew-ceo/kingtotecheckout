@@ -62,38 +62,36 @@ const useWindowSize = () => {
     updateSize();
     return () => window.removeEventListener('resize', updateSize);
   }, []);
+
   return size;
 }
 
-export const Confirm = ({ 
-    formData, 
-    setFormData,
-    prevStep,
-    nextStep }) => {
-    const [direction, setDirection] = useState('back');
-    const [cvc, setCVC] = useState('');
-    const [expiry, setExpiry] = useState('');
-    const [focus, setFocus] = useState('');
-    const [nameCard, setNameCard] = useState('');
-    const [numberCard, setNumberCard] = useState('');
-    // const [globalDiscount, setGlobalDiscount] = useState(0);
-    const [globalDiscount, setGlobalDiscount] = useState({amount: 0, description:''});
-    const [taxPercent, setTaxPercent] = useState(1);
-    const [width] = useWindowSize();
-    const { state } = useContext(GlobalContext);
+export const Confirm = ({
+  formData,
+  setFormData,
+  prevStep,
+  nextStep }) => {
+  const [direction, setDirection] = useState('back');
+  const [cvc, setCVC] = useState('');
+  const [expiry, setExpiry] = useState('');
+  const [focus, setFocus] = useState('');
+  const [nameCard, setNameCard] = useState('');
+  const [numberCard, setNumberCard] = useState('');
+  // const [globalDiscount, setGlobalDiscount] = useState(0);
+  const [globalDiscount, setGlobalDiscount] = useState({ amount: 0, description: '' });
+  const [taxPercent, setTaxPercent] = useState(1);
+  const [width] = useWindowSize();
+  const { state } = useContext(GlobalContext);
 
   const validateNameCardHolder = value => {
-
     setNameCard(value)
   };
 
   const validateNameCardNumber = value => {
-
     setNumberCard(value)
   };
 
   const validateDateExp = value => {
-
     setExpiry(value)
   };
 
@@ -102,34 +100,32 @@ export const Confirm = ({
     let error;
 
     setCVC(value)
-      if (!value) {
-        error = 'CVC required';
-      } else if (stringValue.length > 4) {
-        error = 'CVC code is 4 digits or less';
-      } else if (stringValue.length < 3) {
-        error = 'CVC code is 3 digits at least';
-      }
-      return error;
+    if (!value) {
+      error = 'CVC required';
+    } else if (stringValue.length > 4) {
+      error = 'CVC code is 4 digits or less';
+    } else if (stringValue.length < 3) {
+      error = 'CVC code is 3 digits at least';
+    }
+
+    return error;
   };
 
   const trackFocus = (e) => {
-    //const { name, value } = e.target;
-    //console.log('trackFocus name: ', name)
-    //console.log('trackFocus value: ', value)
     setFocus(e.target.name)
   }
 
   const getPromoDiscount = async (e) => {
-
     e.preventDefault()
 
     let inputVal = document.getElementById('promoCodeField').value;
 
-    if(inputVal === '' || inputVal.length < 4) {
-      setGlobalDiscount({amount: 0, description:''})
+    if (inputVal === '' || inputVal.length < 4) {
+      setGlobalDiscount({ amount: 0, description: '' })
+      
       return
     }
-    
+
     let discountFields = {
       "securityToken": state.securityToken,
       "method": "1",
@@ -141,16 +137,16 @@ export const Confirm = ({
     try {
       const res = await axios.post(API + 'api/v1/resources/promos/?', discountFields, {
         headers: {
-        'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         }
       });
 
-      if(res.data !== null){
-        
-        setGlobalDiscount({amount: res.data.Promo[0].promoDiscount, description:res.data.Promo[0].promoDescription})
+      if (res.data !== null) {
+
+        setGlobalDiscount({ amount: res.data.Promo[0].promoDiscount, description: res.data.Promo[0].promoDescription })
       }
     } catch (err) {
-        console.log('Error getPromoDiscount  >> ', err)
+      console.log('Error getPromoDiscount  >> ', err)
     }
   }
 
@@ -158,38 +154,38 @@ export const Confirm = ({
 
     let authNetClient, authNetCard, authNetTransactionLog = 0
     let authorizeFilds9dot3 = {
-        "getCustomerProfileRequest": {
-            "merchantAuthentication": {
-                "name": merchantName,
-                "transactionKey": merchantKey
-            },
-            "customerProfileId": customerProfileId,
-            "includeIssuerInfo": "true"
-        }
+      "getCustomerProfileRequest": {
+        "merchantAuthentication": {
+          "name": merchantName,
+          "transactionKey": merchantKey
+        },
+        "customerProfileId": customerProfileId,
+        "includeIssuerInfo": "true"
       }
+    }
 
-      authorizeFilds9dot3 = JSON.stringify(authorizeFilds9dot3)
+    authorizeFilds9dot3 = JSON.stringify(authorizeFilds9dot3)
 
-      try {                           
-        const res = await axios.post(authNetURL, authorizeFilds9dot3, {
-          headers: {
+    try {
+      const res = await axios.post(authNetURL, authorizeFilds9dot3, {
+        headers: {
           'Content-Type': 'application/json',
-          }
-        });
-        if(res.data !== null){
-
-          if(res.data.messages.resultCode === 'Ok'){
-
-            authNetClient = customerProfileId
-            //authNetCard = res.data.profile.paymentProfiles[0]
-            //authNetTransactionLog = res.data.profile.paymentProfiles[0]
-            createPayment(jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog, 
-              formatPrice((getTotalPriceWithDiscount( getTotalPrice()) * ((taxPercent / 100) + 1))) )
-          }
         }
-      } catch (err) {
-        console.log('Error getProfileUsingID >> ', err)
+      });
+      if (res.data !== null) {
+
+        if (res.data.messages.resultCode === 'Ok') {
+
+          authNetClient = customerProfileId
+          //authNetCard = res.data.profile.paymentProfiles[0]
+          //authNetTransactionLog = res.data.profile.paymentProfiles[0]
+          createPayment(jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog,
+            formatPrice((getTotalPriceWithDiscount(getTotalPrice()) * ((taxPercent / 100) + 1))))
+        }
       }
+    } catch (err) {
+      console.log('Error getProfileUsingID >> ', err)
+    }
   }
 
   const getValuesToCompletePayment = async (jobID, authNetTransaction) => {
@@ -199,52 +195,52 @@ export const Confirm = ({
 
     let authorizeFilds9dot2 = {
       "createCustomerProfileRequest": {
-          "merchantAuthentication": {
-            "name": merchantName,
-            "transactionKey": merchantKey
-          },
-          "profile": {
-            "email": globalFormValues.emailField,
-            "paymentProfiles": {
-                "customerType": "individual",
-                "payment": {
-                    "creditCard": {
-                        "cardNumber": numberCard,
-                        "expirationDate": expiry
-                    }
-                }
+        "merchantAuthentication": {
+          "name": merchantName,
+          "transactionKey": merchantKey
+        },
+        "profile": {
+          "email": globalFormValues.emailField,
+          "paymentProfiles": {
+            "customerType": "individual",
+            "payment": {
+              "creditCard": {
+                "cardNumber": numberCard,
+                "expirationDate": expiry
+              }
             }
           }
         }
       }
+    }
 
     authorizeFilds9dot2 = JSON.stringify(authorizeFilds9dot2)
 
-    try {                           
+    try {
       const res = await axios.post(authNetURL, authorizeFilds9dot2, {
         headers: {
-        'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         }
       });
       console.log(' $ getValuesToCompletePayment : ', res.data)
-      if(res.data !== null){
+      if (res.data !== null) {
 
-        if(res.data.messages.resultCode === 'Error'){
+        if (res.data.messages.resultCode === 'Error') {
 
           customerProfileId = res.data.messages.message[0].text
           customerProfileId = customerProfileId.split(' ')[5]
           getProfileUsingID(customerProfileId, jobID, authNetTransaction)
         }
-        
-        if(res.data.messages.resultCode === 'Ok'){
+
+        if (res.data.messages.resultCode === 'Ok') {
           authNetClient = res.data.customerProfileId
           authNetCard = res.data.customerPaymentProfileIdList[0]
           authNetTransactionLog = res.data.validationDirectResponseList[0]
-          
-          createPayment(jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog, 
-            formatPrice((getTotalPriceWithDiscount( getTotalPrice()) * ((taxPercent / 100) + 1))) )
+
+          createPayment(jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog,
+            formatPrice((getTotalPriceWithDiscount(getTotalPrice()) * ((taxPercent / 100) + 1))))
         }
-        
+
       }
     } catch (err) {
       console.log('Error getValuesToCompletePayment >> ', err)
@@ -257,17 +253,17 @@ export const Confirm = ({
   }
 
   const getTotalPrice = () => {
-    if(!state.toteBoxesContent){
+    if (!state.toteBoxesContent) {
       return 0
     }
-    else{
+    else {
       let totalPrice = 0;
       let selectedTotes = state.toteBoxesContent.filter(toteRow => toteRow.indexActive !== null)
       for (var i = 0, len = selectedTotes.length; i < len; i++) {
         let toteRow = selectedTotes[i];
         totalPrice += toteRow.prices[toteRow.indexActive].price
       }
-      return formatPrice(totalPrice);                    
+      return formatPrice(totalPrice);
     }
   }
 
@@ -284,36 +280,36 @@ export const Confirm = ({
     try {
       const res = await axios.post(API + 'api/v1/resources/taxes/?', getTaxesFields, {
         headers: {
-        'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         }
       });
-      if(res.data.Taxes !== null){
+      if (res.data.Taxes !== null) {
         setTaxPercent(res.data.Taxes[0].taxPercent)
       }
     } catch (err) {
-        console.log('Error getTaxesPercent  >> ', err)
+      console.log('Error getTaxesPercent  >> ', err)
     }
   }
 
   const getBillTo = () => {
     var retData = {
-        "firstName": state.firstNameField,
-        "lastName": state.lastNameField,
-        "company": "",
-        "address": state.addressDropOffField,
-        "city": state.cityDropOffField,
-        "state": state.stateDropOffField,
-        "zip": state.zipCodeDropOff,
-        "country": state.locationType==='16'?'USA':'Canada'
+      "firstName": state.firstNameField,
+      "lastName": state.lastNameField,
+      "company": "",
+      "address": state.addressDropOffField,
+      "city": state.cityDropOffField,
+      "state": state.stateDropOffField,
+      "zip": state.zipCodeDropOff,
+      "country": state.locationType === '16' ? 'USA' : 'Canada'
     }
-    if(!state.sameAddressAsDropOff){
+    if (!state.sameAddressAsDropOff) {
       retData.address = state.billingAddressField
       retData.city = state.billingCityField
       retData.state = state.billingStateField
       retData.zip = state.billingAddressZipField
-      retData.country = state.locationType==='16'?'USA':'Canada'
+      retData.country = state.locationType === '16' ? 'USA' : 'Canada'
     }
-    if(!state.sameAsMainContactDropOff){
+    if (!state.sameAsMainContactDropOff) {
       retData.firstName = state.firstNameFieldDifferentDrop
       retData.lastName = state.lastNameFieldDifferentDrop
     }
@@ -321,21 +317,21 @@ export const Confirm = ({
   }
   const getShipTo = () => {
     let retData = {
-        "firstName": state.firstNameField,
-        "lastName": state.lastNameField,
-        "company": "",
-        "address": "",
-        "city": "",
-        "state": "",
-        "zip": "",
-        "country": ""
+      "firstName": state.firstNameField,
+      "lastName": state.lastNameField,
+      "company": "",
+      "address": "",
+      "city": "",
+      "state": "",
+      "zip": "",
+      "country": ""
     }
     retData.address = state.addressPickUpField
     retData.city = state.cityPickUpField
     retData.state = state.statePickUpField
     retData.zip = state.zipCodePickUp
-    retData.country = state.locationType==='16'?'USA':'Canada'
-    if(!state.sameAsMainContactPickUp){
+    retData.country = state.locationType === '16' ? 'USA' : 'Canada'
+    if (!state.sameAsMainContactPickUp) {
       retData.firstName = state.firstNameFieldDifferentPickUp
       retData.lastName = state.lastNameFieldDifferentPickUp
     }
@@ -344,54 +340,54 @@ export const Confirm = ({
 
   const createAuthorize = async (jobID) => {
 
-    let expiryFormatted = '20'+expiry.substring(3,5)+'-'+expiry.substring(0,2)
+    let expiryFormatted = '20' + expiry.substring(3, 5) + '-' + expiry.substring(0, 2)
 
     let authorizeFilds = {
       "createTransactionRequest": {
-          "merchantAuthentication": {
-            "name": merchantName,
-            "transactionKey": merchantKey
+        "merchantAuthentication": {
+          "name": merchantName,
+          "transactionKey": merchantKey
+        },
+        "refId": jobID,
+        "transactionRequest": {
+          "transactionType": "authCaptureTransaction",
+          "amount": formatPrice((getTotalPriceWithDiscount(getTotalPrice()) * ((taxPercent / 100) + 1))),
+          "payment": {
+            "creditCard": {
+              "cardNumber": numberCard,
+              "expirationDate": expiryFormatted,
+              "cardCode": cvc
+            }
           },
-          "refId": jobID,
-          "transactionRequest": {
-              "transactionType": "authCaptureTransaction",
-              "amount": formatPrice((getTotalPriceWithDiscount( getTotalPrice()) * ((taxPercent / 100) + 1) ) ),
-              "payment": {
-                  "creditCard": {
-                      "cardNumber": numberCard,
-                      "expirationDate": expiryFormatted,
-                      "cardCode": cvc
-                  }
-              },
-              "tax": {
-                "amount": formatPrice((getTotalPriceWithDiscount( getTotalPrice()) * ((taxPercent / 100) + 1) ) ),
-                "name": "voing tax",
-                "description": `${taxPercent} %`
-              },
-              "billTo": getBillTo(),
-              "shipTo": getShipTo()
-          }
+          "tax": {
+            "amount": formatPrice((getTotalPriceWithDiscount(getTotalPrice()) * ((taxPercent / 100) + 1))),
+            "name": "voing tax",
+            "description": `${taxPercent} %`
+          },
+          "billTo": getBillTo(),
+          "shipTo": getShipTo()
         }
       }
+    }
 
-      authorizeFilds = JSON.stringify(authorizeFilds)
+    authorizeFilds = JSON.stringify(authorizeFilds)
 
-      try {                           
-        const res = await axios.post(authNetURL, authorizeFilds, {
-          headers: {
+    try {
+      const res = await axios.post(authNetURL, authorizeFilds, {
+        headers: {
           'Content-Type': 'application/json',
-          }
-        });
-        if(res.data !== null){
-          getValuesToCompletePayment(jobID, res.data.transactionResponse.transId )
         }
-      } catch (err) {
-        console.log('Error createAuthorize >> ', err)
+      });
+      if (res.data !== null) {
+        getValuesToCompletePayment(jobID, res.data.transactionResponse.transId)
       }
+    } catch (err) {
+      console.log('Error createAuthorize >> ', err)
+    }
   }
 
-  const createPayment = async ( jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog, amount ) => {
-    
+  const createPayment = async (jobID, authNetTransaction, authNetClient, authNetCard, authNetTransactionLog, amount) => {
+
     let newPaymentFields = {
       securityToken: state.securityToken,
       method: '3',
@@ -399,7 +395,7 @@ export const Confirm = ({
       jobID: jobID,
       authNetClient: authNetClient,
       authNetCard: authNetCard,
-      authNetCardLast4Digits: numberCard.substring(11,15),
+      authNetCardLast4Digits: numberCard.substring(11, 15),
       authNetTransaction: authNetTransaction,
       authNetTransactionLog: authNetTransactionLog,
       Fields: [
@@ -418,176 +414,176 @@ export const Confirm = ({
         {
           "fieldID": 928,
           "fieldValue": 'Online booking. No summary data'
-        } 
-      ]
-      }
-
-      newPaymentFields = JSON.stringify(newPaymentFields)
-
-      try {
-        const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Payments/?', newPaymentFields, {
-          headers: {
-          'Content-Type': 'application/json',
-          }
-        });
-        console.log(' $ $ $ createPayment : ', res.data)
-        if(res.data !== null){
-          direction === 'back' ? prevStep() : nextStep();
-          document.body.classList.remove('busy-cursor');
-          //createWorkOrders(res.data.Job.objectID, 'dropOff')
-          //createWorkOrders(res.data.Job.objectID, 'pickUp')
-          
         }
-      } catch (err) {
-        console.log('Error createPayment >> ', err)
+      ]
+    }
+
+    newPaymentFields = JSON.stringify(newPaymentFields)
+
+    try {
+      const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Payments/?', newPaymentFields, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      console.log(' $ $ $ createPayment : ', res.data)
+      if (res.data !== null) {
+        direction === 'back' ? prevStep() : nextStep();
+        document.body.classList.remove('busy-cursor');
+        //createWorkOrders(res.data.Job.objectID, 'dropOff')
+        //createWorkOrders(res.data.Job.objectID, 'pickUp')
+
       }
-    
+    } catch (err) {
+      console.log('Error createPayment >> ', err)
+    }
+
   }
 
-  const createWorkOrders = async ( jobID, requestType ) => {
+  const createWorkOrders = async (jobID, requestType) => {
 
     let workOrderFields = {
-                        securityToken: state.securityToken,
-                        method: '3',
-                        jobID: jobID,
-                        lockID: (requestType === 'dropOff') ? dropOffGlobalObj.lockID : pickUpGlobalObj.lockID,
-                        clientID: (requestType === 'dropOff') ? dropOffGlobalObj.clientID : pickUpGlobalObj.clientID,
-                        contactID: (requestType === 'dropOff') ? dropOffGlobalObj.contactID : pickUpGlobalObj.contactID,
-                        locationID: (requestType === 'dropOff') ? dropOffGlobalObj.locationID : pickUpGlobalObj.locationID,
-                        serviceTypeID: formData.locationType,
-                        Fields: [
-                          {
-                            "fieldID": 200,
-                            "fieldValue": 'Online booking. No summary data'
-                          },
-                          {
-                            "fieldID": 186,
-                            "fieldValue": 60
-                          },
-                          {
-                            "fieldID": 201,
-                            "optionID": (requestType === 'dropOff') ? 245 : 246
-                          } 
-                        ]
-                      }
+      securityToken: state.securityToken,
+      method: '3',
+      jobID: jobID,
+      lockID: (requestType === 'dropOff') ? dropOffGlobalObj.lockID : pickUpGlobalObj.lockID,
+      clientID: (requestType === 'dropOff') ? dropOffGlobalObj.clientID : pickUpGlobalObj.clientID,
+      contactID: (requestType === 'dropOff') ? dropOffGlobalObj.contactID : pickUpGlobalObj.contactID,
+      locationID: (requestType === 'dropOff') ? dropOffGlobalObj.locationID : pickUpGlobalObj.locationID,
+      serviceTypeID: formData.locationType,
+      Fields: [
+        {
+          "fieldID": 200,
+          "fieldValue": 'Online booking. No summary data'
+        },
+        {
+          "fieldID": 186,
+          "fieldValue": 60
+        },
+        {
+          "fieldID": 201,
+          "optionID": (requestType === 'dropOff') ? 245 : 246
+        }
+      ]
+    }
 
     workOrderFields = JSON.stringify(workOrderFields)
 
     try {
       const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/WorkOrders/?', workOrderFields, {
         headers: {
-        'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         }
       });
-      
-      if(res.data !== null){
-        
-        if(requestType === 'dropOff'){
+
+      if (res.data !== null) {
+
+        if (requestType === 'dropOff') {
           dropOffGlobalObj.workOrder = res.data.WorkOrder.objectID
-        }else{
+        } else {
           pickUpGlobalObj.workOrder = res.data.WorkOrder.objectID
         }
       }
     } catch (err) {
-      console.log(requestType,' Error createWorkOrders >> ', err)
+      console.log(requestType, ' Error createWorkOrders >> ', err)
     }
-    
+
   }
 
   const createNewJob = async () => {
 
     let newJobFields = {
-                        securityToken: state.securityToken,
-                        method: '3',
-                        clientID: dropOffGlobalObj.clientID,
-                        Fields: [
-                          {
-                            "fieldID": 978,
-                            "fieldValue": 'Online booking. No summary data'
-                          },
-                          {
-                            "fieldID": 982,
-                            "optionID": (formData.locationType === '16') ? 10278 : 10173
-                          } 
-                        ]
-                      }
+      securityToken: state.securityToken,
+      method: '3',
+      clientID: dropOffGlobalObj.clientID,
+      Fields: [
+        {
+          "fieldID": 978,
+          "fieldValue": 'Online booking. No summary data'
+        },
+        {
+          "fieldID": 982,
+          "optionID": (formData.locationType === '16') ? 10278 : 10173
+        }
+      ]
+    }
 
     newJobFields = JSON.stringify(newJobFields)
 
     try {
       const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Jobs/?', newJobFields, {
         headers: {
-        'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         }
       });
-      if(res.data !== null){
+      if (res.data !== null) {
         createWorkOrders(res.data.Job.objectID, 'dropOff')
         createWorkOrders(res.data.Job.objectID, 'pickUp')
         createAuthorize(res.data.Job.objectID)
-        
+
       }
     } catch (err) {
       console.log('Error createNewJob >> ', err)
     }
   }
 
-  const lockAvailability = async ( objectID, requestType) => {
+  const lockAvailability = async (objectID, requestType) => {
 
     let lockAvailabilityFields = {
-                                securityToken: state.securityToken,
-                                method: '2',
-                                dayID: (requestType === 'dropOff') ? state.dropOffObj.dayID : state.pickUpObj.dayID,
-                                routeID: (requestType === 'dropOff') ? state.dropOffObj.routeID : state.pickUpObj.routeID,
-                                locationID: objectID,
-                                serviceTypeID: formData.locationType,
-                                duration: 60,
-                                startTime: (requestType === 'dropOff') ? state.dropOffObj.startTime : state.pickUpObj.startTime
-                              }
+      securityToken: state.securityToken,
+      method: '2',
+      dayID: (requestType === 'dropOff') ? state.dropOffObj.dayID : state.pickUpObj.dayID,
+      routeID: (requestType === 'dropOff') ? state.dropOffObj.routeID : state.pickUpObj.routeID,
+      locationID: objectID,
+      serviceTypeID: formData.locationType,
+      duration: 60,
+      startTime: (requestType === 'dropOff') ? state.dropOffObj.startTime : state.pickUpObj.startTime
+    }
 
     lockAvailabilityFields = JSON.stringify(lockAvailabilityFields)
 
     try {
       const res = await axios.post('https://kingtote.vonigo.com/api/v1/resources/availability/?', lockAvailabilityFields, {
         headers: {
-        'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         }
       });
-      
-      if(res.data !== null){
-        
-        if(requestType === 'dropOff'){
+
+      if (res.data !== null) {
+
+        if (requestType === 'dropOff') {
           dropOffGlobalObj.lockID = res.data.Ids.lockID
           createNewJob()
         }
 
-        if(requestType === 'pickUp'){
+        if (requestType === 'pickUp') {
           pickUpGlobalObj.lockID = res.data.Ids.lockID
         }
       }
     } catch (err) {
-        console.log(requestType + ' Error lockAvailabilityFields>> ', err)
+      console.log(requestType + ' Error lockAvailabilityFields>> ', err)
     }
-    
+
   }
 
   const setBillingAddress = async (locationID) => {
 
     let setBillingAddressFields = {
-                                securityToken: state.securityToken,
-                                method: '9',
-                                objectID: locationID,
-                              }
+      securityToken: state.securityToken,
+      method: '9',
+      objectID: locationID,
+    }
 
     setBillingAddressFields = JSON.stringify(setBillingAddressFields)
 
     try {
       const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Locations/?', setBillingAddressFields, {
         headers: {
-        'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         }
       });
-      
-      if(res.data !== null){
+
+      if (res.data !== null) {
         //console.log('setBillingAddress okay: ', res.data)
         //setMainContact(res.data.Contact.objectID)
       }
@@ -599,144 +595,144 @@ export const Confirm = ({
   const addLocation = async (values, objectID, requestType) => {
 
     let addLocationFields = {
-                              securityToken: state.securityToken,
-                              method: '3',
-                              clientID: objectID,
-                              Fields: [
-                                {
-                                  "fieldID": 773,
-                                  "fieldValue": (requestType === 'dropOff') ? values.addressDropOffField : values.addressPickUpField
-                                },
-                                {
-                                  "fieldID": 776,
-                                  "fieldValue": (requestType === 'dropOff') ? values.cityDropOffField : values.cityPickUpField
-                                },
-                                {
-                                  "fieldID": 778,
-                                  "optionID": '9847'
-                                },
-                                {
-                                  "fieldID": 775,
-                                  "fieldValue": (requestType === 'dropOff') ? values.zipCodeDropOff : values.zipCodePickUp
-                                },
-                                {
-                                  "fieldID": 779,
-                                  "optionID": '9906'
-                                },
-                                {
-                                  "fieldID": 9713,
-                                  "fieldValue": (requestType === 'dropOff') ? values.textareaDropOff : values.textareaPickUp
-                                }
-                              ]
-                            }
-
-      if(requestType === 'billing'){
-
-        addLocationFields = {
-                              securityToken: state.securityToken,
-                              method: '3',
-                              clientID: objectID,
-                              Fields: [
-                                {
-                                  "fieldID": 773,
-                                  "fieldValue": values.billingAddressField
-                                },
-                                {
-                                  "fieldID": 776,
-                                  "fieldValue": values.billingCityField
-                                },
-                                {
-                                  "fieldID": 778,
-                                  "optionID": '9847'
-                                },
-                                {
-                                  "fieldID": 775,
-                                  "fieldValue": values.billingAddressZipField
-                                },
-                                {
-                                  "fieldID": 779,
-                                  "optionID": '9906'
-                                },
-                                {
-                                  "fieldID": 9713,
-                                  "fieldValue": '-'
-                                }
-                              ]
-                            }
+      securityToken: state.securityToken,
+      method: '3',
+      clientID: objectID,
+      Fields: [
+        {
+          "fieldID": 773,
+          "fieldValue": (requestType === 'dropOff') ? values.addressDropOffField : values.addressPickUpField
+        },
+        {
+          "fieldID": 776,
+          "fieldValue": (requestType === 'dropOff') ? values.cityDropOffField : values.cityPickUpField
+        },
+        {
+          "fieldID": 778,
+          "optionID": '9847'
+        },
+        {
+          "fieldID": 775,
+          "fieldValue": (requestType === 'dropOff') ? values.zipCodeDropOff : values.zipCodePickUp
+        },
+        {
+          "fieldID": 779,
+          "optionID": '9906'
+        },
+        {
+          "fieldID": 9713,
+          "fieldValue": (requestType === 'dropOff') ? values.textareaDropOff : values.textareaPickUp
+        }
+      ]
     }
-    
+
+    if (requestType === 'billing') {
+
+      addLocationFields = {
+        securityToken: state.securityToken,
+        method: '3',
+        clientID: objectID,
+        Fields: [
+          {
+            "fieldID": 773,
+            "fieldValue": values.billingAddressField
+          },
+          {
+            "fieldID": 776,
+            "fieldValue": values.billingCityField
+          },
+          {
+            "fieldID": 778,
+            "optionID": '9847'
+          },
+          {
+            "fieldID": 775,
+            "fieldValue": values.billingAddressZipField
+          },
+          {
+            "fieldID": 779,
+            "optionID": '9906'
+          },
+          {
+            "fieldID": 9713,
+            "fieldValue": '-'
+          }
+        ]
+      }
+    }
+
     addLocationFields = JSON.stringify(addLocationFields)
 
     try {
       const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Locations/?', addLocationFields, {
         headers: {
-        'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         }
       });
-      
-        if(res.data !== null){
-          
-          if(requestType === 'billing'){
-            setBillingAddress(res.data.Location.objectID)
-            return
-          }
 
-          if(requestType === 'pickUp'){
+      if (res.data !== null) {
 
-            if(!values.sameAddressAsDropOff){
-              addLocation(values, objectID, 'billing')
-            }
-            
-            lockAvailability(res.data.Location.objectID, requestType)
-            pickUpGlobalObj.locationID = res.data.Location.objectID
-
-            return
-
-          }else if(requestType === 'dropOff'){ 
-
-            lockAvailability(res.data.Location.objectID, requestType)
-            dropOffGlobalObj.locationID = res.data.Location.objectID
-
-            if(values.sameAddressAsDropOff){
-              setBillingAddress(res.data.Location.objectID)
-            }
-          }
-
-          addLocation(values, objectID, 'pickUp')
+        if (requestType === 'billing') {
+          setBillingAddress(res.data.Location.objectID)
+          return
         }
+
+        if (requestType === 'pickUp') {
+
+          if (!values.sameAddressAsDropOff) {
+            addLocation(values, objectID, 'billing')
+          }
+
+          lockAvailability(res.data.Location.objectID, requestType)
+          pickUpGlobalObj.locationID = res.data.Location.objectID
+
+          return
+
+        } else if (requestType === 'dropOff') {
+
+          lockAvailability(res.data.Location.objectID, requestType)
+          dropOffGlobalObj.locationID = res.data.Location.objectID
+
+          if (values.sameAddressAsDropOff) {
+            setBillingAddress(res.data.Location.objectID)
+          }
+        }
+
+        addLocation(values, objectID, 'pickUp')
+      }
 
     } catch (err) {
       console.log(requestType + ' Error Locations>> ', err)
     }
-    
+
   }
 
   const setMainContact = async (mainContactID) => {
 
     let setMainContactFields = {
-                                securityToken: state.securityToken,
-                                method: '9',
-                                objectID: mainContactID,
-                                
-                              }
+      securityToken: state.securityToken,
+      method: '9',
+      objectID: mainContactID,
+
+    }
 
     setMainContactFields = JSON.stringify(setMainContactFields)
 
     try {
       const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Contacts/?', setMainContactFields, {
         headers: {
-        'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         }
       });
-      if(res.data.Contact !== null){
+      if (res.data.Contact !== null) {
 
         //console.log('setMainContactFields okay: ', res.data.Contact.objectID)
         //setMainContact(res.data.Contact.objectID)
       }
     } catch (err) {
-        console.log('Error WorkOrders >> ', err)
+      console.log('Error WorkOrders >> ', err)
     }
-    
+
   }
 
   const getContactInfoByType = (values, objectID, contactType) => {
@@ -787,7 +783,7 @@ export const Confirm = ({
         {
           "fieldID": 97,
           "fieldValue": email
-        }    
+        }
       ]
     }
     return createContactFields;
@@ -803,37 +799,37 @@ export const Confirm = ({
     try {
       const res = await axios.post('https://kingtote.vonigo.com/api/v1/data/Contacts/?', createContactFields, {
         headers: {
-        'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         }
       });
 
-      
-      if(res.data.Contact !== null){
+
+      if (res.data.Contact !== null) {
 
         //console.log(contactType,' + + + + + + Contacts: ', res.data )
 
-        if(contactType === 'main'){
+        if (contactType === 'main') {
           setMainContact(res.data.Contact.objectID)
-          if(values.sameAsMainContactDropOff){
+          if (values.sameAsMainContactDropOff) {
             dropOffGlobalObj.contactID = res.data.Contact.objectID
           }
-          if(values.sameAsMainContactPickUp){
+          if (values.sameAsMainContactPickUp) {
             pickUpGlobalObj.contactID = res.data.Contact.objectID
           }
         }
 
-        if(contactType === 'dropOff'){
+        if (contactType === 'dropOff') {
           dropOffGlobalObj.contactID = res.data.Contact.objectID
         }
 
-        if(contactType === 'pickUp'){
+        if (contactType === 'pickUp') {
           pickUpGlobalObj.contactID = res.data.Contact.objectID
         }
 
-        
+
       }
     } catch (err) {
-      console.log(contactType,' Error Contacts>> ', err)
+      console.log(contactType, ' Error Contacts>> ', err)
     }
 
   }
@@ -841,27 +837,27 @@ export const Confirm = ({
   const createClient = async (values) => {
 
     let createClientFields = {
-                                securityToken: state.securityToken,
-                                method: '3',
-                                Fields: [
-                                  {
-                                    "fieldID": 121,
-                                    "optionID": (formData.locationType === '16') ? 59 : 60
-                                  },
-                                  {
-                                    "fieldID": 126,
-                                    "fieldValue": values.lastNameField + ' ' + values.firstNameField
-                                  },
-                                  {
-                                    "fieldID": 112,
-                                    "fieldValue": values.telField
-                                  },
-                                  {
-                                    "fieldID": 1091,
-                                    "fieldValue": values.emailField
-                                  }    
-                                ]
-                              }
+      securityToken: state.securityToken,
+      method: '3',
+      Fields: [
+        {
+          "fieldID": 121,
+          "optionID": (formData.locationType === '16') ? 59 : 60
+        },
+        {
+          "fieldID": 126,
+          "fieldValue": values.lastNameField + ' ' + values.firstNameField
+        },
+        {
+          "fieldID": 112,
+          "fieldValue": values.telField
+        },
+        {
+          "fieldID": 1091,
+          "fieldValue": values.emailField
+        }
+      ]
+    }
 
 
     globalFormValues = values
@@ -888,44 +884,44 @@ export const Confirm = ({
     try {
       const res = await axios.post(API + 'api/v1/data/Clients/?', createClientFields, {
         headers: {
-        'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         }
       });
-      if(res.data.Client !== null){
+      if (res.data.Client !== null) {
         await createContact(values, res.data.Client.objectID, 'main')
-        if(!values.sameAsMainContactDropOff && dropOffGlobalObj.contactID === 0){
+        if (!values.sameAsMainContactDropOff && dropOffGlobalObj.contactID === 0) {
           await createContact(values, res.data.Client.objectID, 'dropOff')
         }
-        if(!values.sameAsMainContactPickUp && pickUpGlobalObj.contactID === 0){
+        if (!values.sameAsMainContactPickUp && pickUpGlobalObj.contactID === 0) {
           await createContact(values, res.data.Client.objectID, 'pickUp')
         }
         addLocation(values, res.data.Client.objectID, 'dropOff')
         dropOffGlobalObj.clientID = res.data.Client.objectID
         pickUpGlobalObj.clientID = res.data.Client.objectID
-        
+
       }
     } catch (err) {
-        console.log('Error Clients  >> ', err)
+      console.log('Error Clients  >> ', err)
     }
 
   }
 
   useEffect(() => {
     window.scrollTo({
-        behavior: "smooth",
-        top: 0
+      behavior: "smooth",
+      top: 0
     });
     getTaxesPercent()
   }, []);
 
   const formatPrice = (price) => {
-    
+
     return (price % 1 !== 0) ? price.toFixed(2) : price.toFixed(2)
   }
 
   return (
     <>
-      <Header title='Confirm User Data' step="Five"/>
+      <Header title='Confirm User Data' step="Five" />
       <div className="introWrap">
         <h2>Order Confirmation</h2>
         <p>Please provide Payment Information and review your order details</p>
@@ -938,14 +934,14 @@ export const Confirm = ({
           document.body.classList.add('busy-cursor');
         }}
         validationSchema={validationSchemaFourthStep}
-        >
+      >
         {({ errors, touched }) => (
-        <Form className="fifthForm">
+          <Form className="fifthForm">
 
-          <div className="inlineFifth">
+            <div className="inlineFifth">
 
-            <div className="leftFields">
-              {/* <div className="formControl">
+              <div className="leftFields">
+                {/* <div className="formControl">
                   <div className="cardWarp">
                     <Cards
                       cvc={cvc}
@@ -956,32 +952,32 @@ export const Confirm = ({
                       />
                   </div>
               </div> */}
-              <div className="formControl">
-                <h3>Payment Information</h3>
-                <label htmlFor="cardHolderNameInput">Cardholder Name</label>
-                <Field 
-                  id="cardHolderNameInput"
-                  name='cardHolderNameField' 
-                  placeholder="Jane Doe"
-                  validate={validateNameCardHolder}
-                  onFocus={trackFocus}
+                <div className="formControl">
+                  <h3>Payment Information</h3>
+                  <label htmlFor="cardHolderNameInput">Cardholder Name</label>
+                  <Field
+                    id="cardHolderNameInput"
+                    name='cardHolderNameField'
+                    placeholder="Jane Doe"
+                    validate={validateNameCardHolder}
+                    onFocus={trackFocus}
                   />
                   {errors.cardHolderNameField && touched.cardHolderNameField && <div className="errorMessage">{errors.cardHolderNameField}</div>}
-              </div>
-              
-              <div className="formControl">
+                </div>
+
+                <div className="formControl">
                   <label htmlFor="cardNumberInput">Card Number</label>
-                  <Field 
+                  <Field
                     id="cardNumberInput"
-                    name='cardNumberField' 
+                    name='cardNumberField'
                     placeholder=""
                     validate={validateNameCardNumber}
                     onFocus={trackFocus}
-                    />
-                    {errors.cardNumberField && touched.cardNumberField && <div className="errorMessage">{errors.cardNumberField}</div>}
-              </div>
-              <div className="formControl inlineFields">
-                <div className="wrapBillingInline">
+                  />
+                  {errors.cardNumberField && touched.cardNumberField && <div className="errorMessage">{errors.cardNumberField}</div>}
+                </div>
+                <div className="formControl inlineFields">
+                  <div className="wrapBillingInline">
                     <label htmlFor="expirationDateInput">Expiration Date</label>
                     <Field
                       name='expirationDateField'
@@ -998,114 +994,114 @@ export const Confirm = ({
                       )}
                     />
                     {errors.expirationDateField && touched.expirationDateField && <div className="errorMessage">{errors.expirationDateField}</div>}
-                </div>
-                <div className="wrapBillingInline">
+                  </div>
+                  <div className="wrapBillingInline">
                     <label htmlFor="cvcInput">Security Code</label>
-                    <Field 
+                    <Field
                       id="cvcInput"
-                      name='cvcField' 
+                      name='cvcField'
                       placeholder=""
                       type="number"
                       validate={validateCVCCode}
                       onFocus={trackFocus}
-                      />
-                      {errors.cvcField && touched.cvcField && <div className="errorMessage">{errors.cvcField}</div>}
+                    />
+                    {errors.cvcField && touched.cvcField && <div className="errorMessage">{errors.cvcField}</div>}
+                  </div>
                 </div>
-              </div>
-              
 
-            </div>
-            <div className="rightFields">
-              <div className="formControl">
-                <h3>Order Details </h3>
-                {
-                  state.toteBoxesContent ? state.toteBoxesContent
-                    .filter(toteRow => toteRow.indexActive !== null)
-                    .map((toteRow, index) => {
-                      return <div key={index} className="rowDetailWrap">
-                                <p>{toteRow.indexActive + 1} {(toteRow.indexActive > 0 ? 'weeks' : 'week')} - {toteRow.title}</p>
-                                <span>${ formatPrice(toteRow.prices[toteRow.indexActive].price) }</span>
-                            </div>
-                    }) : ''
-                }
-                
-                <div className="rowDetailWrap topLine">
-                  <p>Sub Total </p>
-                  <span>${ formatPrice( getTotalPrice()*1.00)}</span>
+
+              </div>
+              <div className="rightFields">
+                <div className="formControl">
+                  <h3>Order Details </h3>
+                  {
+                    state.toteBoxesContent ? state.toteBoxesContent
+                      .filter(toteRow => toteRow.indexActive !== null)
+                      .map((toteRow, index) => {
+                        return <div key={index} className="rowDetailWrap">
+                          <p>{toteRow.indexActive + 1} {(toteRow.indexActive > 0 ? 'weeks' : 'week')} - {toteRow.title}</p>
+                          <span>${formatPrice(toteRow.prices[toteRow.indexActive].price)}</span>
+                        </div>
+                      }) : ''
+                  }
+
+                  <div className="rowDetailWrap topLine">
+                    <p>Sub Total </p>
+                    <span>${formatPrice(getTotalPrice() * 1.00)}</span>
+                  </div>
+                  {
+                    (globalDiscount.amount > 0) ? (
+                      <>
+                        <div className="rowDetailWrap">
+                          <p>Discount ({globalDiscount.description})</p>
+                          <span>- ${formatPrice((getTotalPrice() * globalDiscount.amount) / 100)}</span>
+                        </div>
+                      </>
+                    ) : ''
+                  }
+                  {
+                    (taxPercent > 1) ? (
+                      <>
+                        <div className="rowDetailWrap ">
+                          <p>Taxes ({taxPercent}%)</p>
+                          <span>${formatPrice((getTotalPriceWithDiscount(getTotalPrice())) * (taxPercent / 100))}</span>
+                        </div>
+                        <div className="rowDetailWrap topLine bold">
+                          <p>Total</p>
+                          <span>${formatPrice((getTotalPriceWithDiscount(getTotalPrice()) * ((taxPercent / 100) + 1)))}</span>
+                        </div>
+                      </>
+                    ) : ''
+                  }
                 </div>
-                {
-                  (globalDiscount.amount > 0) ? (
-                    <>
-                    <div className="rowDetailWrap">
-                      <p>Discount ({globalDiscount.description})</p>
-                      <span>- ${ formatPrice((getTotalPrice() * globalDiscount.amount) / 100)}</span>
-                    </div>
-                    </>
-                  ) : ''
-                }
-                {
-                  (taxPercent > 1) ? (
-                    <>
-                    <div className="rowDetailWrap ">
-                      <p>Taxes ({taxPercent}%)</p>
-                      <span>${ formatPrice((getTotalPriceWithDiscount( getTotalPrice())) * (taxPercent / 100) ) }</span>
-                    </div>
-                    <div className="rowDetailWrap topLine bold">
-                      <p>Total</p>
-                      <span>${ formatPrice((getTotalPriceWithDiscount( getTotalPrice()) * ((taxPercent / 100) + 1) ) ) }</span>
-                    </div>
-                    </>
-                  ) : ''
-                }
-            </div>
-            <div className="formControl inlineFields">
-                <div className="wrapBillingInline">
+                <div className="formControl inlineFields">
+                  <div className="wrapBillingInline">
                     <label htmlFor="promoCodeField">Promo Code</label>
-                    <Field 
+                    <Field
                       id="promoCodeField"
-                      name='promoCodeField' 
+                      name='promoCodeField'
                       placeholder="Enter Code"
                       type="string"
-                      />
+                    />
+                  </div>
+                  <div className="wrapBillingInline">
+                    <label className="transparent">Apply</label>
+                    <button className="whiteBtn" onClick={getPromoDiscount}>
+                      <span>Apply</span>
+                    </button>
+                  </div>
                 </div>
-                <div className="wrapBillingInline">
-                  <label className="transparent">Apply</label>
-                  <button className="whiteBtn" onClick={ getPromoDiscount }>
-                    <span>Apply</span>
-                  </button>
-                </div>
+
               </div>
-            
-          </div>
-            
-            {/* <div className="rightFields">
+
+              {/* <div className="rightFields">
               
             </div> */}
-            
-          </div>
 
-        <div className="inlineFifth">            
-            <div className="rightFields">
+            </div>
+
+            <div className="inlineFifth">
+              <div className="rightFields">
               </div>
-        </div>
+            </div>
 
-          <div className="inlineFifth calendars">
-            <CalendarControlsWrap
-              formData={formData}
-              setFormData={setFormData}
-              origin="Confirm"
-            />
-          </div>
-          
-          <div className="formControl submitControl fullLenght">
-            <button className="whiteBtn" type="submit" onClick={() => prevStep()}>
-              <span>Previous</span>
-            </button>
-            <button type="submit" className="submitOrder" onClick={() => setDirection('next')}>
-              <span>{ (width > 768) ? 'Submit Order' : 'Submit' } </span>
-            </button>
-          </div>
-        </Form>
+            <div className="inlineFifth calendars">
+              <CalendarControlsWrap
+                formData={formData}
+                setFormData={setFormData}
+                origin="Confirm"
+              />
+            </div>
+
+            <div className="formControl submitControl fullLenght">
+              <button className="whiteBtn" type="submit" onClick={() => prevStep()}>
+                <span>Previous</span>
+              </button>
+              <button type="submit" className="submitOrder" onClick={() => setDirection('next')}>
+                <span>{(width > 768) ? 'Submit Order' : 'Submit'} </span>
+              </button>
+            </div>
+          </Form>
         )}
       </Formik>
     </>

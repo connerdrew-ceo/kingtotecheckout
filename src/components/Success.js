@@ -12,9 +12,8 @@ export const Success = () => {
   const classes = useStyles();
   return (
     <div className={classes.textCenter}>
-      <Header title='Success' step="Five"/>
+      <Header title='Success' step="Five" />
       <h1>Thank You For Your Submission</h1>
-      
     </div>
   );
 };
