@@ -12,18 +12,19 @@ let formatedDay = '';
 const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const dateOptionsNumeric = { year: 'numeric', month: '2-digit', day: '2-digit' };
 
-export const EachBookingComponent = ({  formData,
-                                        controlType, 
-                                        updateStateSchedulingStart, 
-                                        updateStateSchedulingTime, 
-                                        currentDate, 
-                                        startingTime, 
-                                        endingTime, 
-                                        enabled,
-                                        setServiceWeeks,
-                                        arrayDisabled }) => {
+export const EachBookingComponent = ({
+    formData,
+    controlType,
+    updateStateSchedulingStart,
+    updateStateSchedulingTime,
+    currentDate,
+    startingTime,
+    endingTime,
+    enabled,
+    setServiceWeeks,
+    arrayDisabled }) => {
 
-    const { state, dispatch } = useContext( GlobalContext );
+    const { state, dispatch } = useContext(GlobalContext);
     const [selectedTime, setSelectedTime] = useState(null);
     const [selectedTimeEnd, setSelectedTimeEnd] = useState(endingTime);
     const [dateDropOff, setDateDropOff] = useState('');
@@ -33,17 +34,17 @@ export const EachBookingComponent = ({  formData,
 
 
     const [disDaysDropOff, setDisDaysDropOff] = useState([]);
-    
+
     const getDisabledDays = (day, zipCode) => {
 
         let availabilityEndPoint = ''
         let disableDaysList = []
         let arrayFiltered = []
-        let dateNow = (new Date( day ).getTime() / 1000).toFixed(0)
+        let dateNow = (new Date(day).getTime() / 1000).toFixed(0)
         dateNow = parseInt(dateNow)
         let weekInSeconds = 10
 
-        weekInSeconds = ( weekInSeconds * 7 ) * 24 * 60 * 60;
+        weekInSeconds = (weekInSeconds * 7) * 24 * 60 * 60;
 
         let dateWithWeeks = parseInt(dateNow) + parseInt(weekInSeconds)
 
@@ -54,20 +55,20 @@ export const EachBookingComponent = ({  formData,
         theYear = day.getFullYear()
         theMonth = day.getMonth()
 
-        availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
-                                state.securityToken + '&method=0&pageNo=1&pageSize=100&duration=60&dateStart=' +
-                                dateNow + '&dateEnd=' + dateWithWeeks + '&zip=' + zipCode + '&serviceTypeID=' +
-                                formData.locationType;
+        availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' +
+            state.securityToken + '&method=0&pageNo=1&pageSize=100&duration=60&dateStart=' +
+            dateNow + '&dateEnd=' + dateWithWeeks + '&zip=' + zipCode + '&serviceTypeID=' +
+            formData.locationType;
 
         axios.get(availabilityEndPoint)
             .then(res => {
-                if(res.data.Availability !== null && res.data.Availability !== undefined ){
+                if (res.data.Availability !== null && res.data.Availability !== undefined) {
                     const getDateFromDayId = (value) => {
-                        let dateStr = ''+value
-                        let y = dateStr.substr(0,4)
-                        let m = parseInt(dateStr.substr(4,2))-1
-                        let d = dateStr.substr(6,2)
-                        return new Date(y,m,d)
+                        let dateStr = '' + value
+                        let y = dateStr.substr(0, 4)
+                        let m = parseInt(dateStr.substr(4, 2)) - 1
+                        let d = dateStr.substr(6, 2)
+                        return new Date(y, m, d)
                     }
                     const getDayIDFromDate = (dateVal) => {
                         var x = dateVal;
@@ -79,11 +80,11 @@ export const EachBookingComponent = ({  formData,
                         var yyyymmdd = y + m + d;
                         return yyyymmdd;
                     }
-                    
-                    for (let d=getDateFromDayId(nowDayId);d<new Date(dateWithWeeks*1000);d.setDate(d.getDate() + 1)){
+
+                    for (let d = getDateFromDayId(nowDayId); d < new Date(dateWithWeeks * 1000); d.setDate(d.getDate() + 1)) {
                         let filterDayID = getDayIDFromDate(d)
-                        arrayFiltered = res.data.Availability.filter(timeRow => timeRow.dayID === (''+filterDayID))
-                        if(arrayFiltered.length===0){
+                        arrayFiltered = res.data.Availability.filter(timeRow => timeRow.dayID === ('' + filterDayID))
+                        if (arrayFiltered.length === 0) {
                             disableDaysList.push(getDateFromDayId(filterDayID))
                         }
                     }
@@ -93,12 +94,12 @@ export const EachBookingComponent = ({  formData,
             .catch(err => {
                 console.log('Error availability >>> ', err)
             })
-        
+
     };
-    
+
     const addWeeks = (dt, n) => {
-        if(n){
-            return new Date(dt.setDate(dt.getDate() + (n * 7) ));
+        if (n) {
+            return new Date(dt.setDate(dt.getDate() + (n * 7)));
         }
         return new Date(dt.setDate(dt.getDate() + 1));
     }
@@ -108,59 +109,59 @@ export const EachBookingComponent = ({  formData,
         let arrSwitch = []
         let bufferToteBoxesGlobalInfo = state.toteBoxesContent
 
-        if(!bufferToteBoxesGlobalInfo){
+        if (!bufferToteBoxesGlobalInfo) {
             return maxNumber;
         }
 
         bufferToteBoxesGlobalInfo.forEach((eachElem) => {
-            if(eachElem.indexActive !== null) arrSwitch.push(eachElem.indexActive)
+            if (eachElem.indexActive !== null) arrSwitch.push(eachElem.indexActive)
         });
 
         arrSwitch.forEach((eachDate) => {
             if (eachDate !== null && eachDate > maxNumber) {
                 maxNumber = eachDate
             }
-        });             
+        });
         return maxNumber + 1
     }
 
     let openDetailedBooking = 'bookingComponent'
 
-    if(showResumeInfo){
+    if (showResumeInfo) {
         openDetailedBooking = 'bookingComponent openDetailedBooking'
     }
-    
+
     let layerClassListDrop = 'calendarAndTimeWrap'
 
-    if(openTimeLayerDrop){
+    if (openTimeLayerDrop) {
         layerClassListDrop = 'calendarAndTimeWrap timeOn'
     }
 
     let calendarControlClasses = 'calendarLayer'
 
-    if( !enabled){
+    if (!enabled) {
         calendarControlClasses = 'calendarLayer disabled'
 
-    }else{
-        dateAvailable = (controlType === 'end') ?   addWeeks(new Date(formData.dateDropOff) )  
-                                                :   new Date()
+    } else {
+        dateAvailable = (controlType === 'end') ? addWeeks(new Date(formData.dateDropOff))
+            : new Date()
 
-        dateSuggested = addWeeks(new Date(formData.dateDropOff), getNumberOfWeeks() )
+        dateSuggested = addWeeks(new Date(formData.dateDropOff), getNumberOfWeeks())
 
-        setServiceWeeks( getNumberOfWeeks() )
+        setServiceWeeks(getNumberOfWeeks())
     }
 
-    const convertTo12HoursFormat = ( time ) => {
+    const convertTo12HoursFormat = (time) => {
 
-        if(time === null) return
+        if (time === null) return
 
         time = time.split(':')
-        time = (time[0].length === 1) ? '0'+time[0]+':' + time[1] : time[0]+':' + time[1]
+        time = (time[0].length === 1) ? '0' + time[0] + ':' + time[1] : time[0] + ':' + time[1]
 
         time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time]
 
-        if (time.length > 1) { 
-            time = time.slice (1)
+        if (time.length > 1) {
+            time = time.slice(1)
             time[5] = +time[0] < 12 ? 'am' : 'pm'
             time[0] = +time[0] % 12 || 12
         }
@@ -174,9 +175,9 @@ export const EachBookingComponent = ({  formData,
         let rhours = Math.floor(hours);
         let minutes = (hours - rhours) * 60;
         let rminutes = Math.round(minutes);
-        rminutes = (rminutes === 30 ) ? rminutes : '00'
-        
-        return (endTime) ? (rhours+2) + ":" + rminutes : rhours + ":" + rminutes;
+        rminutes = (rminutes === 30) ? rminutes : '00'
+
+        return (endTime) ? (rhours + 2) + ":" + rminutes : rhours + ":" + rminutes;
     }
 
     const handleDayClick = (day) => {
@@ -184,11 +185,11 @@ export const EachBookingComponent = ({  formData,
         let availabilityEndPoint = ''
         let arrayFiltered = []
         let disableDaysList = []
-        let dateNow = (new Date( day ).getTime() / 1000).toFixed(0)
+        let dateNow = (new Date(day).getTime() / 1000).toFixed(0)
         dateNow = parseInt(dateNow)
         let weekInSeconds = getNumberOfWeeks()
 
-        weekInSeconds = ( weekInSeconds * 7 ) * 24 * 60 * 60;
+        weekInSeconds = (weekInSeconds * 7) * 24 * 60 * 60;
 
         let dateWithWeeks = parseInt(dateNow) + parseInt(weekInSeconds)
 
@@ -200,24 +201,24 @@ export const EachBookingComponent = ({  formData,
         theYear = day.getFullYear()
         theMonth = day.getMonth()
 
-        if(controlType === 'start'){
+        if (controlType === 'start') {
 
-            availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
-                                    state.securityToken + '&method=0&pageNo=1&pageSize=100&duration=60&dateStart=' +
-                                    dateNow + '&dateEnd=' + dateWithWeeks + '&zip=' + formData.dropOff + '&serviceTypeID=' +
-                                    formData.locationType;
+            availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' +
+                state.securityToken + '&method=0&pageNo=1&pageSize=100&duration=60&dateStart=' +
+                dateNow + '&dateEnd=' + dateWithWeeks + '&zip=' + formData.dropOff + '&serviceTypeID=' +
+                formData.locationType;
 
             axios.get(availabilityEndPoint)
                 .then(res => {
-                    
-                    if(res.data.Availability !== null && res.data.Availability !== undefined ){
+
+                    if (res.data.Availability !== null && res.data.Availability !== undefined) {
 
                         const getDateFromDayId = (value) => {
-                            let dateStr = ''+value
-                            let y = dateStr.substr(0,4)
-                            let m = parseInt(dateStr.substr(4,2))-1
-                            let d = dateStr.substr(6,2)
-                            return new Date(y,m,d)
+                            let dateStr = '' + value
+                            let y = dateStr.substr(0, 4)
+                            let m = parseInt(dateStr.substr(4, 2)) - 1
+                            let d = dateStr.substr(6, 2)
+                            return new Date(y, m, d)
                         }
                         const getDayIDFromDate = (dateVal) => {
                             var x = dateVal;
@@ -229,11 +230,11 @@ export const EachBookingComponent = ({  formData,
                             var yyyymmdd = y + m + d;
                             return yyyymmdd;
                         }
-                        
-                        for (let d=getDateFromDayId(nowDayId);d<new Date(dateWithWeeks*1000);d.setDate(d.getDate() + 1)){
+
+                        for (let d = getDateFromDayId(nowDayId); d < new Date(dateWithWeeks * 1000); d.setDate(d.getDate() + 1)) {
                             let filterDayID = getDayIDFromDate(d)
-                            arrayFiltered = res.data.Availability.filter(timeRow => timeRow.dayID === (''+filterDayID))
-                            if(arrayFiltered.length===0){
+                            arrayFiltered = res.data.Availability.filter(timeRow => timeRow.dayID === ('' + filterDayID))
+                            if (arrayFiltered.length === 0) {
                                 disableDaysList.push(getDateFromDayId(filterDayID))
                             }
                         }
@@ -241,25 +242,25 @@ export const EachBookingComponent = ({  formData,
                         getDisabledDays(day, formData.pickUp)
                         arrayFiltered = res.data.Availability.filter(timeRow => timeRow.dayID === formatedDay)
                         setTimeSpacesAvailable(arrayFiltered)
-                        
+
                     }
                 })
                 .catch(err => {
                     console.log('Error availability >>> ', err)
                 })
-        }else{
-            
+        } else {
+
             dateWithWeeks = dateNow + 86400
 
-            availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' + 
-                                    state.securityToken + '&method=0&pageNo=1&pageSize=100&duration=60&dateStart=' +
-                                    dateNow + '&dateEnd=' + dateWithWeeks + '&zip=' + formData.pickUp + '&serviceTypeID=' +
-                                    formData.locationType;
+            availabilityEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/availability/?securityToken=' +
+                state.securityToken + '&method=0&pageNo=1&pageSize=100&duration=60&dateStart=' +
+                dateNow + '&dateEnd=' + dateWithWeeks + '&zip=' + formData.pickUp + '&serviceTypeID=' +
+                formData.locationType;
 
             axios.get(availabilityEndPoint)
                 .then(res => {
-                    if(res.data.Availability !== null && res.data.Availability !== undefined ){
-                        
+                    if (res.data.Availability !== null && res.data.Availability !== undefined) {
+
                         arrayFiltered = res.data.Availability.filter(timeRow => timeRow.dayID === formatedDay)
                         setTimeSpacesAvailable(arrayFiltered)
                     }
@@ -276,23 +277,25 @@ export const EachBookingComponent = ({  formData,
     const closeCalendar = () => {
         setOpenTimeLayerDrop(false)
         setShowResumeInfo(true)
-        updateStateSchedulingStart({kind: controlType, stringDate: dateDropOff, arr: disDaysDropOff})
+        updateStateSchedulingStart({ kind: controlType, stringDate: dateDropOff, arr: disDaysDropOff })
     };
 
     const changeSelectedTime = (key) => {
 
         setSelectedTime(key)
-        setSelectedTimeEnd( timeSpacesAvailable[key].startTime)
-        updateStateSchedulingTime({ kind: controlType, 
-                                    stringTimeStart: timeSpacesAvailable[key].startTime, 
-                                    stringTimeEnd: timeSpacesAvailable[key].startTime})
-        
-        if(controlType === 'start'){
+        setSelectedTimeEnd(timeSpacesAvailable[key].startTime)
+        updateStateSchedulingTime({
+            kind: controlType,
+            stringTimeStart: timeSpacesAvailable[key].startTime,
+            stringTimeEnd: timeSpacesAvailable[key].startTime
+        })
+
+        if (controlType === 'start') {
             dispatch({
                 type: "SET_DROP_OFF",
                 payload: timeSpacesAvailable[key]
             })
-        }else{
+        } else {
             dispatch({
                 type: "SET_PICK_UP",
                 payload: timeSpacesAvailable[key]
@@ -302,19 +305,19 @@ export const EachBookingComponent = ({  formData,
 
     const resetControl = () => {
         setShowResumeInfo(false)
-        if(controlType === 'start'){
-            updateStateSchedulingStart({kind: 'end', stringDate: null})
+        if (controlType === 'start') {
+            updateStateSchedulingStart({ kind: 'end', stringDate: null })
             setSelectedTime(null)
         }
     }
 
     useEffect(() => {
-        if(currentDate !== null){
+        if (currentDate !== null) {
             setOpenTimeLayerDrop(false)
             setShowResumeInfo(true)
             setDateDropOff(currentDate)
-        }else{
-            if(controlType === 'end'){
+        } else {
+            if (controlType === 'end') {
                 setShowResumeInfo(false)
                 setSelectedTime(null)
             }
@@ -322,26 +325,24 @@ export const EachBookingComponent = ({  formData,
     }, [currentDate])
 
     useEffect(() => {
-
         getDisabledDays(new Date(), formData.dropOff)
-        
     }, [])
 
     return (
-        <>  
+        <>
             <div className={openDetailedBooking}>
                 <div className="dateAndTimeSelected">
                     <p className="dateSelected">{dateDropOff}
-                        <br/>
-                        between { convertTo12HoursFormat( timeConverter(selectedTimeEnd)) } - { convertTo12HoursFormat( timeConverter(selectedTimeEnd, 'endTime')) }
+                        <br />
+                        between {convertTo12HoursFormat(timeConverter(selectedTimeEnd))} - {convertTo12HoursFormat(timeConverter(selectedTimeEnd, 'endTime'))}
                     </p>
-                    <span className="iconEditTime" onClick={() => resetControl() }>
+                    <span className="iconEditTime" onClick={() => resetControl()}>
                     </span>
                 </div>
                 <div className={layerClassListDrop}>
                     <div className={calendarControlClasses}>
-                        {(controlType==='start') ? (
-                            <DayPicker 
+                        {(controlType === 'start') ? (
+                            <DayPicker
                                 onDayClick={handleDayClick}
                                 disabledDays={[
                                     ...disDaysDropOff,
@@ -350,24 +351,24 @@ export const EachBookingComponent = ({  formData,
                                     }
                                 ]}
                             />
-                            ) : (
-                            <DayPicker 
-                                className="endCalendar"
-                                onDayClick={handleDayClick}
-                                month={new Date( theYear, (new Date(dateSuggested)).getMonth())}
-                                selectedDays={new Date(dateSuggested)}
-                                disabledDays={[
-                                    ...arrayDisabled,
-                                    {
-                                        before: dateAvailable,
-                                    }
-                                ]}
-                            />
-                        )}
+                        ) : (
+                                <DayPicker
+                                    className="endCalendar"
+                                    onDayClick={handleDayClick}
+                                    month={new Date(theYear, (new Date(dateSuggested)).getMonth())}
+                                    selectedDays={new Date(dateSuggested)}
+                                    disabledDays={[
+                                        ...arrayDisabled,
+                                        {
+                                            before: dateAvailable,
+                                        }
+                                    ]}
+                                />
+                            )}
                         <div className="hideCalendar"></div>
                     </div>
                     <div className="timeLayer">
-                        <br/>
+                        <br />
                         <p className="dateSelected" onClick={() => setOpenTimeLayerDrop(false)}><span>&#60;</span>  {dateDropOff}</p>
                         <div className="timeOptionsWrap">
                             {(() => {
@@ -375,16 +376,16 @@ export const EachBookingComponent = ({  formData,
                                     return (
                                         timeSpacesAvailable
                                             .map((timeRow, index) => {
-                                                return <TimeOption 
-                                                            listClasses={selectedTime === index ? 'timeOption openSelectedDetail' : 'timeOption'}
-                                                            key={index} 
-                                                            trackKey={index}
-                                                            startAt={ convertTo12HoursFormat( timeConverter(timeRow.startTime)) } 
-                                                            endAt={ convertTo12HoursFormat( timeConverter(timeRow.startTime, 'endTime')) } 
-                                                            changeSelectedTime={changeSelectedTime}
-                                                            closeCalendar={closeCalendar}
-                                                        />
-                                        })
+                                                return <TimeOption
+                                                    listClasses={selectedTime === index ? 'timeOption openSelectedDetail' : 'timeOption'}
+                                                    key={index}
+                                                    trackKey={index}
+                                                    startAt={convertTo12HoursFormat(timeConverter(timeRow.startTime))}
+                                                    endAt={convertTo12HoursFormat(timeConverter(timeRow.startTime, 'endTime'))}
+                                                    changeSelectedTime={changeSelectedTime}
+                                                    closeCalendar={closeCalendar}
+                                                />
+                                            })
                                     )
                                 } else if (timeSpacesAvailable !== null && timeSpacesAvailable.length === 0) {
                                     return (
@@ -403,7 +404,7 @@ export const EachBookingComponent = ({  formData,
                                         </div>
                                     )
                                 }
-                            })() }
+                            })()}
                         </div>
                     </div>
                 </div>

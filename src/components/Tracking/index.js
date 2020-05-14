@@ -1,6 +1,6 @@
 import ReactGA from "react-ga";
-export const initGA = (trackingID) => {           
-    ReactGA.initialize(trackingID); 
+export const initGA = (trackingID) => {
+    ReactGA.initialize(trackingID);
 }
 
 /**
@@ -9,9 +9,10 @@ export const initGA = (trackingID) => {
  * @param {string} action 
  * @param {string} desc 
  */
-export const PageView = () => {  
-    ReactGA.pageview(window.location.pathname +  
-                     window.location.search); 
+
+export const PageView = () => {
+    ReactGA.pageview(window.location.pathname +
+        window.location.search);
 }
 
 export const Event = (params) => {

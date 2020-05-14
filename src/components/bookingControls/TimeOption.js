@@ -1,10 +1,11 @@
 import React from 'react';
 
-export const TimeOption = ({listClasses, trackKey, startAt, endAt, changeSelectedTime, closeCalendar}) => {
+export const TimeOption = ({ listClasses, trackKey, startAt, endAt, changeSelectedTime, closeCalendar }) => {
 
     const clickTimeOpt = () => {
         changeSelectedTime(trackKey)
     }
+
     return (
         <>
             <div className={listClasses}>
@@ -18,7 +19,7 @@ export const TimeOption = ({listClasses, trackKey, startAt, endAt, changeSelecte
                     <button className="button global" onClick={(e) => {
                         e.preventDefault()
                         closeCalendar()
-                        }}>
+                    }}>
                         <span>Confirm</span>
                     </button>
                 </div>
