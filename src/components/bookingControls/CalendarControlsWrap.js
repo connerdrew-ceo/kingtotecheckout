@@ -19,7 +19,6 @@ export const CalendarControlsWrap = ({
 
     const [arrayDisabled, setArrayDisabled] = useState([])
 
-
     const updateStateSchedulingStart = (dateData) => {
         if (dateData.kind === 'start') {
             setEnableCalendar(true)
@@ -28,7 +27,6 @@ export const CalendarControlsWrap = ({
                 'dateDropOff': dateData.stringDate
             });
             calculateDays(0)
-
             setArrayDisabled(dateData.arr)
 
         } else {
@@ -60,6 +58,7 @@ export const CalendarControlsWrap = ({
             });
         }
     }
+
     return (
         <>
             <div className="formControl">
@@ -100,20 +99,7 @@ export const CalendarControlsWrap = ({
                         <p><strong>You have selected more days than your original package and are subject to additional charges</strong></p>
                     ) : ''
                 }
-            </div>
-            {/* {
-            (origin === 'Scheduling') ? (
-                <div className="formControl">
-                    <label className="boldLabelCalendar">Scheduling Summary</label>
-                    <p>{(schedulingSummaryLocal > 0) ? schedulingSummaryLocal : 0 } days total</p>
-                    {
-                        (schedulingSummaryLocal > 0 && (schedulingSummaryLocal/serviceWeeks) > 7 ) ? (
-                            <p><strong>You have selected more days than your original package and are subject to additional charges</strong></p>
-                        ) : ''
-                    }
-                </div>
-            ) : ''
-            } */}
+            </div>            
         </>
     );
 };

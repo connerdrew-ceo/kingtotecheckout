@@ -6,7 +6,6 @@ $bgInput: #F4F5F7;
 
 @import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
 
-*,
 *:before,
 *:after {
   box-sizing: border-box;
@@ -23,7 +22,6 @@ $bgInput: #F4F5F7;
       pointer-events: none;
     }
   }
-
 
   .App {
     text-align: center;
@@ -288,7 +286,6 @@ $bgInput: #F4F5F7;
     background-size: 54%;
   }
 
-
   .timeOptionsWrap {
     display: block;
     width: 100%;
@@ -487,13 +484,11 @@ $bgInput: #F4F5F7;
     }
   }
 
-
   .debugList {
     width: 100%;
     display: block;
 
   }
-
 
   form {
     color: inherit;

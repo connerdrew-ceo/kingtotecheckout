@@ -11,7 +11,6 @@ export const ToteBoxesRow = ({trackKey, dataObj, updateSelectedBox}) => {
         if(selectedBox === key){
             setSelectedBox(null)
             updateSelectedBox({parent:trackKey, child:null})
-
         }else{
             setSelectedBox(key)
             updateSelectedBox({parent:trackKey, child:key})
@@ -27,6 +26,7 @@ export const ToteBoxesRow = ({trackKey, dataObj, updateSelectedBox}) => {
                     changeSelectedBox={changeSelectedBox}
                 />
     });
+    
     return (
         <>
             <div className="formControl fullLenght">

@@ -5,6 +5,7 @@ export const EachBox = ({listClasses, trackKey, dataBox, changeSelectedBox}) => 
     const clickBoxHandler = () => {
         changeSelectedBox(trackKey)
     }
+    
     return (
         <>
             <div className={listClasses} onClick={() => clickBoxHandler()}>
