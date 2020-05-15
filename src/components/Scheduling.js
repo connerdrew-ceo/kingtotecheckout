@@ -26,12 +26,6 @@ export const Scheduling = ({
             }
         }
     }
-    useEffect(() => {
-        window.scrollTo({
-            behavior: "smooth",
-            top: 0
-        });
-    }, []);
 
     return (
         <>

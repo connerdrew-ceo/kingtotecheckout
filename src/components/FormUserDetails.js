@@ -37,7 +37,6 @@ export const FormUserDetails = ({ formData,
     if (!value) {
       error = 'Service area is required';
     } else {
-
       if(value !== serviceAreaValue){
         serviceAreaValue = value
         let zipCodeEndPoint = 'https://kingtote.vonigo.com/api/v1/resources/zips/?securityToken='+ state.securityToken + '&pageNo=1&pageSize=50'
@@ -54,12 +53,11 @@ export const FormUserDetails = ({ formData,
     let zipString = zipInteger + ''
     let zipCodeDropExist = zipCodes.filter(item => {
       return (
-        item.zip === zipString &&
-        item.franchiseID == serviceAreaValue
+        item.zip === zipString && item.franchiseID == serviceAreaValue
       )
     });
 
-    return zipCodeDropExist
+    return zipCodeDropExist;
   };
 
   const toteBoxesRequest = ( zipValueDropOff, zipValuePickUp, locationId ) => {

@@ -276,7 +276,6 @@ export const Confirm = ({
     }
 
     getTaxesFields = JSON.stringify(getTaxesFields)
-
     try {
       const res = await axios.post(API + 'api/v1/resources/taxes/?', getTaxesFields, {
         headers: {
@@ -290,7 +289,6 @@ export const Confirm = ({
       console.log('Error getTaxesPercent  >> ', err)
     }
   }
-
   const getBillTo = () => {
     var retData = {
       "firstName": state.firstNameField,
@@ -341,7 +339,6 @@ export const Confirm = ({
   const createAuthorize = async (jobID) => {
 
     let expiryFormatted = '20' + expiry.substring(3, 5) + '-' + expiry.substring(0, 2)
-
     let authorizeFilds = {
       "createTransactionRequest": {
         "merchantAuthentication": {

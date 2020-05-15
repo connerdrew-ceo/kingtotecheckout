@@ -64,7 +64,6 @@ export const FormToteDetails = ({
   };
 
   const updateSelectedBox = (keyObj) => {
-
     toteBoxesData[keyObj.parent].indexActive = keyObj.child
     switchButtons()
   };
@@ -86,13 +85,11 @@ export const FormToteDetails = ({
     let arrToteRows = []
     objOrigin.forEach((eachElem) => {
       eachElem.forEach((eachElemLevel1) => {
-
         let bufferElem = {
           price: eachElemLevel1.value,
           week: eachElemLevel1.priceBlockSequence,
           legend: eachElemLevel1.priceBlock
         }
-
         if (addElement(arrToteRows, eachElemLevel1.priceItemView, bufferElem)) {
           let additionalPrice = '';
           switch (eachElemLevel1.priceItemView) {
@@ -142,28 +139,22 @@ export const FormToteDetails = ({
   useEffect(() => {
 
     if (serviceTypes) {
-
       bufferObj = []
-
       let serviceTypesRowLocal = serviceTypes.filter((serviceTypesRow) => {
         return serviceTypesRow.priceBlockSequence === 1 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
       })
       bufferObj.push(serviceTypesRowLocal)
-
       let serviceTypesRowLocal2 = serviceTypes.filter((serviceTypesRow) => {
         return serviceTypesRow.priceBlockSequence === 2 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
       })
       bufferObj.push(serviceTypesRowLocal2)
-
       let serviceTypesRowLocal3 = serviceTypes.filter((serviceTypesRow) => {
         return serviceTypesRow.priceBlockSequence === 3 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
       })
       bufferObj.push(serviceTypesRowLocal3)
-
       let serviceTypesRowLocal4 = serviceTypes.filter((serviceTypesRow) => {
         return serviceTypesRow.priceBlockSequence === 4 && serviceTypesRow.isActive === true && serviceTypesRow.isOnline === true;
       })
-
       bufferObj.push(serviceTypesRowLocal4)
       setObjectBeforeRenderRows(bufferObj)
     }

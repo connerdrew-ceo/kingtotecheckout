@@ -206,9 +206,7 @@ export const AddressFormStep = ({
                 </div>
 
               </div>
-
               <div className="rightFields">
-
                 <div className="formControl">
                   <h3>Billing Address</h3>
                   <div className="ratioWrap checkboxInline">
@@ -218,8 +216,7 @@ export const AddressFormStep = ({
                       type="checkbox"
                       onClick={() => {
                         setOpenHideFieldsBillingAddress(!openHideFieldsBillingAddress)
-                      }
-                      }
+                      }}
                     />
                     <label htmlFor="sameAddressAsDropOff">Same as Drop-off Address</label>
                   </div>
@@ -275,9 +272,6 @@ export const AddressFormStep = ({
                 }
               </div>
             </div>
-
-            {/*   Drop-off Address   */}
-
             <div className="inlineFifth">
               <div className="leftFields">
 

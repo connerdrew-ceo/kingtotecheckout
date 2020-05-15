@@ -18,6 +18,7 @@ export const ToteBoxesRow = ({trackKey, dataObj, updateSelectedBox}) => {
     }
     const boxesRender = dataObj.prices
     let toteBoxes = boxesRender.map((toteBox, index) => {
+        
         return <EachBox 
                     listClasses={selectedBox === index ? 'eachToteItem toteActive' : 'eachToteItem'}
                     key={index} 
